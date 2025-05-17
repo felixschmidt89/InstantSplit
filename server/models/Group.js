@@ -35,6 +35,10 @@ const groupSchema = new Schema(
       type: Boolean,
       default: true,
     },
+    fixedDebitorCreditorOrder: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true },
 );
