@@ -13,6 +13,7 @@ import {
 
 // Hooks
 import useFetchGroupCurrency from "../../../../hooks/useFetchGroupCurrency";
+import useSetDebitorIndex from "../../../../hooks/useSetDebitorIndex";
 
 // Components
 import Spinner from "../../../common/Spinner/Spinner";
@@ -75,6 +76,8 @@ const SettleExpenses = () => {
 
   const { positiveBalanceUsers, negativeBalanceUsers } =
     groupUsersPerPositiveOrNegativeUserBalance(unsettledUsers);
+
+  useSetDebitorIndex(groupCode, "66433b1c0a85d1ccbbcf234e", 0);
 
   return (
     <div>

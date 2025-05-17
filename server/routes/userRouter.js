@@ -8,6 +8,7 @@ import {
   deleteAllUsers,
   getUserInfo,
   listExpensesAndPaymentsByUser,
+  setDebitorIndex,
 } from '../controllers/userController.js';
 import developmentOnlyMiddleware from '../middleware/developmentOnlyMiddleware.js';
 
@@ -29,6 +30,9 @@ router.get('/:userId/expenses-and-payments', listExpensesAndPaymentsByUser);
 
 // List group members by groupCode
 router.get('/byGroupCode/:groupCode', listAllUsersByGroupCode);
+
+// Update debitorIndex for a user
+router.patch('/:userId/debitorIndex', setDebitorIndex);
 
 // ROUTES FOR DEVELOPMENT/DEBUGGING PURPOSES ONLY
 // List all users
