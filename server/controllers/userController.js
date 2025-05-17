@@ -193,6 +193,81 @@ export const setDebitorIndex = async (req, res) => {
   }
 };
 
+/**
+ * Updates the creditorIndex for a specific user
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @returns {Object} JSON response with updated user details
+ */
+export const setCreditorIndex = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { groupCode, creditorIndex } = req.body;
+
+    devLog('Updating creditorIndex. Received data:', {
+      userId,
+      groupCode,
+      creditorIndex,
+    });
+
+    // Validate inputs
+    if (!groupCode) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        status: 'error',
+        message: 'Group code is required',
+      });
+    }
+    if (!Number.isInteger(creditorIndex) || creditorIndex < 0) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        status: 'error',
+        message: 'creditorIndex must be a non-negative integer',
+      });
+    }
+
+    // Update group last active
+    await setGroupLastActivePropertyToNow(groupCode);
+
+    // Update user
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $set: { creditorIndex } },
+      { new: true, runValidators: true },
+    );
+
+    if (!updatedUser) {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        status: 'error',
+        message: 'User not found',
+      });
+    }
+
+    // Verify groupCode matches
+    if (updatedUser.groupCode !== groupCode) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        status: 'error',
+        message: 'User does not belong to the specified group',
+      });
+    }
+
+    res.status(StatusCodes.OK).json({
+      status: 'success',
+      updatedUser,
+      message: 'creditorIndex updated successfully',
+    });
+  } catch (error) {
+    devLog('Error in setCreditorIndex:', error);
+    if (error.name === 'ValidationError') {
+      return sendValidationError(res, error);
+    }
+    errorLog(
+      error,
+      'Error updating creditorIndex:',
+      'Failed to update creditorIndex. Please try again later.',
+    );
+    return sendInternalError(res);
+  }
+};
+
 export const listExpensesAndPaymentsByUser = async (req, res) => {
   try {
     const { userId } = req.params;
