@@ -1,6 +1,9 @@
 // Constants and Utils
+import axios from "axios";
 import { BALANCE_THRESHOLD } from "../constants/dataConstants";
 import { devLog } from "./errorUtils";
+
+const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 /**
  * Calculates suggested settlement payments between users with positive and negative balances.
@@ -133,4 +136,94 @@ export const groupUsersPerPositiveOrNegativeUserBalance = (unsettledUsers) => {
     positiveBalanceUsers,
     negativeBalanceUsers,
   };
+};
+
+/**
+ * Resets creditorIndex and debitorIndex to 0 for all users in a group
+ * @param {string} groupCode - The groupCode of the group
+ * @returns {Promise<Object>} - Promise resolving to { success, error, data }
+ */
+export const resetCreditorIndicesAndDebitorIndices = async (groupCode) => {
+  try {
+    const response = await axios.patch(
+      `${apiUrl}/groups/reset-indices/${groupCode}`
+    );
+    devLog("Creditor and debitor indices reset:", response);
+    return {
+      success: true,
+      error: null,
+      data: response.data,
+    };
+  } catch (error) {
+    devLog("Error resetting creditor and debitor indices:", error);
+    return {
+      success: false,
+      error: error.response?.data?.message || "Failed to reset indices",
+      data: null,
+    };
+  }
+};
+
+/**
+ * Updates the debitorIndex for a specific user
+ * @param {string} groupCode - The groupCode of the group
+ * @param {string} userId - The ID of the user to update
+ * @param {number} debitorIndex - The new debitorIndex value
+ * @returns {Promise<Object>} - Promise resolving to { success, error, data }
+ */
+export const setDebitorIndex = async (groupCode, userId, debitorIndex) => {
+  try {
+    const response = await axios.patch(
+      `${apiUrl}/users/${userId}/debitorIndex`,
+      {
+        groupCode,
+        debitorIndex,
+      }
+    );
+    devLog("debitorIndex updated:", response);
+    return {
+      success: true,
+      error: null,
+      data: response.data,
+    };
+  } catch (error) {
+    devLog("Error updating debitorIndex:", error);
+    return {
+      success: false,
+      error: error.response?.data?.message || "Failed to update debitorIndex",
+      data: null,
+    };
+  }
+};
+
+/**
+ * Updates the creditorIndex for a specific user
+ * @param {string} groupCode - The groupCode of the group
+ * @param {string} userId - The ID of the user to update
+ * @param {number} creditorIndex - The new creditorIndex value
+ * @returns {Promise<Object>} - Promise resolving to { success, error, data }
+ */
+export const setCreditorIndex = async (groupCode, userId, creditorIndex) => {
+  try {
+    const response = await axios.patch(
+      `${apiUrl}/users/${userId}/creditorIndex`,
+      {
+        groupCode,
+        creditorIndex,
+      }
+    );
+    devLog("creditorIndex updated:", response);
+    return {
+      success: true,
+      error: null,
+      data: response.data,
+    };
+  } catch (error) {
+    devLog("Error updating creditorIndex:", error);
+    return {
+      success: false,
+      error: error.response?.data?.message || "Failed to update creditorIndex",
+      data: null,
+    };
+  }
 };

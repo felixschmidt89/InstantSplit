@@ -9,11 +9,13 @@ import {
   calculateAndAddUserBalance,
   filterUnsettledUsers,
   groupUsersPerPositiveOrNegativeUserBalance,
+  resetCreditorIndicesAndDebitorIndices,
+  setCreditorIndex,
+  setDebitorIndex,
 } from "../../../../utils/settlementUtils";
 
 // Hooks
 import useFetchGroupCurrency from "../../../../hooks/useFetchGroupCurrency";
-import useSetDebitorIndex from "../../../../hooks/useSetDebitorIndex";
 
 // Components
 import Spinner from "../../../common/Spinner/Spinner";
@@ -23,8 +25,6 @@ import RenderSettlementPaymentSuggestions from "../RenderSettlementPaymentSugges
 
 // Styles
 import styles from "./SettleExpenses.module.css";
-import useSetCreditorIndex from "../../../../hooks/useUpdateCreditorIndex";
-import useResetCreditorIndicesAndDebitorIndices from "../../../../hooks/useResetCreditorIndicesAndDebitorIndices";
 
 // API URL
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
@@ -79,9 +79,9 @@ const SettleExpenses = () => {
   const { positiveBalanceUsers, negativeBalanceUsers } =
     groupUsersPerPositiveOrNegativeUserBalance(unsettledUsers);
 
-  // useSetDebitorIndex(groupCode, "66433b1c0a85d1ccbbcf234e", 10);
-  // useSetCreditorIndex(groupCode, "66433b1c0a85d1ccbbcf234e", 10);
-  // useResetCreditorIndicesAndDebitorIndices(groupCode);
+  setDebitorIndex(groupCode, "66433b1c0a85d1ccbbcf234e", 10);
+  setCreditorIndex(groupCode, "66433b1c0a85d1ccbbcf234e", 10);
+  resetCreditorIndicesAndDebitorIndices(groupCode);
 
   return (
     <div>
