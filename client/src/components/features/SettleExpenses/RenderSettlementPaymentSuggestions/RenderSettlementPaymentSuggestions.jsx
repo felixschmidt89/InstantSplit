@@ -75,15 +75,6 @@ const RenderSettlementPaymentSuggestions = ({
                 <span className={styles.currency}>{groupCurrency}</span>
               </div>
             </div>
-            <div className={styles.confirm}>
-              <ConfirmSettlementPayment
-                paymentAmount={settlement.amount}
-                paymentMakerName={settlement.from}
-                paymentRecipientName={settlement.to}
-                groupCode={groupCode}
-                groupCurrency={groupCurrency}
-              />
-            </div>
           </li>
         ))}
       </ul>
