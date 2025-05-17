@@ -23,6 +23,8 @@ import RenderSettlementPaymentSuggestions from "../RenderSettlementPaymentSugges
 
 // Styles
 import styles from "./SettleExpenses.module.css";
+import useSetCreditorIndex from "../../../../hooks/useUpdateCreditorIndex";
+import useResetCreditorIndicesAndDebitorIndices from "../../../../hooks/useResetCreditorIndicesAndDebitorIndices";
 
 // API URL
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
@@ -77,7 +79,9 @@ const SettleExpenses = () => {
   const { positiveBalanceUsers, negativeBalanceUsers } =
     groupUsersPerPositiveOrNegativeUserBalance(unsettledUsers);
 
-  useSetDebitorIndex(groupCode, "66433b1c0a85d1ccbbcf234e", 0);
+  // useSetDebitorIndex(groupCode, "66433b1c0a85d1ccbbcf234e", 10);
+  // useSetCreditorIndex(groupCode, "66433b1c0a85d1ccbbcf234e", 10);
+  // useResetCreditorIndicesAndDebitorIndices(groupCode);
 
   return (
     <div>

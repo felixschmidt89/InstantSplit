@@ -12,6 +12,7 @@ import {
   changeGroupCurrency,
   changeGroupDataPurgeSetting,
   changeFixedDebitorCreditorOrderSetting,
+  resetCreditorIndicesAndDebitorIndices,
 } from '../controllers/groupController.js';
 import developmentOnlyMiddleware from '../middleware/developmentOnlyMiddleware.js';
 import {
@@ -50,6 +51,12 @@ router.patch('/inactiveDataPurge/:groupCode', changeGroupDataPurgeSetting);
 router.patch(
   '/fixedDebitorCreditorOrder/:groupCode',
   changeFixedDebitorCreditorOrderSetting,
+);
+
+// Reset creditorIndex and debitorIndex for all users in a group
+router.patch(
+  '/reset-indices/:groupCode',
+  resetCreditorIndicesAndDebitorIndices,
 );
 
 // Laxely limited check if groupCode exists in database (for continuous background active groupCode validation)

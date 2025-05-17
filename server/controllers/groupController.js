@@ -4,6 +4,7 @@ import { customAlphabet } from 'nanoid';
 import Group from '../models/Group.js';
 import Expense from '../models/Expense.js';
 import Payment from '../models/Payment.js';
+import User from '../models/User.js';
 import {
   devLog,
   errorLog,
@@ -388,6 +389,66 @@ export const validateGroupExistence = async (req, res) => {
       'Failed to fetch group information. Please try again later.',
     );
     sendInternalError();
+  }
+};
+
+/**
+ * Resets creditorIndex and debitorIndex to 0 for all users in a group
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @returns {Object} JSON response with updated users
+ */
+export const resetCreditorIndicesAndDebitorIndices = async (req, res) => {
+  try {
+    const { groupCode } = req.params;
+
+    devLog('Resetting creditor and debitor indices for group:', { groupCode });
+
+    // Validate groupCode
+    if (!groupCode) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        status: 'error',
+        message: 'Group code is required',
+      });
+    }
+
+    // Check if group exists
+    const group = await Group.findOne({ groupCode });
+    if (!group) {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        status: 'error',
+        message: 'Group not found',
+      });
+    }
+
+    // Update group last active
+    await setGroupLastActivePropertyToNow(groupCode);
+
+    // Reset creditorIndex and debitorIndex for all users in the group
+    const updateResult = await User.updateMany(
+      { groupCode },
+      { $set: { creditorIndex: 0, debitorIndex: 0 } },
+      { runValidators: true },
+    );
+
+    // Fetch updated users for response
+    const updatedUsers = await User.find({ groupCode }).select(
+      'userName creditorIndex debitorIndex',
+    );
+
+    res.status(StatusCodes.OK).json({
+      status: 'success',
+      updatedUsers,
+      message: `Reset creditorIndex and debitorIndex for ${updateResult.modifiedCount} users in group ${groupCode}`,
+    });
+  } catch (error) {
+    devLog('Error in resetCreditorIndicesAndDebitorIndices:', error);
+    errorLog(
+      error,
+      'Error resetting creditor and debitor indices:',
+      'Failed to reset creditor and debitor indices. Please try again later.',
+    );
+    return sendInternalError(res);
   }
 };
 
