@@ -172,6 +172,47 @@ export const changeGroupDataPurgeSetting = async (req, res) => {
   }
 };
 
+export const changeFixedDebitorCreditorOrderSetting = async (req, res) => {
+  try {
+    const { groupCode, fixedDebitorCreditorOrder } = req.body;
+    console.log('Request Body:', req.body);
+    console.log('Updating group with groupCode:', groupCode);
+
+    // Update the document and return the modified document
+    const updatedGroup = await Group.findOneAndUpdate(
+      { groupCode },
+      {
+        $set: {
+          lastActive: new Date(),
+          fixedDebitorCreditorOrder,
+        },
+      },
+      { new: true }, // Return the modified document
+    );
+
+    // Check if the document with the given groupCode exists
+    if (!updatedGroup) {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        status: 'error',
+        message: 'Group not found with the provided groupCode',
+      });
+    }
+
+    res.status(StatusCodes.OK).json({
+      status: 'success',
+      updatedGroup,
+      message: 'Group fixedDebitorCreditor setting updated successfully',
+    });
+  } catch (error) {
+    errorLog(
+      error,
+      'Error updating fixedDebitorCreditor setting:',
+      'Failed to update fixedDebitorCreditor setting. Please try again later.',
+    );
+    sendInternalError();
+  }
+};
+
 export const listGroupNamesByStoredGroupCodes = async (req, res) => {
   try {
     const { storedGroupCodes } = req.query;
