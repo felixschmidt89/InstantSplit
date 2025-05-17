@@ -103,7 +103,10 @@ const SettleExpenses = () => {
   }, [groupCode]);
 
   const { positiveBalanceUsers, negativeBalanceUsers } =
-    groupUsersPerPositiveOrNegativeUserBalance(unsettledUsers);
+    groupUsersPerPositiveOrNegativeUserBalance(
+      unsettledUsers,
+      fixedDebitorCreditorOrder
+    );
 
   // setDebitorIndex(groupCode, "66433b1c0a85d1ccbbcf234e", 10);
   // setCreditorIndex(groupCode, "66433b1c0a85d1ccbbcf234e", 10);

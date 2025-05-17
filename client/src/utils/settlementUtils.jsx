@@ -112,12 +112,17 @@ export const filterUnsettledUsers = (userDetails) => {
 };
 
 /**
- * Groups those users with unsettled positive user balances and those with negative user balances.
+ * Groups those users with unsettled positive user balances and those with negative user balances,
+ * sorting them based on fixedDebitorCreditorOrder.
  *
  * @param {Array} unsettledUsers - Array of unsettled user details.
+ * @param {boolean} fixedDebitorCreditorOrder - Whether to sort by creditorIndex/debitorIndex (true) or balances (false).
  * @returns {Object} - Object containing arrays of users with positive and negative balances.
  */
-export const groupUsersPerPositiveOrNegativeUserBalance = (unsettledUsers) => {
+export const groupUsersPerPositiveOrNegativeUserBalance = (
+  unsettledUsers,
+  fixedDebitorCreditorOrder
+) => {
   const positiveBalanceUsers = unsettledUsers
     .filter((user) => user.userBalanceCalculated > 0)
     .map((user) => ({
@@ -129,6 +134,24 @@ export const groupUsersPerPositiveOrNegativeUserBalance = (unsettledUsers) => {
     .map((user) => ({
       ...user,
     }));
+
+  // Sort users based on fixedDebitorCreditorOrder
+  if (fixedDebitorCreditorOrder) {
+    // Sort by creditorIndex (ascending) for positive balance users
+    positiveBalanceUsers.sort((a, b) => a.creditorIndex - b.creditorIndex);
+    // Sort by debitorIndex (ascending) for negative balance users
+    negativeBalanceUsers.sort((a, b) => a.debitorIndex - b.debitorIndex);
+  } else {
+    // Sort by userBalanceCalculated (descending) for positive balance users
+    positiveBalanceUsers.sort(
+      (a, b) => b.userBalanceCalculated - a.userBalanceCalculated
+    );
+    // Sort by userBalanceCalculated (ascending) for negative balance users
+    negativeBalanceUsers.sort(
+      (a, b) => a.userBalanceCalculated - b.userBalanceCalculated
+    );
+  }
+
   devLog("Users with positive balance calculated:", positiveBalanceUsers);
   devLog("Users with negative balance calculated:", negativeBalanceUsers);
 
