@@ -111,7 +111,7 @@ const SettleExpenses = () => {
   // setDebitorIndex(groupCode, "66433b1c0a85d1ccbbcf234e", 10);
   // setCreditorIndex(groupCode, "66433b1c0a85d1ccbbcf234e", 10);
   // resetCreditorIndicesAndDebitorIndices(groupCode);
-  // changeFixedDebitorCreditorOrderSetting(groupCode, true);
+  // changeFixedDebitorCreditorOrderSetting(groupCode, false);
 
   return (
     <div>
@@ -125,6 +125,7 @@ const SettleExpenses = () => {
           {unsettledUsers.length !== 0 && groupCurrencyIsFetched ? (
             <div className={styles.container}>
               <RenderSettlementPaymentSuggestions
+                fixedDebitorCreditorOrder={fixedDebitorCreditorOrder}
                 positiveBalanceUsers={positiveBalanceUsers}
                 negativeBalanceUsers={negativeBalanceUsers}
                 groupCurrency={groupCurrency}

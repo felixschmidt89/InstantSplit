@@ -21,16 +21,6 @@ export const calculateSuggestedSettlementPayments = (
   // Array to gather settlement payment suggestions
   const suggestedSettlementPayments = [];
 
-  // Sort users with positive balance from highest to lowest
-  positiveBalanceUsers.sort(
-    (a, b) => b.userBalanceCalculated - a.userBalanceCalculated
-  );
-
-  // Sort users with negative balance from lowest to highest
-  negativeBalanceUsers.sort(
-    (a, b) => a.userBalanceCalculated - b.userBalanceCalculated
-  );
-
   // Calculate settlement payment suggestions between users with negative and users with positive balance
   while (positiveBalanceUsers.length > 0 && negativeBalanceUsers.length > 0) {
     const creditor = positiveBalanceUsers[0];

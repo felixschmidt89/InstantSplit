@@ -22,6 +22,7 @@ import RenderReactIcon from "../../../common/RenderReactIcon/RenderReactIcon";
  *  @param {string} props.groupCurrency - The currency of the group.
  * @returns {JSX.Element} React component. */
 const RenderSettlementPaymentSuggestions = ({
+  fixedDebitorCreditorOrder,
   positiveBalanceUsers,
   negativeBalanceUsers,
   groupCurrency,
@@ -77,6 +78,8 @@ const RenderSettlementPaymentSuggestions = ({
             </div>
             <div className={styles.confirm}>
               <ConfirmSettlementPayment
+                positiveBalanceUsers={positiveBalanceUsers}
+                fixedDebitorCreditorOrder={fixedDebitorCreditorOrder}
                 paymentAmount={settlement.amount}
                 paymentMakerName={settlement.from}
                 paymentRecipientName={settlement.to}

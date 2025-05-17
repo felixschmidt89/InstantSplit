@@ -34,6 +34,7 @@ const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
  * @returns {JSX.Element} React component.
  */
 const ConfirmSettlementPayment = ({
+  fixedDebitorCreditorOrder,
   paymentAmount,
   paymentMakerName,
   paymentRecipientName,
@@ -43,6 +44,8 @@ const ConfirmSettlementPayment = ({
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [error, setError] = useState(null);
+
+  devLog("fixedDebitorCreditorOrder:", fixedDebitorCreditorOrder);
 
   // Get confirmation modal logic from hook, pass callbacks to be executed on confirmation
   const {
