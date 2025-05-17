@@ -263,3 +263,34 @@ export const changeFixedDebitorCreditorOrderSetting = async (
     };
   }
 };
+
+/**
+ * Fetches whether a group has a persisted debitor/creditor order
+ * @param {string} groupCode - The groupCode of the group
+ * @returns {Promise<Object>} - Promise resolving to { success, error, data }
+ */
+export const getGroupHasPersistedDebitorCreditorOrder = async (groupCode) => {
+  try {
+    const response = await axios.get(
+      `${apiUrl}/groups/has-persisted-order/${groupCode}`
+    );
+    devLog("groupHasPersistedDebitorCreditorOrder status fetched:", response);
+    return {
+      success: true,
+      error: null,
+      data: response.data,
+    };
+  } catch (error) {
+    devLog(
+      "Error fetching groupHasPersistedDebitorCreditorOrder status:",
+      error
+    );
+    return {
+      success: false,
+      error:
+        error.response?.data?.message ||
+        "Failed to fetch groupHasPersistedDebitorCreditorOrder status",
+      data: null,
+    };
+  }
+};

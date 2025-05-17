@@ -453,18 +453,17 @@ export const resetCreditorIndicesAndDebitorIndices = async (req, res) => {
 };
 
 /**
- * Retrieves the fixedDebitorCreditorOrder status for a group
+ * Checks if a group has a persisted debitor/creditor order.
+ * Returns the fixedDebitorCreditorOrder boolean value for the group.
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
- * @returns {Object} JSON response with fixedDebitorCreditorOrder boolean
+ * @returns {boolean} - The fixedDebitorCreditorOrder value (true or false)
  */
-export const getFixedDebitorCreditorOrderStatus = async (req, res) => {
+export const groupHasPersistedDebitorCreditorOrder = async (req, res) => {
   try {
     const { groupCode } = req.params;
 
-    devLog('Fetching fixedDebitorCreditorOrder status for group:', {
-      groupCode,
-    });
+    devLog('Checking fixedDebitorCreditorOrder for group:', { groupCode });
 
     // Validate groupCode
     if (!groupCode) {
@@ -489,17 +488,14 @@ export const getFixedDebitorCreditorOrderStatus = async (req, res) => {
     // Update group last active
     await setGroupLastActivePropertyToNow(groupCode);
 
-    res.status(StatusCodes.OK).json({
-      status: 'success',
-      fixedDebitorCreditorOrder: group.fixedDebitorCreditorOrder,
-      message: 'fixedDebitorCreditorOrder status retrieved successfully',
-    });
+    // Return the fixedDebitorCreditorOrder value
+    return res.status(StatusCodes.OK).json(group.fixedDebitorCreditorOrder);
   } catch (error) {
-    devLog('Error in getFixedDebitorCreditorOrderStatus:', error);
+    devLog('Error in groupHasPersistedDebitorCreditorOrder:', error);
     errorLog(
       error,
-      'Error fetching fixedDebitorCreditorOrder status:',
-      'Failed to fetch fixedDebitorCreditorOrder status. Please try again later.',
+      'Error checking fixedDebitorCreditorOrder:',
+      'Failed to check fixedDebitorCreditorOrder. Please try again later.',
     );
     return sendInternalError(res);
   }

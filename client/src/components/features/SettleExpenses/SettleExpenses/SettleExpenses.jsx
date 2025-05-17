@@ -9,6 +9,7 @@ import {
   calculateAndAddUserBalance,
   changeFixedDebitorCreditorOrderSetting,
   filterUnsettledUsers,
+  getGroupHasPersistedDebitorCreditorOrder,
   groupUsersPerPositiveOrNegativeUserBalance,
   resetCreditorIndicesAndDebitorIndices,
   setCreditorIndex,
@@ -40,8 +41,32 @@ const SettleExpenses = () => {
   const [unsettledUsers, setUnsettledUsers] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [fixedDebitorCreditorOrder, setFixedDebitorCreditorOrder] =
+    useState(null);
+  const [statusError, setStatusError] = useState(null);
   const { groupCurrency, isFetched: groupCurrencyIsFetched } =
     useFetchGroupCurrency(groupCode);
+
+  // Fetch fixedDebitorCreditorOrder status
+  useEffect(() => {
+    const getFixedDebitorCreditorOrderSetting = async () => {
+      try {
+        const result =
+          await getGroupHasPersistedDebitorCreditorOrder(groupCode);
+        if (result.success) {
+          setFixedDebitorCreditorOrder(result.data);
+          devLog("Fixed debitor/creditor order status:", result.data);
+        } else {
+          setStatusError(result.error || t("generic-error-message"));
+        }
+      } catch (error) {
+        devLog("Error fetching fixedDebitorCreditorOrder status:", error);
+        setStatusError(t("generic-error-message"));
+      }
+    };
+
+    getFixedDebitorCreditorOrderSetting();
+  }, [groupCode]);
 
   useEffect(() => {
     const fetchAndIdentifyUnsettledUsers = async () => {
