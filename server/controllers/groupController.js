@@ -149,7 +149,6 @@ export const changeGroupDataPurgeSetting = async (req, res) => {
       { new: true }, // Return the modified document
     );
 
-    // Check if the document with the given groupCode exists
     if (!updatedGroup) {
       return res.status(StatusCodes.NOT_FOUND).json({
         status: 'error',
@@ -178,7 +177,6 @@ export const changeFixedDebitorCreditorOrderSetting = async (req, res) => {
     console.log('Request Body:', req.body);
     console.log('Updating group with groupCode:', groupCode);
 
-    // Update the document and return the modified document
     const updatedGroup = await Group.findOneAndUpdate(
       { groupCode },
       {
@@ -190,7 +188,6 @@ export const changeFixedDebitorCreditorOrderSetting = async (req, res) => {
       { new: true }, // Return the modified document
     );
 
-    // Check if the document with the given groupCode exists
     if (!updatedGroup) {
       return res.status(StatusCodes.NOT_FOUND).json({
         status: 'error',

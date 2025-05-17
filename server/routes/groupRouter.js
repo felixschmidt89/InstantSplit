@@ -45,6 +45,12 @@ router.patch('/currency/:groupCode', changeGroupCurrency);
 // Change group inactiveDataPurge setting by groupCode
 router.patch('/inactiveDataPurge/:groupCode', changeGroupDataPurgeSetting);
 
+// Change group fixedDebitorCreditorOrder setting by groupCode
+router.patch(
+  '/fixedDebitorCreditorOrder/:groupCode',
+  changeFixedDebitorCreditorOrder,
+);
+
 // Laxely limited check if groupCode exists in database (for continuous background active groupCode validation)
 router.get(
   '/:groupCode/continuous-validate-existence',
