@@ -8,7 +8,10 @@ import { useTranslation } from "react-i18next";
 
 // Constants and Utils
 import { devLog, handleApiErrors } from "../../../../utils/errorUtils";
-import { resetCreditorIndicesAndDebitorIndices } from "../../../../utils/settlementUtils";
+import {
+  changeFixedDebitorCreditorOrderSetting,
+  resetCreditorIndicesAndDebitorIndices,
+} from "../../../../utils/settlementUtils";
 
 // Hooks
 import useErrorModalVisibility from "../../../../hooks/useErrorModalVisibility";
@@ -61,6 +64,7 @@ const CreateExpense = ({ groupMembers, groupCode }) => {
         expensePayerName,
         expenseBeneficiariesNames: selectedBeneficiaries,
       });
+      changeFixedDebitorCreditorOrderSetting(groupCode, false);
       resetCreditorIndicesAndDebitorIndices(groupCode);
       devLog("Expense created:", response);
       navigate("/instant-split");

@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { devLog } from "../../../../utils/errorUtils";
 import {
   calculateAndAddUserBalance,
+  changeFixedDebitorCreditorOrderSetting,
   filterUnsettledUsers,
   groupUsersPerPositiveOrNegativeUserBalance,
   resetCreditorIndicesAndDebitorIndices,
@@ -79,9 +80,10 @@ const SettleExpenses = () => {
   const { positiveBalanceUsers, negativeBalanceUsers } =
     groupUsersPerPositiveOrNegativeUserBalance(unsettledUsers);
 
-  setDebitorIndex(groupCode, "66433b1c0a85d1ccbbcf234e", 10);
-  setCreditorIndex(groupCode, "66433b1c0a85d1ccbbcf234e", 10);
-  resetCreditorIndicesAndDebitorIndices(groupCode);
+  // setDebitorIndex(groupCode, "66433b1c0a85d1ccbbcf234e", 10);
+  // setCreditorIndex(groupCode, "66433b1c0a85d1ccbbcf234e", 10);
+  // resetCreditorIndicesAndDebitorIndices(groupCode);
+  // changeFixedDebitorCreditorOrderSetting(groupCode, true);
 
   return (
     <div>
