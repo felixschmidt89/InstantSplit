@@ -118,6 +118,81 @@ export const changeUserName = async (req, res) => {
   }
 };
 
+/**
+ * Updates the debitorIndex for a specific user
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @returns {Object} JSON response with updated user details
+ */
+export const setDebitorIndex = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { groupCode, debitorIndex } = req.body;
+
+    devLog('Updating debitorIndex. Received data:', {
+      userId,
+      groupCode,
+      debitorIndex,
+    });
+
+    // Validate inputs
+    if (!groupCode) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        status: 'error',
+        message: 'Group code is required',
+      });
+    }
+    if (!Number.isInteger(debitorIndex) || debitorIndex < 0) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        status: 'error',
+        message: 'debitorIndex must be a non-negative integer',
+      });
+    }
+
+    // Update group last active
+    await setGroupLastActivePropertyToNow(groupCode);
+
+    // Update user
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $set: { debitorIndex } },
+      { new: true, runValidators: true },
+    );
+
+    if (!updatedUser) {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        status: 'error',
+        message: 'User not found',
+      });
+    }
+
+    // Verify groupCode matches
+    if (updatedUser.groupCode !== groupCode) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        status: 'error',
+        message: 'User does not belong to the specified group',
+      });
+    }
+
+    res.status(StatusCodes.OK).json({
+      status: 'success',
+      updatedUser,
+      message: 'debitorIndex updated successfully',
+    });
+  } catch (error) {
+    devLog('Error in setDebitorIndex:', error);
+    if (error.name === 'ValidationError') {
+      return sendValidationError(res, error);
+    }
+    errorLog(
+      error,
+      'Error updating debitorIndex:',
+      'Failed to update debitorIndex. Please try again later.',
+    );
+    return sendInternalError(res);
+  }
+};
+
 export const listExpensesAndPaymentsByUser = async (req, res) => {
   try {
     const { userId } = req.params;
