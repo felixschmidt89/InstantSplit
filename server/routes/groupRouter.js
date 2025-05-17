@@ -13,6 +13,7 @@ import {
   changeGroupDataPurgeSetting,
   changeFixedDebitorCreditorOrderSetting,
   resetCreditorIndicesAndDebitorIndices,
+  groupHasPersistedDebitorCreditorOrder,
 } from '../controllers/groupController.js';
 import developmentOnlyMiddleware from '../middleware/developmentOnlyMiddleware.js';
 import {
@@ -51,6 +52,12 @@ router.patch('/inactiveDataPurge/:groupCode', changeGroupDataPurgeSetting);
 router.patch(
   '/fixedDebitorCreditorOrder/:groupCode',
   changeFixedDebitorCreditorOrderSetting,
+);
+
+// Check persisted debitor/creditor index order
+router.get(
+  '/has-persisted-order/:groupCode',
+  groupHasPersistedDebitorCreditorOrder,
 );
 
 // Reset creditorIndex and debitorIndex for all users in a group

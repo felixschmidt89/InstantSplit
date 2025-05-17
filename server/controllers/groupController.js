@@ -452,6 +452,59 @@ export const resetCreditorIndicesAndDebitorIndices = async (req, res) => {
   }
 };
 
+/**
+ * Retrieves the fixedDebitorCreditorOrder status for a group
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @returns {Object} JSON response with fixedDebitorCreditorOrder boolean
+ */
+export const getFixedDebitorCreditorOrderStatus = async (req, res) => {
+  try {
+    const { groupCode } = req.params;
+
+    devLog('Fetching fixedDebitorCreditorOrder status for group:', {
+      groupCode,
+    });
+
+    // Validate groupCode
+    if (!groupCode) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        status: 'error',
+        message: 'Group code is required',
+      });
+    }
+
+    // Find group
+    const group = await Group.findOne({ groupCode }).select(
+      'fixedDebitorCreditorOrder',
+    );
+
+    if (!group) {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        status: 'error',
+        message: 'Group not found',
+      });
+    }
+
+    // Update group last active
+    await setGroupLastActivePropertyToNow(groupCode);
+
+    res.status(StatusCodes.OK).json({
+      status: 'success',
+      fixedDebitorCreditorOrder: group.fixedDebitorCreditorOrder,
+      message: 'fixedDebitorCreditorOrder status retrieved successfully',
+    });
+  } catch (error) {
+    devLog('Error in getFixedDebitorCreditorOrderStatus:', error);
+    errorLog(
+      error,
+      'Error fetching fixedDebitorCreditorOrder status:',
+      'Failed to fetch fixedDebitorCreditorOrder status. Please try again later.',
+    );
+    return sendInternalError(res);
+  }
+};
+
 // FOR DEVELOPMENT/DEBUGGING PURPOSES ONLY
 
 export const listAllGroups = async (req, res) => {
