@@ -11,9 +11,6 @@ import {
   filterUnsettledUsers,
   getGroupHasPersistedDebitorCreditorOrder,
   groupUsersPerPositiveOrNegativeUserBalance,
-  resetCreditorIndicesAndDebitorIndices,
-  setCreditorIndex,
-  setDebitorIndex,
 } from "../../../../utils/settlementUtils";
 
 // Hooks
@@ -108,9 +105,6 @@ const SettleExpenses = () => {
       fixedDebitorCreditorOrder
     );
 
-  // setDebitorIndex(groupCode, "66433b1c0a85d1ccbbcf234e", 10);
-  // setCreditorIndex(groupCode, "66433b1c0a85d1ccbbcf234e", 10);
-  // resetCreditorIndicesAndDebitorIndices(groupCode);
   // changeFixedDebitorCreditorOrderSetting(groupCode, false);
 
   return (

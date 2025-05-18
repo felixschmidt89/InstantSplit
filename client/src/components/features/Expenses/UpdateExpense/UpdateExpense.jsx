@@ -8,10 +8,7 @@ import { useTranslation } from "react-i18next";
 // Constants and Utils
 import { devLog, handleApiErrors } from "../../../../utils/errorUtils";
 import { buttonStyles } from "../../../../constants/stylesConstants";
-import {
-  changeFixedDebitorCreditorOrderSetting,
-  resetCreditorIndicesAndDebitorIndices,
-} from "../../../../utils/settlementUtils";
+import { changeFixedDebitorCreditorOrderSetting } from "../../../../utils/settlementUtils";
 
 // Hooks
 import useErrorModalVisibility from "../../../../hooks/useErrorModalVisibility";
@@ -90,7 +87,6 @@ const UpdateExpense = ({
         storedExpensePayerName,
         storedBeneficiariesNames,
       });
-      resetCreditorIndicesAndDebitorIndices(groupCode);
       changeFixedDebitorCreditorOrderSetting(groupCode, false);
 
       devLog("Expense updated:", response);

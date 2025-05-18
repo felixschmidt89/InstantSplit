@@ -104,45 +104,29 @@ export const filterUnsettledUsers = (userDetails) => {
 };
 
 /**
- * Groups those users with unsettled positive user balances and those with negative user balances,
- * sorting them based on fixedDebitorCreditorOrder.
+ * Groups users with unsettled balances into those with positive and negative balances,
+ * sorting positive balances in descending order and negative balances in ascending order.
  *
- * @param {Array} unsettledUsers - Array of unsettled user details.
- * @param {boolean} fixedDebitorCreditorOrder - Whether to sort by creditorIndex/debitorIndex (true) or balances (false).
- * @returns {Object} - Object containing arrays of users with positive and negative balances.
+ * @param {Object[]} unsettledUsers - Array of user objects with unsettled balances.
+ * @param {number} unsettledUsers[].userBalanceCalculated - The calculated balance for the user (positive or negative).
+ * @returns {Object} An object containing two arrays:
+ * @returns {Object[]} positiveBalanceUsers - Users with positive balances (userBalanceCalculated > 0), sorted in descending order by balance.
+ * @returns {Object[]} negativeBalanceUsers - Users with negative balances (userBalanceCalculated < 0), sorted in ascending order by balance.
  */
-export const groupUsersPerPositiveOrNegativeUserBalance = (
-  unsettledUsers,
-  fixedDebitorCreditorOrder
-) => {
+export const groupUsersPerPositiveOrNegativeUserBalance = (unsettledUsers) => {
   const positiveBalanceUsers = unsettledUsers
     .filter((user) => user.userBalanceCalculated > 0)
     .map((user) => ({
       ...user,
-    }));
+    }))
+    .sort((a, b) => b.userBalanceCalculated - a.userBalanceCalculated);
 
   const negativeBalanceUsers = unsettledUsers
     .filter((user) => user.userBalanceCalculated < 0)
     .map((user) => ({
       ...user,
-    }));
-
-  // Sort users based on fixedDebitorCreditorOrder
-  if (fixedDebitorCreditorOrder) {
-    // Sort by creditorIndex (ascending) for positive balance users
-    positiveBalanceUsers.sort((a, b) => a.creditorIndex - b.creditorIndex);
-    // Sort by debitorIndex (ascending) for negative balance users
-    negativeBalanceUsers.sort((a, b) => a.debitorIndex - b.debitorIndex);
-  } else {
-    // Sort by userBalanceCalculated (descending) for positive balance users
-    positiveBalanceUsers.sort(
-      (a, b) => b.userBalanceCalculated - a.userBalanceCalculated
-    );
-    // Sort by userBalanceCalculated (ascending) for negative balance users
-    negativeBalanceUsers.sort(
-      (a, b) => a.userBalanceCalculated - b.userBalanceCalculated
-    );
-  }
+    }))
+    .sort((a, b) => a.userBalanceCalculated - b.userBalanceCalculated);
 
   devLog("Users with positive balance calculated:", positiveBalanceUsers);
   devLog("Users with negative balance calculated:", negativeBalanceUsers);
@@ -151,96 +135,6 @@ export const groupUsersPerPositiveOrNegativeUserBalance = (
     positiveBalanceUsers,
     negativeBalanceUsers,
   };
-};
-
-/**
- * Resets creditorIndex and debitorIndex to 0 for all users in a group
- * @param {string} groupCode - The groupCode of the group
- * @returns {Promise<Object>} - Promise resolving to { success, error, data }
- */
-export const resetCreditorIndicesAndDebitorIndices = async (groupCode) => {
-  try {
-    const response = await axios.patch(
-      `${apiUrl}/groups/reset-indices/${groupCode}`
-    );
-    devLog("Creditor and debitor indices reset:", response);
-    return {
-      success: true,
-      error: null,
-      data: response.data,
-    };
-  } catch (error) {
-    devLog("Error resetting creditor and debitor indices:", error);
-    return {
-      success: false,
-      error: error.response?.data?.message || "Failed to reset indices",
-      data: null,
-    };
-  }
-};
-
-/**
- * Updates the debitorIndex for a specific user
- * @param {string} groupCode - The groupCode of the group
- * @param {string} userId - The ID of the user to update
- * @param {number} debitorIndex - The new debitorIndex value
- * @returns {Promise<Object>} - Promise resolving to { success, error, data }
- */
-export const setDebitorIndex = async (groupCode, userId, debitorIndex) => {
-  try {
-    const response = await axios.patch(
-      `${apiUrl}/users/${userId}/debitorIndex`,
-      {
-        groupCode,
-        debitorIndex,
-      }
-    );
-    devLog("debitorIndex updated:", response);
-    return {
-      success: true,
-      error: null,
-      data: response.data,
-    };
-  } catch (error) {
-    devLog("Error updating debitorIndex:", error);
-    return {
-      success: false,
-      error: error.response?.data?.message || "Failed to update debitorIndex",
-      data: null,
-    };
-  }
-};
-
-/**
- * Updates the creditorIndex for a specific user
- * @param {string} groupCode - The groupCode of the group
- * @param {string} userId - The ID of the user to update
- * @param {number} creditorIndex - The new creditorIndex value
- * @returns {Promise<Object>} - Promise resolving to { success, error, data }
- */
-export const setCreditorIndex = async (groupCode, userId, creditorIndex) => {
-  try {
-    const response = await axios.patch(
-      `${apiUrl}/users/${userId}/creditorIndex`,
-      {
-        groupCode,
-        creditorIndex,
-      }
-    );
-    devLog("creditorIndex updated:", response);
-    return {
-      success: true,
-      error: null,
-      data: response.data,
-    };
-  } catch (error) {
-    devLog("Error updating creditorIndex:", error);
-    return {
-      success: false,
-      error: error.response?.data?.message || "Failed to update creditorIndex",
-      data: null,
-    };
-  }
 };
 
 /**

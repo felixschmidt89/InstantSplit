@@ -6,13 +6,13 @@ import { devLog } from "../utils/errorUtils";
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 /**
- * Custom hook for checking if any user in a group has a non-zero debitorIndex or creditorIndex.
+ * A React hook that fetches whether a group has a persisted debitor/creditor order.
  *
- * @param {string} groupCode - The groupCode of the group to check
- * @returns {Object} - An object containing the persisted order status and potential error.
- * @property {boolean|null} hasPersistedOrder - True if any user has non-zero debitorIndex or creditorIndex, null if not yet fetched
- * @property {boolean} isFetched - Indicates whether the data has been successfully fetched
- * @property {string|null} error - The error message if an error occurred
+ * @param {string} groupCode - The unique code identifying the group.
+ * @returns {Object} An object containing the fetch status and results:
+ * @returns {boolean|null} hasPersistedOrder - Whether the group has a persisted order (true/false) or null if not yet fetched.
+ * @returns {boolean} isFetched - Whether the fetch operation has completed.
+ * @returns {string|null} error - Error message if the fetch failed, or null if no error occurred.
  */
 const useGroupHasPersistedDebitorCreditorOrder = (groupCode) => {
   const { t } = useTranslation();
