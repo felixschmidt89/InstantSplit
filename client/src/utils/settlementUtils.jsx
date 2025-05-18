@@ -34,6 +34,8 @@ export const calculateSuggestedSettlementPayments = (
 
     // Add that settlement payment suggestion to settlements array
     suggestedSettlementPayments.push({
+      debtorId: debtor._id,
+      creditorId: creditor._id,
       from: debtor.userName,
       to: creditor.userName,
       amount: amountToSettle.toFixed(2),
