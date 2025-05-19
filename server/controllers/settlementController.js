@@ -6,20 +6,17 @@ import {
   sendInternalError,
   sendValidationError,
 } from '../utils/errorUtils.js';
-import { setGroupLastActivePropertyToNow } from '../utils/databaseUtils.js';
+import {
+  setGroupLastActivePropertyToNow,
+  updateFixedDebitorCreditorOrderSetting,
+} from '../utils/databaseUtils.js';
 
 export const persistGroupSettlements = async (req, res) => {
   try {
-    const { groupCode, settlements } = req.body;
+    const { settlements } = req.body;
 
-    devLog('Persisting settlements for group:', { groupCode, settlements });
+    devLog('Persisting settlements:', { settlements });
 
-    if (!groupCode) {
-      return res.status(StatusCodes.BAD_REQUEST).json({
-        status: 'error',
-        message: 'Group code is required',
-      });
-    }
     if (
       !settlements ||
       !Array.isArray(settlements) ||
@@ -31,34 +28,62 @@ export const persistGroupSettlements = async (req, res) => {
       });
     }
 
-    // Validate each settlement
+    let groupCode = null;
     for (const settlement of settlements) {
-      if (!settlement.from || !settlement.to || !settlement.amount) {
-        return res.status(StatusCodes.BAD_REQUEST).json({
-          status: 'error',
-          message: 'Each settlement must include from, to, and amount',
-        });
-      }
       if (
-        typeof settlement.amount !== 'number' ||
-        settlement.amount < 0.01 ||
-        settlement.amount > 99999.99
+        !settlement.from ||
+        !settlement.to ||
+        settlement.amount == null ||
+        !settlement.groupCode
       ) {
         return res.status(StatusCodes.BAD_REQUEST).json({
           status: 'error',
-          message: 'Settlement amount must be between 0.01 and 99999.99',
+          message:
+            'Each settlement must include from, to, amount, and groupCode',
+        });
+      }
+      const amount = Number(settlement.amount);
+      if (isNaN(amount) || amount < 0.01 || amount > 99999.99) {
+        return res.status(StatusCodes.BAD_REQUEST).json({
+          status: 'error',
+          message:
+            'Settlement amount must be a number between 0.01 and 99999.99',
+        });
+      }
+      if (groupCode === null) {
+        groupCode = settlement.groupCode;
+      } else if (settlement.groupCode !== groupCode) {
+        return res.status(StatusCodes.BAD_REQUEST).json({
+          status: 'error',
+          message: 'All settlements must have the same groupCode',
         });
       }
     }
 
-    const settlementsToSave = settlements.map((settlement) => ({
-      ...settlement,
-      groupCode,
-    }));
+    if (!groupCode) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        status: 'error',
+        message: 'No valid groupCode found in settlements',
+      });
+    }
+
+    const settlementsToSave = settlements.map(
+      ({ from, to, amount, groupCode }) => ({
+        from,
+        to,
+        amount: Number(amount),
+        groupCode,
+      }),
+    );
+
+    devLog('Saving settlements to database:', settlementsToSave);
 
     const savedSettlements = await Settlement.insertMany(settlementsToSave);
 
-    setGroupLastActivePropertyToNow(groupCode);
+    devLog('Settlements saved, updating group settings:', { groupCode });
+
+    await updateFixedDebitorCreditorOrderSetting(groupCode, true);
+    await setGroupLastActivePropertyToNow(groupCode);
 
     res.status(StatusCodes.CREATED).json({
       status: 'success',
@@ -80,16 +105,6 @@ export const persistGroupSettlements = async (req, res) => {
     }
   }
 };
-
-import { StatusCodes } from 'http-status-codes';
-import Settlement from '../models/Settlement.js';
-import {
-  devLog,
-  errorLog,
-  sendInternalError,
-  sendValidationError,
-} from '../utils/errorUtils.js';
-import { setGroupLastActivePropertyToNow } from '../utils/databaseUtils.js';
 
 export const deleteSettlement = async (req, res) => {
   try {

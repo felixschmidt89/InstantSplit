@@ -19,8 +19,9 @@ import RenderReactIcon from "../../../common/RenderReactIcon/RenderReactIcon";
  * @param {Object} props - The properties of the component.
  * @param {Object[]} props.negativeBalanceUsers - An array of users with negative balances.
  * @param {Object[]} props.positiveBalanceUsers - An array of users with positive balances.
- *  @param {string} props.groupCurrency - The currency of the group.
- * @returns {JSX.Element} React component. */
+ * @param {string} props.groupCurrency - The currency of the group.
+ * @returns {JSX.Element} React component.
+ */
 const RenderSettlementPaymentSuggestions = ({
   fixedDebitorCreditorOrder,
   positiveBalanceUsers,
@@ -85,6 +86,7 @@ const RenderSettlementPaymentSuggestions = ({
                 paymentRecipientName={settlement.to}
                 groupCode={groupCode}
                 groupCurrency={groupCurrency}
+                settlementPaymentSuggestions={settlementPaymentSuggestions}
               />
             </div>
           </li>

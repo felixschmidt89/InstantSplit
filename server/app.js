@@ -12,6 +12,7 @@ import feedbackRouter from './routes/feedbackRouter.js';
 import healthRouter from './routes/healthRouter.js';
 import fileRouter from './routes/fileRouter.js';
 import captchaRouter from './routes/captchaRouter.js';
+import settlementRouter from './routes/settlementRouter.js';
 
 // Create an express application
 const app = express();
@@ -48,5 +49,6 @@ app.use(`${API_BASEURL}/feedbacks`, feedbackRouter);
 app.use(`${API_BASEURL}/health`, healthRouter);
 app.use(`${API_BASEURL}/files`, fileRouter);
 app.use(`${API_BASEURL}/captchas`, captchaRouter);
+app.use(`${API_BASEURL}/settlements`, settlementRouter);
 
 export default app;
