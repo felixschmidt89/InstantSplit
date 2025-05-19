@@ -257,3 +257,37 @@ export const updateFixedDebitorCreditorOrderSetting = async (
     throw error;
   }
 };
+
+/**
+ * Deletes all settlements for a group with the specified groupCode.
+ *
+ * @param {string} groupCode - The group code of the settlements to delete.
+ * @returns {Promise<number>} - The number of settlements deleted.
+ * @throws {Error} - If the group is not found or the deletion fails.
+ * Logs errors for internal debugging purposes and transforms them for production logging with a custom prefix and user-friendly message.
+ */
+export const deleteAllGroupSettlements = async (groupCode) => {
+  try {
+    validateString(groupCode, 'groupCode');
+
+    const group = await Group.findOne({ groupCode });
+    if (!group) {
+      throw new Error(`Group with groupCode "${groupCode}" not found`);
+    }
+
+    const result = await Settlement.deleteMany({ groupCode });
+
+    devLog(
+      `Successfully deleted ${result.deletedCount} settlements for group with groupCode "${groupCode}"`,
+    );
+
+    return result.deletedCount;
+  } catch (error) {
+    errorLog(
+      error,
+      'Error deleting group settlements:',
+      'Failed to delete group settlements.',
+    );
+    throw error;
+  }
+};
