@@ -145,3 +145,36 @@ export const deleteSettlement = async (req, res) => {
     }
   }
 };
+
+export const deleteAllGroupSettlements = async (req, res) => {
+  try {
+    const { groupCode } = req.params;
+
+    devLog('Deleting all settlements for group:', { groupCode });
+
+    const result = await Settlement.deleteMany({ groupCode });
+
+    if (result.deletedCount === 0) {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        status: 'error',
+        message: 'No settlements found for this group',
+      });
+    }
+
+    setGroupLastActivePropertyToNow(groupCode);
+
+    res.status(StatusCodes.NO_CONTENT).json({
+      status: 'success',
+      data: null,
+      message: 'All settlements for group deleted successfully',
+    });
+  } catch (error) {
+    devLog('Error deleting all group settlements:', error);
+    errorLog(
+      error,
+      'Error deleting all group settlements:',
+      'Failed to delete group settlements. Please try again later.',
+    );
+    sendInternalError(res);
+  }
+};
