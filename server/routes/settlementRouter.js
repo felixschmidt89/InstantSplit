@@ -1,21 +1,19 @@
 import express from 'express';
-import { check } from 'express-validator';
 import {
   persistGroupSettlements,
   deleteSettlement,
   deleteAllGroupSettlements,
 } from '../controllers/settlementController.js';
-import developmentOnlyMiddleware from '../middleware/developmentOnlyMiddleware.js';
 
 const router = express.Router();
 
 // Persist all settlements for a group
-router.post('/:groupCode', persistGroupSettlements);
+router.post('/', persistGroupSettlements);
 
 // Delete single settlement
-router.delete('/:settlementId', deleteSettlement);
+router.delete('/', deleteSettlement);
 
 // Delete all settlements for a group
-router.delete('/debug/:groupCode', deleteAllGroupSettlements);
+router.delete('/:groupCode', deleteAllGroupSettlements);
 
 export default router;

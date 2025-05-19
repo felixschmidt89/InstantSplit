@@ -80,3 +80,68 @@ export const persistGroupSettlements = async (req, res) => {
     }
   }
 };
+
+import { StatusCodes } from 'http-status-codes';
+import Settlement from '../models/Settlement.js';
+import {
+  devLog,
+  errorLog,
+  sendInternalError,
+  sendValidationError,
+} from '../utils/errorUtils.js';
+import { setGroupLastActivePropertyToNow } from '../utils/databaseUtils.js';
+
+export const deleteSettlement = async (req, res) => {
+  try {
+    const { from, to, amount, groupCode } = req.body;
+
+    devLog('Deleting settlement:', { from, to, amount, groupCode });
+
+    if (!from || !to || !amount || !groupCode) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        status: 'error',
+        message: 'Settlement must include from, to, amount, and groupCode',
+      });
+    }
+    if (typeof amount !== 'number' || amount < 0.01 || amount > 99999.99) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        status: 'error',
+        message: 'Settlement amount must be between 0.01 and 99999.99',
+      });
+    }
+
+    const deletedSettlement = await Settlement.findOneAndDelete({
+      from,
+      to,
+      amount,
+      groupCode,
+    });
+
+    if (!deletedSettlement) {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        status: 'error',
+        message: 'Settlement not found',
+      });
+    }
+
+    setGroupLastActivePropertyToNow(groupCode);
+
+    res.status(StatusCodes.NO_CONTENT).json({
+      status: 'success',
+      data: null,
+      message: 'Settlement deleted successfully',
+    });
+  } catch (error) {
+    devLog('Error deleting settlement:', error);
+    if (error.name === 'ValidationError') {
+      sendValidationError(res, error);
+    } else {
+      errorLog(
+        error,
+        'Error deleting settlement:',
+        'Failed to delete settlement. Please try again later.',
+      );
+      sendInternalError(res);
+    }
+  }
+};
