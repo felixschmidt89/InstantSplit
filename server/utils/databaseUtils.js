@@ -213,31 +213,30 @@ export const setGroupLastActivePropertyToNow = async (groupCode) => {
 };
 
 /**
- * Updates the inactiveDataPurge setting of a group with the specified groupCode.
+ * Updates the fixedDebitorCreditorOrder setting of a group with the specified groupCode.
  *
  * @param {string} groupCode - The group code to update.
- * @param {boolean} inactiveDataPurge - The new inactiveDataPurge setting value.
+ * @param {boolean} fixedDebitorCreditorOrder - The new fixedDebitorCreditorOrder setting value.
  * @returns {Promise<object>} - The updated group document.
  * @throws {Error} - If the group is not found or the update fails.
  * Logs errors for internal debugging purposes and transforms them for production logging with a custom prefix and user-friendly message.
  */
-export const updateGroupDataPurgeSetting = async (
+export const updateFixedDebitorCreditorOrderSetting = async (
   groupCode,
-  inactiveDataPurge,
+  fixedDebitorCreditorOrder,
 ) => {
   try {
     validateString(groupCode, 'groupCode');
 
-    // Update the document and return the modified document
     const updatedGroup = await Group.findOneAndUpdate(
       { groupCode },
       {
         $set: {
           lastActive: new Date(),
-          inactiveDataPurge,
+          fixedDebitorCreditorOrder,
         },
       },
-      { new: true }, // Return the modified document
+      { new: true },
     );
 
     if (!updatedGroup) {
@@ -245,15 +244,15 @@ export const updateGroupDataPurgeSetting = async (
     }
 
     devLog(
-      `Successfully updated inactiveDataPurge to ${inactiveDataPurge} for group with groupCode "${groupCode}"`,
+      `Successfully updated fixedDebitorCreditorOrder to ${fixedDebitorCreditorOrder} for group with groupCode "${groupCode}"`,
     );
 
     return updatedGroup;
   } catch (error) {
     errorLog(
       error,
-      'Error updating inactive data purge setting:',
-      'Failed to update inactive data purge setting.',
+      'Error updating fixedDebitorCreditorOrder setting:',
+      'Failed to update fixedDebitorCreditorOrder setting.',
     );
     throw error;
   }

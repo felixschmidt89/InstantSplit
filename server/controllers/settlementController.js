@@ -123,7 +123,7 @@ export const deleteSettlement = async (req, res) => {
         message: 'Settlement not found',
       });
     }
-
+    await updateFixedDebitorCreditorOrderSetting(groupCode, true);
     setGroupLastActivePropertyToNow(groupCode);
 
     res.status(StatusCodes.NO_CONTENT).json({
