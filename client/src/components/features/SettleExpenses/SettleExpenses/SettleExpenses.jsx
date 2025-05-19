@@ -105,8 +105,6 @@ const SettleExpenses = () => {
       fixedDebitorCreditorOrder
     );
 
-  // changeFixedDebitorCreditorOrderSetting(groupCode, false);
-
   return (
     <div>
       {isLoading ? (
