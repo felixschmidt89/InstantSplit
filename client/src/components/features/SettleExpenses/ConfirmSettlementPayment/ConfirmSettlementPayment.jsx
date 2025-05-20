@@ -95,18 +95,18 @@ const ConfirmSettlementPayment = ({
           data: {
             from: paymentMakerName,
             to: paymentRecipientName,
-            amount: Number(paymentAmount), // Convert amount to number
+            amount: Number(paymentAmount),
             groupCode,
           },
         });
         devLog("Confirmed settlement deleted:", deleteResponse.data);
       }
 
-      // Post the payment (existing behavior)
+      // Post the payment
       const response = await axios.post(`${apiUrl}/payments`, {
         paymentMakerName,
         groupCode,
-        paymentAmount: Number(paymentAmount), // Convert amount to number
+        paymentAmount: Number(paymentAmount),
         paymentRecipientName,
       });
       devLog("Settlement payment created:", response.data);
