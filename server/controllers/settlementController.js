@@ -218,3 +218,44 @@ export const deleteAllGroupSettlements = async (req, res) => {
     sendInternalError(res);
   }
 };
+
+export const getAllGroupSettlements = async (req, res) => {
+  try {
+    const { groupCode } = req.params;
+
+    if (!groupCode) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        status: 'fail',
+        message: 'Group code is required',
+      });
+    }
+
+    devLog('Fetching all settlements for group:', { groupCode });
+
+    const settlements = await Settlement.find({ groupCode });
+
+    if (!settlements || settlements.length === 0) {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        status: 'error',
+        message: 'No settlements found for this group',
+      });
+    }
+
+    await setGroupLastActivePropertyToNow(groupCode);
+
+    res.status(StatusCodes.OK).json({
+      status: 'success',
+      results: settlements.length,
+      settlements,
+      message: 'Settlements retrieved successfully',
+    });
+  } catch (error) {
+    devLog('Error fetching group settlements:', error);
+    errorLog(
+      error,
+      'Error fetching group settlements:',
+      'Failed to retrieve group settlements. Please try again later.',
+    );
+    sendInternalError(res);
+  }
+};
