@@ -161,6 +161,31 @@ export const deleteSettlement = async (req, res) => {
   }
 };
 
+// Core function for deleting all settlements for a group (backend)
+export const deleteAllSettlementsForGroup = async (groupCode) => {
+  if (!groupCode) {
+    throw new Error('Group code is required');
+  }
+  try {
+    devLog('Deleting all settlements for group:', { groupCode });
+    const result = await Settlement.deleteMany({ groupCode });
+
+    await setGroupLastActivePropertyToNow(groupCode);
+
+    devLog(`Deleted ${result.deletedCount} settlements for group ${groupCode}`);
+    return result;
+  } catch (error) {
+    devLog('Error deleting all group settlements:', error);
+    errorLog(
+      error,
+      'Error deleting all group settlements:',
+      'Failed to delete group settlements.',
+    );
+    throw error;
+  }
+};
+
+// Express route handler
 export const deleteAllGroupSettlements = async (req, res) => {
   try {
     const { groupCode } = req.params;
