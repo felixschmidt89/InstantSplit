@@ -61,20 +61,18 @@ const ConfirmSettlementPayment = ({
   const confirmSettlementPayment = async () => {
     setError(null);
     try {
-      // If fixedDebitorCreditorOrder is false, persist all settlements and delete the confirmed one
       if (!fixedDebitorCreditorOrder) {
         // Clean settlement suggestions to include only required fields and groupCode
         const cleanedSettlements = settlementPaymentSuggestions.map(
           ({ from, to, amount }) => ({
             from,
             to,
-            amount: Number(amount), // Convert amount to number
+            amount: Number(amount),
             groupCode,
           })
         );
         devLog("Cleaned settlement suggestions payload:", cleanedSettlements);
 
-        // Validate settlements before sending
         if (
           !cleanedSettlements.length ||
           !cleanedSettlements.every(
@@ -89,18 +87,18 @@ const ConfirmSettlementPayment = ({
           settlements: cleanedSettlements,
         });
         devLog("Settlement suggestions persisted:", persistResponse.data);
-
-        // Delete the confirmed settlement
-        const deleteResponse = await axios.delete(`${apiUrl}/settlements`, {
-          data: {
-            from: paymentMakerName,
-            to: paymentRecipientName,
-            amount: Number(paymentAmount),
-            groupCode,
-          },
-        });
-        devLog("Confirmed settlement deleted:", deleteResponse.data);
       }
+
+      // Delete the confirmed settlement
+      const deleteResponse = await axios.delete(`${apiUrl}/settlements`, {
+        data: {
+          from: paymentMakerName,
+          to: paymentRecipientName,
+          amount: Number(paymentAmount),
+          groupCode,
+        },
+      });
+      devLog("Confirmed settlement deleted:", deleteResponse.data);
 
       // Post the payment
       const response = await axios.post(`${apiUrl}/payments`, {
