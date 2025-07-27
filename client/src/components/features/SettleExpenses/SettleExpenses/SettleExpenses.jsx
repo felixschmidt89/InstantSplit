@@ -43,6 +43,7 @@ const SettleExpenses = () => {
   const [statusError, setStatusError] = useState(null);
   const { groupCurrency, isFetched: groupCurrencyIsFetched } =
     useFetchGroupCurrency(groupCode);
+  const [persistedSettlements, setPersistedSettlements] = useState([]);
 
   // Fetch fixedDebitorCreditorOrder status
   useEffect(() => {
@@ -98,6 +99,24 @@ const SettleExpenses = () => {
 
     fetchAndIdentifyUnsettledUsers();
   }, [groupCode]);
+
+  useEffect(() => {
+    if (fixedDebitorCreditorOrder === true) {
+      const fetchPersistedSettlements = async () => {
+        try {
+          const response = await axios.get(
+            `${apiUrl}/settlements/${groupCode}`
+          );
+          setPersistedSettlements(response.data.settlements || []);
+          devLog("Persisted settlements fetched:", response.data);
+        } catch (error) {
+          devLog("Error fetching persisted settlements:", error);
+          setError(error.response?.data?.message || t("generic-error-message"));
+        }
+      };
+      fetchPersistedSettlements();
+    }
+  }, [fixedDebitorCreditorOrder, groupCode, t]);
 
   const { positiveBalanceUsers, negativeBalanceUsers } =
     groupUsersPerPositiveOrNegativeUserBalance(
