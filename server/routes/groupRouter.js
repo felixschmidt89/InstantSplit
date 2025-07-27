@@ -11,6 +11,8 @@ import {
   getGroupCurrency,
   changeGroupCurrency,
   changeGroupDataPurgeSetting,
+  changeFixedDebitorCreditorOrderSetting,
+  groupHasPersistedDebitorCreditorOrder,
 } from '../controllers/groupController.js';
 import developmentOnlyMiddleware from '../middleware/developmentOnlyMiddleware.js';
 import {
@@ -44,6 +46,18 @@ router.patch('/currency/:groupCode', changeGroupCurrency);
 
 // Change group inactiveDataPurge setting by groupCode
 router.patch('/inactiveDataPurge/:groupCode', changeGroupDataPurgeSetting);
+
+// Change group fixedDebitorCreditorOrder setting by groupCode
+router.patch(
+  '/fixedDebitorCreditorOrder/:groupCode',
+  changeFixedDebitorCreditorOrderSetting,
+);
+
+// Check persisted debitor/creditor index order
+router.get(
+  '/has-persisted-order/:groupCode',
+  groupHasPersistedDebitorCreditorOrder,
+);
 
 // Laxely limited check if groupCode exists in database (for continuous background active groupCode validation)
 router.get(

@@ -10,6 +10,10 @@ import { useTranslation } from "react-i18next";
 import { devLog, handleApiErrors } from "../../../../utils/errorUtils";
 import emojiConstants from "../../../../constants/emojiConstants";
 import { buttonStyles } from "../../../../constants/stylesConstants";
+import {
+  changeFixedDebitorCreditorOrderSetting,
+  deleteAllSettlementsForGroup,
+} from "../../../../utils/settlementUtils";
 
 // Hooks
 import useErrorModalVisibility from "../../../../hooks/useErrorModalVisibility";
@@ -60,6 +64,9 @@ const CreatePayment = ({ groupMembers, groupCode }) => {
         paymentRecipientName,
       });
       devLog("Payment created:", response);
+      changeFixedDebitorCreditorOrderSetting(groupCode, false);
+      deleteAllSettlementsForGroup(groupCode);
+
       navigate("/instant-split");
     } catch (error) {
       if (error.response) {

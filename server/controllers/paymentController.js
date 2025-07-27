@@ -7,7 +7,14 @@ import {
   sendValidationError,
 } from '../utils/errorUtils.js';
 import { StatusCodes } from 'http-status-codes';
-import { setGroupLastActivePropertyToNow } from '../utils/databaseUtils.js';
+import {
+  setGroupLastActivePropertyToNow,
+  updateFixedDebitorCreditorOrderSetting,
+} from '../utils/databaseUtils.js';
+import {
+  deleteAllGroupSettlements,
+  deleteAllSettlementsForGroup,
+} from './settlementController.js';
 
 export const createPayment = async (req, res) => {
   try {
@@ -143,7 +150,8 @@ export const updatePayment = async (req, res) => {
       updatedPaymentData,
       { new: true, runValidators: true },
     );
-
+    await deleteAllSettlementsForGroup(groupCode);
+    updateFixedDebitorCreditorOrderSetting(groupCode, false);
     // Update payments totals
     await Promise.all([
       paymentRecipient.updateTotalPaymentsReceived(),
@@ -212,6 +220,8 @@ export const deletePayment = async (req, res) => {
     const { paymentRecipient, paymentMaker } = paymentToDelete;
 
     await Payment.deleteOne({ _id: paymentToDelete._id });
+    await deleteAllSettlementsForGroup(groupCode);
+    updateFixedDebitorCreditorOrderSetting(groupCode, false);
 
     await paymentRecipient.updateTotalPaymentsReceived();
     await paymentMaker.updateTotalPaymentsMadeAmount();

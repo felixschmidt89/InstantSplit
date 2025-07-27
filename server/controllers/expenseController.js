@@ -10,7 +10,14 @@ import {
   sendInternalError,
   sendValidationError,
 } from '../utils/errorUtils.js';
-import { setGroupLastActivePropertyToNow } from '../utils/databaseUtils.js';
+import {
+  setGroupLastActivePropertyToNow,
+  updateFixedDebitorCreditorOrderSetting,
+} from '../utils/databaseUtils.js';
+import {
+  deleteAllGroupSettlements,
+  deleteAllSettlementsForGroup,
+} from './settlementController.js';
 
 /** Creates a new expense
  *  Updates totalExpenseAmountPaid by expense payer and totalExpenseBenefittedAmount from by expense beneficiaries
@@ -76,7 +83,8 @@ export const createExpense = async (req, res) => {
         await beneficiary.updateTotalExpenseBenefitted();
       }),
     );
-
+    await deleteAllSettlementsForGroup(groupCode);
+    updateFixedDebitorCreditorOrderSetting(groupCode, false);
     setGroupLastActivePropertyToNow(groupCode);
 
     return res.status(StatusCodes.CREATED).json({
@@ -160,6 +168,8 @@ export const updateExpense = async (req, res) => {
       { new: true, runValidators: true },
     );
 
+    await deleteAllSettlementsForGroup(groupCode);
+    updateFixedDebitorCreditorOrderSetting(groupCode, false);
     setGroupLastActivePropertyToNow(groupCode);
 
     // Update total expenses paid and total expenses benefitted for all users of the group
@@ -245,10 +255,11 @@ export const deleteExpense = async (req, res) => {
 
     const { expensePayer, expenseBeneficiaries, groupCode } = expenseToDelete;
 
-    setGroupLastActivePropertyToNow(groupCode);
-
-    // Delete the expense using the retrieved _id
     await Expense.deleteOne({ _id: expenseToDelete._id });
+
+    await deleteAllSettlementsForGroup(groupCode);
+    updateFixedDebitorCreditorOrderSetting(groupCode, false);
+    setGroupLastActivePropertyToNow(groupCode);
 
     // Update total expenses paid by the expense payer
     await expensePayer.updateTotalExpensesPaid();

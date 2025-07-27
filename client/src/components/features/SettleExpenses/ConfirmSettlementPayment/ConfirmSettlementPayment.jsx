@@ -31,18 +31,24 @@ const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
  * @param {string} props.paymentMakerName - The name of the payment maker.
  * @param {string} props.paymentRecipientName - The name of the payment recipient.
  * @param {string} props.groupCode - The group code.
+ * @param {Object[]} props.settlementPaymentSuggestions - Array of all settlement suggestions.
  * @returns {JSX.Element} React component.
  */
 const ConfirmSettlementPayment = ({
+  fixedDebitorCreditorOrder,
   paymentAmount,
   paymentMakerName,
   paymentRecipientName,
   groupCode,
   groupCurrency,
+  settlementPaymentSuggestions,
 }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [error, setError] = useState(null);
+
+  devLog("fixedDebitorCreditorOrder:", fixedDebitorCreditorOrder);
+  devLog("API URL:", apiUrl);
 
   // Get confirmation modal logic from hook, pass callbacks to be executed on confirmation
   const {
@@ -52,21 +58,67 @@ const ConfirmSettlementPayment = ({
     handleHideConfirmation,
   } = useConfirmationModalLogicAndActions(() => confirmSettlementPayment());
 
-  const confirmSettlementPayment = async (e) => {
+  const confirmSettlementPayment = async () => {
     setError(null);
     try {
+      if (!fixedDebitorCreditorOrder) {
+        // Clean settlement suggestions to include only required fields and groupCode
+        const cleanedSettlements = settlementPaymentSuggestions.map(
+          ({ from, to, amount }) => ({
+            from,
+            to,
+            amount: Number(amount),
+            groupCode,
+          })
+        );
+        devLog("Cleaned settlement suggestions payload:", cleanedSettlements);
+
+        if (
+          !cleanedSettlements.length ||
+          !cleanedSettlements.every(
+            (s) => s.from && s.to && s.amount != null && s.groupCode
+          )
+        ) {
+          throw new Error("Invalid settlement data");
+        }
+
+        // Persist all settlement suggestions
+        const persistResponse = await axios.post(`${apiUrl}/settlements`, {
+          settlements: cleanedSettlements,
+        });
+        devLog("Settlement suggestions persisted:", persistResponse.data);
+      }
+
+      // Delete the confirmed settlement
+      const deleteResponse = await axios.delete(`${apiUrl}/settlements`, {
+        data: {
+          from: paymentMakerName,
+          to: paymentRecipientName,
+          amount: Number(paymentAmount),
+          groupCode,
+        },
+      });
+      devLog("Confirmed settlement deleted:", deleteResponse.data);
+
+      // Post the payment
       const response = await axios.post(`${apiUrl}/payments`, {
         paymentMakerName,
         groupCode,
-        paymentAmount,
+        paymentAmount: Number(paymentAmount),
         paymentRecipientName,
       });
-      devLog("Settlement payment created:", response);
+      devLog("Settlement payment created:", response.data);
+
       setViewStateInLocalStorage("view2");
       navigate("/instant-split");
     } catch (error) {
-      setError(t("generic-error-message"));
-      devLog("Error creating settlement payment:", error);
+      const errorMessage =
+        error.response?.data?.message || t("generic-error-message");
+      setError(errorMessage);
+      devLog(
+        "Error in settlement payment process:",
+        error.response?.data || error.message
+      );
     }
   };
 
@@ -76,7 +128,8 @@ const ConfirmSettlementPayment = ({
         <Emoji
           ariaLabel={"payment emoji"}
           emoji={emojiConstants.payment}
-          shrinkOnSmallDevices={true}></Emoji>
+          shrinkOnSmallDevices={true}
+        />
         <span className={styles.confirmText}>
           {t("confirm-settlement-payment-button")}
         </span>
@@ -98,4 +151,5 @@ const ConfirmSettlementPayment = ({
     </div>
   );
 };
+
 export default ConfirmSettlementPayment;

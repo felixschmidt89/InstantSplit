@@ -1,6 +1,9 @@
 // Constants and Utils
+import axios from "axios";
 import { BALANCE_THRESHOLD } from "../constants/dataConstants";
 import { devLog } from "./errorUtils";
+
+const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 /**
  * Calculates suggested settlement payments between users with positive and negative balances.
@@ -18,16 +21,6 @@ export const calculateSuggestedSettlementPayments = (
   // Array to gather settlement payment suggestions
   const suggestedSettlementPayments = [];
 
-  // Sort users with positive balance from highest to lowest
-  positiveBalanceUsers.sort(
-    (a, b) => b.userBalanceCalculated - a.userBalanceCalculated
-  );
-
-  // Sort users with negative balance from lowest to highest
-  negativeBalanceUsers.sort(
-    (a, b) => a.userBalanceCalculated - b.userBalanceCalculated
-  );
-
   // Calculate settlement payment suggestions between users with negative and users with positive balance
   while (positiveBalanceUsers.length > 0 && negativeBalanceUsers.length > 0) {
     const creditor = positiveBalanceUsers[0];
@@ -41,6 +34,8 @@ export const calculateSuggestedSettlementPayments = (
 
     // Add that settlement payment suggestion to settlements array
     suggestedSettlementPayments.push({
+      debtorId: debtor._id,
+      creditorId: creditor._id,
       from: debtor.userName,
       to: creditor.userName,
       amount: amountToSettle.toFixed(2),
@@ -109,23 +104,30 @@ export const filterUnsettledUsers = (userDetails) => {
 };
 
 /**
- * Groups those users with unsettled positive user balances and those with negative user balances.
+ * Groups users with unsettled balances into those with positive and negative balances,
+ * sorting positive balances in descending order and negative balances in ascending order.
  *
- * @param {Array} unsettledUsers - Array of unsettled user details.
- * @returns {Object} - Object containing arrays of users with positive and negative balances.
+ * @param {Object[]} unsettledUsers - Array of user objects with unsettled balances.
+ * @param {number} unsettledUsers[].userBalanceCalculated - The calculated balance for the user (positive or negative).
+ * @returns {Object} An object containing two arrays:
+ * @returns {Object[]} positiveBalanceUsers - Users with positive balances (userBalanceCalculated > 0), sorted in descending order by balance.
+ * @returns {Object[]} negativeBalanceUsers - Users with negative balances (userBalanceCalculated < 0), sorted in ascending order by balance.
  */
 export const groupUsersPerPositiveOrNegativeUserBalance = (unsettledUsers) => {
   const positiveBalanceUsers = unsettledUsers
     .filter((user) => user.userBalanceCalculated > 0)
     .map((user) => ({
       ...user,
-    }));
+    }))
+    .sort((a, b) => b.userBalanceCalculated - a.userBalanceCalculated);
 
   const negativeBalanceUsers = unsettledUsers
     .filter((user) => user.userBalanceCalculated < 0)
     .map((user) => ({
       ...user,
-    }));
+    }))
+    .sort((a, b) => a.userBalanceCalculated - b.userBalanceCalculated);
+
   devLog("Users with positive balance calculated:", positiveBalanceUsers);
   devLog("Users with negative balance calculated:", negativeBalanceUsers);
 
@@ -133,4 +135,102 @@ export const groupUsersPerPositiveOrNegativeUserBalance = (unsettledUsers) => {
     positiveBalanceUsers,
     negativeBalanceUsers,
   };
+};
+
+/**
+ * Updates the fixedDebitorCreditorOrder setting for a group
+ * @param {string} groupCode - The groupCode of the group
+ * @param {boolean} fixedDebitorCreditorOrder - The new fixedDebitorCreditorOrder value
+ * @returns {Promise<Object>} - Promise resolving to { success, error, data }
+ */
+export const changeFixedDebitorCreditorOrderSetting = async (
+  groupCode,
+  fixedDebitorCreditorOrder
+) => {
+  try {
+    const response = await axios.patch(
+      `${apiUrl}/groups/fixedDebitorCreditorOrder/${groupCode}`,
+      {
+        groupCode,
+        fixedDebitorCreditorOrder,
+      }
+    );
+    devLog("fixedDebitorCreditorOrder updated:", response);
+    return {
+      success: true,
+      error: null,
+      data: response.data,
+    };
+  } catch (error) {
+    devLog("Error updating fixedDebitorCreditorOrder:", error);
+    return {
+      success: false,
+      error:
+        error.response?.data?.message ||
+        "Failed to update fixedDebitorCreditorOrder setting",
+      data: null,
+    };
+  }
+};
+
+/**
+ * Fetches whether a group has a persisted debitor/creditor order
+ * @param {string} groupCode - The groupCode of the group
+ * @returns {Promise<Object>} - Promise resolving to { success, error, data }
+ */
+export const getGroupHasPersistedDebitorCreditorOrder = async (groupCode) => {
+  try {
+    const response = await axios.get(
+      `${apiUrl}/groups/has-persisted-order/${groupCode}`
+    );
+    devLog("groupHasPersistedDebitorCreditorOrder status fetched:", response);
+    return {
+      success: true,
+      error: null,
+      data: response.data,
+    };
+  } catch (error) {
+    devLog(
+      "Error fetching groupHasPersistedDebitorCreditorOrder status:",
+      error
+    );
+    return {
+      success: false,
+      error:
+        error.response?.data?.message ||
+        "Failed to fetch groupHasPersistedDebitorCreditorOrder status",
+      data: null,
+    };
+  }
+};
+
+/**
+ * Deletes all settlements for a group by groupCode.
+ * @param {string} groupCode - The groupCode of the group.
+ * @returns {Promise<Object>} - Promise resolving to { success, error, data }
+ */
+export const deleteAllSettlementsForGroup = async (groupCode) => {
+  try {
+    if (!groupCode) {
+      throw new Error("Group code is required");
+    }
+
+    const response = await axios.delete(`${apiUrl}/settlements/${groupCode}`);
+    devLog(`All settlements for group ${groupCode} deleted:`, response.data);
+
+    return {
+      success: true,
+      error: null,
+      data: response.data,
+    };
+  } catch (error) {
+    devLog(`Error deleting all settlements for group ${groupCode}:`, error);
+    return {
+      success: false,
+      error:
+        error.response?.data?.message ||
+        `Failed to delete settlements for group ${groupCode}`,
+      data: null,
+    };
+  }
 };

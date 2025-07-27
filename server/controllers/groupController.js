@@ -4,6 +4,7 @@ import { customAlphabet } from 'nanoid';
 import Group from '../models/Group.js';
 import Expense from '../models/Expense.js';
 import Payment from '../models/Payment.js';
+import User from '../models/User.js';
 import {
   devLog,
   errorLog,
@@ -149,7 +150,6 @@ export const changeGroupDataPurgeSetting = async (req, res) => {
       { new: true }, // Return the modified document
     );
 
-    // Check if the document with the given groupCode exists
     if (!updatedGroup) {
       return res.status(StatusCodes.NOT_FOUND).json({
         status: 'error',
@@ -167,6 +167,45 @@ export const changeGroupDataPurgeSetting = async (req, res) => {
       error,
       'Error updating inactive data purge setting:',
       'Failed to update inactive data purge setting. Please try again later.',
+    );
+    sendInternalError();
+  }
+};
+
+export const changeFixedDebitorCreditorOrderSetting = async (req, res) => {
+  try {
+    const { groupCode, fixedDebitorCreditorOrder } = req.body;
+    console.log('Request Body:', req.body);
+    console.log('Updating group with groupCode:', groupCode);
+
+    const updatedGroup = await Group.findOneAndUpdate(
+      { groupCode },
+      {
+        $set: {
+          lastActive: new Date(),
+          fixedDebitorCreditorOrder,
+        },
+      },
+      { new: true }, // Return the modified document
+    );
+
+    if (!updatedGroup) {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        status: 'error',
+        message: 'Group not found with the provided groupCode',
+      });
+    }
+
+    res.status(StatusCodes.OK).json({
+      status: 'success',
+      updatedGroup,
+      message: 'Group fixedDebitorCreditor setting updated successfully',
+    });
+  } catch (error) {
+    errorLog(
+      error,
+      'Error updating fixedDebitorCreditor setting:',
+      'Failed to update fixedDebitorCreditor setting. Please try again later.',
     );
     sendInternalError();
   }
@@ -350,6 +389,55 @@ export const validateGroupExistence = async (req, res) => {
       'Failed to fetch group information. Please try again later.',
     );
     sendInternalError();
+  }
+};
+
+/**
+ * Checks if a group has a persisted debitor/creditor order.
+ * Returns the fixedDebitorCreditorOrder boolean value for the group.
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @returns {boolean} - The fixedDebitorCreditorOrder value (true or false)
+ */
+export const groupHasPersistedDebitorCreditorOrder = async (req, res) => {
+  try {
+    const { groupCode } = req.params;
+
+    devLog('Checking fixedDebitorCreditorOrder for group:', { groupCode });
+
+    // Validate groupCode
+    if (!groupCode) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        status: 'error',
+        message: 'Group code is required',
+      });
+    }
+
+    // Find group
+    const group = await Group.findOne({ groupCode }).select(
+      'fixedDebitorCreditorOrder',
+    );
+
+    if (!group) {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        status: 'error',
+        message: 'Group not found',
+      });
+    }
+
+    // Update group last active
+    await setGroupLastActivePropertyToNow(groupCode);
+
+    // Return the fixedDebitorCreditorOrder value
+    return res.status(StatusCodes.OK).json(group.fixedDebitorCreditorOrder);
+  } catch (error) {
+    devLog('Error in groupHasPersistedDebitorCreditorOrder:', error);
+    errorLog(
+      error,
+      'Error checking fixedDebitorCreditorOrder:',
+      'Failed to check fixedDebitorCreditorOrder. Please try again later.',
+    );
+    return sendInternalError(res);
   }
 };
 

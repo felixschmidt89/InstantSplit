@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 
 // Constants and Utils
 import { calculateSuggestedSettlementPayments } from "../../../../utils/settlementUtils";
+import { devLog } from "../../../../utils/errorUtils";
 
 // Components
 import ConfirmSettlementPayment from "../ConfirmSettlementPayment/ConfirmSettlementPayment";
@@ -19,13 +20,16 @@ import RenderReactIcon from "../../../common/RenderReactIcon/RenderReactIcon";
  * @param {Object} props - The properties of the component.
  * @param {Object[]} props.negativeBalanceUsers - An array of users with negative balances.
  * @param {Object[]} props.positiveBalanceUsers - An array of users with positive balances.
- *  @param {string} props.groupCurrency - The currency of the group.
- * @returns {JSX.Element} React component. */
+ * @param {string} props.groupCurrency - The currency of the group.
+ * @returns {JSX.Element} React component.
+ */
 const RenderSettlementPaymentSuggestions = ({
+  fixedDebitorCreditorOrder,
   positiveBalanceUsers,
   negativeBalanceUsers,
   groupCurrency,
   groupCode,
+  persistedSettlements,
 }) => {
   const { t } = useTranslation();
 
@@ -33,13 +37,28 @@ const RenderSettlementPaymentSuggestions = ({
     useState([]);
 
   useEffect(() => {
-    setSettlementPaymentSuggestions(
-      calculateSuggestedSettlementPayments(
-        positiveBalanceUsers,
-        negativeBalanceUsers
-      )
-    );
-  }, [negativeBalanceUsers, positiveBalanceUsers]);
+    if (fixedDebitorCreditorOrder) {
+      const formattedPersisted = persistedSettlements.map((settlement) => ({
+        from: settlement.from,
+        to: settlement.to,
+        amount: settlement.amount.toFixed(2),
+      }));
+      setSettlementPaymentSuggestions(formattedPersisted);
+      devLog("Persisted settlement payments:", formattedPersisted);
+    } else {
+      setSettlementPaymentSuggestions(
+        calculateSuggestedSettlementPayments(
+          positiveBalanceUsers,
+          negativeBalanceUsers
+        )
+      );
+    }
+  }, [
+    fixedDebitorCreditorOrder,
+    persistedSettlements,
+    positiveBalanceUsers,
+    negativeBalanceUsers,
+  ]);
 
   return (
     <div className={styles.container}>
@@ -74,6 +93,18 @@ const RenderSettlementPaymentSuggestions = ({
                 </span>
                 <span className={styles.currency}>{groupCurrency}</span>
               </div>
+            </div>
+            <div className={styles.confirm}>
+              <ConfirmSettlementPayment
+                positiveBalanceUsers={positiveBalanceUsers}
+                fixedDebitorCreditorOrder={fixedDebitorCreditorOrder}
+                paymentAmount={settlement.amount}
+                paymentMakerName={settlement.from}
+                paymentRecipientName={settlement.to}
+                groupCode={groupCode}
+                groupCurrency={groupCurrency}
+                settlementPaymentSuggestions={settlementPaymentSuggestions}
+              />
             </div>
           </li>
         ))}
