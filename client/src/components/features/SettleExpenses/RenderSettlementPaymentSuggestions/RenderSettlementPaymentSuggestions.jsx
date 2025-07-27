@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 
 // Constants and Utils
 import { calculateSuggestedSettlementPayments } from "../../../../utils/settlementUtils";
+import { devLog } from "../../../../utils/errorUtils";
 
 // Components
 import ConfirmSettlementPayment from "../ConfirmSettlementPayment/ConfirmSettlementPayment";
@@ -28,6 +29,7 @@ const RenderSettlementPaymentSuggestions = ({
   negativeBalanceUsers,
   groupCurrency,
   groupCode,
+  persistedSettlements,
 }) => {
   const { t } = useTranslation();
 
@@ -35,13 +37,28 @@ const RenderSettlementPaymentSuggestions = ({
     useState([]);
 
   useEffect(() => {
-    setSettlementPaymentSuggestions(
-      calculateSuggestedSettlementPayments(
-        positiveBalanceUsers,
-        negativeBalanceUsers
-      )
-    );
-  }, [negativeBalanceUsers, positiveBalanceUsers]);
+    if (fixedDebitorCreditorOrder) {
+      const formattedPersisted = persistedSettlements.map((settlement) => ({
+        from: settlement.from,
+        to: settlement.to,
+        amount: settlement.amount.toFixed(2),
+      }));
+      setSettlementPaymentSuggestions(formattedPersisted);
+      devLog("Persisted settlement payments:", formattedPersisted);
+    } else {
+      setSettlementPaymentSuggestions(
+        calculateSuggestedSettlementPayments(
+          positiveBalanceUsers,
+          negativeBalanceUsers
+        )
+      );
+    }
+  }, [
+    fixedDebitorCreditorOrder,
+    persistedSettlements,
+    positiveBalanceUsers,
+    negativeBalanceUsers,
+  ]);
 
   return (
     <div className={styles.container}>
