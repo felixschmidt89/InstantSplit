@@ -3,6 +3,7 @@ import {
   persistGroupSettlements,
   deleteSettlement,
   deleteAllGroupSettlements,
+  getAllGroupSettlements,
 } from '../controllers/settlementController.js';
 
 const router = express.Router();
