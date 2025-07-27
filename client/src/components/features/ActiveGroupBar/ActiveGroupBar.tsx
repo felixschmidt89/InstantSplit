@@ -66,7 +66,7 @@ const ActiveGroupBar = () => {
         ariaLabel='add expense emoji'
       />
       {/* Button for navigating to adding payments */}
-      <GroupActionsEmojiButton
+      {/* <GroupActionsEmojiButton
         route={"create-payment"}
         emoji={emojiConstants.payment}
         translateX={0}
@@ -75,7 +75,7 @@ const ActiveGroupBar = () => {
         explanationText={t("active-group-bar-payment-emoji-copy")}
         explanationTextTranslateX={isSlimDevice ? 0.6 : 0.7}
         ariaLabel='add payment emoji'
-      />
+      /> */}
       {/* Button for navigating to settling expenses */}
       <GroupActionsEmojiButton
         route={"settle-expenses"}
