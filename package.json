@@ -1,0 +1,17 @@
+{
+  "name": "instantspilt",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace=client\" \"npm run start --workspace=server\"",
+    "start:client": "npm run dev --workspace=client",
+    "start:server": "npm run start --workspace=server"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "workspaces": [
+    "client",
+    "server"
+  ]
+}
