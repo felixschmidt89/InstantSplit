@@ -19,7 +19,7 @@ const Footer = () => {
       </span>
       {/* GitHub repository */}
       <a
-        href='https://github.com/felixschmidt89/InstantSpilt'
+        href='https://github.com/felixschmidt89/InstantSplit'
         target='_blank'
         rel='noopener noreferrer'
         className={styles.link}>
