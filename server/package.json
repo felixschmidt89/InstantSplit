@@ -1,6 +1,6 @@
 {
-  "name": "instantsplit",
-  "version": "1.0.0",
+  "name": "instant-split",
+  "version": "0.0.0",
   "description": "",
   "main": "server.js",
   "type": "module",

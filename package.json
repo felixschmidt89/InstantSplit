@@ -1,6 +1,6 @@
 {
-  "name": "instantspilt",
-  "version": "1.0.0",
+  "name": "instant-split",
+  "version": "1.0.1",
   "private": true,
   "scripts": {
     "dev": "concurrently \"npm run dev --workspace=client\" \"npm run start --workspace=server\"",
