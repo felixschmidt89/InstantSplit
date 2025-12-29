@@ -1,7 +1,7 @@
 {
-  "name": "InstantSplit",
+  "name": "instant-split-client",
   "private": true,
-  "version": "1.0.0",
+  "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -12,7 +12,6 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "publish": "git checkout main && npm run build && netlify deploy --site b690580e-da9b-4e86-a5e4-f83bd4f69c6d --prod",
-    "dev-publish": "git checkout dev && npm run build && netlify deploy --site e96b9f13-2ad5-425a-914f-218bba59cced --prod",
     "generate-pwa-assets": "pwa-assets-generator --preset minimal public/android-chrome-512x512.png"
   },
   "dependencies": {
@@ -24,6 +23,7 @@
     "@mui/material": "^5.15.10",
     "@testing-library/react": "^14.2.2",
     "axios": "^1.5.0",
+    "cloudinary": "2.8.0",
     "cypress-vite": "^1.5.0",
     "fontfaceobserver": "^2.3.0",
     "framer-motion": "^11.0.5",
@@ -31,6 +31,8 @@
     "http-status-codes": "^2.3.0",
     "i18next": "^23.10.0",
     "i18next-http-backend": "^2.5.0",
+    "nanoid": "5.1.6",
+    "nodemailer": "7.0.12",
     "react": "^18.2.0",
     "react-device-detect": "^2.2.3",
     "react-dom": "^18.2.0",
@@ -38,6 +40,7 @@
     "react-i18next": "^14.0.5",
     "react-icons": "^4.12.0",
     "react-router-dom": "^6.16.0",
+    "react-snap": "1.13.1",
     "react-use-localstorage": "^3.5.3",
     "react-use-pwa-install": "^0.2.4"
   },
@@ -45,14 +48,11 @@
     "@babel/core": "^7.23.9",
     "@babel/preset-env": "^7.23.9",
     "@babel/preset-react": "^7.23.3",
-    "@testing-library/react-hooks": "^8.0.1",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@vite-pwa/assets-generator": "^0.2.4",
     "@vitejs/plugin-react": "^4.0.3",
-    "babel-core": "^4.7.16",
     "babel-jest": "^29.7.0",
-    "create-vite": "^4.4.1",
     "cypress": "^13.7.1",
     "eslint": "^8.56.0",
     "eslint-config-react-app": "^7.0.1",
@@ -63,10 +63,8 @@
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "jsdom": "^24.0.0",
-    "react-app-rewired": "^2.2.1",
-    "vite": "^4.4.5",
+    "vite": "^7.3.0",
     "vite-plugin-eslint": "^1.8.1",
-    "vite-plugin-pwa": "^0.19.0",
-    "workbox-webpack-plugin": "^4.3.1"
+    "vite-plugin-pwa": "^1.2.0"
   }
 }
