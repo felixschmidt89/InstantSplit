@@ -1,5 +1,5 @@
 {
-  "name": "instant-split",
+  "name": "instant-split-server",
   "version": "0.0.0",
   "description": "",
   "main": "server.js",
