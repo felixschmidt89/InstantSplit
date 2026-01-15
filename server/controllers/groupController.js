@@ -13,18 +13,10 @@ import {
 } from '../utils/errorUtils.js';
 import { generateUniqueGroupCode } from '../utils/groupCodeUtils.js';
 import { setGroupLastActivePropertyToNow } from '../utils/databaseUtils.js';
+import { isDevelopmentEnvironment } from '../utils/isDevelopmentEnvironment.js';
 
-// Get email credentials from environment variables
 const emailUser = process.env.EMAIL_USER;
 const emailPass = process.env.EMAIL_PASS;
-
-/**
- * Creates a new group with a globally unique group ID
- * @param {Object} req
- * @param {Object} res
- * @returns {Object} The created group object.
- *
- */
 
 export const createGroup = async (req, res) => {
   try {
@@ -34,45 +26,39 @@ export const createGroup = async (req, res) => {
     const group = await Group.create({
       groupName,
       groupCode,
-      initialGroupName: groupName, // Set initialGroupName during creation
+      initialGroupName: groupName,
     });
 
-    // Send email notification in production
-    if (process.env.NODE_ENV === 'production') {
-      // Create a transporter using email service's SMTP settings
-      const transporter = nodemailer.createTransport({
-        host: 'smtp.strato.de',
-        port: 465,
-        secure: true,
-        auth: {
-          user: process.env.EMAIL_USER,
-          pass: process.env.EMAIL_PASS,
-        },
-      });
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.strato.de',
+      port: 465,
+      secure: true,
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
 
-      // Define the email notification copy
-      const mailOptions = {
-        from: 'admin@instantsplit.de',
-        to: 'felix.schmidt@directbox.com',
-        subject: `New group ${groupName} created`,
-        text: `
+    const mailOptions = {
+      from: 'admin@instantsplit.de',
+      to: 'felix.schmidt@directbox.com',
+      subject: `${isDevelopmentEnvironment ? '[DEV] ' : ''}New group ${groupName} created`,
+      text: `
       GroupName: "${groupName}"
       `,
-      };
+    };
 
-      // Log error, else send
-      transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-          errorLog(
-            error,
-            'Error sending group creation email:',
-            'Failed to send group creation email. Please try again later.',
-          );
-        } else {
-          console.log('Email sent:', info.response);
-        }
-      });
-    }
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        errorLog(
+          error,
+          'Error sending group creation email:',
+          'Failed to send group creation email. Please try again later.',
+        );
+      } else {
+        console.log('Email sent:', info.response);
+      }
+    });
 
     setGroupLastActivePropertyToNow(groupCode);
 
