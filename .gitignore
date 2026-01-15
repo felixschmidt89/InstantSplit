@@ -3,6 +3,7 @@ config.dev.env
 config.prod.env
 .env.development
 .env.production
+.env.test
 
 # Dependencies, build & dist folders
 node_modules/
