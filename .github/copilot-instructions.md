@@ -52,53 +52,24 @@ applyTo: "**"
 - **Props:** Do **NOT** use `propTypes`.
 - **Destructuring:** Always destructure props and objects.
 - **Styles:**
-  - Adhere to **BEM**.
   - use classnames package for conditional classes.
   - Try to apply CSS for styles first, only use JavaScript if absolutely necessary.
   - Do not use px units, use rem/em/%/vh/vw
 
-### 5. CSS Guidelines
-
-When generating styles, adhere strictly to the **BEM (Block Element Modifier)** methodology using parent selectors (`&`).
-
-#### Reference Example
-
-Use the following structure as the standard for component styling:
-
-```scss
-.assay-engine-assay-system-matrix {
-  &__wrapper {
-    display: flex;
-    align-items: center;
-    position: relative;
-  }
-
-  &__table {
-    flex-grow: 1;
-    overflow-x: hidden;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    table-layout: fixed;
-  }
-}
-```
-
-### 6. Labeling & Translation Rules
+### 5. Labeling & Translation Rules
 
 tbd
 
-### 7. Refactoring Guidelines
+### 6. Refactoring Guidelines
 
-This is a legacy codebase. When refactoring, ensure:
+This is a legacy codebase. When we work on existing files, we always want to refactor for better readability and maintainability, while ensuring minimal side effects. Follow these guidelines:
 
+- Drop JSDoc wherever used.
+- Drop import comments
+- Drop comments unless they add significant value.
+- Reevaluate variable and function names for clarity; rename only with confirmation.
+- Reorganize code structure for logical flow; seek confirmation before major changes.
 - **Minimal Side Effects:** Avoid changes that could introduce bugs.
 - **Preserve Functionality:** Ensure existing features remain intact.
 - **Incremental Changes:** Make small, manageable changes rather than large overhauls. Wait for confirmation before proceeding with significant refactors.
 - **Testing:** After refactoring, ensure all existing tests pass. If no tests exist, recommend adding them. Use jest and react-testing-library for testing.
-- **Documentation:**
-  - Drop JSDoc wherever used.
-  - Drop import comments that describe obvious functionality.
-  - Generally drop comments unless they add significant value.
