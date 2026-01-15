@@ -38,6 +38,7 @@ const CreateGroupMemberForm = ({ incrementRerenderTrigger, groupCode }) => {
 
   // Autofocus input field on mount
   useEffect(() => {
+    console.log("apiUrl", apiUrl);
     inputRef.current.focus();
   }, []);
 
