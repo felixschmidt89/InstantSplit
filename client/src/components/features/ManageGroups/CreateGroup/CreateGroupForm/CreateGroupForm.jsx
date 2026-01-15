@@ -96,19 +96,20 @@ const CreateGroupForm = ({ isExistingUser = false }) => {
         placeholder={t("create-group-group-name-placeholder")}
         ref={inputRef}
       />
+      {/* TODO: Re-enable FriendlyCaptcha validation & ensure it's working on test deploy too */}
       {/* For new users: only render submit button, if FriendlyCaptcha is verified*/}
-      {(friendlyCaptchaIsVerified || isExistingUser) && (
+      {/* {(friendlyCaptchaIsVerified || isExistingUser) && (
         <FormSubmitButton {...plusFormSubmitButtonStyles} />
-      )}
-
+      )} */}
       {/* For new users: render FriendlyCaptcha*/}
-      {!isExistingUser && (
+      {/* {!isExistingUser && (
         <FriendlyCaptcha
           sitekey={import.meta.env.VITE_FRIENDLY_CAPTCHA_SITEKEY}
           secret={import.meta.env.VITE_FRIENDLY_CAPTCHA_SECRET}
           setFriendlyCaptchaIsVerified={setFriendlyCaptchaIsVerified}
         />
-      )}
+      )} */}
+      <FormSubmitButton {...plusFormSubmitButtonStyles} />
       <ErrorModal
         error={error}
         onClose={handleCloseErrorModal}
