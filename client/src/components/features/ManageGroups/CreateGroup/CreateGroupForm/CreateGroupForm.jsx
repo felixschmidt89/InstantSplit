@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
-// import "friendly-challenge/widget";
 
 import { devLog, handleApiErrors } from "../../../../../utils/errorUtils";
 import {
@@ -12,12 +11,9 @@ import {
 } from "../../../../../utils/localStorageUtils";
 import { plusFormSubmitButtonStyles } from "../../../../../constants/stylesConstants";
 import { replaceSlashesWithDashes } from "../../../../../utils/replaceSlashesWithDashes";
-
 import useErrorModalVisibility from "../../../../../hooks/useErrorModalVisibility";
-
 import FormSubmitButton from "../../../../common/FormSubmitButton/FormSubmitButton";
 import ErrorModal from "../../../../common/ErrorModal/ErrorModal";
-// import FriendlyCaptcha from "../../../../common/FriendlyCaptcha/FriendlyCaptcha";
 
 import styles from "./CreateGroupForm.module.css";
 
@@ -29,10 +25,9 @@ const CreateGroupForm = ({ isExistingUser = false }) => {
   const inputRef = useRef(null);
   const [groupName, setGroupName] = useState(null);
   const [error, setError] = useState(null);
-  // const [friendlyCaptchaIsVerified, setFriendlyCaptchaIsVerified] =
-  //   useState(false);
 
-  devLog("Is existing user", isExistingUser);
+  console.log("API URL:", apiUrl);
+  console.log("All env vars:", import.meta.env);
 
   const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
     useErrorModalVisibility();
@@ -45,7 +40,6 @@ const CreateGroupForm = ({ isExistingUser = false }) => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    console.log("apiURL", apiUrl);
     setError(null);
     try {
       const response = await axios.post(`${apiUrl}/groups`, {
@@ -83,19 +77,6 @@ const CreateGroupForm = ({ isExistingUser = false }) => {
         placeholder={t("create-group-group-name-placeholder")}
         ref={inputRef}
       />
-      {/* TODO: Re-enable FriendlyCaptcha validation & ensure it's working on test deploy too */}
-      {/* For new users: only render submit button, if FriendlyCaptcha is verified*/}
-      {/* {(friendlyCaptchaIsVerified || isExistingUser) && (
-        <FormSubmitButton {...plusFormSubmitButtonStyles} />
-      )} */}
-      {/* For new users: render FriendlyCaptcha*/}
-      {/* {!isExistingUser && (
-        <FriendlyCaptcha
-          sitekey={import.meta.env.VITE_FRIENDLY_CAPTCHA_SITEKEY}
-          secret={import.meta.env.VITE_FRIENDLY_CAPTCHA_SECRET}
-          setFriendlyCaptchaIsVerified={setFriendlyCaptchaIsVerified}
-        />
-      )} */}
       <FormSubmitButton {...plusFormSubmitButtonStyles} />
       <ErrorModal
         error={error}
