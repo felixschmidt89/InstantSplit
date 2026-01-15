@@ -45,6 +45,7 @@ const CreateGroupForm = ({ isExistingUser = false }) => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+    console.log("apiURL", apiUrl);
     setError(null);
     try {
       const response = await axios.post(`${apiUrl}/groups`, {
