@@ -2,7 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import { setGroupLastActivePropertyToNow } from '../utils/databaseUtils.js';
 import Feedback from '../models/Feedback.js';
 import { errorLog, sendInternalError } from '../utils/errorUtils.js';
-import { createAdminEmailTransporter } from '../config/adminNotificationEmailConfig.js';
+import { sendAdminEmailNotification } from '../config/adminNotificationEmailConfig.js';
 import { generateFeedbackEmailOptions } from '../utils/adminNotificationEmailTemplates.js';
 
 export const createFeedback = async (req, res) => {
@@ -30,19 +30,7 @@ export const createFeedback = async (req, res) => {
       fileId,
     });
 
-    const transporter = createAdminEmailTransporter();
-
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        errorLog(
-          error,
-          'Error sending feedback email:',
-          'Failed to send feedback email. Please try again later.',
-        );
-      } else {
-        console.log('Email sent:', info.response);
-      }
-    });
+    sendAdminEmailNotification(mailOptions);
 
     return res.status(StatusCodes.CREATED).json({
       status: 'success',

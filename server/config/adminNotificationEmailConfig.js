@@ -4,11 +4,11 @@ import { devLog, errorLog } from '../utils/errorUtils.js';
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const adminEmailAddresses = {
-  sender: 'admin@instantsplit.de',
+  sender: 'admin@notifications.instantsplit.de',
   recipient: 'felix.schmidt@directbox.com',
 };
 
-export const sendAdminNotification = async (mailOptions) => {
+export const sendAdminEmailNotification = async (mailOptions) => {
   try {
     const { from, to, subject, text } = mailOptions;
 
@@ -19,17 +19,15 @@ export const sendAdminNotification = async (mailOptions) => {
       text,
     });
 
-    if (error) {
-      throw error;
-    }
+    if (error) throw error;
 
-    devLog('Admin notification sent successfully');
+    devLog('Admin email notification sent successfully');
     return data;
   } catch (error) {
     errorLog(
       error,
-      'Error sending admin notification via Resend:',
-      'Failed to send notification email. Please try again later.',
+      'Error sending admin email:',
+      'Failed to send notification email.',
     );
     return null;
   }

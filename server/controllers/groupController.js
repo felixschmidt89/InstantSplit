@@ -12,8 +12,8 @@ import {
 } from '../utils/errorUtils.js';
 import { generateUniqueGroupCode } from '../utils/groupCodeUtils.js';
 import { setGroupLastActivePropertyToNow } from '../utils/databaseUtils.js';
-import { createAdminEmailTransporter } from '../config/adminNotificationEmailConfig.js';
 import { generateGroupCreationEmailOptions } from '../utils/adminNotificationEmailTemplates.js';
+import { sendAdminEmailNotification } from '../config/adminNotificationEmailConfig.js';
 
 export const createGroup = async (req, res) => {
   try {
@@ -28,19 +28,7 @@ export const createGroup = async (req, res) => {
 
     const mailOptions = generateGroupCreationEmailOptions(groupName);
 
-    const transporter = createAdminEmailTransporter();
-
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        errorLog(
-          error,
-          'Error sending group creation email:',
-          'Failed to send group creation email. Please try again later.',
-        );
-      } else {
-        console.log('Email sent:', info.response);
-      }
-    });
+    sendAdminEmailNotification(mailOptions);
 
     setGroupLastActivePropertyToNow(groupCode);
 
@@ -389,6 +377,7 @@ export const groupHasPersistedDebitorCreditorOrder = async (req, res) => {
   }
 };
 // TODO: Ensure that this function is limited to development mode only
+
 export const listAllGroups = async (req, res) => {
   try {
     const groups = await Group.find();
@@ -407,8 +396,8 @@ export const listAllGroups = async (req, res) => {
     sendInternalError(res, error);
   }
 };
-
 // TODO: Ensure that this function is limited to development mode only
+
 export const deleteAllGroups = async (req, res) => {
   try {
     await Group.deleteMany();

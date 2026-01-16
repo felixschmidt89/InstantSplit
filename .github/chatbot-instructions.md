@@ -23,9 +23,13 @@
 - **Code Blocks:** Print in **ONE single block**. Do not split imports/logic.
 - **Inline Code:** Present code inline.
 - **Comments:**
+
   - **NEVER:** Add extra comments unless requested.
   - **NEVER:** Use JSDoc comments
+  - **NEVER:** Change comments that include "TODO:"
+
   <!-- - **ALWAYS:** Keep existing comments as-is. -->
+
 - **Naming:**
   - **NEVER** use abbreviations, always use full descriptive names
   - **NEVER** Change existing names. Highlight incorrect names for review though
