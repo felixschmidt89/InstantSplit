@@ -8,7 +8,7 @@ export const generateGroupCreationEmailOptions = (groupName) => ({
   from: adminEmailAddresses.sender,
   to: adminEmailAddresses.recipient,
   subject: `${getEmailSubjectPrefix()}New group ${groupName} created`,
-  text: `GroupName: "${groupName}"`,
+  text: `GroupName: ${groupName}`,
 });
 
 export const generateFeedbackEmailOptions = (feedbackData) => {
@@ -17,16 +17,13 @@ export const generateFeedbackEmailOptions = (feedbackData) => {
   return {
     from: adminEmailAddresses.sender,
     to: adminEmailAddresses.recipient,
-    subject: `${getEmailSubjectPrefix()}New feedback created`,
-    text: `A new feedback has been created by ${name}.
+    subject: `${getEmailSubjectPrefix()}New feedback sent`,
+    text: `A new feedback has been sent by ${name}.
       
-      Type: "${messageType}"
-
-      Text: "${feedback}"
-
-      Groupcode: "${groupCode}"
-
-      FileId: "${fileId || 'No file attached'}"
+      Type: ${messageType}
+      Text: ${feedback}
+      Groupcode: ${groupCode}
+      FileId: ${fileId || 'No file attached'}
       `,
   };
 };
