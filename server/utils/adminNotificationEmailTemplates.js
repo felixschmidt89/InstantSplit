@@ -17,7 +17,7 @@ export const generateFeedbackEmailOptions = (feedbackData) => {
   return {
     from: adminEmailAddresses.sender,
     to: adminEmailAddresses.recipient,
-    subject: `${getEmailSubjectPrefix()}New feedback sent`,
+    subject: `${getEmailSubjectPrefix()}New feedback received`,
     text: `A new feedback has been sent by ${name}.
       
       Type: ${messageType}
