@@ -11,8 +11,8 @@
     "test:cypress": "cypress open",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "deploy:prod": "git checkout main && npm run build && netlify deploy --site b690580e-da9b-4e86-a5e4-f83bd4f69c6d --prod",
-    "deploy:test": "git checkout test && vite build --mode test && netlify deploy --site 0fd6451b-70ad-4f77-ac8e-9490899cef3c --prod",
+    "deploy:prod": "git checkout main && git pull origin main && npm run build && netlify deploy --site b690580e-da9b-4e86-a5e4-f83bd4f69c6d --prod",
+    "deploy:test": "git checkout test && git pull origin test && vite build --mode test && netlify deploy --site 0fd6451b-70ad-4f77-ac8e-9490899cef3c --prod",
     "generate-pwa-assets": "pwa-assets-generator --preset minimal public/android-chrome-512x512.png"
   },
   "dependencies": {

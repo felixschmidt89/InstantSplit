@@ -32,11 +32,9 @@ const CreateGroupMemberForm = ({ incrementRerenderTrigger, groupCode }) => {
   const [userName, setUserName] = useState(null);
   const [error, setError] = useState(null);
 
-  // Get error modal visibility logic
   const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
     useErrorModalVisibility();
 
-  // Autofocus input field on mount
   useEffect(() => {
     inputRef.current.focus();
   }, []);

@@ -1,40 +1,25 @@
-// React and Third-Party Libraries
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useTranslation } from "react-i18next";
 
-// Constants and Utils
 import { submitOnEnterClick } from "../../../../utils/formUtils";
 import { sendFormSubmitButtonStyles } from "../../../../constants/stylesConstants";
 
-// Hooks
 import useErrorModalVisibility from "../../../../hooks/useErrorModalVisibility";
 
-// Components
 import FormSubmitButton from "../../../common/FormSubmitButton/FormSubmitButton";
 import ErrorModal from "../../../common/ErrorModal/ErrorModal";
-import FriendlyCaptcha from "../../../common/FriendlyCaptcha/FriendlyCaptcha";
 
-// Styles
 import styles from "./ValidateGroupCode.module.css";
 
-/**
- * React component for validating a group code.
- * @param {Object} props - Component props.
- * @param {boolean} [props.isExistingUser=false] - Flag to render different header and placeholder dependant on user.
- * @returns {JSX.Element} React component.
- */
 const ValidateGroupCode = ({ isExistingUser = false }) => {
   const { t } = useTranslation();
-  const groupCode = localStorage.getItem("activeGroupCode");
-  const [friendlyCaptchaIsVerified, setFriendlyCaptchaIsVerified] =
-    useState(false);
+  // const groupCode = localStorage.getItem("activeGroupCode");
   const [toBeValidatedGroupCode, setToBeValidatedGroupCode] = useState(null);
   const navigate = useNavigate();
   const [error, setError] = useState(null);
 
-  // Get error modal visibility logic
   const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
     useErrorModalVisibility();
 
@@ -72,18 +57,20 @@ const ValidateGroupCode = ({ isExistingUser = false }) => {
           onChange={(e) => setToBeValidatedGroupCode(e.target.value)}
           onKeyDown={handleKeyDown}
         />
+        {/* TODO: Re-enable FriendlyCaptcha validation & ensure it's working on test deploy too */}
         {/* For new users: only render submit button, if FriendlyCaptcha is verified*/}
-        {(friendlyCaptchaIsVerified || groupCode) && (
+        {/* {(friendlyCaptchaIsVerified || groupCode) && (
           <FormSubmitButton {...sendFormSubmitButtonStyles} />
-        )}
+        )} */}
         {/* For new users: render FriendlyCaptcha*/}
-        {!isExistingUser && (
+        {/* {!isExistingUser && (
           <FriendlyCaptcha
             sitekey={import.meta.env.VITE_FRIENDLY_CAPTCHA_SITEKEY}
             secret={import.meta.env.VITE_FRIENDLY_CAPTCHA_SECRET}
             setFriendlyCaptchaIsVerified={setFriendlyCaptchaIsVerified}
           />
-        )}
+        )} */}
+        <FormSubmitButton {...sendFormSubmitButtonStyles} />
       </form>
       <ErrorModal
         error={error}
