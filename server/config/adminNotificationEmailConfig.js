@@ -1,5 +1,10 @@
 import nodemailer from 'nodemailer';
 
+export const adminEmailAddresses = {
+  sender: 'admin@instantsplit.de',
+  recipient: 'felix.schmidt@directbox.com',
+};
+
 export const adminEmailTransporter = nodemailer.createTransport({
   host: 'smtp.strato.de',
   port: 465,

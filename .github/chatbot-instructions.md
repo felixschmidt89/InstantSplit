@@ -19,7 +19,7 @@
 ## 3. General Formatting & Output
 
 - **Style:** Bullet points. Concise.
-- **Code Changes:** Highlight your changes to code provided as a comment using this prefix "CODECHANGE:"
+- **Code Changes:** Highlight your changes to code provided as inline comments using prefix "CODECHANGE:"
 - **Code Blocks:** Print in **ONE single block**. Do not split imports/logic.
 - **Inline Code:** Present code inline.
 - **Comments:**
@@ -39,7 +39,7 @@
 - **Commit Messages (Angular Style):**
   - Format: `type: subject` (e.g., `feat: apply primary attribute`).
   - No brackets, no body/footer.
-  - **Only** provide when new code is generated: `git add . && git commit -m "..."`
+  - **Only** provide when you have provided new code: `git add . && git commit -m "..."`
 
 ## 4. Coding Standards: React & JS
 
