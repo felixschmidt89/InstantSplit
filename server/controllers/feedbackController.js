@@ -1,13 +1,11 @@
 import { StatusCodes } from 'http-status-codes';
-import nodemailer from 'nodemailer';
 import { setGroupLastActivePropertyToNow } from '../utils/databaseUtils.js';
-
 import Feedback from '../models/Feedback.js';
-
 import { errorLog, sendInternalError } from '../utils/errorUtils.js';
-
-const emailUser = process.env.EMAIL_USER;
-const emailPass = process.env.EMAIL_PASS;
+import {
+  getAdminEmailTransporter,
+  adminEmailAddresses,
+} from '../config/adminNotificationEmailConfig.js';
 
 export const createFeedback = async (req, res) => {
   try {
@@ -26,19 +24,9 @@ export const createFeedback = async (req, res) => {
 
     const savedFeedback = await newFeedback.save();
 
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.strato.de',
-      port: 465,
-      secure: true,
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
-
     const mailOptions = {
-      from: 'admin@instantsplit.de',
-      to: 'felix.schmidt@directbox.com',
+      from: adminEmailAddresses.sender,
+      to: adminEmailAddresses.recipient,
       subject: 'New feedback created',
       text: `A new feedback has been created by ${name}.
       
@@ -52,7 +40,8 @@ export const createFeedback = async (req, res) => {
       `,
     };
 
-    // Log error, else send
+    const transporter = getAdminEmailTransporter();
+
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         errorLog(
