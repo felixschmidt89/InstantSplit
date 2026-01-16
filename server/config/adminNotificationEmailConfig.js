@@ -5,7 +5,7 @@ export const adminEmailAddresses = {
   recipient: 'felix.schmidt@directbox.com',
 };
 
-export const getAdminEmailTransporter = () => {
+export const createAdminEmailTransporter = () => {
   return nodemailer.createTransport({
     host: 'smtp.strato.de',
     port: 465,

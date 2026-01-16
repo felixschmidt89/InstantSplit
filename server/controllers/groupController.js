@@ -12,13 +12,8 @@ import {
 } from '../utils/errorUtils.js';
 import { generateUniqueGroupCode } from '../utils/groupCodeUtils.js';
 import { setGroupLastActivePropertyToNow } from '../utils/databaseUtils.js';
-import { isDevelopmentEnvironment } from '../utils/isDevelopmentEnvironment.js';
-import {
-  getAdminEmailTransporter,
-  adminEmailAddresses,
-} from '../config/adminNotificationEmailConfig.js';
-
-// CODECHANGE: Removed top-level email credential variables and nodemailer import
+import { createAdminEmailTransporter } from '../config/adminNotificationEmailConfig.js';
+import { generateGroupCreationEmailOptions } from '../utils/adminNotificationEmailTemplates.js';
 
 export const createGroup = async (req, res) => {
   try {
@@ -31,17 +26,9 @@ export const createGroup = async (req, res) => {
       initialGroupName: groupName,
     });
 
-    // CODECHANGE: Use lazy initialization for transporter and centralized addresses
-    const mailOptions = {
-      from: adminEmailAddresses.sender,
-      to: adminEmailAddresses.recipient,
-      subject: `${isDevelopmentEnvironment ? '[DEV] ' : '[PROD] '}New group ${groupName} created`,
-      text: `
-      GroupName: "${groupName}"
-      `,
-    };
+    const mailOptions = generateGroupCreationEmailOptions(groupName);
 
-    const transporter = getAdminEmailTransporter();
+    const transporter = createAdminEmailTransporter();
 
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
@@ -401,8 +388,7 @@ export const groupHasPersistedDebitorCreditorOrder = async (req, res) => {
     return sendInternalError(res, error);
   }
 };
-// FOR DEVELOPMENT/DEBUGGING PURPOSES ONLY
-
+// TODO: Ensure that this function is limited to development mode only
 export const listAllGroups = async (req, res) => {
   try {
     const groups = await Group.find();
@@ -422,6 +408,7 @@ export const listAllGroups = async (req, res) => {
   }
 };
 
+// TODO: Ensure that this function is limited to development mode only
 export const deleteAllGroups = async (req, res) => {
   try {
     await Group.deleteMany();

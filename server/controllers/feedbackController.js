@@ -2,10 +2,8 @@ import { StatusCodes } from 'http-status-codes';
 import { setGroupLastActivePropertyToNow } from '../utils/databaseUtils.js';
 import Feedback from '../models/Feedback.js';
 import { errorLog, sendInternalError } from '../utils/errorUtils.js';
-import {
-  getAdminEmailTransporter,
-  adminEmailAddresses,
-} from '../config/adminNotificationEmailConfig.js';
+import { createAdminEmailTransporter } from '../config/adminNotificationEmailConfig.js';
+import { generateFeedbackEmailOptions } from '../utils/adminNotificationEmailTemplates.js';
 
 export const createFeedback = async (req, res) => {
   try {
@@ -24,23 +22,15 @@ export const createFeedback = async (req, res) => {
 
     const savedFeedback = await newFeedback.save();
 
-    const mailOptions = {
-      from: adminEmailAddresses.sender,
-      to: adminEmailAddresses.recipient,
-      subject: 'New feedback created',
-      text: `A new feedback has been created by ${name}.
-      
-      Type: "${messageType}"
+    const mailOptions = generateFeedbackEmailOptions({
+      name,
+      messageType,
+      feedback,
+      groupCode,
+      fileId,
+    });
 
-      Text: "${feedback}"
-
-      Groupcode: "${groupCode}"
-
-      FileId: "${fileId || 'No file attached'}"
-      `,
-    };
-
-    const transporter = getAdminEmailTransporter();
+    const transporter = createAdminEmailTransporter();
 
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
