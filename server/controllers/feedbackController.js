@@ -6,15 +6,9 @@ import Feedback from '../models/Feedback.js';
 
 import { errorLog, sendInternalError } from '../utils/errorUtils.js';
 
-// Get email credentials from environment variables
 const emailUser = process.env.EMAIL_USER;
 const emailPass = process.env.EMAIL_PASS;
 
-/**
- * Creates a new feedback entry in the database and sends an email notification using nodemailer to the InstantSplit admin.
- * @param {Object} req -
- * @param {Object} res -
- */
 export const createFeedback = async (req, res) => {
   try {
     const { name, email, messageType, feedback, groupCode, fileId } = req.body;
@@ -32,7 +26,6 @@ export const createFeedback = async (req, res) => {
 
     const savedFeedback = await newFeedback.save();
 
-    // Create a transporter using email service's SMTP settings
     const transporter = nodemailer.createTransport({
       host: 'smtp.strato.de',
       port: 465,
@@ -43,7 +36,6 @@ export const createFeedback = async (req, res) => {
       },
     });
 
-    // Define the email notification copy
     const mailOptions = {
       from: 'admin@instantsplit.de',
       to: 'felix.schmidt@directbox.com',

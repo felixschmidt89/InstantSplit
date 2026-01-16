@@ -28,10 +28,11 @@ applyTo: "**"
 - **Inline Code:** Present code inline.
 - **Comments:**
   - **NEVER:** Add extra comments unless requested.
-  - **ALWAYS:** Keep existing comments as-is.
+  - **NEVER:** Use JSDoc comments
+  <!-- - **ALWAYS:** Keep existing comments as-is. -->
 - **Naming:**
   - **NEVER** use abbreviations, always use full descriptive names
-  - **NEVER** Change existing names.
+  - **NEVER** Change existing names. Highlight incorrect names for review though
   - **When introducing new names and functions** Always use descriptive names and ask for confirmation prior to implementation.
   - **When told to implement name with typo** Always ask if that was intentional prior to implementation.
   - **Event Props:** Use the on[Subject][Action] format (e.g., onButtonToggle) when specificity is required. NEVER name the prop after the component itself (e.g., onToggleButton).
