@@ -12,13 +12,12 @@ import {
 } from "../../../../../utils/localStorageUtils";
 import { plusFormSubmitButtonStyles } from "../../../../../constants/stylesConstants";
 import { replaceSlashesWithDashes } from "../../../../../utils/replaceSlashesWithDashes";
-
 import useErrorModalVisibility from "../../../../../hooks/useErrorModalVisibility";
-
 import FormSubmitButton from "../../../../common/FormSubmitButton/FormSubmitButton";
 import ErrorModal from "../../../../common/ErrorModal/ErrorModal";
+//TODO: Re-enable FriendlyCaptcha validation
 // import FriendlyCaptcha from "../../../../common/FriendlyCaptcha/FriendlyCaptcha";
-
+import { ROUTES } from "../../../../../constants/routesConstants";
 import styles from "./CreateGroupForm.module.css";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
@@ -27,8 +26,10 @@ const CreateGroupForm = ({ isExistingUser = false }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const inputRef = useRef(null);
-  const [groupName, setGroupName] = useState(null);
+
+  const [groupName, setGroupName] = useState("");
   const [error, setError] = useState(null);
+  //TODO: Re-enable FriendlyCaptcha validation
   // const [friendlyCaptchaIsVerified, setFriendlyCaptchaIsVerified] =
   //   useState(false);
 
@@ -39,7 +40,7 @@ const CreateGroupForm = ({ isExistingUser = false }) => {
 
   useEffect(() => {
     if (!isExistingUser) {
-      inputRef.current.focus();
+      inputRef.current?.focus();
     }
   }, [isExistingUser]);
 
@@ -55,7 +56,8 @@ const CreateGroupForm = ({ isExistingUser = false }) => {
       storeGroupCodeInLocalStorage(groupCode);
       setGroupCodeToCurrentlyActive(groupCode);
       setRouteInLocalStorage(window.location.pathname, "previousRoute");
-      navigate("/create-group-members");
+
+      navigate(ROUTES.MEMBERS.CREATE);
     } catch (error) {
       if (error.response) {
         handleApiErrors(error, setError, "groups", displayErrorModal, t);
