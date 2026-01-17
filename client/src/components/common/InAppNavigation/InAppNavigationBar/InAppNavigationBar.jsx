@@ -1,52 +1,32 @@
-// React and Third-Party Libraries
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import { IoArrowBackCircleOutline } from "react-icons/io5";
-import { IoCloseCircleOutline } from "react-icons/io5";
+import {
+  IoArrowBackCircleOutline,
+  IoCloseCircleOutline,
+  IoArrowForwardCircleOutline,
+} from "react-icons/io5";
 import { GoHome } from "react-icons/go";
-import { IoArrowForwardCircleOutline } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
-
-// Constants and Utils
 import { devLog } from "../../../../utils/errorUtils";
 import {
   deleteGroupDataFromLocalStorage,
   getRouteFromLocalStorage,
 } from "../../../../utils/localStorageUtils";
-
-// Components
 import InstantSplitLogo from "../../InstantSplitLogo/InstantSplitLogo";
-
-// Styles
+import { ROUTES } from "../../../../constants/routesConstants";
 import styles from "./InAppNavigationBar.module.css";
 
-/**
- * InAppNavigationBar component for rendering navigation links within the application. Utilizes previousRoute key from local storage for nested navigation and nestedPreviousRoute for further nested navigation
- *
- * @param {Object} props - The component props.
- *
- * @param {boolean} props.back - Indicates if it's a back navigation. Defaults to false.
- * @param {string} props.backRoute - The route to navigate backward to. Defaults to "/instant-split".
- * @param {boolean} props.previousRoute - Indicates if previousRoute stored in localStorage should be applied. If so, back icon will be applied. Defaults to false.
- * @param {boolean} props.nestedPreviousRoute - Indicates if nestedPreviousRoute stored in localStorage should be applied. If so, back icon will be applied. Defaults to false.
- * @param {boolean} props.home - Indicates if it's a navigation to the main application. Defaults to false.
- * @param {string} props.homeRoute - The route to navigate to. Defaults to "/instant-split".
- * @param {boolean} props.forward - Indicates if it's a forward navigation. Defaults to false. If shown, logo does not navigate to the main application.
- * @param {string} props.forwardRoute - The route to navigate forward to. Defaults to "/instant-split".
- *  @param {boolean} props.logoOnly -  renders logo only without any routing. Defaults to false.
-
- * @returns {React.Component} The rendered InAppNavigationBar component.
- */
 const InAppNavigationBar = ({
   back = false,
-  backRoute = "/instant-split",
+  backRoute = ROUTES.INSTANT_SPLIT,
   abort = false,
-  abortRoute = "/instant-split",
+  abortRoute = ROUTES.INSTANT_SPLIT,
   previousRoute = false,
   nestedPreviousRoute = false,
   home = false,
-  homeRoute = "/instant-split",
+  homeRoute = ROUTES.INSTANT_SPLIT,
   forward = false,
-  forwardRoute = "/instant-split",
+  forwardRoute = ROUTES.INSTANT_SPLIT,
   logoOnly = false,
 }) => {
   const { t } = useTranslation();
@@ -57,11 +37,11 @@ const InAppNavigationBar = ({
     navigate(route);
   };
 
-  const handleAbort = (abortRoute) => {
+  const handleAbort = (route) => {
     const groupCode = localStorage.getItem("activeGroupCode");
     deleteGroupDataFromLocalStorage(groupCode);
     devLog("Navigating to main application");
-    navigate(abortRoute);
+    navigate(route);
   };
 
   const handleNestedNavigation = () => {
@@ -72,7 +52,6 @@ const InAppNavigationBar = ({
     devLog("Navigating to:", destinationRoute);
 
     navigate(destinationRoute, {}, (e) => {
-      // Check if navigation was not prevented
       if (!e.defaultPrevented) {
         devLog("Navigating to:", destinationRoute);
       }
@@ -94,10 +73,11 @@ const InAppNavigationBar = ({
             </div>
           </div>
         )}
+        {/* CODECHANGE: Simplified nested navigation checks using logical short-circuiting */}
         {previousRoute && (
           <div
             className={styles.iconContainer}
-            onClick={() => handleNestedNavigation(previousRoute)}>
+            onClick={handleNestedNavigation}>
             <IoArrowBackCircleOutline
               className={`${styles.leftAlignedIcon} ${styles.icon}`}
             />
@@ -109,7 +89,7 @@ const InAppNavigationBar = ({
         {nestedPreviousRoute && (
           <div
             className={styles.iconContainer}
-            onClick={() => handleNestedNavigation(nestedPreviousRoute)}>
+            onClick={handleNestedNavigation}>
             <IoArrowBackCircleOutline
               className={`${styles.leftAlignedIcon} ${styles.icon}`}
             />
