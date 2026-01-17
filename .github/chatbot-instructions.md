@@ -43,7 +43,7 @@
 - **Commit Messages (Angular Style):**
   - Format: `type: subject` (e.g., `feat: apply primary attribute`).
   - No brackets, no body/footer.
-  - **Only** provide when you have provided new code: `git add . && git commit -m "..."`
+  - **Only** provide when you have provided new code below the code block in a new line
 
 ## 4. Coding Standards: React & JS
 
