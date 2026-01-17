@@ -1,4 +1,3 @@
-// React and Third-Party Libraries
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
@@ -6,31 +5,20 @@ import {
   IoMdCloseCircleOutline,
 } from "react-icons/io";
 import { useTranslation } from "react-i18next";
-
-// Constants and Utils
 import {
   setGroupCodeToCurrentlyActive,
   storeGroupCodeInLocalStorage,
 } from "../../utils/localStorageUtils";
-
-// Hooks
 import useValidateGroupExistence from "../../hooks/useValidateGroupCodeExistence";
 import useGetPreviousRoutesFromLocalStorage from "../../hooks/useGetPreviousRouteFromLocalStorage";
-
-// Components
 import HelmetMetaTagsNetlify from "../../components/common/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import PiratePx from "../../components/common/PiratePx/PiratePx";
 import InAppNavigationBar from "../../components/common/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import ErrorDisplay from "../../components/common/ErrorDisplay/ErrorDisplay";
 import Spinner from "../../components/common/Spinner/Spinner";
-
-// Styles
+import { ROUTES } from "../../constants/routesConstants";
 import styles from "./ValidateProvidedGroupCodePage.module.css";
 
-/**
- * Validates the user's manually provided groupCode and navigates the user accordingly.
- *
- * @returns {JSX.Element} React component. */
 const ValidateProvideGroupCodePage = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -41,47 +29,41 @@ const ValidateProvideGroupCodePage = () => {
     "limited",
   );
 
-  // Check if current user has entered code from within main application, ie is redirected from manage-groups route
-  const { previousRoute, isRetrieved } = useGetPreviousRoutesFromLocalStorage();
+  const { previousRoute } = useGetPreviousRoutesFromLocalStorage();
 
-  const isInstantSplitUser =
-    previousRoute && isRetrieved
-      ? previousRoute.includes("/manage-groups")
-      : false;
-
+  const isInstantSplitUser = !!previousRoute?.includes(ROUTES.MANAGE_GROUPS);
   useEffect(() => {
     if (groupExists) {
       storeGroupCodeInLocalStorage(groupCode);
       setGroupCodeToCurrentlyActive(groupCode);
 
-      // Render feedback and programmatically navigate with a delay
       const timeoutId = setTimeout(() => {
-        navigate("/instant-split");
+        navigate(ROUTES.INSTANT_SPLIT);
       }, 2500);
 
       return () => clearTimeout(timeoutId);
     } else if (validationError) {
       setError(validationError);
     }
-  }, [groupExists, groupCode, navigate, validationError, isInstantSplitUser]);
+  }, [groupExists, groupCode, navigate, validationError]);
 
   return (
     <main>
       <HelmetMetaTagsNetlify title={t("validate-groupcode-page-title")} />
-      <PiratePx COUNT_IDENTIFIER={"groupCode-validator"} />
+      <PiratePx COUNT_IDENTIFIER='groupCode-validator' />
       {isInstantSplitUser ? (
         <InAppNavigationBar
-          back={true}
-          backRoute={"/manage-groups"}
-          home={true}
-          homeRoute={"/instant-split"}
+          back
+          backRoute={ROUTES.MANAGE_GROUPS}
+          home
+          homeRoute={ROUTES.INSTANT_SPLIT}
         />
       ) : (
         <InAppNavigationBar
-          back={true}
-          backRoute={"/onboarding-enter-groupcode"}
-          home={true}
-          homeRoute={"/"}
+          back
+          backRoute={ROUTES.ONBOARDING.ENTER_GROUPCODE}
+          home
+          homeRoute={ROUTES.HOME}
         />
       )}
       <div className={styles.container}>
@@ -94,18 +76,18 @@ const ValidateProvideGroupCodePage = () => {
             <p>{t("validate-groupcode-page-redirect-copy")}</p>
           </div>
         )}
-        {/*Handle validations timeout errors*/}
         {!error && !groupExists && <Spinner />}
         {error && (
           <div className={styles.groupDoesNotExist}>
             <div className={styles.feedbackIcon}>
               <IoMdCloseCircleOutline />
             </div>
-            <ErrorDisplay error={error} remWidth={30} errorFontColor={true} />
+            <ErrorDisplay error={error} remWidth={30} errorFontColor />
           </div>
         )}
       </div>
     </main>
   );
 };
+
 export default ValidateProvideGroupCodePage;
