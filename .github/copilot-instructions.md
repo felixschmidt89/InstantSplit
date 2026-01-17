@@ -52,6 +52,7 @@ applyTo: "**"
 - **Functions:** Use **Arrow Functions** for everything (components, hooks, helpers).
 - **Boolean Logic Simplification:** Do **NOT** use ternary operators for boolean assignments (e.g., condition ? true : false). Use optional chaining with double negation (e.g., !!object?.property?.includes(value)).
 - **Logic Simplification:** Prioritize conciseness by leveraging falsy evaluation and optional chaining (e.g., if (!data?.length)) instead of explicit null and length checks (e.g., if (!data || data.length === 0)).
+- **Logical Short-Circuiting**: Use logical AND (&&) for conditional prop assignments or rendering where a falsy fallback (like null or false) is acceptable. Avoid ternary operators for these cases (e.g., use error={localError && t(localError)} instead of error={localError ? t(localError) : null}).
 - **Props:** Do **NOT** use `propTypes`.
 - **Destructuring:** Always destructure props and objects.
 - **Styles:**
