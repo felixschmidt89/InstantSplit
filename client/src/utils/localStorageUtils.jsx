@@ -1,5 +1,22 @@
 import { currentTimeStamp } from "../constants/dateConstants";
 import { devLog } from "./errorUtils";
+
+export const isGroupCodeInStoredGroupCodes = (groupCode) => {
+  try {
+    const storedGroupCodes =
+      JSON.parse(localStorage.getItem("storedGroupCodes")) || [];
+    return storedGroupCodes.includes(groupCode);
+  } catch (error) {
+    devLog("Error checking if groupCode is in storedGroupCodes:", error);
+    return false;
+  }
+};
+
+export const isGroupCodeActive = (groupCode) => {
+  const activeCode = localStorage.getItem("activeGroupCode");
+  return activeCode === groupCode;
+};
+
 /**
  * Removes the 'activeGroupCode' property from local storage.
  * @returns {boolean} - Returns true if 'activeGroupCode' was successfully removed, false if there was an error.
@@ -29,16 +46,16 @@ export const removeGroupCodeFromStoredGroupCodes = (groupCode) => {
     let storedGroupCodes = JSON.parse(localStorage.getItem("storedGroupCodes"));
     // Exclude the to be removed groupCode
     const updatedGroupCodes = storedGroupCodes.filter(
-      (code) => code !== groupCode
+      (code) => code !== groupCode,
     );
     // Update the storedGroupCodes array or remove the key if it becomes empty
     if (updatedGroupCodes.length > 0) {
       localStorage.setItem(
         "storedGroupCodes",
-        JSON.stringify(updatedGroupCodes)
+        JSON.stringify(updatedGroupCodes),
       );
       devLog(
-        "Previously active group code removed from storedGroupCodes array."
+        "Previously active group code removed from storedGroupCodes array.",
       );
     } else {
       localStorage.removeItem("storedGroupCodes");
@@ -60,7 +77,7 @@ export const getFirstGroupCodeInStoredGroupCodesArray = () => {
   try {
     // Get the storedGroupCodes array from local storage
     const storedGroupCodes = JSON.parse(
-      localStorage.getItem("storedGroupCodes")
+      localStorage.getItem("storedGroupCodes"),
     );
 
     // Return the first groupCode if the array is not empty
@@ -70,7 +87,7 @@ export const getFirstGroupCodeInStoredGroupCodesArray = () => {
   } catch (error) {
     devLog(
       "Error retrieving the first groupCode from the storedGroupCodes array:",
-      error
+      error,
     );
     return null;
   }
@@ -118,7 +135,7 @@ export const setPwaCtaClosedInLocalStorage = () => {
   try {
     localStorage.setItem("pwaCtaClosed", currentTimeStamp);
     devLog(
-      `pwaCtaClosed has been set to ${currentTimeStamp} in local storage.`
+      `pwaCtaClosed has been set to ${currentTimeStamp} in local storage.`,
     );
     return true;
   } catch (error) {
@@ -163,12 +180,12 @@ export const storeGroupCodeInLocalStorage = (groupCode) => {
       storedGroupCodes.push(groupCode);
       localStorage.setItem(
         "storedGroupCodes",
-        JSON.stringify(storedGroupCodes)
+        JSON.stringify(storedGroupCodes),
       );
     }
     devLog(
       "GroupCode has been added to storedGroupCodes array in local storage:",
-      groupCode
+      groupCode,
     );
     return true;
   } catch (error) {
