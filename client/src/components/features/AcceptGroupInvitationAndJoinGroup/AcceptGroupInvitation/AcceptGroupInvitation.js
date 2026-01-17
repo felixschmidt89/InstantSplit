@@ -1,40 +1,28 @@
-// React and Third-Party Libraries
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
-
-// Constants and Utils
 import {
   setGroupCodeToCurrentlyActive,
   storeGroupCodeInLocalStorage,
+  isGroupCodeInStoredGroupCodes,
 } from "../../../../utils/localStorageUtils";
 import { buttonStyles } from "../../../../constants/stylesConstants";
-
-// Components
 import TermsAndConditionsSection from "../../Home/TermsAndConditionsSection/TermsAndConditionsSection";
-
-// Styles
 import styles from "./AcceptGroupInvitation.module.css";
 
-type AcceptGroupInvitationProps = {
-  groupName: string;
-  groupCode: string;
-};
-
-/**
- * Component for rendering group invitation with ability to accept and navigate to terms and conditions page.
- */
-const AcceptGroupInvitation = ({
-  groupName,
-  groupCode,
-}: AcceptGroupInvitationProps) => {
+const AcceptGroupInvitation = ({ groupName, groupCode }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const handleAcceptInvitation: React.MouseEventHandler<
-    HTMLButtonElement
-  > = () => {
+  useEffect(() => {
+    if (isGroupCodeInStoredGroupCodes(groupCode)) {
+      setGroupCodeToCurrentlyActive(groupCode);
+      navigate("/instant-split");
+    }
+  }, [groupCode, navigate]);
+
+  const onInvitationAccept = () => {
     storeGroupCodeInLocalStorage(groupCode);
     setGroupCodeToCurrentlyActive(groupCode);
     navigate("/instant-split");
@@ -45,7 +33,7 @@ const AcceptGroupInvitation = ({
       <div className={styles.button}>
         <Button
           style={buttonStyles}
-          onClick={handleAcceptInvitation}
+          onClick={onInvitationAccept}
           variant='outlined'>
           {t("join-group-button-text")}
         </Button>
