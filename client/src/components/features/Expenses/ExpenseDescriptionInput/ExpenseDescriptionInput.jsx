@@ -17,6 +17,7 @@ const ExpenseDescriptionInput = ({
     }
   }, [isUpdate]);
 
+  // TODO: Refactor to hook or utility function if similar patterns emerge
   const handleInputClick = () => {
     if (isUpdate) {
       inputRef.current?.classList.remove(styles.isUpdate);

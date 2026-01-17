@@ -17,6 +17,7 @@ const ExpensePayerSelect = ({
     setFormChanged?.(true);
   };
 
+  // TODO: Refactor to hook or utility function if similar patterns emerge
   const handleSelectClick = () => {
     if (isUpdate) {
       selectRef.current?.classList.remove(styles.isUpdate);

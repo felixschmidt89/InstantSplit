@@ -18,6 +18,7 @@ import styles from "./CreateExpense.module.css";
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
 const CreateExpense = ({ groupMembers, groupCode }) => {
+  // TODO: for updates: active color should not be applied when value have not been changed, update button should also not be rendered then
   const navigate = useNavigate();
   const { t } = useTranslation();
 
