@@ -1,76 +1,55 @@
-// React and Third-Party Libraries
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
-
-// Constants and Utils
 import { devLog, handleApiErrors } from "../../../../utils/errorUtils";
 import { buttonStyles } from "../../../../constants/stylesConstants";
 import { changeFixedDebitorCreditorOrderSetting } from "../../../../utils/settlementUtils";
-
-// Hooks
 import useErrorModalVisibility from "../../../../hooks/useErrorModalVisibility";
-
-// Components
 import ExpenseDescriptionInput from "../ExpenseDescriptionInput/ExpenseDescriptionInput";
 import ExpenseAmountInput from "../ExpenseAmountInput/ExpenseAmountInput";
 import ExpensePayerSelect from "../ExpensePayerSelect/ExpensePayerSelect";
 import ExpenseBeneficiariesInput from "../ExpenseBeneficiariesInput/ExpenseBeneficiariesInput";
 import ErrorModal from "../../../common/ErrorModal/ErrorModal";
-
-// Styles
+import { ROUTES } from "../../../../constants/routesConstants";
 import styles from "./UpdateExpense.module.css";
 
-// API URL
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
-/**
- * Parent component for updating an expense.
- *
- * @param {Object} props - The component props.
- * @param {Object} props.expenseInfo - Information about the expense to be updated.
- * @param {string} props.groupCode - The groupCode identifying the group.
- * @param {Array} props.groupMembers - An array of group members.
- * @param {string} props.expenseId - The unique identifier of the expense.
- * @param {string} [props.route="/instant-split"] - The route to navigate to after updating the expense.
- * @returns {JSX.Element} The rendered Update Expense component.
- */
 const UpdateExpense = ({
   expenseInfo,
   groupCode,
   groupMembers,
   expenseId,
-  route = "/instant-split",
+  route = ROUTES.INSTANT_SPLIT,
 }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  // Values stored in database
+  // TODO: Optimize also regarding readability
   const storedExpenseDescription = expenseInfo.expenseDescription;
   const storedExpenseAmount = expenseInfo.expenseAmount;
   const storedExpensePayerName = expenseInfo.expensePayer.userName;
   const storedBeneficiariesNames = expenseInfo.expenseBeneficiaries.map(
-    (beneficiary) => beneficiary.userName
+    (beneficiary) => beneficiary.userName,
   );
 
-  // States to manage to be updated properties
+  // TODO: Optimize also regarding readability
   const [expenseDescription, setExpenseDescription] = useState(
-    storedExpenseDescription
+    storedExpenseDescription,
   );
   const [expenseAmount, setExpenseAmount] = useState(storedExpenseAmount);
   const [expensePayerName, setExpensePayerName] = useState(
-    storedExpensePayerName
+    storedExpensePayerName,
   );
   const [selectedBeneficiaries, setSelectedBeneficiaries] = useState(
-    storedBeneficiariesNames
+    storedBeneficiariesNames,
   );
 
   const [formChanged, setFormChanged] = useState(false);
   const [error, setError] = useState(null);
 
-  // Get error modal visibility logic
   const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
     useErrorModalVisibility();
 
@@ -87,8 +66,8 @@ const UpdateExpense = ({
         storedExpensePayerName,
         storedBeneficiariesNames,
       });
-      changeFixedDebitorCreditorOrderSetting(groupCode, false);
 
+      changeFixedDebitorCreditorOrderSetting(groupCode, false);
       devLog("Expense updated:", response);
       navigate(route);
     } catch (error) {
@@ -107,22 +86,22 @@ const UpdateExpense = ({
       <form className={styles.form} onSubmit={handleFormSubmit}>
         <ExpenseDescriptionInput
           value={expenseDescription}
-          onDescriptionChange={(value) => setExpenseDescription(value)}
+          onDescriptionChange={setExpenseDescription}
           setFormChanged={setFormChanged}
-          isUpdate={true}
+          isUpdate
         />
         <ExpenseAmountInput
           value={expenseAmount}
-          onAmountChange={(value) => setExpenseAmount(value)}
+          onAmountChange={setExpenseAmount}
           setFormChanged={setFormChanged}
-          isUpdate={true}
+          isUpdate
         />
         <ExpensePayerSelect
           expensePayerName={expensePayerName}
-          onPayerChange={(value) => setExpensePayerName(value)}
+          onPayerChange={setExpensePayerName}
           groupMembers={groupMembers}
           setFormChanged={setFormChanged}
-          isUpdate={true}
+          isUpdate
         />
         <div className={styles.beneficiaries}>
           <ExpenseBeneficiariesInput
@@ -130,7 +109,7 @@ const UpdateExpense = ({
             groupMembers={groupMembers}
             onSelectedBeneficiariesChange={setSelectedBeneficiaries}
             setFormChanged={setFormChanged}
-            isUpdate={true}
+            isUpdate
           />
         </div>
         {formChanged && (
