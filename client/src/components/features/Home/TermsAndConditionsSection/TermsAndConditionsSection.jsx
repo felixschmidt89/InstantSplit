@@ -1,21 +1,13 @@
-// React and Third-Party Libraries
 import React from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-
-// Constants and Utils
 import { setRouteInLocalStorage } from "../../../../utils/localStorageUtils";
-
-// Styles
+import { ROUTES } from "../../../../constants/routesConstants";
 import styles from "./TermsAndConditionsSection.module.css";
 
-/**
- * Component for rendering the terms and conditions section on the home page.
- *
- * @returns {JSX.Element} React component. */
 const TermsAndConditionsSection = () => {
   const { t } = useTranslation();
-  // Ensure that T&C page routes back to group invitation page
+
   const handleLinkClick = () => {
     setRouteInLocalStorage(window.location.pathname, "previousRoute");
   };
@@ -25,7 +17,7 @@ const TermsAndConditionsSection = () => {
       {t("terms-and-conditions-section-text")}{" "}
       <Link
         className={styles.tncLink}
-        to='/terms-and-conditions/'
+        to={ROUTES.TERMS_AND_CONDITIONS}
         onClick={handleLinkClick}>
         {t("terms-and-conditions-section-tnc")}
       </Link>
