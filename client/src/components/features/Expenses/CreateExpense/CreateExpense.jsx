@@ -1,38 +1,22 @@
-// React and Third-Party Libraries
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Button } from "@mui/material";
-import { buttonStyles } from "../../../../constants/stylesConstants";
 import { useTranslation } from "react-i18next";
-
-// Constants and Utils
+import { buttonStyles } from "../../../../constants/stylesConstants";
 import { devLog, handleApiErrors } from "../../../../utils/errorUtils";
 import { changeFixedDebitorCreditorOrderSetting } from "../../../../utils/settlementUtils";
-
-// Hooks
 import useErrorModalVisibility from "../../../../hooks/useErrorModalVisibility";
-
-// Components
 import ExpenseBeneficiariesInput from "../ExpenseBeneficiariesInput/ExpenseBeneficiariesInput";
 import ExpenseAmountInput from "../ExpenseAmountInput/ExpenseAmountInput";
 import ExpenseDescriptionInput from "../ExpenseDescriptionInput/ExpenseDescriptionInput";
 import ExpensePayerSelect from "../ExpensePayerSelect/ExpensePayerSelect";
 import ErrorModal from "../../../common/ErrorModal/ErrorModal";
-
-// Styles
+import { ROUTES } from "../../../../constants/routesConstants";
 import styles from "./CreateExpense.module.css";
 
-// API URL
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
-/**
- * Parent component for creating a new expense.
- *
- * @param {Object} props - The component props.
- * @param {Array} props.groupMembers - array of group members.
- * @param {string} props.groupCode - The groupCode identifying the group.
- * @returns {JSX.Element} React component. */
 const CreateExpense = ({ groupMembers, groupCode }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -40,13 +24,11 @@ const CreateExpense = ({ groupMembers, groupCode }) => {
   const [expenseDescription, setExpenseDescription] = useState(null);
   const [expenseAmount, setExpenseAmount] = useState(null);
   const [expensePayerName, setExpensePayerName] = useState(null);
-  // Preselect all group members as beneficiaries
   const [selectedBeneficiaries, setSelectedBeneficiaries] = useState([
     ...groupMembers,
   ]);
   const [error, setError] = useState(null);
 
-  // Get error modal visibility logic
   const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
     useErrorModalVisibility();
 
@@ -61,9 +43,11 @@ const CreateExpense = ({ groupMembers, groupCode }) => {
         expensePayerName,
         expenseBeneficiariesNames: selectedBeneficiaries,
       });
+
       changeFixedDebitorCreditorOrderSetting(groupCode, false);
       devLog("Expense created:", response);
-      navigate("/instant-split");
+
+      navigate(ROUTES.INSTANT_SPLIT);
     } catch (error) {
       if (error.response) {
         handleApiErrors(error, setError, "expenses", displayErrorModal, t);
@@ -81,15 +65,15 @@ const CreateExpense = ({ groupMembers, groupCode }) => {
         <div className={styles.container}>
           <ExpenseDescriptionInput
             value={expenseDescription}
-            onDescriptionChange={(value) => setExpenseDescription(value)}
+            onDescriptionChange={setExpenseDescription}
           />
           <ExpenseAmountInput
             value={expenseAmount}
-            onAmountChange={(value) => setExpenseAmount(value)}
+            onAmountChange={setExpenseAmount}
           />
           <ExpensePayerSelect
             expensePayerName={expensePayerName}
-            onPayerChange={(value) => setExpensePayerName(value)}
+            onPayerChange={setExpensePayerName}
             groupMembers={groupMembers}
           />
           <ExpenseBeneficiariesInput
