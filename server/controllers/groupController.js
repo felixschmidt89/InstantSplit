@@ -1,5 +1,4 @@
 import { StatusCodes } from 'http-status-codes';
-import nodemailer from 'nodemailer';
 import { customAlphabet } from 'nanoid';
 import Group from '../models/Group.js';
 import Expense from '../models/Expense.js';
@@ -13,10 +12,8 @@ import {
 } from '../utils/errorUtils.js';
 import { generateUniqueGroupCode } from '../utils/groupCodeUtils.js';
 import { setGroupLastActivePropertyToNow } from '../utils/databaseUtils.js';
-import { isDevelopmentEnvironment } from '../utils/isDevelopmentEnvironment.js';
-
-const emailUser = process.env.EMAIL_USER;
-const emailPass = process.env.EMAIL_PASS;
+import { generateGroupCreationEmailOptions } from '../utils/adminNotificationEmailTemplates.js';
+import { sendAdminEmailNotification } from '../config/adminNotificationEmailConfig.js';
 
 export const createGroup = async (req, res) => {
   try {
@@ -29,36 +26,9 @@ export const createGroup = async (req, res) => {
       initialGroupName: groupName,
     });
 
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.strato.de',
-      port: 465,
-      secure: true,
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-    });
+    const mailOptions = generateGroupCreationEmailOptions(groupName);
 
-    const mailOptions = {
-      from: 'admin@instantsplit.de',
-      to: 'felix.schmidt@directbox.com',
-      subject: `${isDevelopmentEnvironment ? '[DEV] ' : '[PROD] '}New group ${groupName} created`,
-      text: `
-      GroupName: "${groupName}"
-      `,
-    };
-
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        errorLog(
-          error,
-          'Error sending group creation email:',
-          'Failed to send group creation email. Please try again later.',
-        );
-      } else {
-        console.log('Email sent:', info.response);
-      }
-    });
+    sendAdminEmailNotification(mailOptions);
 
     setGroupLastActivePropertyToNow(groupCode);
 
@@ -78,7 +48,7 @@ export const createGroup = async (req, res) => {
         'Error creating group:',
         'Failed to create the group. Please try again later.',
       );
-      sendInternalError();
+      sendInternalError(res, error);
     }
   }
 };
@@ -113,7 +83,7 @@ export const changeGroupName = async (req, res) => {
         'Error updating group name:',
         'Failed to update group name. Please try again later.',
       );
-      sendInternalError();
+      sendInternalError(res, error);
     }
   }
 };
@@ -124,7 +94,6 @@ export const changeGroupDataPurgeSetting = async (req, res) => {
     console.log('Request Body:', req.body);
     console.log('Updating group with groupCode:', groupCode);
 
-    // Update the document and return the modified document
     const updatedGroup = await Group.findOneAndUpdate(
       { groupCode },
       {
@@ -133,7 +102,7 @@ export const changeGroupDataPurgeSetting = async (req, res) => {
           inactiveDataPurge,
         },
       },
-      { new: true }, // Return the modified document
+      { new: true },
     );
 
     if (!updatedGroup) {
@@ -154,7 +123,7 @@ export const changeGroupDataPurgeSetting = async (req, res) => {
       'Error updating inactive data purge setting:',
       'Failed to update inactive data purge setting. Please try again later.',
     );
-    sendInternalError();
+    sendInternalError(res, error);
   }
 };
 
@@ -172,7 +141,7 @@ export const changeFixedDebitorCreditorOrderSetting = async (req, res) => {
           fixedDebitorCreditorOrder,
         },
       },
-      { new: true }, // Return the modified document
+      { new: true },
     );
 
     if (!updatedGroup) {
@@ -193,7 +162,7 @@ export const changeFixedDebitorCreditorOrderSetting = async (req, res) => {
       'Error updating fixedDebitorCreditor setting:',
       'Failed to update fixedDebitorCreditor setting. Please try again later.',
     );
-    sendInternalError();
+    sendInternalError(res, error);
   }
 };
 
@@ -218,7 +187,7 @@ export const listGroupNamesByStoredGroupCodes = async (req, res) => {
       'Error listing group names:',
       'Failed to list group names. Please try again later.',
     );
-    sendInternalError();
+    sendInternalError(res, error);
   }
 };
 
@@ -246,7 +215,7 @@ export const getGroupCurrency = async (req, res) => {
       'Error fetching group currency:',
       'Failed to fetch group information. Please try again later.',
     );
-    sendInternalError();
+    sendInternalError(res, error);
   }
 };
 
@@ -257,10 +226,9 @@ export const changeGroupCurrency = async (req, res) => {
     const updatedGroup = await Group.findOneAndUpdate(
       { groupCode },
       { $set: { lastActive: new Date(), currency } },
-      { new: true }, // return the modified document
+      { new: true },
     );
 
-    // Check if the group with the given groupCode is not found
     if (!updatedGroup) {
       return res.status(StatusCodes.NOT_FOUND).json({
         status: 'error',
@@ -279,7 +247,7 @@ export const changeGroupCurrency = async (req, res) => {
       'Error changing group currency:',
       'Failed to change group currency. Please try again later.',
     );
-    sendInternalError();
+    sendInternalError(res, error);
   }
 };
 
@@ -309,7 +277,7 @@ export const listExpensesAndPaymentsByGroup = async (req, res) => {
       'Error listing expenses and payments:',
       'Failed to list expenses and payments. Please try again later.',
     );
-    sendInternalError(rs);
+    sendInternalError(res, error);
   }
 };
 
@@ -339,17 +307,10 @@ export const getGroupInfo = async (req, res) => {
       'Error fetching group info:',
       'Failed to fetch group information. Please try again later.',
     );
-    sendInternalError();
+    sendInternalError(res, error);
   }
 };
 
-/**
- * Validates the existence of a group with the provided groupCode in the database.
- * Sends a response indicating whether the group exists or not.
- * @param {object} req
- * @param {object} res
- * @returns {object} JSON response with status, data (boolean value), and message fields.
- */
 export const validateGroupExistence = async (req, res) => {
   try {
     const { groupCode } = req.params;
@@ -374,24 +335,16 @@ export const validateGroupExistence = async (req, res) => {
       'Error fetching group info:',
       'Failed to fetch group information. Please try again later.',
     );
-    sendInternalError();
+    sendInternalError(res, error);
   }
 };
 
-/**
- * Checks if a group has a persisted debitor/creditor order.
- * Returns the fixedDebitorCreditorOrder boolean value for the group.
- * @param {Object} req - Express request object
- * @param {Object} res - Express response object
- * @returns {boolean} - The fixedDebitorCreditorOrder value (true or false)
- */
 export const groupHasPersistedDebitorCreditorOrder = async (req, res) => {
   try {
     const { groupCode } = req.params;
 
     devLog('Checking fixedDebitorCreditorOrder for group:', { groupCode });
 
-    // Validate groupCode
     if (!groupCode) {
       return res.status(StatusCodes.BAD_REQUEST).json({
         status: 'error',
@@ -399,7 +352,6 @@ export const groupHasPersistedDebitorCreditorOrder = async (req, res) => {
       });
     }
 
-    // Find group
     const group = await Group.findOne({ groupCode }).select(
       'fixedDebitorCreditorOrder',
     );
@@ -411,10 +363,8 @@ export const groupHasPersistedDebitorCreditorOrder = async (req, res) => {
       });
     }
 
-    // Update group last active
     await setGroupLastActivePropertyToNow(groupCode);
 
-    // Return the fixedDebitorCreditorOrder value
     return res.status(StatusCodes.OK).json(group.fixedDebitorCreditorOrder);
   } catch (error) {
     devLog('Error in groupHasPersistedDebitorCreditorOrder:', error);
@@ -423,11 +373,10 @@ export const groupHasPersistedDebitorCreditorOrder = async (req, res) => {
       'Error checking fixedDebitorCreditorOrder:',
       'Failed to check fixedDebitorCreditorOrder. Please try again later.',
     );
-    return sendInternalError(res);
+    return sendInternalError(res, error);
   }
 };
-
-// FOR DEVELOPMENT/DEBUGGING PURPOSES ONLY
+// TODO: Ensure that this function is limited to development mode only
 
 export const listAllGroups = async (req, res) => {
   try {
@@ -444,9 +393,10 @@ export const listAllGroups = async (req, res) => {
       'Error listing all groups:',
       'Failed to list all groups. Please try again later.',
     );
-    sendInternalError();
+    sendInternalError(res, error);
   }
 };
+// TODO: Ensure that this function is limited to development mode only
 
 export const deleteAllGroups = async (req, res) => {
   try {
@@ -462,6 +412,6 @@ export const deleteAllGroups = async (req, res) => {
       'Error deleting all groups:',
       'Failed to delete all groups. Please try again later.',
     );
-    sendInternalError();
+    sendInternalError(res, error);
   }
 };
