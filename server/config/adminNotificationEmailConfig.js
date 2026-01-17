@@ -1,6 +1,7 @@
 import { Resend } from 'resend';
 import { devLog, errorLog } from '../utils/errorUtils.js';
 
+// TODO: Implement resend functionality
 // const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const adminEmailAddresses = {
