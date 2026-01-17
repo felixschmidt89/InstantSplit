@@ -1,7 +1,7 @@
 import { Resend } from 'resend';
 import { devLog, errorLog } from '../utils/errorUtils.js';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const adminEmailAddresses = {
   sender: 'admin@notifications.instantsplit.de',
