@@ -42,13 +42,12 @@ export const ROUTES = {
   NOT_FOUND: "*",
 };
 
-export const getDynamicRoute = (path, params = {}) => {
-  let dynamicPath = path;
+export const buildDynamicRoute = (ROUTE, params = {}) => {
+  const dynamicRoute = Object.entries(params).reduce((path, [key, value]) => {
+    return path.replace(`:${key}`, value);
+  }, ROUTE);
 
-  Object.entries(params).forEach(([key, value]) => {
-    dynamicPath = dynamicPath.replace(`:${key}`, value);
-  });
-  devLog(`Generated dynamic route: ${path} -> ${dynamicPath}`, params);
+  devLog(`Dynamic Route built: ${ROUTE} -> ${dynamicRoute}`);
 
-  return dynamicPath;
+  return dynamicRoute;
 };
