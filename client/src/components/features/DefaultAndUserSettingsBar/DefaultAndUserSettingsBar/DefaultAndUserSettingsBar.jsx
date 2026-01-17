@@ -12,7 +12,8 @@ import { useTranslation } from "react-i18next";
 
 import { isWebShareAPISupported } from "../../../../utils/clientUtils";
 import { addUserReactIconStyles } from "../../../../constants/stylesConstants";
-import { routes } from "../../../../constants/routesConstants";
+import { ROUTES } from "../../../../constants/routesConstants";
+import { dynamicRoutes } from "../../../../utils/dynamicRoutes";
 
 import useFetchGroupData from "../../../../hooks/useFetchGroupData";
 import useIsSlimDevice from "../../../../hooks/useIsSlimDevice";
@@ -64,8 +65,7 @@ const DefaultAndUserSettingsBar = () => {
     isDefaultBarShown ? styles.showUserSettingsBar : styles.hideUserSettingsBar
   }`;
 
-  // CODECHANGE: Using the routes factory for the invitation link
-  const invitationLink = routes.join(
+  const invitationLink = dynamicRoutes.join(
     encodeURIComponent(group?.initialGroupName || ""),
     groupCode,
     i18n.language,
@@ -105,7 +105,10 @@ const DefaultAndUserSettingsBar = () => {
                     translateX={isSlimDevice ? 0.5 : -0.3}
                     iconExplanationWidth={5}
                     iconExplanationTextAlignment='center'
-                    route={routes.shareGroup(group.initialGroupName, groupCode)}
+                    route={dynamicRoutes.shareGroup(
+                      group.initialGroupName,
+                      groupCode,
+                    )}
                     {...addUserReactIconStyles}
                   />
                 )}
@@ -152,7 +155,10 @@ const DefaultAndUserSettingsBar = () => {
                 containerWidth={isVerySlimDevice ? "6" : "7"}
                 explanationText={t("main-bar-tutorial-icon-text")}
                 iconExplanationWidth='8'
-                route={routes.tutorial(group?.initialGroupName, groupCode)}
+                route={dynamicRoutes.tutorial(
+                  group?.initialGroupName,
+                  groupCode,
+                )}
                 iconSize={isVerySlimDevice ? 3 : 3.5}
                 iconScale={1.1}
                 translateY={0.1}
@@ -165,7 +171,7 @@ const DefaultAndUserSettingsBar = () => {
                 containerWidth={isVerySlimDevice ? "6" : "7"}
                 explanationText={t("main-bar-contact-icon-text")}
                 iconExplanationWidth='5'
-                route={routes.contact(groupCode)}
+                route={dynamicRoutes.contact(groupCode)}
                 iconSize={isVerySlimDevice ? 3 : 3.5}
                 iconScale={0.95}
               />
@@ -177,7 +183,7 @@ const DefaultAndUserSettingsBar = () => {
                 containerWidth={isVerySlimDevice ? "6" : "7"}
                 explanationText={t("main-bar-manage-groups-icon-text")}
                 iconExplanationWidth='7'
-                route={routes.manageGroups()}
+                route={ROUTES.MANAGE_GROUPS}
                 iconSize={isVerySlimDevice ? 3 : 3.5}
                 iconScale={1}
                 translateY={0.1}
@@ -190,7 +196,7 @@ const DefaultAndUserSettingsBar = () => {
                 containerWidth={isVerySlimDevice ? "6" : "7"}
                 iconExplanationWidth='6'
                 explanationText={t("main-bar-leave-group-icon-text")}
-                route={routes.leaveGroup(group?.groupName, groupCode)}
+                route={dynamicRoutes.leaveGroup(group?.groupName, groupCode)}
                 iconSize={isVerySlimDevice ? 3 : 3.5}
                 iconScale={1.1}
                 translateX={isVerySlimDevice ? 0 : -0.3}
