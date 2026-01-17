@@ -54,11 +54,8 @@ const ChangeResourceName = ({
       devLog(`${resourceType} name updated:`, response);
 
       if (navigateToMain) {
-        // CODECHANGE: Replaced hardcoded path with ROUTES constant
         navigate(ROUTES.INSTANT_SPLIT);
       }
-
-      // CODECHANGE: Simplified callback execution using optional chaining
       callback?.(newResourceName);
 
       inputRef.current.classList.remove(styles.active);

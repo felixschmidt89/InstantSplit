@@ -1,28 +1,25 @@
-// React and Third-Party Libraries
 import React from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-
-// Styles
+import { ROUTES } from "../../../constants/routesConstants";
 import styles from "./InstantSplitLogo.module.css";
 
 const InstantSplitLogo = ({ linkToInstantSplitPage = true }) => {
+  const logoImage = (
+    <img src='/logo_coloured.svg' alt='Logo' className={styles.logoImage} />
+  );
+
   return (
     <>
-      {/* Preload the logo image */}
       <Helmet>
         <link rel='preload' href='/logo_coloured.svg' as='image' />
       </Helmet>
       {linkToInstantSplitPage ? (
-        <Link to='/instant-split' className={styles.logoLink}>
-          <img
-            src='/logo_coloured.svg'
-            alt='Logo'
-            className={styles.logoImage}
-          />
+        <Link to={ROUTES.INSTANT_SPLIT} className={styles.logoLink}>
+          {logoImage}
         </Link>
       ) : (
-        <img src='/logo_coloured.svg' alt='Logo' className={styles.logoImage} />
+        logoImage
       )}
     </>
   );

@@ -73,7 +73,6 @@ const InAppNavigationBar = ({
             </div>
           </div>
         )}
-        {/* CODECHANGE: Simplified nested navigation checks using logical short-circuiting */}
         {previousRoute && (
           <div
             className={styles.iconContainer}
