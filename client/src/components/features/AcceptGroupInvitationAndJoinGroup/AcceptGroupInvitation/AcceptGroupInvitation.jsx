@@ -9,6 +9,7 @@ import {
 } from "../../../../utils/localStorageUtils";
 import { buttonStyles } from "../../../../constants/stylesConstants";
 import TermsAndConditionsSection from "../../Home/TermsAndConditionsSection/TermsAndConditionsSection";
+import { ROUTES } from "../../../../constants/routesConstants";
 import styles from "./AcceptGroupInvitation.module.css";
 
 const AcceptGroupInvitation = ({ groupName, groupCode }) => {
@@ -18,14 +19,14 @@ const AcceptGroupInvitation = ({ groupName, groupCode }) => {
   useEffect(() => {
     if (isGroupCodeInStoredGroupCodes(groupCode)) {
       setGroupCodeToCurrentlyActive(groupCode);
-      navigate("/instant-split");
+      navigate(ROUTES.INSTANT_SPLIT);
     }
   }, [groupCode, navigate]);
 
   const onInvitationAccept = () => {
     storeGroupCodeInLocalStorage(groupCode);
     setGroupCodeToCurrentlyActive(groupCode);
-    navigate("/instant-split");
+    navigate(ROUTES.INSTANT_SPLIT);
   };
 
   return (
