@@ -23,7 +23,6 @@
 - **Code Blocks:** Print in **ONE single block**. Do not split imports/logic.
 - **Inline Code:** Present code inline.
 - **Comments:**
-
   - **NEVER:** Add extra comments unless requested.
   - **NEVER:** Use JSDoc comments
   - **NEVER:** Change comments that include "TODO:"
@@ -51,6 +50,8 @@
 - **Components:** Functional components only.
 - **Functions:** Use **Arrow Functions** for everything (components, hooks, helpers).
 - **Props:** Do **NOT** use `propTypes`.
+- **Boolean Logic Simplification:** Do **NOT** use ternary operators for boolean assignments (e.g., condition ? true : false). Use optional chaining with double negation (e.g., !!object?.property?.includes(value)).
+- **Logic Simplification:** Prioritize conciseness by leveraging falsy evaluation and optional chaining (e.g., if (!data?.length)) instead of explicit null and length checks (e.g., if (!data || data.length === 0)).
 - **Destructuring:** Always destructure props and objects.
 - **Styles:**
   - use classnames package for conditional classes.

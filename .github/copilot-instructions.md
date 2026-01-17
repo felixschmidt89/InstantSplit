@@ -50,6 +50,8 @@ applyTo: "**"
 - **Syntax:** ES6 modules, `async/await`.
 - **Components:** Functional components only.
 - **Functions:** Use **Arrow Functions** for everything (components, hooks, helpers).
+- **Boolean Logic Simplification:** Do **NOT** use ternary operators for boolean assignments (e.g., condition ? true : false). Use optional chaining with double negation (e.g., !!object?.property?.includes(value)).
+- **Logic Simplification:** Prioritize conciseness by leveraging falsy evaluation and optional chaining (e.g., if (!data?.length)) instead of explicit null and length checks (e.g., if (!data || data.length === 0)).
 - **Props:** Do **NOT** use `propTypes`.
 - **Destructuring:** Always destructure props and objects.
 - **Styles:**

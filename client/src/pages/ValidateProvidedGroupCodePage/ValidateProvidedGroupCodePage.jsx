@@ -38,7 +38,7 @@ const ValidateProvideGroupCodePage = () => {
   const [error, setError] = useState(null);
   const { groupExists, error: validationError } = useValidateGroupExistence(
     groupCode,
-    "limited"
+    "limited",
   );
 
   // Check if current user has entered code from within main application, ie is redirected from manage-groups route

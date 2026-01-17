@@ -11,19 +11,12 @@ import { ROUTES } from "../../constants/routesConstants";
 import styles from "./CreateGroupMemberPage.module.css";
 
 const CreateGroupMemberPage = () => {
-  const { previousRoute, isRetrieved } = useGetPreviousRoutesFromLocalStorage();
+  const { previousRoute } = useGetPreviousRoutesFromLocalStorage();
   const { t } = useTranslation();
 
-  // CODECHANGE: Replaced hardcoded strings with ROUTES constants
-  const isNewUser =
-    previousRoute && isRetrieved
-      ? previousRoute.includes(ROUTES.ONBOARDING.CREATE_GROUP)
-      : false;
+  const isNewUser = !!previousRoute?.includes(ROUTES.ONBOARDING.CREATE_GROUP);
 
-  const isInAppGroupCreation =
-    previousRoute && isRetrieved
-      ? previousRoute.includes(ROUTES.MANAGE_GROUPS)
-      : false;
+  const isInAppGroupCreation = !!previousRoute?.includes(ROUTES.MANAGE_GROUPS);
 
   const previousRouteExists = localStorage.getItem("previousRoute");
   const isRegularUser = !previousRouteExists;
