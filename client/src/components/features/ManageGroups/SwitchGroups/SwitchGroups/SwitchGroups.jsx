@@ -1,15 +1,8 @@
-// React and Third-Party Libraries
 import React from "react";
 import { useTranslation } from "react-i18next";
-
-// Hooks
 import useGetInactiveGroupsFromLocalStorage from "../../../../../hooks/useGetInactiveGroupsFromLocalStorage";
-
-// Components
 import RenderGroupSelection from "../RenderGroupSelection/RenderGroupSelection";
 import ErrorDisplay from "../../../../common/ErrorDisplay/ErrorDisplay";
-
-// Styles
 import styles from "./SwitchGroups.module.css";
 
 const SwitchGroups = ({ groupCode }) => {
@@ -26,10 +19,10 @@ const SwitchGroups = ({ groupCode }) => {
       <h2>{t("switch-groups-header")}</h2>
 
       {isFetched && (
-        <div>
-          {inactiveGroupNamesAndGroupCodes.length === 0 ? (
+        <>
+          {!inactiveGroupNamesAndGroupCodes?.length ? (
             <p className={styles.noGroupsMessage}>
-              {t("switch-groups-no-additional-groups-copy")}{" "}
+              {t("switch-groups-no-additional-groups-copy")}
             </p>
           ) : (
             <RenderGroupSelection
@@ -37,9 +30,12 @@ const SwitchGroups = ({ groupCode }) => {
               groupNamesAndGroupCodes={inactiveGroupNamesAndGroupCodes}
             />
           )}
-        </div>
+        </>
       )}
-      <ErrorDisplay error={fetchAndTransformError} />
+
+      {fetchAndTransformError && (
+        <ErrorDisplay error={fetchAndTransformError} />
+      )}
     </div>
   );
 };
