@@ -1,5 +1,3 @@
-import { devLog } from "../utils/errorUtils";
-
 export const ROUTES = {
   HOME: "/",
   LEGAL_NOTICE: "/legal-notice",
@@ -40,14 +38,4 @@ export const ROUTES = {
   CONTACT: "/contact/:groupCode",
   GROUP_SETTINGS: "/group-settings",
   NOT_FOUND: "*",
-};
-
-export const buildDynamicRoute = (ROUTE, params = {}) => {
-  const dynamicRoute = Object.entries(params).reduce((path, [key, value]) => {
-    return path.replace(`:${key}`, value);
-  }, ROUTE);
-
-  devLog(`Dynamic Route built: ${ROUTE} -> ${dynamicRoute}`);
-
-  return dynamicRoute;
 };

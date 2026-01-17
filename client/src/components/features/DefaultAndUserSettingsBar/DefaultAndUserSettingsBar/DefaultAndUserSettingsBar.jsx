@@ -1,39 +1,30 @@
-// React and Third-Party Libraries
 import React, { useEffect, useRef, useState } from "react";
 import { LuMenu } from "react-icons/lu";
-import { IoInformationCircleOutline } from "react-icons/io5";
-import { IoEnterOutline } from "react-icons/io5";
+import {
+  IoInformationCircleOutline,
+  IoEnterOutline,
+  IoChatboxOutline,
+  IoAddCircleOutline,
+  IoArrowBackCircleOutline,
+} from "react-icons/io5";
 import { PiUserSwitchLight } from "react-icons/pi";
-import { IoChatboxOutline } from "react-icons/io5";
-import { IoAddCircleOutline } from "react-icons/io5";
-import { IoArrowBackCircleOutline } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
 
-// Constants and Utils
 import { isWebShareAPISupported } from "../../../../utils/clientUtils";
 import { addUserReactIconStyles } from "../../../../constants/stylesConstants";
+import { routes } from "../../../../constants/routesConstants";
 
-// Hooks
 import useFetchGroupData from "../../../../hooks/useFetchGroupData";
 import useIsSlimDevice from "../../../../hooks/useIsSlimDevice";
 
-// Components
 import ReactIconNavigate from "../../../common/InAppNavigation/ReactIconNavigate/ReactIconNavigate";
 import InstantSplitLogo from "../../../common/InstantSplitLogo/InstantSplitLogo";
 import WebShareApiInvite from "../../ShareGroupInvitation/WebShareApiInvite/WebShareApiInvite";
 
-// Styles
 import styles from "./DefaultAndUserSettingsBar.module.css";
 
-// BASE URL
 const baseUrl = import.meta.env.VITE_REACT_APP_BASE_URL;
 
-/**
- * React component for the default and user settings bar.
- * This component displays the top bar with various icons and settings for the user.
- * @component
- * @returns {JSX.Element} React component
- */
 const DefaultAndUserSettingsBar = () => {
   const containerRef = useRef(null);
   const { t, i18n } = useTranslation();
@@ -43,51 +34,43 @@ const DefaultAndUserSettingsBar = () => {
   const [isDefaultBarShown, setIsDefaultBarShown] = useState(true);
   const { groupData, isFetched } = useFetchGroupData(groupCode);
 
-  const showUserSettings = () => {
-    setIsDefaultBarShown(false);
-  };
-
-  const hideUserSettings = () => {
-    setIsDefaultBarShown(true);
-  };
-
-  const handleClickOutside = (event) => {
-    if (containerRef.current && !containerRef.current.contains(event.target)) {
-      setIsDefaultBarShown(true);
-    }
-  };
+  const showUserSettings = () => setIsDefaultBarShown(false);
+  const hideUserSettings = () => setIsDefaultBarShown(true);
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+    const handleClickOutside = (event) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target)
+      ) {
+        setIsDefaultBarShown(true);
+      }
     };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   useEffect(() => {
-    if (isFetched && groupData && groupData.group) {
+    if (isFetched && groupData?.group) {
       setIsDefaultBarShown(true);
     }
   }, [isFetched, groupData]);
 
-  // Making sure that page is not rendered prior to successful data fetching while also not breaking the design
-  if (!isFetched) {
-    return <div></div>;
-  }
+  if (!isFetched) return <div />;
 
-  // Force URL-encoded initial groupName
-  const urlEncodedGroupName = encodeURIComponent(
-    groupData.group.initialGroupName
+  const group = groupData?.group;
+  const barClass = `${styles.userSettingsBar} ${
+    isDefaultBarShown ? styles.showUserSettingsBar : styles.hideUserSettingsBar
+  }`;
+
+  // CODECHANGE: Using the routes factory for the invitation link
+  const invitationLink = routes.join(
+    encodeURIComponent(group?.initialGroupName || ""),
+    groupCode,
+    i18n.language,
   );
-
-  const invitationLinkDE = `${baseUrl}/join-instantsplit-group/${urlEncodedGroupName}/${groupCode}`;
-  const invitationLinkEN = `${baseUrl}/join-en-instantsplit-group/${urlEncodedGroupName}/${groupCode}`;
-
-  // Check language locale
-  const isGerman = i18n.language === "de";
-
-  // Determine the appropriate invitation link
-  const invitationLink = isGerman ? invitationLinkDE : invitationLinkEN;
+  const fullInvitationLink = `${baseUrl}${invitationLink}`;
 
   return (
     <div
@@ -96,19 +79,19 @@ const DefaultAndUserSettingsBar = () => {
       aria-label='top bar'
       ref={containerRef}>
       {!groupCode ? (
-        <span className={styles.spinner}></span>
+        <span className={styles.spinner} />
       ) : (
         <div className={styles.topBarWrapper}>
-          {groupCode && groupData && groupData.group && (
+          {group && (
             <span
-              className={`${styles.userSettingsBar} ${!isDefaultBarShown ? styles.hideUserSettingsBar : styles.showUserSettingsBar}`}
+              className={barClass}
               role='toolbar'
               aria-label='user settings'>
               <span className={styles.icon}>
                 {supportsWebShareAPI ? (
                   <WebShareApiInvite
-                    groupName={groupData.group.groupName}
-                    invitationLink={invitationLink}
+                    groupName={group.groupName}
+                    invitationLink={fullInvitationLink}
                   />
                 ) : (
                   <ReactIconNavigate
@@ -122,13 +105,13 @@ const DefaultAndUserSettingsBar = () => {
                     translateX={isSlimDevice ? 0.5 : -0.3}
                     iconExplanationWidth={5}
                     iconExplanationTextAlignment='center'
-                    route={`/share-group/${groupData.group.initialGroupName}/${groupCode}`}
+                    route={routes.shareGroup(group.initialGroupName, groupCode)}
                     {...addUserReactIconStyles}
                   />
                 )}
               </span>
               <span className={styles.instantSplitLogo}>
-                <InstantSplitLogo width={"24"} />
+                <InstantSplitLogo width='24' />
               </span>
               <span className={styles.icon}>
                 <ReactIconNavigate
@@ -148,10 +131,8 @@ const DefaultAndUserSettingsBar = () => {
               </span>
             </span>
           )}
-          <span
-            className={`${styles.userSettingsBar} ${!isDefaultBarShown ? styles.hideUserSettingsBar : styles.showUserSettingsBar}`}
-            role='toolbar'
-            aria-label='user settings'>
+
+          <span className={barClass} role='toolbar' aria-label='user settings'>
             <span className={styles.icon}>
               <ReactIconNavigate
                 icon={IoArrowBackCircleOutline}
@@ -171,7 +152,7 @@ const DefaultAndUserSettingsBar = () => {
                 containerWidth={isVerySlimDevice ? "6" : "7"}
                 explanationText={t("main-bar-tutorial-icon-text")}
                 iconExplanationWidth='8'
-                route={`/tutorial/${groupData?.group?.initialGroupName}/${groupCode}`}
+                route={routes.tutorial(group?.initialGroupName, groupCode)}
                 iconSize={isVerySlimDevice ? 3 : 3.5}
                 iconScale={1.1}
                 translateY={0.1}
@@ -184,7 +165,7 @@ const DefaultAndUserSettingsBar = () => {
                 containerWidth={isVerySlimDevice ? "6" : "7"}
                 explanationText={t("main-bar-contact-icon-text")}
                 iconExplanationWidth='5'
-                route={`/contact/${groupCode}`}
+                route={routes.contact(groupCode)}
                 iconSize={isVerySlimDevice ? 3 : 3.5}
                 iconScale={0.95}
               />
@@ -196,7 +177,7 @@ const DefaultAndUserSettingsBar = () => {
                 containerWidth={isVerySlimDevice ? "6" : "7"}
                 explanationText={t("main-bar-manage-groups-icon-text")}
                 iconExplanationWidth='7'
-                route={`/manage-groups`}
+                route={routes.manageGroups()}
                 iconSize={isVerySlimDevice ? 3 : 3.5}
                 iconScale={1}
                 translateY={0.1}
@@ -209,7 +190,7 @@ const DefaultAndUserSettingsBar = () => {
                 containerWidth={isVerySlimDevice ? "6" : "7"}
                 iconExplanationWidth='6'
                 explanationText={t("main-bar-leave-group-icon-text")}
-                route={`/leave-group/${groupData?.group?.groupName}/${groupCode}`}
+                route={routes.leaveGroup(group?.groupName, groupCode)}
                 iconSize={isVerySlimDevice ? 3 : 3.5}
                 iconScale={1.1}
                 translateX={isVerySlimDevice ? 0 : -0.3}
