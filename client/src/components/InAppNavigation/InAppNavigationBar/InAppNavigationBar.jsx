@@ -1,4 +1,3 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import {
   IoArrowBackCircleOutline,
@@ -7,13 +6,17 @@ import {
 } from "react-icons/io5";
 import { GoHome } from "react-icons/go";
 import { useTranslation } from "react-i18next";
-import { devLog } from "../../../../utils/errorUtils";
+
+import { devLog } from "@utils/errorUtils";
 import {
   deleteGroupDataFromLocalStorage,
   getRouteFromLocalStorage,
-} from "../../../../utils/localStorageUtils";
-import InstantSplitLogo from "../../InstantSplitLogo/InstantSplitLogo";
-import { ROUTES } from "../../../../constants/routesConstants";
+  getActiveGroupCode,
+} from "@utils/localStorageUtils";
+import { ROUTES } from "@constants/routesConstants";
+import { LOCAL_STORAGE_KEYS } from "@constants/localStorageConstants";
+import InstantSplitLogo from "@components/InstantSplitLogo/InstantSplitLogo";
+
 import styles from "./InAppNavigationBar.module.css";
 
 const InAppNavigationBar = ({
@@ -38,7 +41,7 @@ const InAppNavigationBar = ({
   };
 
   const handleAbort = (route) => {
-    const groupCode = localStorage.getItem("activeGroupCode");
+    const groupCode = getActiveGroupCode();
     deleteGroupDataFromLocalStorage(groupCode);
     devLog("Navigating to main application");
     navigate(route);
@@ -46,7 +49,7 @@ const InAppNavigationBar = ({
 
   const handleNestedNavigation = () => {
     const destinationRoute = nestedPreviousRoute
-      ? getRouteFromLocalStorage("nestedPreviousRoute")
+      ? getRouteFromLocalStorage(LOCAL_STORAGE_KEYS.NESTED_PREVIOUS_ROUTE)
       : getRouteFromLocalStorage();
 
     devLog("Navigating to:", destinationRoute);

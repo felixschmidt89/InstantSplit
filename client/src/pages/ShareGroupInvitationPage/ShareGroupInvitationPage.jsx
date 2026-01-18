@@ -12,7 +12,7 @@ import useFetchGroupData from "../../hooks/useFetchGroupData";
 // Component
 import HelmetMetaTagsNetlify from "../../components/common/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import PiratePx from "../../components/common/PiratePx/PiratePx";
-import InAppNavigationBar from "../../components/common/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
+import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import ShareGroupInvitation from "../../components/features/ShareGroupInvitation/ShareGroupInvitation/ShareGroupInvitation";
 
 // Styles
@@ -33,7 +33,7 @@ const ShareGroupInvitationPage = () => {
 
   // Force URL-encoded initial groupName
   const urlEncodedGroupName = encodeURIComponent(
-    groupData.group.initialGroupName
+    groupData.group.initialGroupName,
   );
   const invitationLinkDE = `${baseUrl}/join-instantsplit-group/${urlEncodedGroupName}/${groupCode}`;
   const invitationLinkEN = `${baseUrl}/join-en-instantsplit-group/${urlEncodedGroupName}/${groupCode}`;

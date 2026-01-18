@@ -9,8 +9,8 @@ import emojiConstants from "../../constants/emojiConstants";
 import HelmetMetaTagsNetlify from "../../components/common/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import PiratePx from "../../components/common/PiratePx/PiratePx";
 import Emoji from "../../components/common/Emoji/Emoji";
-import InAppNavigationBar from "../../components/common/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-import RouteButton from "../../components/common/InAppNavigation/RouteButton/RouteButton";
+import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
+import RouteButton from "../../components/InAppNavigation/RouteButton/RouteButton";
 
 // Styles
 import styles from "./PageNotFoundPage.module.css";

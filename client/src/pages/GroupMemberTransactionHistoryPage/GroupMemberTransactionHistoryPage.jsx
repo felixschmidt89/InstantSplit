@@ -19,7 +19,7 @@ import Spinner from "../../components/common/Spinner/Spinner";
 import ErrorDisplay from "../../components/common/ErrorDisplay/ErrorDisplay";
 import UserTransactionsHistory from "../../components/features/GroupMemberTransactionsHistory/GroupMemberTransactionsHistory/GroupMemberTransactionsHistory";
 import NoUserTransactions from "../../components/features/GroupMemberTransactionsHistory/NoGroupMemberTransactions/NoGroupMemberTransactions";
-import InAppNavigationBar from "../../components/common/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
+import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 
 // Styles
 import styles from "./GroupMemberTransactionHistoryPage.module.css";
@@ -45,10 +45,10 @@ const GroupMemberTransactionHistoryPage = () => {
    * @param {string} itemId - The ID of the deleted resource.
    */
   const updateGroupMemberExpensesAndPaymentsAfterResourceDeletion = (
-    itemId
+    itemId,
   ) => {
     const updatedItems = groupMemberExpensesAndPayments.filter(
-      (item) => item._id !== itemId
+      (item) => item._id !== itemId,
     );
     devLog("Group member expenses and payments updated:", updatedItems);
     setGroupMemberExpensesAndPayments(updatedItems);
@@ -58,7 +58,7 @@ const GroupMemberTransactionHistoryPage = () => {
     const fetchGroupMemberExpensesAndPayments = async () => {
       try {
         const response = await axios.get(
-          `${apiUrl}/users/${userId}/expenses-and-payments`
+          `${apiUrl}/users/${userId}/expenses-and-payments`,
         );
         devLog(`User ${userId} expenses and payments fetched:`, response);
         const groupMemberTransactionalData =

@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 // Styles
 import styles from "./GetStartedSection.module.css";
-import RouteButton from "../../../common/InAppNavigation/RouteButton/RouteButton";
+import RouteButton from "../../../InAppNavigation/RouteButton/RouteButton";
 
 /**
  * Component for rendering the get started section on the home page.

@@ -3,7 +3,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 // Constants and Utils
-import { setRouteInLocalStorage } from "../../../../utils/localStorageUtils";
+import { setRouteInLocalStorage } from "../../../utils/localStorageUtils";
 
 /**
  * Link component for navigating to a page with optional setting of previousRoute or nestedPreviousRoute in localStorage (needed for InAppNavgationBar component)

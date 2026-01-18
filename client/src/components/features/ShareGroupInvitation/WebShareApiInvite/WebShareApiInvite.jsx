@@ -8,7 +8,7 @@ import { devLog } from "../../../../utils/errorUtils";
 import { addUserReactIconStyles } from "../../../../constants/stylesConstants";
 
 // Components
-import ReactIconNavigate from "../../../common/InAppNavigation/ReactIconNavigate/ReactIconNavigate";
+import ReactIconNavigate from "../../../InAppNavigation/ReactIconNavigate/ReactIconNavigate";
 
 // Styles
 import styles from "./WebShareApiInvite.module.css";

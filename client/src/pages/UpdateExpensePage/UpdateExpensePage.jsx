@@ -7,7 +7,7 @@ import HelmetMetaTagsNetlify from "../../components/common/HelmetMetaTagsNetlify
 import PiratePx from "../../components/common/PiratePx/PiratePx";
 import Spinner from "../../components/common/Spinner/Spinner";
 import UpdateExpense from "../../components/features/Expenses/UpdateExpense/UpdateExpense";
-import InAppNavigationBar from "../../components/common/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
+import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import { ROUTES } from "../../constants/routesConstants";
 import styles from "./UpdateExpensePage.module.css";
 

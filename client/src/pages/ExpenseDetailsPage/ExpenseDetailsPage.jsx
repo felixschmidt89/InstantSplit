@@ -16,12 +16,12 @@ import useFetchGroupCurrency from "../../hooks/useFetchGroupCurrency";
 import HelmetMetaTagsNetlify from "../../components/common/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import PiratePx from "../../components/common/PiratePx/PiratePx";
 import Spinner from "../../components/common/Spinner/Spinner";
-import RouteButton from "../../components/common/InAppNavigation/RouteButton/RouteButton";
+import RouteButton from "../../components/InAppNavigation/RouteButton/RouteButton";
 import RenderExpenseBeneficiaries from "../../components/features/Expenses/RenderExpenseBeneficiaries/RenderExpenseBeneficiaries";
 import RenderExpenseDetails from "../../components/features/Expenses/RenderExpenseDetails/RenderExpenseDetails";
 import RenderResourceCreated from "../../components/common/RenderResourceCreated/RenderResourceCreated";
 import DeleteResource from "../../components/common/DeleteResource/DeleteResource";
-import InAppNavigation from "../../components/common/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
+import InAppNavigation from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import Emoji from "../../components/common/Emoji/Emoji";
 
 // Styles

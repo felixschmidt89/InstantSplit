@@ -8,7 +8,7 @@ import emojiConstants from "../../../../constants/emojiConstants";
 // Components
 import DeleteResource from "../../../common/DeleteResource/DeleteResource";
 import RenderDataAttributeWithAriaLabel from "../../../common/RenderDataAttributeWithAriaLabel/RenderDataAttributeWithAriaLabel";
-import LinkToPage from "../../../common/InAppNavigation/LinkToPage/LinkToPage";
+import LinkToPage from "../../../InAppNavigation/LinkToPage/LinkToPage";
 import Emoji from "../../../common/Emoji/Emoji";
 
 // Styles

@@ -14,7 +14,7 @@ import useGetPreviousRoutesFromLocalStorage from "../../hooks/useGetPreviousRout
 //Components
 import HelmetMetaTagsNetlify from "../../components/common/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import PiratePx from "../../components/common/PiratePx/PiratePx";
-import InAppNavigationBar from "../../components/common/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
+import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import LegalNoticeAuthor from "../../components/features/LegalNotice/LegalNoticeAuthor/LegalNoticeAuthor";
 import LegalNoticeSections from "../../components/features/LegalNotice/LegalNoticeSections/LegalNoticeSections";
 

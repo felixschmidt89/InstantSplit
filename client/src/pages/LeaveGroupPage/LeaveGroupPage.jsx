@@ -21,7 +21,7 @@ import useConfirmationModalLogicAndActions from "../../hooks/useConfirmationModa
 import HelmetMetaTagsNetlify from "../../components/common/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import PiratePx from "../../components/common/PiratePx/PiratePx";
 import CopyToClipboard from "../../components/common/CopyToClipboard/CopyToClipboard";
-import InAppNavigationBar from "../../components/common/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
+import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import ConfirmationModal from "../../components/common/ConfirmationModal/ConfirmationModal";
 
 // Styles

@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import HelmetMetaTagsNetlify from "../../components/common/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import PiratePx from "../../components/common/PiratePx/PiratePx";
 import SettleExpenses from "../../components/features/SettleExpenses/SettleExpenses/SettleExpenses";
-import InAppNavigationBar from "../../components/common/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
+import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 
 // Styles
 import styles from "./SettleExpensesPage.module.css";

@@ -6,8 +6,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import HistoryIcon from "@mui/icons-material/History";
 
 // Constants and Utils
-import { setRouteInLocalStorage } from "../../../../utils/localStorageUtils";
-import { routeButtonStyles } from "../../../../constants/stylesConstants";
+import { setRouteInLocalStorage } from "../../../utils/localStorageUtils";
+import { routeButtonStyles } from "../../../constants/stylesConstants";
 
 // Styles
 import styles from "./RouteButton.module.css";

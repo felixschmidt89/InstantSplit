@@ -9,7 +9,7 @@ import emojiConstants from "../../../../constants/emojiConstants";
 import DeleteResource from "../../../common/DeleteResource/DeleteResource";
 import Emoji from "../../../common/Emoji/Emoji";
 import RenderDataAttributeWithAriaLabel from "../../../common/RenderDataAttributeWithAriaLabel/RenderDataAttributeWithAriaLabel";
-import LinkToPage from "../../../common/InAppNavigation/LinkToPage/LinkToPage";
+import LinkToPage from "../../../InAppNavigation/LinkToPage/LinkToPage";
 
 // Styles
 import styles from "./RenderGroupMemberPayment.module.css";

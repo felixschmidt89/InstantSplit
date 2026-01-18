@@ -10,7 +10,7 @@ import { smallButtonStyles } from "../../../constants/stylesConstants";
 
 // Components
 import ErrorDisplay from "../ErrorDisplay/ErrorDisplay";
-import ReactIconNavigate from "../InAppNavigation/ReactIconNavigate/ReactIconNavigate";
+import ReactIconNavigate from "../../InAppNavigation/ReactIconNavigate/ReactIconNavigate";
 
 // Styles
 import styles from "./ConfirmationModal.module.css";

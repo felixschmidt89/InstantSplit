@@ -4,7 +4,7 @@ import useGetPreviousRoutesFromLocalStorage from "../../hooks/useGetPreviousRout
 import useTriggerRerender from "../../hooks/useTriggerRerender";
 import HelmetMetaTagsNetlify from "../../components/common/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import PiratePx from "../../components/common/PiratePx/PiratePx";
-import InAppNavigationBar from "../../components/common/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
+import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import CreateGroupMemberForm from "../../components/features/CreateGroupMember/CreateGroupMemberForm/CreateGroupMemberForm";
 import RenderGroupMemberNames from "../../components/features/CreateGroupMember/RenderGroupMemberNames/RenderGroupMemberNames";
 import { ROUTES } from "../../constants/routesConstants";

@@ -18,8 +18,8 @@ import { dynamicRoutes } from "../../../../utils/dynamicRoutes";
 import useFetchGroupData from "../../../../hooks/useFetchGroupData";
 import useIsSlimDevice from "../../../../hooks/useIsSlimDevice";
 
-import ReactIconNavigate from "../../../common/InAppNavigation/ReactIconNavigate/ReactIconNavigate";
-import InstantSplitLogo from "../../../common/InstantSplitLogo/InstantSplitLogo";
+import ReactIconNavigate from "../../../InAppNavigation/ReactIconNavigate/ReactIconNavigate";
+import InstantSplitLogo from "../../../InstantSplitLogo/InstantSplitLogo";
 import WebShareApiInvite from "../../ShareGroupInvitation/WebShareApiInvite/WebShareApiInvite";
 
 import styles from "./DefaultAndUserSettingsBar.module.css";

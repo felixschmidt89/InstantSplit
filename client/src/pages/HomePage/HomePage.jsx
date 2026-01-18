@@ -5,7 +5,7 @@ import PiratePx from "../../components/common/PiratePx/PiratePx";
 import InstantSplitIntroSection from "../../components/features/Home/InstantSplitIntroSection/InstantSplitIntroSection";
 import GetStartedSection from "../../components/features/Home/GetStartedSection/GetStartedSection";
 import TermsAndConditionsSection from "../../components/features/Home/TermsAndConditionsSection/TermsAndConditionsSection";
-import InAppNavigationBar from "../../components/common/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
+import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import styles from "./HomePage.module.css";
 import useAutoActiveGroupCodeRedirect from "../../hooks/useAutoActiveGroupCodeRedirect";
 

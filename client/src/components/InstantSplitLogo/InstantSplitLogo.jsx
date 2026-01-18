@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { ROUTES } from "../../../constants/routesConstants";
+import { ROUTES } from "../../constants/routesConstants";
 import styles from "./InstantSplitLogo.module.css";
 
 const InstantSplitLogo = ({ linkToInstantSplitPage = true }) => {

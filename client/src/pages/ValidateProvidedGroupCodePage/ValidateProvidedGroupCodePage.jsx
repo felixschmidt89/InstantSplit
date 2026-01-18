@@ -13,7 +13,7 @@ import useValidateGroupExistence from "../../hooks/useValidateGroupCodeExistence
 import useGetPreviousRoutesFromLocalStorage from "../../hooks/useGetPreviousRouteFromLocalStorage";
 import HelmetMetaTagsNetlify from "../../components/common/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import PiratePx from "../../components/common/PiratePx/PiratePx";
-import InAppNavigationBar from "../../components/common/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
+import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import ErrorDisplay from "../../components/common/ErrorDisplay/ErrorDisplay";
 import Spinner from "../../components/common/Spinner/Spinner";
 import { ROUTES } from "../../constants/routesConstants";
