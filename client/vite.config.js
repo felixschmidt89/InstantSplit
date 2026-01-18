@@ -4,7 +4,6 @@ import { VitePWA } from "vite-plugin-pwa";
 import { fileURLToPath } from "url";
 import path from "path";
 
-// robust way to get the current directory in ESM (EcmaScript Modules)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -49,10 +48,14 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      "@client": path.resolve(__dirname, "./src"),
       "@components": path.resolve(__dirname, "./src/components"),
+      "@pages": path.resolve(__dirname, "./src/pages"),
+      "@assets": path.resolve(__dirname, "./src/assets"),
       "@utils": path.resolve(__dirname, "./src/utils"),
       "@constants": path.resolve(__dirname, "./src/constants"),
       "@hooks": path.resolve(__dirname, "./src/hooks"),
+      "@docs": path.resolve(__dirname, "../docs"),
     },
   },
   build: {

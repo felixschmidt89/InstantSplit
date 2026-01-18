@@ -15,9 +15,12 @@
       "@/*": ["client/src/*"],
       "@client/*": ["client/src/*"],
       "@components/*": ["client/src/components/*"],
+      "@pages/*": ["client/src/pages/*"],
+      "@assets/*": ["client/src/assets/*"],
       "@utils/*": ["client/src/utils/*"],
       "@constants/*": ["client/src/constants/*"],
       "@hooks/*": ["client/src/hooks/*"],
+      "@docs/*": ["docs/*"],
 
       "@server/*": ["server/*"],
       "@models/*": ["server/models/*"],
@@ -36,6 +39,6 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["client/src", "server"],
+  "include": ["client/src", "server", "docs"],
   "exclude": ["node_modules", "client/dist", "server/dist"]
 }
