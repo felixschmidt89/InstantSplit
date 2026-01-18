@@ -23,7 +23,7 @@
 - **Code Blocks:** Print in **ONE single block**. Do not split imports/logic.
 - **Instruction File Format**:
   - When generating new or updated rules for instruction files, encapsulate the content in a separate Markdown code block.
-  - Adhere strictly to the established visual style of `### 4. Coding Standards: React & JS`, utilizing a structured hierarchy of bolded categories followed by bulleted requirements.
+  - Adhere strictly to the established visual style used in `### 4. Coding Standards: React & JS`, utilizing a structured hierarchy of bolded categories followed by bulleted requirements. Do not reprint `### 4. Coding Standards: React & JS`
   - Ensure the output is modular and ready for direct copy-pasting into the main instruction document.
 - **Inline Code:** Present code inline.
 - **Comments:**
@@ -50,6 +50,10 @@
 
 ### 4. Coding Standards: React & JS
 
+- **Asset Management**:
+  - **Location**: Store all component-related assets (images, svgs, fonts) in `client/src/assets/`.
+  - **Path Alias**: Use the `@assets` alias for all imports (e.g., `import logo from "@assets/images/logo.png"`).
+  - **Grouping**: Sub-categorize assets by type within the folder (e.g., `assets/flags/`, `assets/icons/`).
 - **Page Architecture**:
   - **Standard**: Folder-per-page pattern inside `src/pages/`.
   - **Structure**: Every page resides in its own named folder (e.g., `src/pages/ContactPage/`).

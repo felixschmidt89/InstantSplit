@@ -27,7 +27,7 @@ applyTo: "**"
 - **Code Blocks:** Print in **ONE single block**. Do not split imports/logic.
 - **Instruction File Format**:
   - When generating new or updated rules for instruction files, encapsulate the content in a separate Markdown code block.
-  - Adhere strictly to the established visual style of `### 4. Coding Standards: React & JS`, utilizing a structured hierarchy of bolded categories followed by bulleted requirements.
+  - Adhere strictly to the established visual style used in `### 4. Coding Standards: React & JS`, utilizing a structured hierarchy of bolded categories followed by bulleted requirements. Do not reprint `### 4. Coding Standards: React & JS`
   - Ensure the output is modular and ready for direct copy-pasting into the main instruction document.
 - **Inline Code:** Present code inline.
 - **Comments:**

@@ -1,1 +1,11 @@
-- **Refactor**: Flatten the `src/components/common` and `src/components/features` directories by moving all nested component folders directly into `src/components/`.
+- **Component Directory Nesting**:
+  - **Status**: Open
+  - **Issue**: Components are currently sub-categorized within `src/components/common` and `src/components/features`.
+  - **Impact**: Violates the "Flat Structure" standard, increases path depth, and complicates the `@components` alias resolution.
+  - **Remediation**: Flatten the architecture by moving all nested component folders directly into `src/components/` and updating imports to the explicit folder-per-component pattern.
+
+- **Asset Placement Mismatch**:
+  - **Status**: Open
+  - **Issue**: The `assets/` folder is currently located at `client/assets/` instead of `client/src/assets/`.
+  - **Impact**: Prevents Vite module bundling, breaks the `@assets` path alias, and forces the use of relative paths in components.
+  - **Remediation**: Move `client/assets/` into `client/src/assets/` and update all internal references to use the `@assets` alias.
