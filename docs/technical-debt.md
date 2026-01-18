@@ -1,0 +1,1 @@
+- **Refactor**: Flatten the `src/components/common` and `src/components/features` directories by moving all nested component folders directly into `src/components/`.
