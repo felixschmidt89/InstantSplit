@@ -113,3 +113,13 @@ This is a legacy codebase. When we work on existing files, we always want to ref
 - **Preserve Functionality:** Ensure existing features remain intact.
 - **Incremental Changes:** Make small, manageable changes rather than large overhauls. Wait for confirmation before proceeding with significant refactors.
 - **Testing:** After refactoring, ensure all existing tests pass. If no tests exist, recommend adding them. Use jest and react-testing-library for testing.
+
+### 7. Technical Debt Management
+
+- **Standard**: When requested to document technical debt, use a structured three-tier breakdown: **Issue**, **Impact**, and **Remediation**.
+- **Formatting**: Use a bolded kebab-case title for the debt entry (e.g., `- **Example-Debt-Name**:`) followed by a sub-bulleted list of the three tiers.
+- **Content Requirements**:
+  - **Issue**: Define the specific architectural or naming inconsistency clearly, citing file paths where possible.
+  - **Impact**: Explain the technical consequence (e.g., "stale data," "Vite bundling failure," "IDEs/Linter confusion").
+  - **Remediation**: Provide actionable steps to resolve the debt in alignment with the current **Coding Standards**.
+- **Dynamic Status**: Do **NOT** include "Status: Open" or similar progress markers in the entry unless explicitly asked.
