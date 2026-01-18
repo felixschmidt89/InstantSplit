@@ -1,0 +1,24 @@
+.languageFlag {
+  padding-top: 0.5rem;
+  width: 2.5rem;
+}
+
+.languageFlag {
+  cursor: pointer;
+}
+
+.languageFlag img {
+  filter: grayscale(20%);
+  border-radius: 0.5rem;
+}
+
+.languageFlag img:hover {
+  filter: grayscale(0%);
+}
+
+@media (max-width: 768px) {
+  .languageFlag {
+    width: 2rem;
+    padding-top: 0.1rem;
+  }
+}

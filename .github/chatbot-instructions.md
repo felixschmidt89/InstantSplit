@@ -50,26 +50,43 @@
 
 ### 4. Coding Standards: React & JS
 
+- **Page Architecture**:
+  - **Standard**: Folder-per-page pattern inside `src/pages/`.
+  - **Structure**: Every page resides in its own named folder (e.g., `src/pages/ContactPage/`).
+  - **Naming**: Folder and Primary File must include the "Page" suffix (e.g., `ContactPage.jsx`).
+  - **Explicit Imports**: Do **NOT** use `index.js` files. Imports must explicitly reference the page file (e.g., `import ContactPage from "@pages/ContactPage/ContactPage";`).
+
+- **Component Architecture & Naming**:
+  - **Flat Structure**: All component folders must reside directly under `src/components/`. Sub-categorization folders such as `common/` or `features/` are strictly prohibited.
+  - **Folder-per-Component Pattern**: Every component resides in its own named folder (e.g., `src/components/Footer/`).
+  - **Primary File**: The main component file name must match the folder name exactly (e.g., `Footer.jsx`).
+  - **Explicit Imports**: Do **NOT** use `index.js` files. Imports must explicitly reference the component file (e.g., `import Footer from "@components/Footer/Footer";`).
+  - **Styles**: Component-specific styles must use the CSS Module naming convention matching the component (e.g., `Footer.module.css`).
+
 - **Syntax & Functions**:
   - Use ES6 modules and `async/await`.
   - Functional components only.
   - Use **Arrow Functions** for everything (components, hooks, helpers).
+
 - **React Imports**:
-  - Do **NOT** import `React` from `"react"` by default.
-  - Leverage the modern JSX transform (`react-jsx`).
-  - Only include `React` base import when technically necessary for global object access (e.g., `React.Children`, `React.cloneElement`, or `React.isValidElement`).
-  - Prioritize destructuring specific hooks and utilities (e.g., `import { useState, useEffect, memo } from "react"`) instead of using the `React` prefix.
+  - Do **NOT** import `React` from `"react"` by default. Leverage the modern JSX transform (`react-jsx`).
+  - Only include `React` base import when technically necessary for global object access (e.g., `React.Children`, `React.cloneElement`).
+  - Prioritize destructuring specific hooks (e.g., `import { useState } from "react"`) instead of using the `React` prefix.
+
 - **Import Organization**:
-  - Group imports by type to maximize scannability: 1. Third-party libraries, 2. Path aliases (`@/`, `@components`, etc.), 3. Local assets and CSS modules.
+  - Group imports by type: 1. Third-party libraries, 2. Path aliases (`@/`, `@components`, `@pages`, `@constants`, `@utils`, `@hooks`), 3. Local assets and CSS modules.
   - **NEVER** use relative paths (e.g., `../../../../`) for files outside the current directory; always use the designated **Path Alias**.
   - Keep a single empty line between import groups to maintain visual separation.
+
 - **Logic Simplification**:
   - **Boolean Logic**: Do **NOT** use ternary operators for boolean assignments. Use optional chaining with double negation (e.g., `!!object?.property?.includes(value)`).
   - **Falsy Evaluation**: Prioritize conciseness by leveraging falsy evaluation and optional chaining (e.g., `if (!data?.length)`) instead of explicit null and length checks.
-  - **Short-Circuiting**: Use logical AND (`&&`) for conditional prop assignments or rendering where a falsy fallback is acceptable. Avoid ternary operators for these cases (e.g., `error={localError && t(localError)}`).
+  - **Short-Circuiting**: Use logical AND (`&&`) for conditional prop assignments or rendering where a falsy fallback is acceptable (e.g., `error={localError && t(localError)}`).
+
 - **Props & Objects**:
   - **Destructuring**: Always destructure props and objects.
   - **PropTypes**: Do **NOT** use `propTypes`.
+
 - **Styles**:
   - Use the `classnames` package for conditional classes.
   - Prioritize CSS for styles; use JavaScript only if absolutely necessary.
