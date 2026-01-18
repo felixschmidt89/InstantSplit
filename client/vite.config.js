@@ -1,7 +1,14 @@
+import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { VitePWA } from "vite-plugin-pwa";
+import { fileURLToPath } from "url";
+import path from "path";
 
-const config = {
+// robust way to get the current directory in ESM (EcmaScript Modules)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+export default defineConfig({
   plugins: [
     react(),
     VitePWA({
@@ -39,14 +46,20 @@ const config = {
       },
     }),
   ],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+      "@components": path.resolve(__dirname, "./src/components"),
+      "@utils": path.resolve(__dirname, "./src/utils"),
+      "@constants": path.resolve(__dirname, "./src/constants"),
+      "@hooks": path.resolve(__dirname, "./src/hooks"),
+    },
+  },
   build: {
     outDir: "dist",
     minify: "esbuild",
   },
   css: {
-    modules: true, // Enable CSS modules
+    modules: true,
   },
-  include: ["src/**/*"], // Specify which files to include as source files
-};
-
-export default config;
+});
