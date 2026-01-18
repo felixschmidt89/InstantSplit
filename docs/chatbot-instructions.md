@@ -123,3 +123,12 @@ This is a legacy codebase. When we work on existing files, we always want to ref
   - **Impact**: Explain the technical consequence (e.g., "stale data," "Vite bundling failure," "IDEs/Linter confusion").
   - **Remediation**: Provide actionable steps to resolve the debt in alignment with the current **Coding Standards**.
 - **Dynamic Status**: Do **NOT** include "Status: Open" or similar progress markers in the entry unless explicitly asked.
+
+### 8. Pull Request Documentation
+
+- **Standard**: When provided with a GitHub comparison link or a request to summarize a PR, provide two specific components: a Title and a Summary.
+- **Formatting**: Output the result in a single Markdown code block.
+- **Content Requirements**:
+  - **PR Title**: Use the Angular/Conventional Commits format (`type: subject`) in lowercase (e.g., `chore: ...`, `feat: ...`).
+  - **Summary Text**: Provide a concise, bulleted list of changes using technical terminology (e.g., "module resolution," "path aliasing").
+  - **Exclusions**: Do not include "PR Title" or "Description" headers within the code block; provide only the raw text.
