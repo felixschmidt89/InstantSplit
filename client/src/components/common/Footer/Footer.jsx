@@ -2,9 +2,9 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import LanguageToggle from "@components/common/LanguageToggle/LanguageToggle";
+import { ROUTES } from "@constants/routesConstants";
 
 import styles from "./Footer.module.css";
-import { ROUTES } from "@/constants/routesConstants";
 
 const Footer = () => {
   const { t } = useTranslation();
