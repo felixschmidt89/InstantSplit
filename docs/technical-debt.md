@@ -7,12 +7,6 @@
   - **Impact**: Violates the "Flat Structure" standard, increases path depth, and complicates the `@components` alias resolution.
   - **Remediation**: Flatten the architecture by moving all nested component folders directly into `src/components/` and updating imports to the explicit folder-per-component pattern.
 
-- **Asset Placement Mismatch**:
-  - **Issue**: The `assets/` folder is currently located at `client/assets/` instead of `client/src/assets/`.
-  - **Impact**: Prevents Vite module bundling, breaks the `@assets` path alias, and forces the use of relative paths in components.
-  - **Remediation**:
-    - Move `client/assets/` into `client/src/assets/` and update all internal references to use the `@assets` alias.
-    - Delete `client/assets/`
 - **Incorrect File Extensions in Constants**:
   - **Issue**: Logic-only files in `src/constants/` (e.g., `dataConstants.jsx`, `routesConstants.jsx`) incorrectly use the `.jsx` extension.
   - **Impact**: Inconsistent naming convention and misleading file metadata for build tools and IDEs.
