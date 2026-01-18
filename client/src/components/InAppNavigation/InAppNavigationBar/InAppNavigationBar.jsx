@@ -35,9 +35,20 @@ const InAppNavigationBar = ({
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const handleRegularNavigation = (route) => {
+  const handleNavigation = (route) => {
     devLog("Navigating to:", route);
     navigate(route);
+  };
+
+  const handleNestedNavigation = () => {
+    const localStorageKey = nestedPreviousRoute
+      ? LOCAL_STORAGE_KEYS.NESTED_PREVIOUS_ROUTE
+      : LOCAL_STORAGE_KEYS.PREVIOUS_ROUTE;
+
+    const retrievedRoute = getRouteFromLocalStorage(localStorageKey);
+
+    devLog("Navigating to:", retrievedRoute);
+    navigate(retrievedRoute);
   };
 
   const handleAbort = (route) => {
@@ -47,27 +58,13 @@ const InAppNavigationBar = ({
     navigate(route);
   };
 
-  const handleNestedNavigation = () => {
-    const destinationRoute = nestedPreviousRoute
-      ? getRouteFromLocalStorage(LOCAL_STORAGE_KEYS.NESTED_PREVIOUS_ROUTE)
-      : getRouteFromLocalStorage();
-
-    devLog("Navigating to:", destinationRoute);
-
-    navigate(destinationRoute, {}, (e) => {
-      if (!e.defaultPrevented) {
-        devLog("Navigating to:", destinationRoute);
-      }
-    });
-  };
-
   return (
     <div className={styles.navContainer}>
       <div className={styles.leftIcon}>
         {back && (
           <div
             className={styles.iconContainer}
-            onClick={() => handleRegularNavigation(backRoute)}>
+            onClick={() => handleNavigation(backRoute)}>
             <IoArrowBackCircleOutline
               className={`${styles.leftAlignedIcon} ${styles.icon}`}
             />
@@ -76,19 +73,7 @@ const InAppNavigationBar = ({
             </div>
           </div>
         )}
-        {previousRoute && (
-          <div
-            className={styles.iconContainer}
-            onClick={handleNestedNavigation}>
-            <IoArrowBackCircleOutline
-              className={`${styles.leftAlignedIcon} ${styles.icon}`}
-            />
-            <div className={styles.text}>
-              {t("in-app-navigation-back-icon-text")}
-            </div>
-          </div>
-        )}
-        {nestedPreviousRoute && (
+        {(previousRoute || nestedPreviousRoute) && (
           <div
             className={styles.iconContainer}
             onClick={handleNestedNavigation}>
@@ -123,7 +108,7 @@ const InAppNavigationBar = ({
         {home && (
           <div
             className={styles.iconContainer}
-            onClick={() => handleRegularNavigation(homeRoute)}>
+            onClick={() => handleNavigation(homeRoute)}>
             <GoHome className={`${styles.rightAlignedIcon} ${styles.icon}`} />
             <div className={styles.text}>
               {t("in-app-navigation-main-icon-text")}
@@ -133,7 +118,7 @@ const InAppNavigationBar = ({
         {forward && (
           <div
             className={styles.iconContainer}
-            onClick={() => handleRegularNavigation(forwardRoute)}>
+            onClick={() => handleNavigation(forwardRoute)}>
             <IoArrowForwardCircleOutline
               className={`${styles.rightAlignedIcon} ${styles.icon}`}
             />
