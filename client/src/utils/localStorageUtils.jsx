@@ -1,5 +1,9 @@
+import { LOCAL_STORAGE_KEYS } from "@/constants/localStorageConstants";
 import { currentTimeStamp } from "../constants/dateConstants";
 import { devLog } from "./errorUtils";
+
+export const getActiveGroupCode = () =>
+  localStorage.getItem(LOCAL_STORAGE_KEYS.ACTIVE_GROUP_CODE);
 
 export const isGroupCodeInStoredGroupCodes = (groupCode) => {
   try {

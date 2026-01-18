@@ -126,7 +126,7 @@ This is a legacy codebase. When we work on existing files, we always want to ref
 
 ### 8. Pull Request Documentation
 
-- **Standard**: When provided with a GitHub comparison link or a request to summarize a PR, provide two specific components: a Title and a Summary.
+- **Standard**: When provided with a GitHub PR, provide two specific components: a Title and a brief Summary of the changes.
 - **Formatting**: Output the result in a single Markdown code block.
 - **Content Requirements**:
   - **PR Title**: Use the Angular/Conventional Commits format (`type: subject`) in lowercase (e.g., `chore: ...`, `feat: ...`).
