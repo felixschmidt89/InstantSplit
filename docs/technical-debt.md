@@ -1,3 +1,7 @@
+# Technical Debt
+
+## Client
+
 - **Component Directory Nesting**:
   - **Issue**: Components are currently sub-categorized within `src/components/common` and `src/components/features`.
   - **Impact**: Violates the "Flat Structure" standard, increases path depth, and complicates the `@components` alias resolution.
@@ -17,3 +21,5 @@
   - **Issue**: Time-based values in `src/constants/` are stored as module-load snapshots and resided in a file with a typo (`dateContants.jsx`).
   - **Impact**: Risk of stale data in long-running sessions and inconsistent naming conventions that violate the `.js` extension rule for logic-only files.
   - **Remediation**: Rename file to `timeConstants.js`, update variables to use the `SESSION_START_` prefix to clarify their snapshot nature, and audit usage to ensure they are excluded from real-time business logic.
+
+## Server
