@@ -1,20 +1,44 @@
 {
   "compilerOptions": {
-    // Specifies the module code generation: 'ESNext' allows the most recent ECMAScript module syntax.
-    "module": "ESNext",
-    // Specifies how TypeScript resolves module imports: 'Node' follows Node.js module resolution algorithm.
-    "moduleResolution": "Node",
-    // Sets the ECMAScript target version for emitted JavaScript
     "target": "ES2020",
-    // Enables JSX support: 'react' allows JSX syntax in '.tsx' files.
-    "jsx": "react",
-    // Allows importing TypeScript files without specifying the file extension.
+    "module": "ESNext",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "jsx": "react-jsx",
+    "moduleResolution": "Bundler",
     "allowImportingTsExtensions": true,
-    // Enables strict null checks: Helps catch common programming errors by disallowing 'null' and 'undefined' values.
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["client/src/*"],
+      "@client/*": ["client/src/*"],
+      "@components/*": ["client/src/components/*"],
+      "@pages/*": ["client/src/pages/*"],
+      "@assets/*": ["client/src/assets/*"],
+      "@utils/*": ["client/src/utils/*"],
+      "@constants/*": ["client/src/constants/*"],
+      "@hooks/*": ["client/src/hooks/*"],
+      "@docs/*": ["docs/*"],
+
+      "@server/*": ["server/*"],
+      "@models/*": ["server/models/*"],
+      "@controllers/*": ["server/controllers/*"],
+      "@server-utils/*": ["server/utils/*"]
+    },
+
+    "strict": true,
     "strictNullChecks": true,
-    // Enables strict function types: Ensures function types have exact signatures.
-    "strictFunctionTypes": true
+    "strictFunctionTypes": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "skipLibCheck": true,
+    "allowJs": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true
   },
-  // Specifies folders or files TypeScript should ignore when compiling.
-  "exclude": ["node_modules"]
+  "include": ["client/src", "server", "docs"],
+  "exclude": ["node_modules", "client/dist", "server/dist"]
 }
