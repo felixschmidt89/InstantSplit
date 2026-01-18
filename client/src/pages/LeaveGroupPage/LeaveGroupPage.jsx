@@ -26,6 +26,7 @@ import ConfirmationModal from "../../components/common/ConfirmationModal/Confirm
 
 // Styles
 import styles from "./LeaveGroupPage.module.css";
+import { ROUTES } from "../../constants/routesConstants";
 
 const LeaveGroupPage = () => {
   const { groupName, groupCode } = useParams();
@@ -46,7 +47,7 @@ const LeaveGroupPage = () => {
       setGroupCodeToCurrentlyActive(newGroupCode);
     },
     () => {
-      navigate("/instant-split");
+      navigate(ROUTES.INSTANT_SPLIT);
     },
   ]);
 

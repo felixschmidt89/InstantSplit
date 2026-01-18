@@ -23,7 +23,6 @@
 - **Code Blocks:** Print in **ONE single block**. Do not split imports/logic.
 - **Inline Code:** Present code inline.
 - **Comments:**
-
   - **NEVER:** Add extra comments unless requested.
   - **NEVER:** Use JSDoc comments
   - **NEVER:** Change comments that include "TODO:"
@@ -43,7 +42,7 @@
 - **Commit Messages (Angular Style):**
   - Format: `type: subject` (e.g., `feat: apply primary attribute`).
   - No brackets, no body/footer.
-  - **Only** provide when you have provided new code: `git add . && git commit -m "..."`
+  - **Only** provide when you have provided new code below the code block in a new line
 
 ## 4. Coding Standards: React & JS
 
@@ -51,6 +50,9 @@
 - **Components:** Functional components only.
 - **Functions:** Use **Arrow Functions** for everything (components, hooks, helpers).
 - **Props:** Do **NOT** use `propTypes`.
+- **Boolean Logic Simplification:** Do **NOT** use ternary operators for boolean assignments (e.g., condition ? true : false). Use optional chaining with double negation (e.g., !!object?.property?.includes(value)).
+- **Logic Simplification:** Prioritize conciseness by leveraging falsy evaluation and optional chaining (e.g., if (!data?.length)) instead of explicit null and length checks (e.g., if (!data || data.length === 0)).
+- **Logical Short-Circuiting**: Use logical AND (&&) for conditional prop assignments or rendering where a falsy fallback (like null or false) is acceptable. Avoid ternary operators for these cases (e.g., use error={localError && t(localError)} instead of error={localError ? t(localError) : null}).
 - **Destructuring:** Always destructure props and objects.
 - **Styles:**
   - use classnames package for conditional classes.

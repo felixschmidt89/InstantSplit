@@ -1,37 +1,21 @@
-// React and Third-Party Libraries
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 import { usePWAInstall } from "react-use-pwa-install";
-
-// Constants and Utils
 import { devLog } from "../../../../utils/errorUtils";
-
-// Hooks
 import useErrorModalVisibility from "../../../../hooks/useErrorModalVisibility";
 import useGetClientDeviceAndPwaInfo from "../../../../hooks/useGetClientDeviceAndPwaInfo";
-
-// Components
 import ContactForm from "../ContactForm/ContactForm";
 import ErrorModal from "../../../common/ErrorModal/ErrorModal";
 import SuccessFeedback from "../ContactForm/SuccessFeedback/SuccessFeedback";
-
-// Styles
+import { ROUTES } from "../../../../constants/routesConstants";
 import styles from "./Contact.module.css";
 
-// API URL
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-/**
- * Parent component for contact form.
- *
- * @function
- * @returns {JSX.Element} - React component.
- */
+
 const Contact = () => {
   const { t } = useTranslation();
-
   const { groupCode } = useParams();
   const navigate = useNavigate();
 
@@ -45,14 +29,12 @@ const Contact = () => {
   const [showForm, setShowForm] = useState(true);
   const [error, setError] = useState(null);
 
-  // use library to check if PWA install prompt is available
   const isPWAInstallPromptAvailable = usePWAInstall();
   devLog("isPWAInstallPromptAvailable", isPWAInstallPromptAvailable);
 
   const { isPwa, isMobile, isAndroid, isMobileSafari, isIOS, browserName } =
     useGetClientDeviceAndPwaInfo();
 
-  // Get error modal visibility logic
   const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
     useErrorModalVisibility();
 
@@ -70,50 +52,49 @@ const Contact = () => {
 
   const handleFormSubmission = async (e) => {
     e.preventDefault();
-    // Clear file, if message type has been changed after adding a screenshot
+
     if (formData.messageType !== "issue/bug") {
       setFile(null);
     }
-    // Clear previous error
+
     setError("");
-    // Validate name
-    if (!formData.name.trim()) {
+
+    if (!formData.name?.trim()) {
       setError(t("contact-form-missing-name-error"));
       displayErrorModal();
       return;
     }
+
     if (formData.name.length > 50) {
       setError(t("contact-form-too-long-name-error"));
       displayErrorModal();
       return;
     }
 
-    // Validate message
-    if (!formData.feedback.trim()) {
+    if (!formData.feedback?.trim()) {
       setError(t("contact-form-no-message-error"));
       displayErrorModal();
       return;
     }
+
     if (formData.feedback.length > 2500) {
       setError(t("contact-form-message-too-long-error"));
       displayErrorModal();
       return;
     }
 
-    // Validate file size
     if (file && file.size > 5242880) {
       setError(t("contact-form-attached-file-too-big-error"));
       displayErrorModal();
       return;
     }
+
     try {
-      // Create contactData object & add groupCode for referencing
       const contactData = {
         ...formData,
         groupCode,
       };
-
-      // Add client information to feedback if messageType is 'issue/bug'
+      // TODO: Refactor to a separate and better readable function
       if (formData.messageType === "issue/bug") {
         const clientInfo = `Client Information:
         - mobile: ${isMobile ? "Yes" : "No"}
@@ -127,8 +108,7 @@ const Contact = () => {
         contactData.feedback += `\n\n${clientInfo}`;
       }
 
-      // Upload file if attached
-      if (file !== null) {
+      if (file) {
         try {
           const fileData = new FormData();
           fileData.append("file", file);
@@ -136,7 +116,6 @@ const Contact = () => {
           const responseFile = await axios.post(`${apiUrl}/files`, fileData);
           devLog("File sent:", responseFile);
 
-          // Add file's ObjectId to requestData for referencing
           contactData.fileId = responseFile.data.savedFile._id;
         } catch (error) {
           devLog("Error uploading file:", error);
@@ -149,9 +128,9 @@ const Contact = () => {
       const response = await axios.post(`${apiUrl}/feedbacks`, contactData);
       devLog("Message sent:", response);
       setShowForm(false);
-      // Render success feedback and programmatically navigate with a short delay
+
       setTimeout(() => {
-        navigate("/instant-split");
+        navigate(ROUTES.INSTANT_SPLIT);
       }, 2500);
     } catch (error) {
       devLog("Error creating Feedback:", error);
@@ -173,7 +152,7 @@ const Contact = () => {
             error={error}
             onClose={handleCloseErrorModal}
             isVisible={isErrorModalVisible}
-          />{" "}
+          />
         </div>
       ) : (
         <SuccessFeedback />

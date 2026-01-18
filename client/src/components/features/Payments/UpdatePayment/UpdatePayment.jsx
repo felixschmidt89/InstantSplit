@@ -1,73 +1,52 @@
-// React and Third-Party Libraries
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import { IoArrowDownOutline } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
-
-// Constants and Utils
 import { devLog, handleApiErrors } from "../../../../utils/errorUtils";
 import emojiConstants from "../../../../constants/emojiConstants";
 import { MINIMUM_VALID_AMOUNT } from "../../../../constants/dataConstants";
 import { buttonStyles } from "../../../../constants/stylesConstants";
-
-// Hooks
 import useErrorModalVisibility from "../../../../hooks/useErrorModalVisibility";
-
-// Components
 import PaymentAmountInput from "../PaymentAmountInput/PaymentAmountInput";
 import PaymentMakerSelect from "../PaymentMakerSelect/PaymentMakerSelect";
 import PaymentRecipientSelect from "../PaymentRecipientSelect/PaymentRecipientSelect";
 import ErrorModal from "../../../common/ErrorModal/ErrorModal";
 import Emoji from "../../../common/Emoji/Emoji";
 import RenderReactIcon from "../../../common/RenderReactIcon/RenderReactIcon";
-
-// Styles
+import { ROUTES } from "../../../../constants/routesConstants";
 import styles from "./UpdatePayment.module.css";
 
-// API URL
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
-/**
- * Parent component for updating a payment.
- *
- * @param {Object} props - The properties of the component.
- * @param {Object[]} props.groupMembers - An array of group members.
- * @param {string} props.groupCode - The groupCode identifying the group.
- * @param {Object} props.paymentDetails - The details of the payment stored in the database prior to being updated.
- * @param {string} props.itemId - The unique identifier of the payment.
- * @param {string} [props.route="/instant-split"] - The route to navigate to after updating the payment.
- * @returns {JSX.Element} React component. */
 const UpdatePayment = ({
   groupMembers,
   groupCode,
   paymentDetails,
   itemId,
-  route = "/instant-split",
+  route = ROUTES.INSTANT_SPLIT,
 }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const paymentId = paymentDetails._id;
 
-  // Values stored in database
-  const storedPaymentAmount = paymentDetails.paymentAmount;
-  const storedPaymentMakerName = paymentDetails.paymentMaker.userName;
-  const storedPaymentRecipientName = paymentDetails.paymentRecipient.userName;
+  const {
+    _id: paymentId,
+    paymentAmount: storedPaymentAmount,
+    paymentMaker: { userName: storedPaymentMakerName },
+    paymentRecipient: { userName: storedPaymentRecipientName },
+  } = paymentDetails;
 
-  // States to manage to be updated properties
   const [paymentAmount, setPaymentAmount] = useState(storedPaymentAmount);
   const [paymentMakerName, setPaymentMakerName] = useState(
-    storedPaymentMakerName
+    storedPaymentMakerName,
   );
   const [paymentRecipientName, setPaymentRecipientName] = useState(
-    storedPaymentRecipientName
+    storedPaymentRecipientName,
   );
-
   const [formChanged, setFormChanged] = useState(false);
   const [error, setError] = useState(null);
 
-  // Get error modal visibility logic
   const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
     useErrorModalVisibility();
 
@@ -77,28 +56,25 @@ const UpdatePayment = ({
     paymentMakerName &&
     paymentRecipientName;
 
-  // useEffect to handle form changes
   useEffect(() => {
-    const isFormChanged =
+    const hasChanged =
       paymentAmount !== storedPaymentAmount ||
       paymentMakerName !== storedPaymentMakerName ||
       paymentRecipientName !== storedPaymentRecipientName;
 
-    setFormChanged(isFormChanged);
+    setFormChanged(hasChanged);
   }, [
     paymentAmount,
     paymentMakerName,
     paymentRecipientName,
-    paymentDetails,
     storedPaymentAmount,
     storedPaymentMakerName,
     storedPaymentRecipientName,
   ]);
 
-  // On form submission: post payment and navigate to instant-split page
   const handleFormSubmit = async (e) => {
-    setError(null);
     e.preventDefault();
+    setError(null);
     try {
       const response = await axios.put(`${apiUrl}/payments/${paymentId}`, {
         groupCode,
@@ -126,16 +102,16 @@ const UpdatePayment = ({
       <PaymentAmountInput
         paymentAmount={paymentAmount}
         onAmountChange={setPaymentAmount}
-        isUpdate={true}
+        isUpdate
       />
       <PaymentMakerSelect
         paymentMakerName={paymentMakerName}
         onPaymentMakerChange={setPaymentMakerName}
         groupMembers={groupMembers}
-        isUpdate={true}
+        isUpdate
       />
       <div className={styles.emojis}>
-        <Emoji ariaLabel={"payment emoji"} emoji={emojiConstants.payment}></Emoji>
+        <Emoji ariaLabel='payment emoji' emoji={emojiConstants.payment} />
         <RenderReactIcon
           icon={IoArrowDownOutline}
           size={1.6}
@@ -148,7 +124,7 @@ const UpdatePayment = ({
         paymentRecipientName={paymentRecipientName}
         onRecipientChange={setPaymentRecipientName}
         groupMembers={groupMembers}
-        isUpdate={true}
+        isUpdate
       />
       <div className={styles.buttonContainer}>
         {isSubmitButtonVisible && (
@@ -160,7 +136,7 @@ const UpdatePayment = ({
           error={error}
           onClose={handleCloseErrorModal}
           isVisible={isErrorModalVisible}
-        />{" "}
+        />
       </div>
     </form>
   );

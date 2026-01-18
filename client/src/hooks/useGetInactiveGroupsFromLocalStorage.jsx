@@ -8,7 +8,7 @@ import { devLog } from "../utils/errorUtils";
 
 // API URL
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-
+// TODO: inactive term is inaccurate
 /**
  * Custom React hook for fetching inactive group names stored in local storage
  *
@@ -31,7 +31,7 @@ const useGetInactiveGroupsFromLocalStorage = (groupCode) => {
     const fetchAndTransformGroupNames = async () => {
       try {
         const groupCodesArray = JSON.parse(
-          localStorage.getItem("storedGroupCodes")
+          localStorage.getItem("storedGroupCodes"),
         );
 
         if (!groupCodesArray) {
@@ -43,7 +43,7 @@ const useGetInactiveGroupsFromLocalStorage = (groupCode) => {
         devLog("Stored groupCodes string:", groupCodesString);
 
         const response = await axios.get(
-          `${apiUrl}/groups/StoredGroupNames?storedGroupCodes=${groupCodesString}`
+          `${apiUrl}/groups/StoredGroupNames?storedGroupCodes=${groupCodesString}`,
         );
         devLog("Group names fetched:", response);
 
@@ -54,12 +54,12 @@ const useGetInactiveGroupsFromLocalStorage = (groupCode) => {
         // Remove the currently active group
         const filteredGroupNamesAndGroupCodes =
           allGroupNamesAndGroupCodes.filter(
-            (group) => group.groupCode !== groupCode
+            (group) => group.groupCode !== groupCode,
           );
         setInactiveGroupNamesAndGroupCodes(filteredGroupNamesAndGroupCodes);
         devLog(
           "Inactive associated group names:",
-          filteredGroupNamesAndGroupCodes
+          filteredGroupNamesAndGroupCodes,
         );
         setIsFetched(true);
       } catch (error) {
