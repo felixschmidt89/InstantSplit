@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { LuMenu } from "react-icons/lu";
 import {
   IoInformationCircleOutline,
@@ -10,17 +10,19 @@ import {
 import { PiUserSwitchLight } from "react-icons/pi";
 import { useTranslation } from "react-i18next";
 
-import { isWebShareAPISupported } from "../../../../utils/clientUtils";
-import { addUserReactIconStyles } from "../../../../constants/stylesConstants";
-import { ROUTES } from "../../../../constants/routesConstants";
-import { dynamicRoutes } from "../../../../utils/dynamicRoutes";
+import { isWebShareAPISupported } from "@utils/clientUtils";
+import { getActiveGroupCode } from "@utils/localStorageUtils";
+import { dynamicRoutes } from "@utils/dynamicRoutes";
 
-import useFetchGroupData from "../../../../hooks/useFetchGroupData";
-import useIsSlimDevice from "../../../../hooks/useIsSlimDevice";
+import { addUserReactIconStyles } from "@constants/stylesConstants";
+import { ROUTES } from "@constants/routesConstants";
 
-import ReactIconNavigate from "../../../InAppNavigation/ReactIconNavigate/ReactIconNavigate";
-import InstantSplitLogo from "../../../InstantSplitLogo/InstantSplitLogo";
-import WebShareApiInvite from "../../ShareGroupInvitation/WebShareApiInvite/WebShareApiInvite";
+import useFetchGroupData from "@hooks/useFetchGroupData";
+import useIsSlimDevice from "@hooks/useIsSlimDevice";
+
+import ReactIconNavigate from "@components/InAppNavigation/ReactIconNavigate/ReactIconNavigate";
+import InstantSplitLogo from "@components/InstantSplitLogo/InstantSplitLogo";
+import WebShareApiInvite from "@components/ShareGroupInvitation/WebShareApiInvite/WebShareApiInvite";
 
 import styles from "./DefaultAndUserSettingsBar.module.css";
 
@@ -29,11 +31,24 @@ const baseUrl = import.meta.env.VITE_REACT_APP_BASE_URL;
 const DefaultAndUserSettingsBar = () => {
   const containerRef = useRef(null);
   const { t, i18n } = useTranslation();
-  const groupCode = localStorage.getItem("activeGroupCode");
-  const supportsWebShareAPI = isWebShareAPISupported();
   const { isSlimDevice, isVerySlimDevice } = useIsSlimDevice();
   const [isDefaultBarShown, setIsDefaultBarShown] = useState(true);
+
+  const groupCode = getActiveGroupCode();
+  const supportsWebShareAPI = isWebShareAPISupported();
   const { groupData, isFetched } = useFetchGroupData(groupCode);
+
+  const group = groupData?.group;
+  const barClass = `${styles.userSettingsBar} ${
+    isDefaultBarShown ? styles.showUserSettingsBar : styles.hideUserSettingsBar
+  }`;
+
+  const invitationLink = dynamicRoutes.join(
+    encodeURIComponent(group?.initialGroupName || ""),
+    groupCode,
+    i18n.language,
+  );
+  const fullInvitationLink = `${baseUrl}${invitationLink}`;
 
   const showUserSettings = () => setIsDefaultBarShown(false);
   const hideUserSettings = () => setIsDefaultBarShown(true);
@@ -59,18 +74,6 @@ const DefaultAndUserSettingsBar = () => {
   }, [isFetched, groupData]);
 
   if (!isFetched) return <div />;
-
-  const group = groupData?.group;
-  const barClass = `${styles.userSettingsBar} ${
-    isDefaultBarShown ? styles.showUserSettingsBar : styles.hideUserSettingsBar
-  }`;
-
-  const invitationLink = dynamicRoutes.join(
-    encodeURIComponent(group?.initialGroupName || ""),
-    groupCode,
-    i18n.language,
-  );
-  const fullInvitationLink = `${baseUrl}${invitationLink}`;
 
   return (
     <div

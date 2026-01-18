@@ -4,11 +4,11 @@ import { IoAddCircleOutline } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
 
 // Constants and Utils
-import { devLog } from "../../../../utils/errorUtils";
-import { addUserReactIconStyles } from "../../../../constants/stylesConstants";
+import { devLog } from "../../../utils/errorUtils";
+import { addUserReactIconStyles } from "../../../constants/stylesConstants";
 
 // Components
-import ReactIconNavigate from "../../../InAppNavigation/ReactIconNavigate/ReactIconNavigate";
+import ReactIconNavigate from "../../InAppNavigation/ReactIconNavigate/ReactIconNavigate";
 
 // Styles
 import styles from "./WebShareApiInvite.module.css";

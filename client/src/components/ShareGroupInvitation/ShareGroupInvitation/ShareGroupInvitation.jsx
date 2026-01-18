@@ -3,11 +3,11 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 
 // Components
-import CopyToClipboard from "../../../common/CopyToClipboard/CopyToClipboard";
+import CopyToClipboard from "../../common/CopyToClipboard/CopyToClipboard";
 
 // Styles
 import styles from "./ShareGroupInvitation.module.css";
-import useIsSlimDevice from "../../../../hooks/useIsSlimDevice";
+import useIsSlimDevice from "../../../hooks/useIsSlimDevice";
 /**
  * Renders option for sharing a group invitation.
  *
@@ -41,7 +41,9 @@ const ShareGroupInvitation = ({
       <div className={styles.invitationLink}>
         {t("share-group-invitation-explanation-part1")}{" "}
         <span className={styles.groupName}>
-          {t("share-group-invitation-explanation-groupname", { groupName })}{" "}
+          {t("share-group-invitation-explanation-groupname", {
+            groupName,
+          })}{" "}
         </span>
         {t("share-group-invitation-explanation-part2")}:{" "}
       </div>

@@ -88,11 +88,11 @@
   - **Short-Circuiting**: Use logical AND (`&&`) for conditional prop assignments or rendering where a falsy fallback is acceptable (e.g., `error={localError && t(localError)}`).
 
 - **Logic Block Grouping**:
-  - **Standard**: Organize logic into clearly defined blocks based on functional domains to ensure high scannability and logical flow.
+  - **Standard**: Organize logic into clearly defined blocks based on functional domains to ensure high scannability and logical flow, do **NOT** add grouping comments
   - **Ordering**:
     1. **Initialization**: Primary hooks, state declarations, and reference initializations.
     2. **Refinement**: Derived data, memoized values, and internal constants.
-    3. **Functional Handlers**: Domain-specific logic blocks (e.g., "Navigation Logic", "Data Transformation", "Event Handlers"). Group all functions belonging to the same domain together.
+    3. **Functional Handlers**: Domain-specific logic blocks (e.g., "Navigation Logic", "Data Transformation", "Event Handlers"). Group all functions belonging to the same domain together
     4. **Lifecycle/Side Effects**: Execution of side effects (e.g., `useEffect`, observers).
   - **Visual Separation**: Insert a single empty line between each domain-specific block.
 

@@ -25,7 +25,7 @@ import ActiveGroupBar from "../../components/features/ActiveGroupBar/ActiveGroup
 import SwitchViewButtonsBar from "../../components/features/GroupBalancesAndHistory/SwitchViewButtonsBar/SwitchViewButtonsBar";
 import RenderGroupHistory from "../../components/features/GroupBalancesAndHistory/GroupHistory/RenderGroupHistory/RenderGroupHistory";
 import RenderGroupBalances from "../../components/features/GroupBalancesAndHistory/GroupBalances/RenderGroupBalances/RenderGroupBalances";
-import DefaultAndUserSettingsBar from "../../components/features/DefaultAndUserSettingsBar/DefaultAndUserSettingsBar/DefaultAndUserSettingsBar";
+import DefaultAndUserSettingsBar from "../../components/DefaultAndUserSettingsBar/DefaultAndUserSettingsBar/DefaultAndUserSettingsBar";
 import PwaCtaModal from "../../components/features/PwaCtaModal/PwaCtaModal/PwaCtaModal";
 
 // Styles
@@ -52,7 +52,7 @@ const InstantSplitPage = () => {
   // Validate active groupCode
   const { isValidated, groupExists } = useValidateGroupExistence(
     groupCode,
-    "continuous"
+    "continuous",
   );
 
   // Handle invalid active groupCode
@@ -133,7 +133,7 @@ const InstantSplitPage = () => {
 
   useEffect(() => {
     setShowPwaCtaModal(
-      !isPwa && ctaToRender !== null && lastModalClosureUserActionHasExpired
+      !isPwa && ctaToRender !== null && lastModalClosureUserActionHasExpired,
     );
   }, [isPwa, ctaToRender, lastModalClosureUserActionHasExpired]);
 

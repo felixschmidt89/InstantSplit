@@ -13,7 +13,7 @@ import useFetchGroupData from "../../hooks/useFetchGroupData";
 import HelmetMetaTagsNetlify from "../../components/common/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import PiratePx from "../../components/common/PiratePx/PiratePx";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-import ShareGroupInvitation from "../../components/features/ShareGroupInvitation/ShareGroupInvitation/ShareGroupInvitation";
+import ShareGroupInvitation from "../../components/ShareGroupInvitation/ShareGroupInvitation/ShareGroupInvitation";
 
 // Styles
 import styles from "./ShareGroupInvitationPage.module.css";
