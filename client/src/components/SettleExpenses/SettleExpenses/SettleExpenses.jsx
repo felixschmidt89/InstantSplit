@@ -1,61 +1,60 @@
-// React and Third-Party Libraries
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 
-// Constants and Utils
-import { devLog } from "../../../utils/errorUtils";
+import { devLog } from "@utils/errorUtils";
 import {
   calculateAndAddUserBalance,
   changeFixedDebitorCreditorOrderSetting,
   filterUnsettledUsers,
   getGroupHasPersistedDebitorCreditorOrder,
   groupUsersPerPositiveOrNegativeUserBalance,
-} from "../../../utils/settlementUtils";
+} from "@utils/settlementUtils";
+import { getActiveGroupCode } from "@utils/localStorageUtils";
 
-// Hooks
-import useFetchGroupCurrency from "../../../hooks/useFetchGroupCurrency";
+import useFetchGroupCurrency from "@hooks/useFetchGroupCurrency";
 
-// Components
-import Spinner from "../../Spinner/Spinner";
-import ExpensesSettled from "../ExpensesSettled/ExpensesSettled";
-import ErrorDisplay from "../../ErrorDisplay/ErrorDisplay";
-import RenderSettlementPaymentSuggestions from "../RenderSettlementPaymentSuggestions/RenderSettlementPaymentSuggestions";
+import Spinner from "@components/Spinner/Spinner";
+import ErrorDisplay from "@components/ErrorDisplay/ErrorDisplay";
+import ExpensesSettled from "@components/SettleExpenses/ExpensesSettled/ExpensesSettled";
+import RenderSettlementPaymentSuggestions from "@components/SettleExpenses/RenderSettlementPaymentSuggestions/RenderSettlementPaymentSuggestions";
 
-// Styles
 import styles from "./SettleExpenses.module.css";
 
-// API URL
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
-/**
- * Parent component to settle expenses, identifying users with unsettled user balances.
- * @returns {JSX.Element} React component. */
 const SettleExpenses = () => {
   const { t } = useTranslation();
 
-  const groupCode = localStorage.getItem("activeGroupCode");
+  const groupCode = getActiveGroupCode();
+  const { groupCurrency, isFetched: groupCurrencyIsFetched } =
+    useFetchGroupCurrency(groupCode);
+
   const [unsettledUsers, setUnsettledUsers] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [fixedDebitorCreditorOrder, setFixedDebitorCreditorOrder] =
     useState(null);
   const [statusError, setStatusError] = useState(null);
-  const { groupCurrency, isFetched: groupCurrencyIsFetched } =
-    useFetchGroupCurrency(groupCode);
   const [persistedSettlements, setPersistedSettlements] = useState([]);
 
-  // Fetch fixedDebitorCreditorOrder status
+  const { positiveBalanceUsers, negativeBalanceUsers } =
+    groupUsersPerPositiveOrNegativeUserBalance(
+      unsettledUsers,
+      fixedDebitorCreditorOrder,
+    );
+
   useEffect(() => {
     const getFixedDebitorCreditorOrderSetting = async () => {
       try {
         const result =
           await getGroupHasPersistedDebitorCreditorOrder(groupCode);
-        if (result.success) {
+
+        if (result?.success) {
           setFixedDebitorCreditorOrder(result.data);
           devLog("Fixed debitor/creditor order status:", result.data);
         } else {
-          setStatusError(result.error || t("generic-error-message"));
+          setStatusError(result?.error || t("generic-error-message"));
         }
       } catch (error) {
         devLog("Error fetching fixedDebitorCreditorOrder status:", error);
@@ -64,7 +63,7 @@ const SettleExpenses = () => {
     };
 
     getFixedDebitorCreditorOrderSetting();
-  }, [groupCode]);
+  }, [groupCode, t]);
 
   useEffect(() => {
     const fetchAndIdentifyUnsettledUsers = async () => {
@@ -75,17 +74,18 @@ const SettleExpenses = () => {
         const responseData = response.data;
         devLog("User details fetched:", response);
 
-        if (responseData.users && responseData.users.length > 0) {
-          // Calculate and add user balance property
-          const userDetails = responseData.users.map((user) => {
-            return calculateAndAddUserBalance(user);
-          });
+        if (responseData?.users?.length) {
+          const userDetails = responseData.users.map((user) =>
+            calculateAndAddUserBalance(user),
+          );
           const unsettledUserDetails = filterUnsettledUsers(userDetails);
+
           devLog("Unsettled users identified:", unsettledUserDetails);
           setUnsettledUsers(unsettledUserDetails);
         } else {
           setUnsettledUsers([]);
         }
+
         setIsLoading(false);
       } catch (error) {
         devLog(
@@ -98,7 +98,7 @@ const SettleExpenses = () => {
     };
 
     fetchAndIdentifyUnsettledUsers();
-  }, [groupCode]);
+  }, [groupCode, t]);
 
   useEffect(() => {
     if (fixedDebitorCreditorOrder === true) {
@@ -107,10 +107,12 @@ const SettleExpenses = () => {
           const response = await axios.get(
             `${apiUrl}/settlements/${groupCode}`,
           );
-          const settlements = response.data.settlements || [];
+          const settlements = response.data?.settlements || [];
+
           setPersistedSettlements(settlements);
           devLog("Persisted settlements fetched:", response.data);
-          if (settlements.length === 0) {
+
+          if (!settlements?.length) {
             await changeFixedDebitorCreditorOrderSetting(groupCode, false);
             setFixedDebitorCreditorOrder(false);
             devLog(
@@ -119,6 +121,7 @@ const SettleExpenses = () => {
           }
         } catch (error) {
           devLog("Error fetching persisted settlements:", error);
+
           if (
             error.response?.data?.message ===
             "No settlements found for this group"
@@ -136,15 +139,10 @@ const SettleExpenses = () => {
           }
         }
       };
+
       fetchPersistedSettlements();
     }
   }, [fixedDebitorCreditorOrder, groupCode, t]);
-
-  const { positiveBalanceUsers, negativeBalanceUsers } =
-    groupUsersPerPositiveOrNegativeUserBalance(
-      unsettledUsers,
-      fixedDebitorCreditorOrder,
-    );
 
   return (
     <div>
@@ -154,7 +152,7 @@ const SettleExpenses = () => {
         </div>
       ) : (
         <div>
-          {unsettledUsers.length !== 0 && groupCurrencyIsFetched ? (
+          {unsettledUsers?.length && groupCurrencyIsFetched ? (
             <div className={styles.container}>
               <RenderSettlementPaymentSuggestions
                 fixedDebitorCreditorOrder={fixedDebitorCreditorOrder}
@@ -174,4 +172,5 @@ const SettleExpenses = () => {
     </div>
   );
 };
+
 export default SettleExpenses;
