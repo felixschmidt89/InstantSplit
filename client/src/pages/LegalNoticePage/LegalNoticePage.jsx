@@ -12,11 +12,11 @@ import {
 import useGetPreviousRoutesFromLocalStorage from "../../hooks/useGetPreviousRouteFromLocalStorage";
 
 //Components
-import HelmetMetaTagsNetlify from "../../components/common/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/common/PiratePx/PiratePx";
+import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
+import PiratePx from "../../components/PiratePx/PiratePx";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-import LegalNoticeAuthor from "../../components/features/LegalNotice/LegalNoticeAuthor/LegalNoticeAuthor";
-import LegalNoticeSections from "../../components/features/LegalNotice/LegalNoticeSections/LegalNoticeSections";
+import LegalNoticeAuthor from "../../components/LegalNotice/LegalNoticeAuthor/LegalNoticeAuthor";
+import LegalNoticeSections from "../../components/LegalNotice/LegalNoticeSections/LegalNoticeSections";
 
 // Styles
 import styles from "./LegalNoticePage.module.css";

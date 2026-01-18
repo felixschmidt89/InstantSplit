@@ -6,12 +6,12 @@ import { useTranslation } from "react-i18next";
 import useFetchGroupMembers from "../../hooks/useFetchGroupMembers";
 
 // Components
-import HelmetMetaTagsNetlify from "../../components/common/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/common/PiratePx/PiratePx";
-import Spinner from "../../components/common/Spinner/Spinner";
-import CreateExpense from "../../components/features/Expenses/CreateExpense/CreateExpense";
+import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
+import PiratePx from "../../components/PiratePx/PiratePx";
+import Spinner from "../../components/Spinner/Spinner";
+import CreateExpense from "../../components/Expenses/CreateExpense/CreateExpense";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-import CreateUserCTA from "../../components/features/GroupBalancesAndHistory/CreateGroupMemberCTA/CreateGroupMemberCTA";
+import CreateUserCTA from "../../components/GroupBalancesAndHistory/CreateGroupMemberCTA/CreateGroupMemberCTA";
 
 // Styles
 import styles from "./CreateExpensePage.module.css";

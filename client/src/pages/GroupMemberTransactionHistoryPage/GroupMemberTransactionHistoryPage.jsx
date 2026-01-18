@@ -13,12 +13,12 @@ import useFetchGroupCurrency from "../../hooks/useFetchGroupCurrency";
 import useFetchGroupMembers from "../../hooks/useFetchGroupMembers";
 
 // Components
-import HelmetMetaTagsNetlify from "../../components/common/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/common/PiratePx/PiratePx";
-import Spinner from "../../components/common/Spinner/Spinner";
-import ErrorDisplay from "../../components/common/ErrorDisplay/ErrorDisplay";
-import UserTransactionsHistory from "../../components/features/GroupMemberTransactionsHistory/GroupMemberTransactionsHistory/GroupMemberTransactionsHistory";
-import NoUserTransactions from "../../components/features/GroupMemberTransactionsHistory/NoGroupMemberTransactions/NoGroupMemberTransactions";
+import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
+import PiratePx from "../../components/PiratePx/PiratePx";
+import Spinner from "../../components/Spinner/Spinner";
+import ErrorDisplay from "../../components/ErrorDisplay/ErrorDisplay";
+import UserTransactionsHistory from "../../components/GroupMemberTransactionsHistory/GroupMemberTransactionsHistory/GroupMemberTransactionsHistory";
+import NoUserTransactions from "../../components/GroupMemberTransactionsHistory/NoGroupMemberTransactions/NoGroupMemberTransactions";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 
 // Styles

@@ -18,11 +18,11 @@ import { buttonStyles } from "../../constants/stylesConstants";
 import useConfirmationModalLogicAndActions from "../../hooks/useConfirmationModalLogicAndActions";
 
 //Components
-import HelmetMetaTagsNetlify from "../../components/common/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/common/PiratePx/PiratePx";
-import CopyToClipboard from "../../components/common/CopyToClipboard/CopyToClipboard";
+import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
+import PiratePx from "../../components/PiratePx/PiratePx";
+import CopyToClipboard from "../../components/CopyToClipboard/CopyToClipboard";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-import ConfirmationModal from "../../components/common/ConfirmationModal/ConfirmationModal";
+import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
 
 // Styles
 import styles from "./LeaveGroupPage.module.css";

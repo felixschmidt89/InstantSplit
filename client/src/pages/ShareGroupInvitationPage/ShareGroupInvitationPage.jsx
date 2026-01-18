@@ -10,8 +10,8 @@ import { isWebShareAPISupported } from "../../utils/clientUtils";
 import useFetchGroupData from "../../hooks/useFetchGroupData";
 
 // Component
-import HelmetMetaTagsNetlify from "../../components/common/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/common/PiratePx/PiratePx";
+import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
+import PiratePx from "../../components/PiratePx/PiratePx";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import ShareGroupInvitation from "../../components/ShareGroupInvitation/ShareGroupInvitation/ShareGroupInvitation";
 

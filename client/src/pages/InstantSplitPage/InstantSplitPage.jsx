@@ -19,14 +19,14 @@ import useValidateGroupExistence from "../../hooks/useValidateGroupCodeExistence
 import useGetClientDeviceAndPwaInfo from "../../hooks/useGetClientDeviceAndPwaInfo";
 
 // Components
-import HelmetMetaTagsNetlify from "../../components/common/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/common/PiratePx/PiratePx";
-import ActiveGroupBar from "../../components/features/ActiveGroupBar/ActiveGroupBar";
-import SwitchViewButtonsBar from "../../components/features/GroupBalancesAndHistory/SwitchViewButtonsBar/SwitchViewButtonsBar";
-import RenderGroupHistory from "../../components/features/GroupBalancesAndHistory/GroupHistory/RenderGroupHistory/RenderGroupHistory";
-import RenderGroupBalances from "../../components/features/GroupBalancesAndHistory/GroupBalances/RenderGroupBalances/RenderGroupBalances";
+import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
+import PiratePx from "../../components/PiratePx/PiratePx";
+import ActiveGroupBar from "../../components/ActiveGroupBar/ActiveGroupBar";
+import SwitchViewButtonsBar from "../../components/GroupBalancesAndHistory/SwitchViewButtonsBar/SwitchViewButtonsBar";
+import RenderGroupHistory from "../../components/GroupBalancesAndHistory/GroupHistory/RenderGroupHistory/RenderGroupHistory";
+import RenderGroupBalances from "../../components/GroupBalancesAndHistory/GroupBalances/RenderGroupBalances/RenderGroupBalances";
 import DefaultAndUserSettingsBar from "../../components/DefaultAndUserSettingsBar/DefaultAndUserSettingsBar/DefaultAndUserSettingsBar";
-import PwaCtaModal from "../../components/features/PwaCtaModal/PwaCtaModal/PwaCtaModal";
+import PwaCtaModal from "../../components/PwaCtaModal/PwaCtaModal/PwaCtaModal";
 
 // Styles
 import styles from "./InstantSplitPage.module.css";

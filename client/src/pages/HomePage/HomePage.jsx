@@ -1,10 +1,10 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import HelmetMetaTagsNetlify from "../../components/common/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/common/PiratePx/PiratePx";
-import InstantSplitIntroSection from "../../components/features/Home/InstantSplitIntroSection/InstantSplitIntroSection";
-import GetStartedSection from "../../components/features/Home/GetStartedSection/GetStartedSection";
-import TermsAndConditionsSection from "../../components/features/Home/TermsAndConditionsSection/TermsAndConditionsSection";
+import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
+import PiratePx from "../../components/PiratePx/PiratePx";
+import InstantSplitIntroSection from "../../components/Home/InstantSplitIntroSection/InstantSplitIntroSection";
+import GetStartedSection from "../../components/Home/GetStartedSection/GetStartedSection";
+import TermsAndConditionsSection from "../../components/Home/TermsAndConditionsSection/TermsAndConditionsSection";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import styles from "./HomePage.module.css";
 import useAutoActiveGroupCodeRedirect from "../../hooks/useAutoActiveGroupCodeRedirect";

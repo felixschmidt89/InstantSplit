@@ -1,5 +1,5 @@
-import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import deFlag from "@assets/flags/de.svg";
 import enFlag from "@assets/flags/gb.svg";
@@ -8,11 +8,15 @@ import styles from "./LanguageToggle.module.css";
 
 const LanguageToggle = () => {
   const { i18n } = useTranslation();
+
   const [currentLanguage, setCurrentLanguage] = useState(
     localStorage.getItem("language") || "de",
   );
 
-  const onLanguageToggle = () => {
+  const flag = currentLanguage === "de" ? enFlag : deFlag;
+  const altText = currentLanguage === "de" ? "English flag" : "German flag";
+
+  const toggleLanguage = () => {
     const newLanguage = currentLanguage === "de" ? "en" : "de";
     setCurrentLanguage(newLanguage);
     i18n.changeLanguage(newLanguage);
@@ -26,12 +30,9 @@ const LanguageToggle = () => {
     }
   }, [i18n]);
 
-  const flag = currentLanguage === "de" ? enFlag : deFlag;
-  const altText = currentLanguage === "de" ? "English flag" : "German flag";
-
   return (
     <div className={styles.container}>
-      <div className={styles.languageFlag} onClick={onLanguageToggle}>
+      <div className={styles.languageFlag} onClick={toggleLanguage}>
         <img src={flag} alt={altText} />
       </div>
     </div>

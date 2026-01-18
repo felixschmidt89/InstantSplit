@@ -3,10 +3,10 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 
 // Components
-import HelmetMetaTagsNetlify from "../../components/common/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/common/PiratePx/PiratePx";
+import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
+import PiratePx from "../../components/PiratePx/PiratePx";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-import CreateGroupForm from "../../components/features/ManageGroups/CreateGroup/CreateGroupForm/CreateGroupForm";
+import CreateGroupForm from "../../components/ManageGroups/CreateGroup/CreateGroupForm/CreateGroupForm";
 
 // Styles
 import styles from "./OnboardingCreateGroupPage.module.css";

@@ -7,15 +7,15 @@ import useFetchGroupData from "../../hooks/useFetchGroupData";
 import useSettingsEmoji from "../../hooks/useSettingsEmoji";
 
 //Components
-import HelmetMetaTagsNetlify from "../../components/common/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/common/PiratePx/PiratePx";
-import Emoji from "../../components/common/Emoji/Emoji";
+import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
+import PiratePx from "../../components/PiratePx/PiratePx";
+import Emoji from "../../components/Emoji/Emoji";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-import Spinner from "../../components/common/Spinner/Spinner";
-import ChangeGroupCurrency from "../../components/features/GroupSettings/ChangeGroupCurrency/ChangeGroupCurrency";
-import ChangeDataPurgeSetting from "../../components/features/GroupSettings/ChangeDataPurgeSetting/ChangeDataPurgeSetting";
-import GroupCodeSecurity from "../../components/features/GroupSettings/GroupCodeSecurity/GroupCodeSecurity";
-import ChangeGroupName from "../../components/features/GroupSettings/ChangeGroupName/ChangeGroupName";
+import Spinner from "../../components/Spinner/Spinner";
+import ChangeGroupCurrency from "../../components/GroupSettings/ChangeGroupCurrency/ChangeGroupCurrency";
+import ChangeDataPurgeSetting from "../../components/GroupSettings/ChangeDataPurgeSetting/ChangeDataPurgeSetting";
+import GroupCodeSecurity from "../../components/GroupSettings/GroupCodeSecurity/GroupCodeSecurity";
+import ChangeGroupName from "../../components/GroupSettings/ChangeGroupName/ChangeGroupName";
 
 // Styles
 import styles from "./GroupSettingsPage.module.css";

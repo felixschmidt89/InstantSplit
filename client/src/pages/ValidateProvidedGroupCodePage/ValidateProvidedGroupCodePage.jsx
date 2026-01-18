@@ -11,11 +11,11 @@ import {
 } from "../../utils/localStorageUtils";
 import useValidateGroupExistence from "../../hooks/useValidateGroupCodeExistence";
 import useGetPreviousRoutesFromLocalStorage from "../../hooks/useGetPreviousRouteFromLocalStorage";
-import HelmetMetaTagsNetlify from "../../components/common/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/common/PiratePx/PiratePx";
+import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
+import PiratePx from "../../components/PiratePx/PiratePx";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-import ErrorDisplay from "../../components/common/ErrorDisplay/ErrorDisplay";
-import Spinner from "../../components/common/Spinner/Spinner";
+import ErrorDisplay from "../../components/ErrorDisplay/ErrorDisplay";
+import Spinner from "../../components/Spinner/Spinner";
 import { ROUTES } from "../../constants/routesConstants";
 import styles from "./ValidateProvidedGroupCodePage.module.css";
 

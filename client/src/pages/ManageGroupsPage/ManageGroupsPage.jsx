@@ -8,11 +8,11 @@ import useValidateAndCleanupStoredGroupCodes from "../../hooks/useValidateAndCle
 
 // Components
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-import PiratePx from "../../components/common/PiratePx/PiratePx";
-import HelmetMetaTagsNetlify from "../../components/common/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import CreateGroupForm from "../../components/features/ManageGroups/CreateGroup/CreateGroupForm/CreateGroupForm";
-import SwitchGroups from "../../components/features/ManageGroups/SwitchGroups/SwitchGroups/SwitchGroups";
-import ValidateGroupCode from "../../components/features/ManageGroups/ValidateGroupCode/ValidateGroupCode";
+import PiratePx from "../../components/PiratePx/PiratePx";
+import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
+import CreateGroupForm from "../../components/ManageGroups/CreateGroup/CreateGroupForm/CreateGroupForm";
+import SwitchGroups from "../../components/ManageGroups/SwitchGroups/SwitchGroups/SwitchGroups";
+import ValidateGroupCode from "../../components/ManageGroups/ValidateGroupCode/ValidateGroupCode";
 
 // Styles
 import styles from "./ManageGroupsPage.module.css";

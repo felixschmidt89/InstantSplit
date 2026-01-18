@@ -3,7 +3,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 
 // Components
-import CopyToClipboard from "../../common/CopyToClipboard/CopyToClipboard";
+import CopyToClipboard from "../../CopyToClipboard/CopyToClipboard";
 
 // Styles
 import styles from "./ShareGroupInvitation.module.css";

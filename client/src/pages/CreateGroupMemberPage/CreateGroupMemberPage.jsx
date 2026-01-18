@@ -2,11 +2,11 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import useGetPreviousRoutesFromLocalStorage from "../../hooks/useGetPreviousRouteFromLocalStorage";
 import useTriggerRerender from "../../hooks/useTriggerRerender";
-import HelmetMetaTagsNetlify from "../../components/common/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/common/PiratePx/PiratePx";
+import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
+import PiratePx from "../../components/PiratePx/PiratePx";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-import CreateGroupMemberForm from "../../components/features/CreateGroupMember/CreateGroupMemberForm/CreateGroupMemberForm";
-import RenderGroupMemberNames from "../../components/features/CreateGroupMember/RenderGroupMemberNames/RenderGroupMemberNames";
+import CreateGroupMemberForm from "../../components/CreateGroupMember/CreateGroupMemberForm/CreateGroupMemberForm";
+import RenderGroupMemberNames from "../../components/CreateGroupMember/RenderGroupMemberNames/RenderGroupMemberNames";
 import { ROUTES } from "../../constants/routesConstants";
 import styles from "./CreateGroupMemberPage.module.css";
 
