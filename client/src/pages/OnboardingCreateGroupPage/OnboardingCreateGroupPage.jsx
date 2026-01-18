@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import PiratePx from "../../components/PiratePx/PiratePx";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-import CreateGroupForm from "../../components/ManageGroups/CreateGroup/CreateGroupForm/CreateGroupForm";
+import CreateGroupForm from "../../components/ManageGroups/CreateGroupForm/CreateGroupForm";
 
 // Styles
 import styles from "./OnboardingCreateGroupPage.module.css";

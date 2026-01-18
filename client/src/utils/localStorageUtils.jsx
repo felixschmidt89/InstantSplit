@@ -17,7 +17,7 @@ export const isGroupCodeInStoredGroupCodes = (groupCode) => {
 };
 
 export const isGroupCodeActive = (groupCode) => {
-  const activeCode = localStorage.getItem("activeGroupCode");
+  const activeCode = localStorage.getItem(LOCAL_STORAGE_KEYS.ACTIVE_GROUP_CODE);
   return activeCode === groupCode;
 };
 
@@ -27,8 +27,8 @@ export const isGroupCodeActive = (groupCode) => {
  */
 export const removeActiveGroupCodeFromLocalStorage = () => {
   try {
-    if (localStorage.getItem("activeGroupCode")) {
-      localStorage.removeItem("activeGroupCode");
+    if (localStorage.getItem(LOCAL_STORAGE_KEYS.ACTIVE_GROUP_CODE)) {
+      localStorage.removeItem(LOCAL_STORAGE_KEYS.ACTIVE_GROUP_CODE);
     }
     devLog("Active groupCode has been removed from local storage.");
     return true;
@@ -157,9 +157,9 @@ export const setPwaCtaClosedInLocalStorage = () => {
 export const setGroupCodeToCurrentlyActive = (groupCode) => {
   try {
     if (groupCode === null) {
-      localStorage.removeItem("activeGroupCode");
+      localStorage.removeItem(LOCAL_STORAGE_KEYS.ACTIVE_GROUP_CODE);
     } else {
-      localStorage.setItem("activeGroupCode", groupCode);
+      localStorage.setItem(LOCAL_STORAGE_KEYS.ACTIVE_GROUP_CODE, groupCode);
       devLog("GroupCode set to active:", groupCode);
     }
     return true;
