@@ -6,3 +6,5 @@ export * from "./getStoredGroupCodes";
 export * from "./getPreviousRoute";
 export * from "./getPwaCtaClosed";
 export * from "./getNestedPreviousRoute";
+export * from "./setActiveGroupCode";
+export * from "./storeGroupCode";

@@ -149,6 +149,7 @@ export const setPwaCtaClosedInLocalStorage = () => {
   }
 };
 
+// TODO: Delete this function and use existing setActiveGroupCode.js instead
 /**
  * Sets groupCode as currently active in local storage.
  *
