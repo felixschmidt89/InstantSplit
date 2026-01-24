@@ -3,3 +3,4 @@ export * from "./setLanguage";
 export * from "./deleteActiveGroupCode";
 export * from "./getActiveGroupCode";
 export * from "./getStoredGroupCodes";
+export * from "./getPreviousRoute";

@@ -5,6 +5,7 @@ import axios from "axios";
 // Constants and Utils
 import { devLog } from "../utils/errorUtils";
 import { removeGroupCodeFromStoredGroupCodes } from "../utils/localStorageUtils";
+import { getStoredGroupCodes } from "@/utils/localStorage";
 
 // API URL
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
@@ -15,7 +16,7 @@ const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
  * @returns {void}
  */
 function useValidateAndCleanupStoredGroupCodes() {
-  const storedGroupCodes = JSON.parse(localStorage.getItem("storedGroupCodes"));
+  const storedGroupCodes = getStoredGroupCodes();
 
   useEffect(() => {
     const validateAndClean = async () => {
@@ -36,7 +37,7 @@ function useValidateAndCleanupStoredGroupCodes() {
           } catch (error) {
             devLog("Error validating group code:", error);
           }
-        })
+        }),
       );
     };
 
