@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 
-import { devLog } from "@utils/errorUtils";
+import { devLog } from "@client-utils/errorUtils";
 
 import useFetchGroupMembers from "@hooks/useFetchGroupMembers";
 import useErrorModalVisibility from "@hooks/useErrorModalVisibility";

@@ -2,10 +2,13 @@ import { LOCAL_STORAGE_KEYS } from "@/constants/localStorageConstants";
 import { currentTimeStamp } from "../constants/dateConstants";
 import { devLog } from "./errorUtils";
 
-export const getLanguageFromLocalStorage = () =>
+// TODO: Drop Local Storage from function names
+// TODO:  Atomize local storage utility functions
+
+export const getLanguage = () =>
   localStorage.getItem(LOCAL_STORAGE_KEYS.LANGUAGE);
 
-export const setLanguageInLocalStorage = (language) => {
+export const setLanguage = (language) => {
   try {
     localStorage.setItem(LOCAL_STORAGE_KEYS.LANGUAGE, language);
     devLog("Language updated in local storage:", language);

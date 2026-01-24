@@ -7,14 +7,14 @@ import {
 import { GoHome } from "react-icons/go";
 import { useTranslation } from "react-i18next";
 
-import { devLog } from "@utils/errorUtils";
+import { devLog } from "@client-utils/errorUtils";
 import {
   deleteGroupDataFromLocalStorage,
   getRouteFromLocalStorage,
   getActiveGroupCode,
-} from "@utils/localStorageUtils";
-import { ROUTES } from "@constants/routesConstants";
-import { LOCAL_STORAGE_KEYS } from "@constants/localStorageConstants";
+} from "@client-utils/localStorageUtils";
+import { ROUTES } from "@client-constants/routesConstants";
+import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
 import InstantSplitLogo from "@components/InstantSplitLogo/InstantSplitLogo";
 
 import styles from "./InAppNavigationBar.module.css";

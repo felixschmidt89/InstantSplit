@@ -2,8 +2,8 @@ import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 
-import { devLog, handleApiErrors } from "@utils/errorUtils";
-import { sendFormSubmitButtonStyles } from "@constants/stylesConstants";
+import { devLog, handleApiErrors } from "@client-utils/errorUtils";
+import { sendFormSubmitButtonStyles } from "@client-constants/stylesConstants";
 
 import useErrorModalVisibility from "@hooks/useErrorModalVisibility";
 

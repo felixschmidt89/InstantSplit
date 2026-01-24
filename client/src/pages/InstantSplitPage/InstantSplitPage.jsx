@@ -7,9 +7,9 @@ import {
   deleteGroupDataFromLocalStorage,
   setViewStateInLocalStorage,
   getActiveGroupCode,
-} from "@utils/localStorageUtils";
-import { checkModalClosureUserActionExpiration } from "@utils/clientUtils";
-import { devLog } from "@utils/errorUtils";
+} from "@client-utils/localStorageUtils";
+import { checkModalClosureUserActionExpiration } from "@client-utils/clientUtils";
+import { devLog } from "@client-utils/errorUtils";
 
 import useFetchGroupData from "@hooks/useFetchGroupData";
 import useDeletePreviousRouteFromLocalStorage from "@hooks/useDeletePreviousRouteFromLocalStorage";

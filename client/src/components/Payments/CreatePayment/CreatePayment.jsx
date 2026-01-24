@@ -5,14 +5,14 @@ import { Button } from "@mui/material";
 import { IoArrowDownOutline } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
 
-import { devLog, handleApiErrors } from "@utils/errorUtils";
-import emojiConstants from "@constants/emojiConstants";
-import { buttonStyles } from "@constants/stylesConstants";
+import { devLog, handleApiErrors } from "@client-utils/errorUtils";
+import emojiConstants from "@client-constants/emojiConstants";
+import { buttonStyles } from "@client-constants/stylesConstants";
 import {
   changeFixedDebitorCreditorOrderSetting,
   deleteAllSettlementsForGroup,
-} from "@utils/settlementUtils";
-import { ROUTES } from "@constants/routesConstants";
+} from "@client-utils/settlementUtils";
+import { ROUTES } from "@client-constants/routesConstants";
 
 import useErrorModalVisibility from "@hooks/useErrorModalVisibility";
 

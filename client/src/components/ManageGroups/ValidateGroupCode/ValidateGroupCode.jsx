@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-import { submitOnEnterClick } from "@utils/formUtils";
-import { sendFormSubmitButtonStyles } from "@constants/stylesConstants";
+import { submitOnEnterClick } from "@client-utils/formUtils";
+import { sendFormSubmitButtonStyles } from "@client-constants/stylesConstants";
 
 import useErrorModalVisibility from "@hooks/useErrorModalVisibility";
 

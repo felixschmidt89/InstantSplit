@@ -19,16 +19,8 @@ export default defineConfig({
         theme_color: "#302a4d",
         background_color: "#302a4d",
         icons: [
-          {
-            src: "pwa-64x64.png",
-            sizes: "64x64",
-            type: "image/png",
-          },
-          {
-            src: "pwa-192x192.png",
-            sizes: "192x192",
-            type: "image/png",
-          },
+          { src: "pwa-64x64.png", sizes: "64x64", type: "image/png" },
+          { src: "pwa-192x192.png", sizes: "192x192", type: "image/png" },
           {
             src: "pwa-512x512.png",
             sizes: "512x512",
@@ -48,13 +40,17 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
-      "@shared": path.resolve(__dirname, "../shared"),
       "@client": path.resolve(__dirname, "./src"),
+
+      "@shared-utils": path.resolve(__dirname, "../shared/utils"),
+      "@shared-constants": path.resolve(__dirname, "../shared/constants"),
+
+      "@client-utils": path.resolve(__dirname, "./src/utils"),
+      "@client-constants": path.resolve(__dirname, "./src/constants"),
+
       "@components": path.resolve(__dirname, "./src/components"),
       "@pages": path.resolve(__dirname, "./src/pages"),
       "@assets": path.resolve(__dirname, "./src/assets"),
-      "@utils": path.resolve(__dirname, "./src/utils"),
-      "@constants": path.resolve(__dirname, "./src/constants"),
       "@hooks": path.resolve(__dirname, "./src/hooks"),
       "@docs": path.resolve(__dirname, "../docs"),
     },

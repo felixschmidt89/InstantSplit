@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import { devLog } from "@utils/errorUtils";
-import { getActiveGroupCode } from "@utils/localStorageUtils";
+import { devLog } from "@client-utils/errorUtils";
+import { getActiveGroupCode } from "@client-utils/localStorageUtils";
 
 const useTriggerRerender = () => {
   const groupCode = getActiveGroupCode();

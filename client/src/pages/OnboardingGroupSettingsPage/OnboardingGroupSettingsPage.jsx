@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { getActiveGroupCode } from "@utils/localStorageUtils";
+import { getActiveGroupCode } from "@client-utils/localStorageUtils";
 
 import useFetchGroupData from "@hooks/useFetchGroupData";
 
@@ -12,7 +12,7 @@ import ChangeDataPurgeSetting from "@components/GroupSettings/ChangeDataPurgeSet
 import GroupCodeSecurity from "@components/GroupSettings/GroupCodeSecurity/GroupCodeSecurity";
 import Spinner from "@components/Spinner/Spinner";
 
-import { ROUTES } from "@constants/routesConstants";
+import { ROUTES } from "@client-constants/routesConstants";
 
 import styles from "./OnboardingGroupSettingsPage.module.css";
 

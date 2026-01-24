@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import {
   setRouteInLocalStorage,
   getActiveGroupCode,
-} from "@utils/localStorageUtils";
+} from "@client-utils/localStorageUtils";
 
 import useValidateAndCleanupStoredGroupCodes from "@hooks/useValidateAndCleanUpStoredGroupCodes";
 

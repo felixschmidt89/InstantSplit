@@ -2,15 +2,15 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 
-import { devLog } from "@utils/errorUtils";
+import { devLog } from "@client-utils/errorUtils";
 import {
   calculateAndAddUserBalance,
   changeFixedDebitorCreditorOrderSetting,
   filterUnsettledUsers,
   getGroupHasPersistedDebitorCreditorOrder,
   groupUsersPerPositiveOrNegativeUserBalance,
-} from "@utils/settlementUtils";
-import { getActiveGroupCode } from "@utils/localStorageUtils";
+} from "@client-utils/settlementUtils";
+import { getActiveGroupCode } from "@client-utils/localStorageUtils";
 
 import useFetchGroupCurrency from "@hooks/useFetchGroupCurrency";
 

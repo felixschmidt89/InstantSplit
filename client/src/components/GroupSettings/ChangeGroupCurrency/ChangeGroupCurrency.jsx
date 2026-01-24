@@ -4,10 +4,10 @@ import { useTranslation } from "react-i18next";
 
 import { currenciesContent } from "../../../contents/currenciesContent";
 
-import { devLog } from "@utils/errorUtils";
-import { sendFormSubmitButtonStyles } from "@constants/stylesConstants";
-import { submitOnEnterClick } from "@utils/formUtils";
-import { findCurrencyLabel } from "@utils/currencyUtils";
+import { devLog } from "@client-utils/errorUtils";
+import { sendFormSubmitButtonStyles } from "@client-constants/stylesConstants";
+import { submitOnEnterClick } from "@client-utils/formUtils";
+import { findCurrencyLabel } from "@client-utils/currencyUtils";
 
 import useErrorModalVisibility from "@hooks/useErrorModalVisibility";
 import useEditPenVisibility from "@hooks/useEditPenVisibility";

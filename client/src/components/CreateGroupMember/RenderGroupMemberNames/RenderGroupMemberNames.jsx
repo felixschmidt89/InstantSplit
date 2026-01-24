@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 
-import { devLog } from "@utils/errorUtils";
-import emojiConstants from "@constants/emojiConstants";
+import { devLog } from "@client-utils/errorUtils";
+import emojiConstants from "@client-constants/emojiConstants";
 
 import useErrorModalVisibility from "@hooks/useErrorModalVisibility";
 

@@ -4,7 +4,7 @@ import { StatusCodes } from "http-status-codes";
 import { MdDelete } from "react-icons/md";
 import { useTranslation } from "react-i18next";
 
-import { devLog, handleApiErrors } from "@utils/errorUtils";
+import { devLog, handleApiErrors } from "@client-utils/errorUtils";
 
 import useErrorModalVisibility from "@hooks/useErrorModalVisibility";
 

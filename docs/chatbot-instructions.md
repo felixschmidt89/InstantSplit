@@ -141,3 +141,24 @@ This is a legacy codebase. When we work on existing files, we always want to ref
   - **PR Title**: Use the Angular/Conventional Commits format (`type: subject`) in lowercase (e.g., `chore: ...`, `feat: ...`).
   - **Summary Text**: Provide a concise, bulleted list of changes using technical terminology (e.g., "module resolution," "path aliasing").
   - **Exclusions**: Do not include "PR Title" or "Description" headers within the code block; provide only the raw text.
+
+### 9. Atomic Utility Architecture
+
+- **Standard**: Follow a strictly atomic, folder-per-function pattern for all utilities within `shared/utils/`, `server/utils/` and `client/src/utils/`.
+- **Structure**:
+  - Every utility function resides in its own named file (e.g., `replaceSlashesWithDashes.js`).
+  - These files must be grouped within a category folder (e.g., `utils/strings/`).
+- **Barrel Files**:
+  - Each category folder must contain an `index.js` file.
+  - The `index.js` serves as a "barrel" that exports all functions from that folder (e.g., `export * from "./replaceSlashesWithDashes";`).
+- **Imports**:
+  - Consume utilities by referencing the category folder alias (e.g., `import { replaceSlashesWithDashes } from "@shared-utils/strings";`).
+  - Do **NOT** import directly from the individual function file.
+
+### 10. Utility Validation & Migration
+
+- **Validation Protocol**: When interacting with any utility, evaluate it against three criteria:
+  - **Atomicity**: Does the file contain only one primary function?
+  - **Location Accuracy**: Is it placed in the correct environment folder (`shared/`, `client/src/`, or `server/`) based on its dependencies?
+  - **Structure**: Does it belong to a category folder with a corresponding barrel file?
+- **Migration**: If a utility fails validation, recommend a migration to the **Atomic Utility Architecture** (Section 9) before performing any logic updates.

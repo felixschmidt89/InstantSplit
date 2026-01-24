@@ -4,8 +4,8 @@ import axios from "axios";
 import { useTranslation } from "react-i18next";
 import { usePWAInstall } from "react-use-pwa-install";
 
-import { devLog } from "@utils/errorUtils";
-import { ROUTES } from "@constants/routesConstants";
+import { devLog } from "@client-utils/errorUtils";
+import { ROUTES } from "@client-constants/routesConstants";
 
 import useErrorModalVisibility from "@hooks/useErrorModalVisibility";
 import useGetClientDeviceAndPwaInfo from "@hooks/useGetClientDeviceAndPwaInfo";

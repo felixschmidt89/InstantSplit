@@ -1,55 +1,40 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import {
-  getLanguageFromLocalStorage,
-  setLanguageInLocalStorage,
-} from "@utils/localStorageUtils";
+import { setLanguage } from "@client-utils/localStorageUtils";
+import { LANGUAGES } from "@shared-constants/languageConstants";
 
 import deFlag from "@assets/flags/de.svg";
 import enFlag from "@assets/flags/gb.svg";
 
 import styles from "./LanguageToggle.module.css";
 
-// TODO: Refactor
-// Don't use hardcoded language codes and alt texts
-// Add ability to add more languages in the future
 const LanguageToggle = () => {
   const { i18n } = useTranslation();
 
-  const [currentLanguage, setCurrentLanguage] = useState(
-    getLanguageFromLocalStorage() || "de",
-  );
+  const [currentLanguage, setCurrentLanguage] = useState(i18n.language);
 
-  const isGerman = currentLanguage === "de";
+  const isGerman = currentLanguage === LANGUAGES.GERMAN;
+  const nextLanguage = isGerman ? LANGUAGES.ENGLISH : LANGUAGES.GERMAN;
+
   const flag = isGerman ? enFlag : deFlag;
-  const altText = isGerman ? "English flag" : "German flag";
+  const altText = isGerman ? "Switch to English" : "Auf Deutsch umstellen";
 
-  const onLanguageToggle = () => {
-    const newLanguage = isGerman ? "en" : "de";
-
-    setCurrentLanguage(newLanguage);
-    i18n.changeLanguage(newLanguage);
-    setLanguageInLocalStorage(newLanguage);
+  const handleToggle = () => {
+    setCurrentLanguage(nextLanguage);
+    i18n.changeLanguage(nextLanguage);
+    setLanguage(nextLanguage);
   };
-
-  useEffect(() => {
-    const savedLanguage = getLanguageFromLocalStorage();
-
-    if (savedLanguage) {
-      i18n.changeLanguage(savedLanguage);
-    }
-  }, [i18n]);
 
   return (
     <div className={styles.container}>
-      <div
+      <button
+        type='button'
         className={styles.languageFlag}
-        onClick={onLanguageToggle}
-        role='button'
-        tabIndex={0}>
-        <img src={flag} alt={altText} />
-      </div>
+        onClick={handleToggle}
+        aria-label={altText}>
+        <img src={flag} alt='' aria-hidden='true' />
+      </button>
     </div>
   );
 };

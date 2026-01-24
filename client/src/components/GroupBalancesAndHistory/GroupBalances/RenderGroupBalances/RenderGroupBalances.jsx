@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 
-import { devLog } from "@utils/errorUtils";
-import { getActiveGroupCode } from "@utils/localStorageUtils";
-import { BALANCE_THRESHOLD } from "@constants/dataConstants";
+import { devLog } from "@client-utils/errorUtils";
+import { getActiveGroupCode } from "@client-utils/localStorageUtils";
+import { BALANCE_THRESHOLD } from "@client-constants/dataConstants";
 
 import useErrorModalVisibility from "@hooks/useErrorModalVisibility";
 

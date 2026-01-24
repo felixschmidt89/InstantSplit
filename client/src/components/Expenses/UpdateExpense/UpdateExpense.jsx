@@ -4,10 +4,10 @@ import axios from "axios";
 import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
-import { devLog, handleApiErrors } from "@utils/errorUtils";
-import { buttonStyles } from "@constants/stylesConstants";
-import { changeFixedDebitorCreditorOrderSetting } from "@utils/settlementUtils";
-import { ROUTES } from "@constants/routesConstants";
+import { devLog, handleApiErrors } from "@client-utils/errorUtils";
+import { buttonStyles } from "@client-constants/stylesConstants";
+import { changeFixedDebitorCreditorOrderSetting } from "@client-utils/settlementUtils";
+import { ROUTES } from "@client-constants/routesConstants";
 
 import useErrorModalVisibility from "@hooks/useErrorModalVisibility";
 

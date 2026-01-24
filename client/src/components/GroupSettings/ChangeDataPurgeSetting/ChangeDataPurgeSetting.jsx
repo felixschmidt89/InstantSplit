@@ -3,14 +3,14 @@ import axios from "axios";
 import { FormControlLabel, Switch } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
-import { devLog } from "@utils/errorUtils";
-import { INACTIVE_DAYS } from "@constants/dataConstants";
+import { INACTIVE_DAYS } from "@client-constants/dataConstants";
 
 import useErrorModalVisibility from "@hooks/useErrorModalVisibility";
 
 import ErrorModal from "@components/ErrorModal/ErrorModal";
 
 import styles from "./ChangeDataPurgeSetting.module.css";
+import { devLog } from "@/utils/errorUtils";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 

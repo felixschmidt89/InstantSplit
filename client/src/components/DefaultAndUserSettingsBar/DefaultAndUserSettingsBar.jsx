@@ -10,12 +10,12 @@ import {
 import { PiUserSwitchLight } from "react-icons/pi";
 import { useTranslation } from "react-i18next";
 
-import { isWebShareAPISupported } from "@utils/clientUtils";
-import { getActiveGroupCode } from "@utils/localStorageUtils";
-import { dynamicRoutes } from "@utils/dynamicRoutes";
+import { isWebShareAPISupported } from "@client-utils/clientUtils";
+import { getActiveGroupCode } from "@client-utils/localStorageUtils";
+import { dynamicRoutes } from "@client-utils/dynamicRoutes";
 
-import { addUserReactIconStyles } from "@constants/stylesConstants";
-import { ROUTES } from "@constants/routesConstants";
+import { addUserReactIconStyles } from "@client-constants/stylesConstants";
+import { ROUTES } from "@client-constants/routesConstants";
 
 import useFetchGroupData from "@hooks/useFetchGroupData";
 import useIsSlimDevice from "@hooks/useIsSlimDevice";

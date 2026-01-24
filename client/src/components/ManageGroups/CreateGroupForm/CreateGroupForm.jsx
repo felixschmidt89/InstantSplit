@@ -3,15 +3,15 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 
-import { devLog, handleApiErrors } from "@utils/errorUtils";
+import { devLog, handleApiErrors } from "@client-utils/errorUtils";
 import {
   setGroupCodeToCurrentlyActive,
   setRouteInLocalStorage,
   storeGroupCodeInLocalStorage,
-} from "@utils/localStorageUtils";
-import { plusFormSubmitButtonStyles } from "@constants/stylesConstants";
-import { replaceSlashesWithDashes } from "@utils/replaceSlashesWithDashes";
-import { ROUTES } from "@constants/routesConstants";
+} from "@client-utils/localStorageUtils";
+import { plusFormSubmitButtonStyles } from "@client-constants/stylesConstants";
+import { replaceSlashesWithDashes } from "@client-utils/replaceSlashesWithDashes";
+import { ROUTES } from "@client-constants/routesConstants";
 
 import useErrorModalVisibility from "@hooks/useErrorModalVisibility";
 

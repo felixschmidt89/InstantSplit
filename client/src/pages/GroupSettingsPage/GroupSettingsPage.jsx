@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { getActiveGroupCode } from "@utils/localStorageUtils";
+import { getActiveGroupCode } from "@client-utils/localStorageUtils";
 
 import useFetchGroupData from "@hooks/useFetchGroupData";
 import useSettingsEmoji from "@hooks/useSettingsEmoji";

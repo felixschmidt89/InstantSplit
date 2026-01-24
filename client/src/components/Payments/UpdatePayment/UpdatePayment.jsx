@@ -5,11 +5,11 @@ import { IoArrowDownOutline } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
 
-import { devLog, handleApiErrors } from "@utils/errorUtils";
-import emojiConstants from "@constants/emojiConstants";
-import { MINIMUM_VALID_AMOUNT } from "@constants/dataConstants";
-import { buttonStyles } from "@constants/stylesConstants";
-import { ROUTES } from "@constants/routesConstants";
+import { devLog, handleApiErrors } from "@client-utils/errorUtils";
+import emojiConstants from "@client-constants/emojiConstants";
+import { MINIMUM_VALID_AMOUNT } from "@client-constants/dataConstants";
+import { buttonStyles } from "@client-constants/stylesConstants";
+import { ROUTES } from "@client-constants/routesConstants";
 
 import useErrorModalVisibility from "@hooks/useErrorModalVisibility";
 

@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import emojiConstants from "@constants/emojiConstants";
+import emojiConstants from "@client-constants/emojiConstants";
 
 import Emoji from "@components/Emoji/Emoji";
 
