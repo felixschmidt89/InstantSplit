@@ -1,19 +1,14 @@
-// React and Third-Party Libraries
-import React from "react";
 import { useTranslation } from "react-i18next";
 
-// Styles
+import { getLanguageFromLocalStorage } from "@utils/localStorageUtils";
+
 import styles from "./Disclaimer.module.css";
 
-/**
- * Component for rendering a terms and conditions disclaimer.
- * @param {string} lastUpdateDate date of the last terms and conditions update in YYYY-MM-DD format.
- * @returns {JSX.Element} React component. */
 const Disclaimer = ({ lastUpdateDate }) => {
   const { t } = useTranslation();
 
-  // Determine date format based on user language as LocaleDateString provides unreliable results
-  const userLanguage = localStorage.getItem("language") || "de";
+  const userLanguage = getLanguageFromLocalStorage() || "de";
+
   const dateFormat = userLanguage === "de" ? "de-DE" : "en-UK";
   const lastUpdate = new Date(lastUpdateDate).toLocaleDateString(dateFormat);
 
