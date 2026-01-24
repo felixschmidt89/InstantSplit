@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import {
+  getLanguageFromLocalStorage,
+  setLanguageInLocalStorage,
+} from "@utils/localStorageUtils";
+
 import deFlag from "@assets/flags/de.svg";
 import enFlag from "@assets/flags/gb.svg";
 
@@ -10,21 +15,24 @@ const LanguageToggle = () => {
   const { i18n } = useTranslation();
 
   const [currentLanguage, setCurrentLanguage] = useState(
-    localStorage.getItem("language") || "de",
+    getLanguageFromLocalStorage() || "de",
   );
 
-  const flag = currentLanguage === "de" ? enFlag : deFlag;
-  const altText = currentLanguage === "de" ? "English flag" : "German flag";
+  const isGerman = currentLanguage === "de";
+  const flag = isGerman ? enFlag : deFlag;
+  const altText = isGerman ? "English flag" : "German flag";
 
-  const toggleLanguage = () => {
-    const newLanguage = currentLanguage === "de" ? "en" : "de";
+  const onLanguageToggle = () => {
+    const newLanguage = isGerman ? "en" : "de";
+
     setCurrentLanguage(newLanguage);
     i18n.changeLanguage(newLanguage);
-    localStorage.setItem("language", newLanguage);
+    setLanguageInLocalStorage(newLanguage);
   };
 
   useEffect(() => {
-    const savedLanguage = localStorage.getItem("language");
+    const savedLanguage = getLanguageFromLocalStorage();
+
     if (savedLanguage) {
       i18n.changeLanguage(savedLanguage);
     }
@@ -32,7 +40,11 @@ const LanguageToggle = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.languageFlag} onClick={toggleLanguage}>
+      <div
+        className={styles.languageFlag}
+        onClick={onLanguageToggle}
+        role='button'
+        tabIndex={0}>
         <img src={flag} alt={altText} />
       </div>
     </div>

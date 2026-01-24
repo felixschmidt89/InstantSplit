@@ -2,6 +2,20 @@ import { LOCAL_STORAGE_KEYS } from "@/constants/localStorageConstants";
 import { currentTimeStamp } from "../constants/dateConstants";
 import { devLog } from "./errorUtils";
 
+export const getLanguageFromLocalStorage = () =>
+  localStorage.getItem(LOCAL_STORAGE_KEYS.LANGUAGE);
+
+export const setLanguageInLocalStorage = (language) => {
+  try {
+    localStorage.setItem(LOCAL_STORAGE_KEYS.LANGUAGE, language);
+    devLog("Language updated in local storage:", language);
+    return true;
+  } catch (error) {
+    devLog("Error setting language in local storage:", error);
+    return false;
+  }
+};
+
 export const getActiveGroupCode = () =>
   localStorage.getItem(LOCAL_STORAGE_KEYS.ACTIVE_GROUP_CODE);
 

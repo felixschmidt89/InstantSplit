@@ -4,4 +4,5 @@ export const LOCAL_STORAGE_KEYS = {
   PWA_CTA_CLOSED: "pwaCtaClosed",
   PREVIOUS_ROUTE: "previousRoute",
   NESTED_PREVIOUS_ROUTE: "nestedPreviousRoute",
+  LANGUAGE: "language",
 };
