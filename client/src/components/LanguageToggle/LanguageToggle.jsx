@@ -11,6 +11,9 @@ import enFlag from "@assets/flags/gb.svg";
 
 import styles from "./LanguageToggle.module.css";
 
+// TODO: Refactor
+// Don't use hardcoded language codes and alt texts
+// Add ability to add more languages in the future
 const LanguageToggle = () => {
   const { i18n } = useTranslation();
 
