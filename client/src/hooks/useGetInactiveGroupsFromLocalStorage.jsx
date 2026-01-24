@@ -10,6 +10,7 @@ import { getStoredGroupCodes } from "@/utils/localStorage";
 // API URL
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 // TODO: inactive term is inaccurate
+// TODO: Improve logic and namings, do not hardcode path
 /**
  * Custom React hook for fetching inactive group names stored in local storage
  *
