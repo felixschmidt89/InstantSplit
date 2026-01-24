@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { setLanguage } from "@client-utils/localStorageUtils";
 import { LANGUAGES } from "@shared-constants/languageConstants";
 
 import deFlag from "@assets/flags/de.svg";
 import enFlag from "@assets/flags/gb.svg";
 
 import styles from "./LanguageToggle.module.css";
+import { setLanguage } from "@/utils/localStorage";
 
 const LanguageToggle = () => {
   const { i18n } = useTranslation();

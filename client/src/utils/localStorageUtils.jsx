@@ -5,20 +5,6 @@ import { devLog } from "./errorUtils";
 // TODO: Drop Local Storage from function names
 // TODO:  Atomize local storage utility functions
 
-export const getLanguage = () =>
-  localStorage.getItem(LOCAL_STORAGE_KEYS.LANGUAGE);
-
-export const setLanguage = (language) => {
-  try {
-    localStorage.setItem(LOCAL_STORAGE_KEYS.LANGUAGE, language);
-    devLog("Language updated in local storage:", language);
-    return true;
-  } catch (error) {
-    devLog("Error setting language in local storage:", error);
-    return false;
-  }
-};
-
 export const getActiveGroupCode = () =>
   localStorage.getItem(LOCAL_STORAGE_KEYS.ACTIVE_GROUP_CODE);
 

@@ -1,5 +1,5 @@
 import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
-import { devLog } from "@client-utils/error/devLog";
+import { devLog } from "../errorUtils";
 
 export const setLanguage = (language) => {
   try {
