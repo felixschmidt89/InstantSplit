@@ -26,9 +26,12 @@
       "@hooks/*": ["client/src/hooks/*"],
 
       "@server/*": ["server/*"],
+      "@server-config/*": ["server/config/*"],
+      "@routes/*": ["server/routes/*"],
       "@models/*": ["server/models/*"],
       "@controllers/*": ["server/controllers/*"],
       "@server-utils/*": ["server/utils/*"],
+      "@server-constants/*": ["server/constants/*"],
 
       "@docs/*": ["docs/*"]
     },
