@@ -24,6 +24,7 @@ export const isGroupCodeActive = (groupCode) => {
   return activeCode === groupCode;
 };
 
+// TODO: Delete, use existing deleteActiveGroupCode.js instead
 /**
  * Removes the 'activeGroupCode' property from local storage.
  * @returns {boolean} - Returns true if 'activeGroupCode' was successfully removed, false if there was an error.
