@@ -9,6 +9,8 @@ import enFlag from "@assets/flags/gb.svg";
 import styles from "./LanguageToggle.module.css";
 import { setLanguage } from "@/utils/localStorage";
 
+// TODO: do not use hardcoded alt texts
+
 const LanguageToggle = () => {
   const { i18n } = useTranslation();
 
@@ -30,7 +32,7 @@ const LanguageToggle = () => {
     <div className={styles.container}>
       <button
         type='button'
-        className={styles.languageFlag}
+        className={styles["language-flag"]}
         onClick={handleToggle}
         aria-label={altText}>
         <img src={flag} alt='' aria-hidden='true' />
