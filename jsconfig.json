@@ -14,18 +14,23 @@
     "paths": {
       "@/*": ["client/src/*"],
       "@client/*": ["client/src/*"],
+
+      "@shared-utils/*": ["shared/utils/*"],
+      "@shared-constants/*": ["shared/constants/*"],
+
       "@components/*": ["client/src/components/*"],
       "@pages/*": ["client/src/pages/*"],
       "@assets/*": ["client/src/assets/*"],
-      "@utils/*": ["client/src/utils/*"],
-      "@constants/*": ["client/src/constants/*"],
+      "@client-utils/*": ["client/src/utils/*"],
+      "@client-constants/*": ["client/src/constants/*"],
       "@hooks/*": ["client/src/hooks/*"],
-      "@docs/*": ["docs/*"],
 
       "@server/*": ["server/*"],
       "@models/*": ["server/models/*"],
       "@controllers/*": ["server/controllers/*"],
-      "@server-utils/*": ["server/utils/*"]
+      "@server-utils/*": ["server/utils/*"],
+
+      "@docs/*": ["docs/*"]
     },
 
     "strict": true,
