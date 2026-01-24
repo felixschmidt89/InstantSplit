@@ -4,3 +4,5 @@ export * from "./deleteActiveGroupCode";
 export * from "./getActiveGroupCode";
 export * from "./getStoredGroupCodes";
 export * from "./getPreviousRoute";
+export * from "./getPwaCtaClosed";
+export * from "./getNestedPreviousRoute";
