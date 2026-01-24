@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 
 // Constants and Utils
 import { devLog } from "../utils/errorUtils";
+import { getStoredGroupCodes } from "@/utils/localStorage";
 
 // API URL
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
@@ -30,9 +31,7 @@ const useGetInactiveGroupsFromLocalStorage = (groupCode) => {
   useEffect(() => {
     const fetchAndTransformGroupNames = async () => {
       try {
-        const groupCodesArray = JSON.parse(
-          localStorage.getItem("storedGroupCodes"),
-        );
+        const groupCodesArray = getStoredGroupCodes();
 
         if (!groupCodesArray) {
           devLog("No groupCode stored in local storage.");
@@ -69,7 +68,7 @@ const useGetInactiveGroupsFromLocalStorage = (groupCode) => {
     };
 
     fetchAndTransformGroupNames();
-  }, [groupCode]);
+  }, [groupCode, t]);
 
   return { inactiveGroupNamesAndGroupCodes, isFetched, error };
 };
