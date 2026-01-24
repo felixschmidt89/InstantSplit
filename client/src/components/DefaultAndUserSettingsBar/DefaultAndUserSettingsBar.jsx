@@ -11,7 +11,6 @@ import { PiUserSwitchLight } from "react-icons/pi";
 import { useTranslation } from "react-i18next";
 
 import { isWebShareAPISupported } from "@client-utils/clientUtils";
-import { getActiveGroupCode } from "@client-utils/localStorageUtils";
 import { dynamicRoutes } from "@client-utils/dynamicRoutes";
 
 import { addUserReactIconStyles } from "@client-constants/stylesConstants";
@@ -25,6 +24,7 @@ import InstantSplitLogo from "@components/InstantSplitLogo/InstantSplitLogo";
 import WebShareApiInvite from "@components/ShareGroupInvitation/WebShareApiInvite/WebShareApiInvite";
 
 import styles from "./DefaultAndUserSettingsBar.module.css";
+import { getActiveGroupCode } from "@/utils/localStorage";
 
 const baseUrl = import.meta.env.VITE_REACT_APP_BASE_URL;
 

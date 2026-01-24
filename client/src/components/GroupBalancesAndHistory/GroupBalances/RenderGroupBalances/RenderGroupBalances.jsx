@@ -3,7 +3,6 @@ import axios from "axios";
 import { useTranslation } from "react-i18next";
 
 import { devLog } from "@client-utils/errorUtils";
-import { getActiveGroupCode } from "@client-utils/localStorageUtils";
 import { BALANCE_THRESHOLD } from "@client-constants/dataConstants";
 
 import useErrorModalVisibility from "@hooks/useErrorModalVisibility";
@@ -15,6 +14,7 @@ import ErrorModal from "@components/ErrorModal/ErrorModal";
 import RenderGroupMemberBalance from "@components/GroupBalancesAndHistory/GroupBalances/RenderGroupMemberBalance/RenderGroupMemberBalance";
 
 import styles from "./RenderGroupBalances.module.css";
+import { getActiveGroupCode } from "@/utils/localStorage";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 

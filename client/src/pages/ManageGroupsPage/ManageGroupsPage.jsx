@@ -1,10 +1,7 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-import {
-  setRouteInLocalStorage,
-  getActiveGroupCode,
-} from "@client-utils/localStorageUtils";
+import { setRouteInLocalStorage } from "@client-utils/localStorageUtils";
 
 import useValidateAndCleanupStoredGroupCodes from "@hooks/useValidateAndCleanUpStoredGroupCodes";
 
@@ -16,6 +13,7 @@ import ValidateGroupCode from "@components/ManageGroups/ValidateGroupCode/Valida
 import InAppNavigationBar from "@components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 
 import styles from "./ManageGroupsPage.module.css";
+import { getActiveGroupCode } from "@/utils/localStorage";
 
 const ManageGroupsPage = () => {
   const { t } = useTranslation();

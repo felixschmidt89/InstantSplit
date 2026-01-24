@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { getActiveGroupCode } from "@client-utils/localStorageUtils";
+import { getActiveGroupCode } from "@/utils/localStorage";
 
 import useFetchGroupMembers from "@hooks/useFetchGroupMembers";
 

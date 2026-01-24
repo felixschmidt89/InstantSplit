@@ -6,7 +6,6 @@ import { useTranslation } from "react-i18next";
 import {
   deleteGroupDataFromLocalStorage,
   setViewStateInLocalStorage,
-  getActiveGroupCode,
 } from "@client-utils/localStorageUtils";
 import { checkModalClosureUserActionExpiration } from "@client-utils/clientUtils";
 import { devLog } from "@client-utils/errorUtils";
@@ -26,6 +25,7 @@ import DefaultAndUserSettingsBar from "@components/DefaultAndUserSettingsBar/Def
 import PwaCtaModal from "@components/PwaCtaModal/PwaCtaModal/PwaCtaModal";
 
 import styles from "./InstantSplitPage.module.css";
+import { getActiveGroupCode } from "@/utils/localStorage";
 
 const InstantSplitPage = () => {
   const navigate = useNavigate();

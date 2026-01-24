@@ -11,13 +11,13 @@ import { devLog } from "@client-utils/errorUtils";
 import {
   deleteGroupDataFromLocalStorage,
   getRouteFromLocalStorage,
-  getActiveGroupCode,
 } from "@client-utils/localStorageUtils";
 import { ROUTES } from "@client-constants/routesConstants";
 import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
 import InstantSplitLogo from "@components/InstantSplitLogo/InstantSplitLogo";
 
 import styles from "./InAppNavigationBar.module.css";
+import { getActiveGroupCode } from "@/utils/localStorage";
 
 const InAppNavigationBar = ({
   back = false,

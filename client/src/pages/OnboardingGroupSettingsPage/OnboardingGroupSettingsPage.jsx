@@ -1,7 +1,5 @@
 import { useTranslation } from "react-i18next";
 
-import { getActiveGroupCode } from "@client-utils/localStorageUtils";
-
 import useFetchGroupData from "@hooks/useFetchGroupData";
 
 import HelmetMetaTagsNetlify from "@components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
@@ -15,6 +13,7 @@ import Spinner from "@components/Spinner/Spinner";
 import { ROUTES } from "@client-constants/routesConstants";
 
 import styles from "./OnboardingGroupSettingsPage.module.css";
+import { getActiveGroupCode } from "@/utils/localStorage";
 
 const OnboardingGroupSettingsPage = () => {
   const { t } = useTranslation();

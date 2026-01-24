@@ -10,7 +10,6 @@ import {
   getGroupHasPersistedDebitorCreditorOrder,
   groupUsersPerPositiveOrNegativeUserBalance,
 } from "@client-utils/settlementUtils";
-import { getActiveGroupCode } from "@client-utils/localStorageUtils";
 
 import useFetchGroupCurrency from "@hooks/useFetchGroupCurrency";
 
@@ -20,6 +19,7 @@ import ExpensesSettled from "@components/SettleExpenses/ExpensesSettled/Expenses
 import RenderSettlementPaymentSuggestions from "@components/SettleExpenses/RenderSettlementPaymentSuggestions/RenderSettlementPaymentSuggestions";
 
 import styles from "./SettleExpenses.module.css";
+import { getActiveGroupCode } from "@/utils/localStorage";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
