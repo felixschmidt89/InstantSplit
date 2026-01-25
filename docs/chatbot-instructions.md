@@ -180,3 +180,6 @@ This is a legacy codebase. When we work on existing files, we always want to ref
 - **Component Coverage**:
   - **Protocol**: Deferred implementation. Do not add tests for React components until they have undergone a full refactor to meet current coding standards.
   - **Frameworks**: Utilize `jest` and `react-testing-library` exclusively.
+
+  **Test Data Management**:
+  - **Standard**: Generic mock data used across multiple test suites (e.g., mock IDs, generic strings, dummy objects) must be used in tests and stored in `@shared-constants/testConstants`.
