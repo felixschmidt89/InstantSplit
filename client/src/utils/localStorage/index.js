@@ -13,9 +13,12 @@ export * from "./getFirstGroupCode";
 export * from "./storeGroupCode";
 
 export * from "./getPreviousRoute";
+export * from "./deletePreviousRoute";
 export * from "./getNestedPreviousRoute";
+export * from "./deleteNestedPreviousRoute";
 
 export * from "./getPwaCtaClosed";
 
 export * from "./getStoredView";
 export * from "./setStoredView";
+export * from "./deleteStoredView";
