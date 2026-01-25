@@ -1,9 +1,16 @@
 export default {
-  // Specifies the test environment to be jest-environment-jsdom, which emulates a browser-like environment for testing React components.
   testEnvironment: "jest-environment-jsdom",
 
-  // Configures the transformation process for JavaScript and JSX files using babel-jest.
   transform: {
     "^.+\\.jsx?$": "babel-jest",
   },
+
+  moduleNameMapper: {
+    "^@client-utils/(.*)$": "<rootDir>/src/utils/$1",
+    "^@client-constants/(.*)$": "<rootDir>/src/constants/$1",
+    "^@client-hooks/(.*)$": "<rootDir>/src/hooks/$1",
+    "^@assets/(.*)$": "<rootDir>/src/assets/$1",
+  },
+
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
 };
