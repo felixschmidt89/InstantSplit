@@ -162,3 +162,18 @@ This is a legacy codebase. When we work on existing files, we always want to ref
   - **Location Accuracy**: Is it placed in the correct environment folder (`shared/`, `client/src/`, or `server/`) based on its dependencies?
   - **Structure**: Does it belong to a category folder with a corresponding barrel file?
 - **Migration**: If a utility fails validation, recommend a migration to the **Atomic Utility Architecture** (Section 9) before performing any logic updates.
+
+### 11. Testing Standards
+
+- **Test Co-location**:
+  - **Standard**: All unit tests (e.g., `*.test.js`, `*.spec.js`) must be co-located with the source file they validate.
+  - **Structure**: Tests must reside in the same directory as the utility or component (e.g., `src/utils/storage/getLocalStorageKey.test.js`).
+  - **Rationale**: Ensures atomicity, simplifies maintenance, and aligns with the folder-per-function/component architecture.
+
+- **Utility Coverage**:
+  - **Requirement**: Every utility function must have a corresponding test file created at the time of refactoring or creation.
+  - **Focus**: Prioritize edge cases, error handling, and environment-specific logic (e.g., `localStorage` availability).
+
+- **Component Coverage**:
+  - **Protocol**: Deferred implementation. Do not add tests for React components until they have undergone a full refactor to meet current coding standards.
+  - **Frameworks**: Utilize `jest` and `react-testing-library` exclusively.
