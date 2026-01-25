@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { usePWAInstall } from "react-use-pwa-install";
 import { useTranslation } from "react-i18next";
 
-import { deleteGroupDataFromLocalStorage } from "@client-utils/localStorageUtils";
 import { checkModalClosureUserActionExpiration } from "@client-utils/clientUtils";
 import { devLog } from "@client-utils/errorUtils";
 import { LEGACY_VIEW_TYPES, VIEW_TYPES } from "@client-constants/viewConstants";
@@ -28,6 +27,7 @@ import {
   getStoredView,
   setStoredView,
 } from "@/utils/localStorage";
+import { deleteGroupCode } from "@/utils/localStorage/deleteGroupCode";
 
 const InstantSplitPage = () => {
   const navigate = useNavigate();
@@ -70,7 +70,7 @@ const InstantSplitPage = () => {
 
   useEffect(() => {
     if (isValidated && !groupExists) {
-      deleteGroupDataFromLocalStorage(groupCode);
+      deleteGroupCode(groupCode);
       navigate("/");
     }
   }, [navigate, groupCode, isValidated, groupExists]);

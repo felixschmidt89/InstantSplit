@@ -185,16 +185,3 @@ export const deleteRouteFromLocalStorage = (key = "previousRoute") => {
   localStorage.removeItem(key);
   devLog(`${key} removed from local storage`);
 };
-
-/**
- * Deletes data related to the provided group code from local storage:
- * - Deletes activeGroupCode.
- * - Removes activeGroupCode from the storedGroupCodes array.
- * - Deletes storedGroupCodes array if it becomes empty.
- *
- * @param {string} groupCode - The groupCode identifying the group.
- */
-export const deleteGroupDataFromLocalStorage = (groupCode) => {
-  removeGroupCodeFromStoredGroupCodes(groupCode);
-  removeActiveGroupCodeFromLocalStorage();
-};
