@@ -9,4 +9,10 @@ export const MOCK_DATA = {
   EMAIL: "test@example.com",
 };
 
+export const MOCK_ERROR_MESSAGES = {
+  SECURITY_ERROR: "Security Error",
+  STORAGE_FULL: "Storage Full",
+  ACCESS_DENIED: "Access Denied",
+};
+
 export const MOCK_ID = "507f1f77bcf86cd799439011";
