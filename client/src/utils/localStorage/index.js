@@ -15,3 +15,6 @@ export * from "./getPreviousRoute";
 export * from "./getNestedPreviousRoute";
 
 export * from "./getPwaCtaClosed";
+
+export * from "./getStoredView";
+export * from "./setStoredView";

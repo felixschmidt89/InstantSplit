@@ -3,12 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { usePWAInstall } from "react-use-pwa-install";
 import { useTranslation } from "react-i18next";
 
-import {
-  deleteGroupDataFromLocalStorage,
-  setViewStateInLocalStorage,
-} from "@client-utils/localStorageUtils";
+import { deleteGroupDataFromLocalStorage } from "@client-utils/localStorageUtils";
 import { checkModalClosureUserActionExpiration } from "@client-utils/clientUtils";
 import { devLog } from "@client-utils/errorUtils";
+import { LEGACY_VIEW_TYPES, VIEW_TYPES } from "@client-constants/viewConstants";
 
 import useFetchGroupData from "@hooks/useFetchGroupData";
 import useDeletePreviousRouteFromLocalStorage from "@hooks/useDeletePreviousRouteFromLocalStorage";
@@ -22,10 +20,14 @@ import RenderGroupHistory from "@components/GroupBalancesAndHistory/GroupHistory
 import RenderGroupBalances from "@components/GroupBalancesAndHistory/GroupBalances/RenderGroupBalances/RenderGroupBalances";
 import DefaultAndUserSettingsBar from "@components/DefaultAndUserSettingsBar/DefaultAndUserSettingsBar";
 import PwaCtaModal from "@components/PwaCtaModal/PwaCtaModal/PwaCtaModal";
+import ActiveGroupBar from "@/components/ActiveGroupBar/ActiveGroupBar";
 
 import styles from "./InstantSplitPage.module.css";
-import { getActiveGroupCode } from "@/utils/localStorage/index.js";
-import ActiveGroupBar from "@/components/ActiveGroupBar/ActiveGroupBar";
+import {
+  getActiveGroupCode,
+  getStoredView,
+  setStoredView,
+} from "@/utils/localStorage";
 
 const InstantSplitPage = () => {
   const navigate = useNavigate();
@@ -33,9 +35,11 @@ const InstantSplitPage = () => {
   const isPWAInstallPromptAvailable = usePWAInstall();
 
   const groupCode = getActiveGroupCode();
-  const initialViewState = localStorage.getItem("viewState") || "view2";
 
-  const [view, setView] = useState(initialViewState);
+  const [view, setView] = useState(
+    () => getStoredView() || VIEW_TYPES.BALANCES,
+  );
+
   const [ctaToRender, setCtaToRender] = useState(null);
   const [showPwaCtaModal, setShowPwaCtaModal] = useState(null);
 
@@ -51,14 +55,10 @@ const InstantSplitPage = () => {
     checkModalClosureUserActionExpiration();
 
   const updateView = (newView) => {
-    try {
-      setViewStateInLocalStorage(newView);
+    if (setStoredView(newView)) {
       setView(newView);
-    } catch (error) {
-      devLog(`Error setting viewState to ${newView} in local storage.`, error);
     }
   };
-
   useDeletePreviousRouteFromLocalStorage();
   useDeletePreviousRouteFromLocalStorage("nestedPreviousRoute");
 
@@ -136,7 +136,8 @@ const InstantSplitPage = () => {
 
               <SwitchViewButtonsBar view={view} updateView={updateView} />
 
-              {view === "view1" ? (
+              {view === VIEW_TYPES.HISTORY ||
+              view === LEGACY_VIEW_TYPES.VIEW_1 ? (
                 <RenderGroupHistory
                   groupCode={groupCode}
                   groupCurrency={groupData.group.currency}
