@@ -7,6 +7,7 @@ export const MOCK_DATA = {
   OBJECT: { id: "mock_id_1", value: "mock_value" },
   ARRAY: ["item_1", "item_2"],
   EMAIL: "test@example.com",
+  ID: "6976543dabc5a7097f50bb01",
 };
 
 export const MOCK_ERROR_MESSAGES = {
@@ -15,4 +16,11 @@ export const MOCK_ERROR_MESSAGES = {
   ACCESS_DENIED: "Access Denied",
 };
 
-export const MOCK_ID = "507f1f77bcf86cd799439011";
+export const MOCK_LOCALSTORAGE_VALUES = {
+  ACTIVE_GROUP_CODE: "NHMPSPAZ3SF8",
+  STORED_GROUP_CODES: ["UVDL4D8MJT7T", "NHMPSPAZ3SF8"],
+  LANGUAGE: "de",
+  PREVIOUS_ROUTE: "/groupmember-details/NHMPSPAZ3SF8/6976543dabc5a7097f50bb01",
+  NESTED_PREVIOUS_ROUTE:
+    "/groupmember-transaction-history/NHMPSPAZ3SF8/6976543dabc5a7097f50bb01",
+};
