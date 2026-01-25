@@ -175,13 +175,3 @@ export const getRouteFromLocalStorage = (key = "previousRoute") => {
   devLog(`${key} retrieved from local storage:`, route);
   return route;
 };
-
-/**
- * Deletes the previousRoute from localStorage.
-
- * @param {string} [key="previousRoute"] - The key under which the route is stored in localStorage. Defaults to "previousRoute". For further nested page, use "nestedPreviousRoute" as key.
- */
-export const deleteRouteFromLocalStorage = (key = "previousRoute") => {
-  localStorage.removeItem(key);
-  devLog(`${key} removed from local storage`);
-};
