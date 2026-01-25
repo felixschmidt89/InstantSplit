@@ -28,7 +28,6 @@
     "cloudinary": "2.8.0",
     "cypress-vite": "^1.5.0",
     "fontfaceobserver": "^2.3.0",
-    "framer-motion": "^11.0.5",
     "friendly-challenge": "^0.9.14",
     "http-status-codes": "^2.3.0",
     "i18next": "^23.10.0",
@@ -41,7 +40,6 @@
     "react-i18next": "^14.0.5",
     "react-icons": "^4.12.0",
     "react-router-dom": "^6.16.0",
-    "react-snap": "1.13.1",
     "react-use-pwa-install": "^0.2.4"
   },
   "devDependencies": {
