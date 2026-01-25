@@ -1,6 +1,7 @@
 import useIsNotoEmojiFontLoaded from "@hooks/useIsNotoEmojiFontLoaded";
 
 import styles from "./Emoji.module.css";
+import { FONT_STATE } from "@/constants/fontConstants";
 
 type EmojiProps = {
   ariaLabel: string;
@@ -21,8 +22,9 @@ const Emoji = ({
   translateX = 0,
   translateY = 0,
 }: EmojiProps) => {
-  // TODO: Fix font not being loaded
-  const notoEmojiFontIsLoaded = useIsNotoEmojiFontLoaded();
+  const { isLoaded, fontState } = useIsNotoEmojiFontLoaded();
+
+  if (!isLoaded) return null;
 
   const emojiStyle = {
     transform: `translate(${translateX}rem, ${translateY}rem) scale(${scale})`,
@@ -32,7 +34,7 @@ const Emoji = ({
     <span
       role='img'
       aria-label={ariaLabel}
-      className={notoEmojiFontIsLoaded ? styles.emojiFont : ""}
+      className={fontState === FONT_STATE.LOADED ? styles.emojiFont : ""}
       style={emojiStyle}>
       {emoji}
     </span>
