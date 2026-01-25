@@ -1,22 +1,20 @@
-import { useTranslation } from "react-i18next";
-
 import useSettingsEmoji from "@hooks/useSettingsEmoji";
 import useIsSlimDevice from "@hooks/useIsSlimDevice";
 import useIsNotoEmojiFontLoaded from "@hooks/useIsNotoEmojiFontLoaded";
-
 import GroupActionsEmojiButton from "../GroupActionsEmojiButton/GroupActionsEmojiButton";
+import emojiConstants from "@/constants/emojiConstants";
 
 import styles from "./ActiveGroupBar.module.css";
-import emojiConstants from "@/constants/emojiConstants";
+import { useTranslation } from "react-i18next";
 
 const ActiveGroupBar = () => {
   const settingsEmoji = useSettingsEmoji();
   const { t } = useTranslation();
   const isSlimDevice = useIsSlimDevice();
 
-  const notoEmojiFontIsLoaded = useIsNotoEmojiFontLoaded();
+  const { isLoaded, fontState } = useIsNotoEmojiFontLoaded();
 
-  if (!notoEmojiFontIsLoaded) {
+  if (!isLoaded) {
     return null;
   }
 
@@ -24,10 +22,11 @@ const ActiveGroupBar = () => {
     <div
       className={styles.groupActionsBar}
       role='toolbar'
-      aria-label='active group bar'>
+      aria-label='active group bar'
+      data-font-state={fontState}>
       <GroupActionsEmojiButton
         route={"group-settings"}
-        emoji={settingsEmoji || ""}
+        emoji={settingsEmoji}
         translateX={0}
         explanationText={t("active-group-bar-settings-emoji-copy")}
         ariaLabel='group settings emoji'

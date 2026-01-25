@@ -17,7 +17,6 @@ import useGetClientDeviceAndPwaInfo from "@hooks/useGetClientDeviceAndPwaInfo";
 
 import HelmetMetaTagsNetlify from "@components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import PiratePx from "@components/PiratePx/PiratePx";
-import ActiveGroupBar from "@components/ActiveGroupBar/ActiveGroupBar";
 import SwitchViewButtonsBar from "@components/GroupBalancesAndHistory/SwitchViewButtonsBar/SwitchViewButtonsBar";
 import RenderGroupHistory from "@components/GroupBalancesAndHistory/GroupHistory/RenderGroupHistory/RenderGroupHistory";
 import RenderGroupBalances from "@components/GroupBalancesAndHistory/GroupBalances/RenderGroupBalances/RenderGroupBalances";
@@ -26,6 +25,7 @@ import PwaCtaModal from "@components/PwaCtaModal/PwaCtaModal/PwaCtaModal";
 
 import styles from "./InstantSplitPage.module.css";
 import { getActiveGroupCode } from "@/utils/localStorage/index.js";
+import ActiveGroupBar from "@/components/ActiveGroupBar/ActiveGroupBar";
 
 const InstantSplitPage = () => {
   const navigate = useNavigate();
@@ -147,7 +147,6 @@ const InstantSplitPage = () => {
             </>
           )}
 
-          {/* CODECHANGE: Moved outside the groupData.group check so the bar is always visible after fetch */}
           <ActiveGroupBar />
 
           {showPwaCtaModal && (
