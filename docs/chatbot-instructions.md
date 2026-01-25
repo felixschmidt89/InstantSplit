@@ -168,7 +168,10 @@ This is a legacy codebase. When we work on existing files, we always want to ref
 - **Test Co-location**:
   - **Standard**: All unit tests (e.g., `*.test.js`, `*.spec.js`) must be co-located with the source file they validate.
   - **Structure**: Tests must reside in the same directory as the utility or component (e.g., `src/utils/storage/getLocalStorageKey.test.js`).
-  - **Rationale**: Ensures atomicity, simplifies maintenance, and aligns with the folder-per-function/component architecture.
+
+- **Constant-Driven Validation**:
+  - **Standard**: Tests must always use imported shared constants (e.g., `LANGUAGES`, `LOCAL_STORAGE_KEYS`) for both input values and expectations.
+  - **Ban on Magic Strings**: Raw string literals (e.g., `"de"`, `"en"`, `"token"`) are strictly prohibited in test assertions for valid application states.
 
 - **Utility Coverage**:
   - **Requirement**: Every utility function must have a corresponding test file created at the time of refactoring or creation.

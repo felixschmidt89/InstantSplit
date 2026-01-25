@@ -1,13 +1,14 @@
 import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
-import { devLog } from "../errorUtils";
+import { LANGUAGES } from "@shared-constants/languageConstants";
+import { setLocalStorageKey } from "./setLocalStorageKey";
 
 export const setLanguage = (language) => {
-  try {
-    localStorage.setItem(LOCAL_STORAGE_KEYS.LANGUAGE, language);
-    devLog("Language updated in local storage:", language);
-    return true;
-  } catch (error) {
-    devLog("Error setting language in local storage:", error);
+  const isSupported = Object.values(LANGUAGES).includes(language);
+
+  if (!isSupported) {
+    console.error(`Attempted to set unsupported language: ${language}`);
     return false;
   }
+
+  return setLocalStorageKey(LOCAL_STORAGE_KEYS.LANGUAGE, language);
 };
