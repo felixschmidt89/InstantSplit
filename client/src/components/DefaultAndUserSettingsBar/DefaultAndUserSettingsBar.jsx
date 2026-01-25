@@ -24,7 +24,7 @@ import InstantSplitLogo from "@components/InstantSplitLogo/InstantSplitLogo";
 import WebShareApiInvite from "@components/ShareGroupInvitation/WebShareApiInvite/WebShareApiInvite";
 
 import styles from "./DefaultAndUserSettingsBar.module.css";
-import { getActiveGroupCode } from "@/utils/localStorage";
+import { getActiveGroupCode } from "@/utils/localStorage/index.js";
 
 const baseUrl = import.meta.env.VITE_REACT_APP_BASE_URL;
 

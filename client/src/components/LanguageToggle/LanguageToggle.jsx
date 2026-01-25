@@ -7,7 +7,7 @@ import deFlag from "@assets/flags/de.svg";
 import enFlag from "@assets/flags/gb.svg";
 
 import styles from "./LanguageToggle.module.css";
-import { setLanguage } from "@/utils/localStorage";
+import { setLanguage } from "@/utils/localStorage/index.js";
 
 // TODO: do not use hardcoded alt texts
 

@@ -13,7 +13,7 @@ import ValidateGroupCode from "@components/ManageGroups/ValidateGroupCode/Valida
 import InAppNavigationBar from "@components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 
 import styles from "./ManageGroupsPage.module.css";
-import { getActiveGroupCode } from "@/utils/localStorage";
+import { getActiveGroupCode } from "@/utils/localStorage/index.js";
 
 const ManageGroupsPage = () => {
   const { t } = useTranslation();

@@ -11,7 +11,7 @@ import {
   getPreviousRoute,
   setActiveGroupCode,
   storeGroupCode,
-} from "@client-utils/localStorage";
+} from "@/utils/localStorage/index.js";
 
 import useValidateGroupExistence from "@hooks/useValidateGroupCodeExistence";
 import HelmetMetaTagsNetlify from "@components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";

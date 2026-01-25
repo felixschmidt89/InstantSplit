@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 
-import { getPreviousRoute } from "@client-utils/localStorage";
+import { getPreviousRoute } from "@/utils/localStorage/index.js";
 
 import HelmetMetaTagsNetlify from "@components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import PiratePx from "@components/PiratePx/PiratePx";

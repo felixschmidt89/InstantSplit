@@ -13,7 +13,7 @@ import Spinner from "@components/Spinner/Spinner";
 import { ROUTES } from "@client-constants/routesConstants";
 
 import styles from "./OnboardingGroupSettingsPage.module.css";
-import { getActiveGroupCode } from "@/utils/localStorage";
+import { getActiveGroupCode } from "@/utils/localStorage/index.js";
 
 const OnboardingGroupSettingsPage = () => {
   const { t } = useTranslation();

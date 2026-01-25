@@ -25,7 +25,7 @@ import DefaultAndUserSettingsBar from "@components/DefaultAndUserSettingsBar/Def
 import PwaCtaModal from "@components/PwaCtaModal/PwaCtaModal/PwaCtaModal";
 
 import styles from "./InstantSplitPage.module.css";
-import { getActiveGroupCode } from "@/utils/localStorage";
+import { getActiveGroupCode } from "@/utils/localStorage/index.js";
 
 const InstantSplitPage = () => {
   const navigate = useNavigate();
@@ -118,31 +118,36 @@ const InstantSplitPage = () => {
   }, [isPwa, ctaToRender, lastModalClosureUserActionHasExpired]);
 
   return (
-    <main>
+    <main className={styles.mainContainer}>
       {!isFetched ? (
         <span className={styles.spinner}></span>
-      ) : groupData?.group ? (
+      ) : (
         <>
-          <HelmetMetaTagsNetlify title={t("main-page-title")} />
-          <PiratePx COUNT_IDENTIFIER='main-application' />
+          {groupData?.group && (
+            <>
+              <HelmetMetaTagsNetlify title={t("main-page-title")} />
+              <PiratePx COUNT_IDENTIFIER='main-application' />
 
-          <DefaultAndUserSettingsBar />
+              <DefaultAndUserSettingsBar />
 
-          <div className={styles.topBar}>
-            <h1>{groupData.group.groupName}</h1>
-          </div>
+              <div className={styles.topBar}>
+                <h1>{groupData.group.groupName}</h1>
+              </div>
 
-          <SwitchViewButtonsBar view={view} updateView={updateView} />
+              <SwitchViewButtonsBar view={view} updateView={updateView} />
 
-          {view === "view1" ? (
-            <RenderGroupHistory
-              groupCode={groupCode}
-              groupCurrency={groupData.group.currency}
-            />
-          ) : (
-            <RenderGroupBalances groupCurrency={groupData.group.currency} />
+              {view === "view1" ? (
+                <RenderGroupHistory
+                  groupCode={groupCode}
+                  groupCurrency={groupData.group.currency}
+                />
+              ) : (
+                <RenderGroupBalances groupCurrency={groupData.group.currency} />
+              )}
+            </>
           )}
 
+          {/* CODECHANGE: Moved outside the groupData.group check so the bar is always visible after fetch */}
           <ActiveGroupBar />
 
           {showPwaCtaModal && (
@@ -152,7 +157,7 @@ const InstantSplitPage = () => {
             />
           )}
         </>
-      ) : null}
+      )}
     </main>
   );
 };

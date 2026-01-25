@@ -10,10 +10,11 @@ export const deleteLocalStorageKey = (key) => {
       debugLog(`Key "${key}" successfully deleted from local storage.`);
       return true;
     }
+
     debugLog(`Key "${key}" could not be deleted because it does not exist.`);
     return false;
   } catch (error) {
-    debugLog(`Error during deletion of key "${key}":`, error);
+    debugLog(`Error deleting key "${key}":`, error);
     return false;
   }
 };

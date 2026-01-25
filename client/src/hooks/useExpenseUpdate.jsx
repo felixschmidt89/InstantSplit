@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import useFetchExpenseInfo from "@hooks/useFetchExpenseInfo";
 import useFetchGroupMembers from "@hooks/useFetchGroupMembers";
-import { getActiveGroupCode } from "@/utils/localStorage";
+import { getActiveGroupCode } from "@/utils/localStorage/index.js";
 
 const useExpenseUpdate = (expenseId) => {
   const groupCode = getActiveGroupCode();

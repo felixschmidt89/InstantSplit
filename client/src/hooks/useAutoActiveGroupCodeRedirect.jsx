@@ -6,7 +6,7 @@ import {
   getFirstGroupCodeInStoredGroupCodesArray,
   setGroupCodeToCurrentlyActive,
 } from "@client-utils/localStorageUtils";
-import { getActiveGroupCode } from "@/utils/localStorage";
+import { getActiveGroupCode } from "@/utils/localStorage/index.js";
 
 const useAutoActiveGroupCodeRedirect = () => {
   const navigate = useNavigate();

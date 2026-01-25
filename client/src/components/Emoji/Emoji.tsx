@@ -1,29 +1,19 @@
-// React and Third-Party Libraries
-import React from "react";
+import useIsNotoEmojiFontLoaded from "@hooks/useIsNotoEmojiFontLoaded";
 
-// Hooks
-import useIsNotoEmojiFontLoaded from "../../hooks/useIsNotoEmojiFontLoaded";
-
-// Styles
 import styles from "./Emoji.module.css";
 
 type EmojiProps = {
   ariaLabel: string;
   emoji: string;
   scale?: number;
-  /**
-   * horizontal translation of the emoji in rem unit.
-   */
   translateX?: number;
-  /**
-   * The vertical translation of the emoji in rem unit.
-   */
   translateY?: number;
+
+  // TODO: Indicate unit in prop name (refactor later)
+  // translateXRem?: number;
+  // translateYRem?: number;
 };
 
-/**
- * Component for rendering unicolor emojis.
- */
 const Emoji = ({
   ariaLabel,
   emoji,
@@ -31,21 +21,22 @@ const Emoji = ({
   translateX = 0,
   translateY = 0,
 }: EmojiProps) => {
+  // TODO: Fix font not being loaded
   const notoEmojiFontIsLoaded = useIsNotoEmojiFontLoaded();
 
   const emojiStyle = {
     transform: `translate(${translateX}rem, ${translateY}rem) scale(${scale})`,
   };
 
-  return notoEmojiFontIsLoaded ? (
+  return (
     <span
       role='img'
       aria-label={ariaLabel}
-      className={styles.emojiFont}
+      className={notoEmojiFontIsLoaded ? styles.emojiFont : ""}
       style={emojiStyle}>
       {emoji}
     </span>
-  ) : null;
+  );
 };
 
 export default Emoji;

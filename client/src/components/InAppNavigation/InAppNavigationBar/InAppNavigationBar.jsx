@@ -17,7 +17,7 @@ import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
 import InstantSplitLogo from "@components/InstantSplitLogo/InstantSplitLogo";
 
 import styles from "./InAppNavigationBar.module.css";
-import { getActiveGroupCode } from "@/utils/localStorage";
+import { getActiveGroupCode } from "@/utils/localStorage/index.js";
 
 const InAppNavigationBar = ({
   back = false,

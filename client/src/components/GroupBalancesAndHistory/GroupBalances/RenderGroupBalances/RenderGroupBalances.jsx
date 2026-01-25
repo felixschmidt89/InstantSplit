@@ -14,7 +14,7 @@ import ErrorModal from "@components/ErrorModal/ErrorModal";
 import RenderGroupMemberBalance from "@components/GroupBalancesAndHistory/GroupBalances/RenderGroupMemberBalance/RenderGroupMemberBalance";
 
 import styles from "./RenderGroupBalances.module.css";
-import { getActiveGroupCode } from "@/utils/localStorage";
+import { getActiveGroupCode } from "@/utils/localStorage/index.js";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 

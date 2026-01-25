@@ -6,7 +6,7 @@ import {
   LANGUAGES,
   DEFAULT_LANGUAGE,
 } from "@shared-constants/languageConstants";
-import { getLanguage } from "@/utils/localStorage";
+import { getLanguage } from "@/utils/localStorage/index.js";
 
 i18n
   .use(HttpApi)

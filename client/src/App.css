@@ -27,7 +27,7 @@
 /* Ubuntu font */
 @font-face {
   font-family: "Ubuntu";
-  src: url("../assets/fonts/Ubuntu-Bold.ttf") format("truetype");
+  src: url("../public") format("truetype");
   font-weight: bold;
   font-style: 400;
   font-display: swap;
@@ -35,28 +35,28 @@
 
 @font-face {
   font-family: "Ubuntu";
-  src: url("../assets/fonts/Ubuntu-Italic.ttf") format("truetype");
+  src: url("../public/fonts/Ubuntu-Italic.ttf") format("truetype");
   font-style: italic;
   font-display: swap;
 }
 
 @font-face {
   font-family: "Ubuntu";
-  src: url("../assets/fonts/Ubuntu-Light.ttf") format("truetype");
+  src: url("../public/fonts/Ubuntu-Light.ttf") format("truetype");
   font-weight: 300;
   font-display: swap;
 }
 
 @font-face {
   font-family: "Ubuntu";
-  src: url("../assets/fonts/Ubuntu-Medium.ttf") format("truetype");
+  src: url("../public/fonts/Ubuntu-Medium.ttf") format("truetype");
   font-weight: 500;
   font-display: swap;
 }
 
 @font-face {
   font-family: "Ubuntu";
-  src: url("../assets/fonts/Ubuntu-Regular.ttf") format("truetype");
+  src: url("../public/fonts/Ubuntu-Regular.ttf") format("truetype");
   font-weight: 400;
   font-display: swap;
 }
@@ -65,7 +65,7 @@
 
 @font-face {
   font-family: "Noto Emoji";
-  src: url("../assets/fonts/NotoEmoji-Medium.ttf") format("truetype");
+  src: url("../public/fonts/NotoEmoji-Medium.ttf") format("truetype");
   font-weight: 500;
 }
 

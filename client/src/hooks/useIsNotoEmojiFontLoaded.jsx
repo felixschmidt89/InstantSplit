@@ -1,29 +1,38 @@
-// React and Third-Party Libraries
 import { useState, useEffect } from "react";
 import FontFaceObserver from "fontfaceobserver";
-
-// Constants and Utils
 import { devLog } from "../utils/errorUtils";
 
 /**
- * checks if the "Noto Emoji" font replacing client emojis is loaded.
- * @returns {boolean} True if loaded, otherwise false.
+ * Checks if "Noto Emoji" is loaded.
+ * Strictly hides content until font is ready OR 5 seconds have passed.
  */
 const useIsNotoEmojiFontLoaded = () => {
   const [notoEmojiFontIsLoaded, setNotoEmojiFontIsLoaded] = useState(false);
 
   useEffect(() => {
     const font = new FontFaceObserver("Noto Emoji");
+    let isMounted = true;
 
+    // 1. The Font Loader
     font
-      .load()
+      .load(null, 5000) // FontFaceObserver has a built-in timeout param (ms)
       .then(() => {
-        setNotoEmojiFontIsLoaded(true);
-        devLog("Noto Emoji Font loaded successfully");
+        if (isMounted) {
+          setNotoEmojiFontIsLoaded(true);
+          devLog("Noto Emoji Font loaded successfully.");
+        }
       })
       .catch((error) => {
-        devLog("Font could not be loaded:", error);
+        if (isMounted) {
+          // If it fails or times out, we finally show the UI
+          setNotoEmojiFontIsLoaded(true);
+          devLog("Font load failed or timed out, falling back to system.");
+        }
       });
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return notoEmojiFontIsLoaded;

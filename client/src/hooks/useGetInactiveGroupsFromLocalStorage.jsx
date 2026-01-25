@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 
 // Constants and Utils
 import { devLog } from "../utils/errorUtils";
-import { getStoredGroupCodes } from "@/utils/localStorage";
+import { getStoredGroupCodes } from "@/utils/localStorage/index.js";
 
 // API URL
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;

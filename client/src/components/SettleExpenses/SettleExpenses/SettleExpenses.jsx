@@ -19,7 +19,7 @@ import ExpensesSettled from "@components/SettleExpenses/ExpensesSettled/Expenses
 import RenderSettlementPaymentSuggestions from "@components/SettleExpenses/RenderSettlementPaymentSuggestions/RenderSettlementPaymentSuggestions";
 
 import styles from "./SettleExpenses.module.css";
-import { getActiveGroupCode } from "@/utils/localStorage";
+import { getActiveGroupCode } from "@/utils/localStorage/index.js";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 

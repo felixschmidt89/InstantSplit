@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 import { ROUTES } from "@client-constants/routesConstants";
-import { getPreviousRoute } from "@client-utils/localStorage";
+import { getPreviousRoute } from "@/utils/localStorage/index.js";
 import useTriggerRerender from "@hooks/useTriggerRerender";
 
 import HelmetMetaTagsNetlify from "@components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";

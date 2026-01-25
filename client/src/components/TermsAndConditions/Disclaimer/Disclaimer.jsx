@@ -6,7 +6,7 @@ import { DEFAULT_LANGUAGE } from "@shared-constants/languageConstants";
 import { LAST_UPDATE_DATE } from "../termsAndConditionsConstants";
 
 import styles from "./Disclaimer.module.css";
-import { getLanguage } from "@/utils/localStorage";
+import { getLanguage } from "@/utils/localStorage/index.js";
 
 const Disclaimer = () => {
   const { t } = useTranslation();
