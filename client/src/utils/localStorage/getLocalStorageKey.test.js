@@ -1,4 +1,7 @@
-import { MOCK_DATA } from "@shared-constants/testConstants";
+import {
+  MOCK_DATA,
+  MOCK_ERROR_MESSAGES,
+} from "@shared-constants/testConstants";
 import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
 import { getLocalStorageKey } from "./getLocalStorageKey";
 import { debugLog } from "@client-utils/debug/debugLog";
@@ -32,7 +35,7 @@ describe("getLocalStorageKey", () => {
   });
 
   it("should return null and log an error when localStorage throws an exception", () => {
-    const mockError = new Error("Access Denied");
+    const mockError = new Error(MOCK_ERROR_MESSAGES.ACCESS_DENIED);
     const getItemSpy = jest
       .spyOn(Storage.prototype, "getItem")
       .mockImplementation(() => {

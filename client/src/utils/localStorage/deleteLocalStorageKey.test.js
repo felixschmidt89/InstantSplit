@@ -1,62 +1,63 @@
-import { MOCK_DATA } from "@shared-constants/testConstants";
+import {
+  MOCK_DATA,
+  MOCK_ERROR_MESSAGES,
+} from "@shared-constants/testConstants";
 import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
+import { setLocalStorageKey } from "./setLocalStorageKey";
 import { deleteLocalStorageKey } from "./deleteLocalStorageKey";
-import { getLocalStorageKey } from "./getLocalStorageKey";
 import { debugLog } from "@client-utils/debug/debugLog";
 
-jest.mock("./getLocalStorageKey");
+jest.mock("./deleteLocalStorageKey");
 jest.mock("@client-utils/debug/debugLog");
 
-describe("deleteLocalStorageKey", () => {
+describe("setLocalStorageKey", () => {
   const mockKey = LOCAL_STORAGE_KEYS.ACTIVE_GROUP_CODE;
 
   beforeEach(() => {
+    localStorage.clear();
     jest.clearAllMocks();
-    jest.spyOn(Storage.prototype, "removeItem").mockImplementation(() => {});
   });
 
-  afterEach(() => {
-    jest.restoreAllMocks();
+  it("should store a string value directly", () => {
+    const result = setLocalStorageKey(mockKey, MOCK_DATA.STRING);
+
+    expect(localStorage.getItem(mockKey)).toBe(MOCK_DATA.STRING);
+    expect(result).toBe(true);
   });
 
-  it("should delete item and return true if key exists", () => {
-    getLocalStorageKey.mockReturnValue(MOCK_DATA.STRING);
+  it("should delegate to deleteLocalStorageKey when value is null", () => {
+    deleteLocalStorageKey.mockReturnValue(true);
 
-    const result = deleteLocalStorageKey(mockKey);
+    const result = setLocalStorageKey(mockKey, null);
 
-    expect(localStorage.removeItem).toHaveBeenCalledWith(mockKey);
-    expect(debugLog).toHaveBeenCalledWith(
-      `Key "${mockKey}" successfully deleted from local storage.`,
+    expect(deleteLocalStorageKey).toHaveBeenCalledWith(mockKey);
+    expect(result).toBe(true);
+  });
+
+  it("should stringify and store an object value", () => {
+    const result = setLocalStorageKey(mockKey, MOCK_DATA.OBJECT);
+
+    expect(localStorage.getItem(mockKey)).toBe(
+      JSON.stringify(MOCK_DATA.OBJECT),
     );
     expect(result).toBe(true);
   });
 
-  it("should return false and log message if key does not exist", () => {
-    getLocalStorageKey.mockReturnValue(null);
+  it("should return false and log error on exception", () => {
+    const setItemSpy = jest
+      .spyOn(Storage.prototype, "setItem")
+      .mockImplementation(() => {
+        throw new Error(MOCK_ERROR_MESSAGES.STORAGE_FULL);
+      });
 
-    const result = deleteLocalStorageKey(mockKey);
+    const result = setLocalStorageKey(mockKey, MOCK_DATA.STRING);
 
-    expect(localStorage.removeItem).not.toHaveBeenCalled();
-    expect(debugLog).toHaveBeenCalledWith(
-      `Key "${mockKey}" could not be deleted because it does not exist.`,
-    );
     expect(result).toBe(false);
-  });
-
-  it("should return false and log error if localStorage throws an exception", () => {
-    getLocalStorageKey.mockReturnValue(MOCK_DATA.STRING);
-    const mockError = new Error("Security Error");
-
-    localStorage.removeItem.mockImplementation(() => {
-      throw mockError;
-    });
-
-    const result = deleteLocalStorageKey(mockKey);
-
     expect(debugLog).toHaveBeenCalledWith(
-      `Error deleting key "${mockKey}":`,
-      mockError,
+      expect.stringContaining("Error setting key"),
+      expect.any(Error),
     );
-    expect(result).toBe(false);
+
+    setItemSpy.mockRestore();
   });
 });

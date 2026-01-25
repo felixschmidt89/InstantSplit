@@ -1,6 +1,7 @@
+import { MOCK_DATA } from "@shared-constants/testConstants";
+import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
 import { getPwaCtaClosed } from "./getPwaCtaClosed";
 import { getLocalStorageKey } from "./getLocalStorageKey";
-import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
 
 jest.mock("./getLocalStorageKey");
 
@@ -18,11 +19,11 @@ describe("getPwaCtaClosed", () => {
   });
 
   it("should return the value from localStorage", () => {
-    getLocalStorageKey.mockReturnValue("true");
+    getLocalStorageKey.mockReturnValue(MOCK_DATA.BOOLEAN_STRING_TRUE);
 
     const result = getPwaCtaClosed();
 
-    expect(result).toBe("true");
+    expect(result).toBe(MOCK_DATA.BOOLEAN_STRING_TRUE);
   });
 
   it("should return null if the key does not exist", () => {

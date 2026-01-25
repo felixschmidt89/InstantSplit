@@ -1,60 +1,45 @@
 import { MOCK_DATA } from "@shared-constants/testConstants";
 import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
-import { setLocalStorageKey } from "./setLocalStorageKey";
-import { deleteLocalStorageKey } from "./deleteLocalStorageKey";
+import { getStoredGroupCodes } from "./getStoredGroupCodes";
+import { getLocalStorageKey } from "./getLocalStorageKey";
 import { debugLog } from "@client-utils/debug/debugLog";
 
-jest.mock("./deleteLocalStorageKey");
+jest.mock("./getLocalStorageKey");
 jest.mock("@client-utils/debug/debugLog");
 
-describe("setLocalStorageKey", () => {
-  const mockKey = LOCAL_STORAGE_KEYS.ACTIVE_GROUP_CODE;
+describe("getStoredGroupCodes", () => {
+  const mockKey = LOCAL_STORAGE_KEYS.STORED_GROUP_CODES;
 
   beforeEach(() => {
-    localStorage.clear();
     jest.clearAllMocks();
   });
 
-  it("should store a string value directly", () => {
-    const result = setLocalStorageKey(mockKey, MOCK_DATA.STRING);
+  it("should return an empty array if no codes are stored", () => {
+    getLocalStorageKey.mockReturnValue(null);
 
-    expect(localStorage.getItem(mockKey)).toBe(MOCK_DATA.STRING);
-    expect(result).toBe(true);
+    const result = getStoredGroupCodes();
+
+    expect(getLocalStorageKey).toHaveBeenCalledWith(mockKey);
+    expect(result).toEqual([]);
   });
 
-  it("should delegate to deleteLocalStorageKey when value is null", () => {
-    deleteLocalStorageKey.mockReturnValue(true);
+  it("should parse and return an array when valid JSON is stored", () => {
+    getLocalStorageKey.mockReturnValue(JSON.stringify(MOCK_DATA.ARRAY));
 
-    const result = setLocalStorageKey(mockKey, null);
+    const result = getStoredGroupCodes();
 
-    expect(deleteLocalStorageKey).toHaveBeenCalledWith(mockKey);
-    expect(result).toBe(true);
+    expect(result).toEqual(MOCK_DATA.ARRAY);
   });
 
-  it("should stringify and store an object value", () => {
-    const result = setLocalStorageKey(mockKey, MOCK_DATA.OBJECT);
+  it("should return an empty array and log an error if JSON parsing fails", () => {
+    getLocalStorageKey.mockReturnValue(MOCK_DATA.STRING);
 
-    expect(localStorage.getItem(mockKey)).toBe(
-      JSON.stringify(MOCK_DATA.OBJECT),
-    );
-    expect(result).toBe(true);
-  });
+    const result = getStoredGroupCodes();
 
-  it("should return false and log error on exception", () => {
-    const setItemSpy = jest
-      .spyOn(Storage.prototype, "setItem")
-      .mockImplementation(() => {
-        throw new Error("Storage Full");
-      });
-
-    const result = setLocalStorageKey(mockKey, MOCK_DATA.STRING);
-
-    expect(result).toBe(false);
+    expect(result).toEqual([]);
     expect(debugLog).toHaveBeenCalledWith(
-      expect.stringContaining("Error setting key"),
+      "Error parsing storedGroupCodes from local storage:",
       expect.any(Error),
     );
-
-    setItemSpy.mockRestore();
   });
 });
