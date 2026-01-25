@@ -1,6 +1,7 @@
 import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
 import { debugLog } from "@client-utils/debug/debugLog";
 import { getStoredGroupCodes } from "./getStoredGroupCodes";
+import { setLocalStorageKey } from "./setLocalStorageKey";
 
 export const storeGroupCode = (groupCode) => {
   try {
@@ -9,12 +10,16 @@ export const storeGroupCode = (groupCode) => {
     if (!storedGroupCodes.includes(groupCode)) {
       const updatedCodes = [...storedGroupCodes, groupCode];
 
-      localStorage.setItem(
+      const success = setLocalStorageKey(
         LOCAL_STORAGE_KEYS.STORED_GROUP_CODES,
-        JSON.stringify(updatedCodes),
+        updatedCodes,
       );
 
-      debugLog("GroupCode added to local storage:", groupCode);
+      if (success) {
+        debugLog("GroupCode added to local storage:", groupCode);
+        return true;
+      }
+      return false;
     }
 
     return true;
