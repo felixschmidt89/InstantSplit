@@ -1,11 +1,14 @@
 import { debugLog } from "@client-utils/debug/debugLog";
+import { deleteLocalStorageKey } from "./deleteLocalStorageKey";
 
 export const setLocalStorageKey = (key, value) => {
   try {
+    if (value === null) {
+      return deleteLocalStorageKey(key);
+    }
+
     const valueToStore =
-      typeof value === "object" && value !== null
-        ? JSON.stringify(value)
-        : value;
+      typeof value === "object" ? JSON.stringify(value) : value;
 
     localStorage.setItem(key, valueToStore);
     debugLog(`Key "${key}" successfully set in local storage.`);
