@@ -1,3 +1,5 @@
+// TODO: May be useful to write new related tests
+// TODO: Remove when new tests are written
 // Import functions to test
 import {
   calculateAndAddUserBalance,
@@ -26,7 +28,7 @@ describe("calculateSuggestedSettlementPayments", () => {
     // Act: Call the calculateSuggestedSettlementPayments function with the sample arrays
     const resultSettlements = calculateSuggestedSettlementPayments(
       positiveBalanceUsers,
-      negativeBalanceUsers
+      negativeBalanceUsers,
     );
 
     // Assert: Check if the result is an array of settlement settlement payments, with the expected amounts and order, ie sorted by debtors alphabetically
