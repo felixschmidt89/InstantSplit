@@ -9,9 +9,10 @@ export const MOCK_DATA = {
 };
 
 export const MOCK_ERROR_MESSAGES = {
-  SECURITY_ERROR: "Security Error",
-  STORAGE_FULL: "Storage Full",
-  ACCESS_DENIED: "Access Denied",
+  SECURITY_ERROR: "Security error",
+  STORAGE_FULL: "Storage full",
+  ACCESS_DENIED: "Access denied",
+  STORAGE_FAILURE: "Storage failure",
 };
 
 export const MOCK_LOCALSTORAGE_VALUES = {
