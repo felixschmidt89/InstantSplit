@@ -2,8 +2,6 @@ export const MOCK_DATA = {
   STRING: "test_string_value",
   NUMBER: 123,
   BOOLEAN: true,
-  BOOLEAN_STRING_TRUE: "true",
-  BOOLEAN_STRING_FALSE: "false",
   OBJECT: { id: "mock_id_1", value: "mock_value" },
   ARRAY: ["item_1", "item_2"],
   EMAIL: "test@example.com",
