@@ -1,3 +1,5 @@
+import { MOCK_DATA } from "@shared-constants/testConstants";
+import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
 import { deleteLocalStorageKey } from "./deleteLocalStorageKey";
 import { getLocalStorageKey } from "./getLocalStorageKey";
 import { debugLog } from "@client-utils/debug/debugLog";
@@ -6,15 +8,19 @@ jest.mock("./getLocalStorageKey");
 jest.mock("@client-utils/debug/debugLog");
 
 describe("deleteLocalStorageKey", () => {
-  const mockKey = "test-key";
+  const mockKey = LOCAL_STORAGE_KEYS.ACTIVE_GROUP_CODE;
 
   beforeEach(() => {
     jest.clearAllMocks();
-    Storage.prototype.removeItem = jest.fn();
+    jest.spyOn(Storage.prototype, "removeItem").mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
   });
 
   it("should delete item and return true if key exists", () => {
-    getLocalStorageKey.mockReturnValue("existing-value");
+    getLocalStorageKey.mockReturnValue(MOCK_DATA.STRING);
 
     const result = deleteLocalStorageKey(mockKey);
 
@@ -38,8 +44,9 @@ describe("deleteLocalStorageKey", () => {
   });
 
   it("should return false and log error if localStorage throws an exception", () => {
-    getLocalStorageKey.mockReturnValue("existing-value");
+    getLocalStorageKey.mockReturnValue(MOCK_DATA.STRING);
     const mockError = new Error("Security Error");
+
     localStorage.removeItem.mockImplementation(() => {
       throw mockError;
     });
