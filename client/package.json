@@ -53,6 +53,7 @@
     "@vite-pwa/assets-generator": "^0.2.4",
     "@vitejs/plugin-react": "^4.0.3",
     "babel-jest": "^29.7.0",
+    "babel-plugin-transform-import-meta": "^2.3.3",
     "cypress": "^13.7.1",
     "eslint": "^8.56.0",
     "eslint-config-react-app": "^7.0.1",

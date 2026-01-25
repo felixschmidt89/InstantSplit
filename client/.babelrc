@@ -1,4 +1,3 @@
-// Needed for Jest tests.
 {
   "presets": [
     [
@@ -10,5 +9,6 @@
       }
     ],
     "@babel/preset-react"
-  ]
+  ],
+  "plugins": ["babel-plugin-transform-import-meta"]
 }
