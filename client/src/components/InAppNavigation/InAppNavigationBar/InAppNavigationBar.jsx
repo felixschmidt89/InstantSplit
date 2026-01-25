@@ -8,16 +8,14 @@ import { GoHome } from "react-icons/go";
 import { useTranslation } from "react-i18next";
 
 import { devLog } from "@client-utils/errorUtils";
-import {
-  deleteGroupDataFromLocalStorage,
-  getRouteFromLocalStorage,
-} from "@client-utils/localStorageUtils";
+import { getRouteFromLocalStorage } from "@client-utils/localStorageUtils";
 import { ROUTES } from "@client-constants/routesConstants";
 import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
 import InstantSplitLogo from "@components/InstantSplitLogo/InstantSplitLogo";
 
 import styles from "./InAppNavigationBar.module.css";
 import { getActiveGroupCode } from "@/utils/localStorage/index.js";
+import { deleteGroupCode } from "@/utils/localStorage/deleteGroupCode";
 
 const InAppNavigationBar = ({
   back = false,
@@ -53,7 +51,8 @@ const InAppNavigationBar = ({
 
   const handleAbort = (route) => {
     const groupCode = getActiveGroupCode();
-    deleteGroupDataFromLocalStorage(groupCode);
+    // TODO: set group to be deleted by next automatic purge
+    deleteGroupCode(groupCode);
     devLog("Navigating to main application");
     navigate(route);
   };
