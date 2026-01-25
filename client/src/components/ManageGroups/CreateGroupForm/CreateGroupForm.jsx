@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next";
 
 import { devLog, handleApiErrors } from "@client-utils/errorUtils";
 import {
-  setGroupCodeToCurrentlyActive,
   setRouteInLocalStorage,
   storeGroupCodeInLocalStorage,
 } from "@client-utils/localStorageUtils";
@@ -19,6 +18,7 @@ import FormSubmitButton from "@components/FormSubmitButton/FormSubmitButton";
 import ErrorModal from "@components/ErrorModal/ErrorModal";
 
 import styles from "./CreateGroupForm.module.css";
+import { setActiveGroupCode } from "@/utils/localStorage";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -45,7 +45,7 @@ const CreateGroupForm = ({ isExistingUser = false }) => {
       const { groupCode } = response.data.group;
 
       storeGroupCodeInLocalStorage(groupCode);
-      setGroupCodeToCurrentlyActive(groupCode);
+      setActiveGroupCode(groupCode);
       setRouteInLocalStorage(window.location.pathname, "previousRoute");
 
       navigate(ROUTES.MEMBERS.CREATE);

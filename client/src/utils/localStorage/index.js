@@ -9,6 +9,7 @@ export * from "./getActiveGroupCode";
 export * from "./setActiveGroupCode";
 export * from "./deleteActiveGroupCode";
 export * from "./getStoredGroupCodes";
+export * from "./getFirstGroupCode";
 export * from "./storeGroupCode";
 
 export * from "./getPreviousRoute";

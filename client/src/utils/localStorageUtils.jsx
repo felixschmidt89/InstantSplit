@@ -74,31 +74,6 @@ export const removeGroupCodeFromStoredGroupCodes = (groupCode) => {
 };
 
 /**
- * Retrieves the first groupCode from the 'storedGroupCodes' array in local storage.
- *
- * @returns {string|null} - Returns the first groupCode if available, or null if the array is empty or not present.
- */
-export const getFirstGroupCodeInStoredGroupCodesArray = () => {
-  try {
-    // Get the storedGroupCodes array from local storage
-    const storedGroupCodes = JSON.parse(
-      localStorage.getItem("storedGroupCodes"),
-    );
-
-    // Return the first groupCode if the array is not empty
-    return storedGroupCodes && storedGroupCodes.length > 0
-      ? storedGroupCodes[0]
-      : null;
-  } catch (error) {
-    devLog(
-      "Error retrieving the first groupCode from the storedGroupCodes array:",
-      error,
-    );
-    return null;
-  }
-};
-
-/**
  * Sets the 'viewState' property in local storage.
  * @param {string} value - The value to set for 'viewState'.
  * @returns {boolean} - Returns true if 'viewState' was successfully set, false if there was an error.
@@ -145,28 +120,6 @@ export const setPwaCtaClosedInLocalStorage = () => {
     return true;
   } catch (error) {
     devLog(`Error setting pwaCtaClosed in local storage.`, error);
-    return false;
-  }
-};
-
-// TODO: Delete this function and use existing setActiveGroupCode.js instead
-/**
- * Sets groupCode as currently active in local storage.
- *
- * @param {string|null} groupCode - The groupCode to set active. If null, clears the active groupCode.
- * @returns {boolean|null} - Returns true if groupCode has been set active, false in case of an error, and null if groupCode is null.
- */
-export const setGroupCodeToCurrentlyActive = (groupCode) => {
-  try {
-    if (groupCode === null) {
-      localStorage.removeItem(LOCAL_STORAGE_KEYS.ACTIVE_GROUP_CODE);
-    } else {
-      localStorage.setItem(LOCAL_STORAGE_KEYS.ACTIVE_GROUP_CODE, groupCode);
-      devLog("GroupCode set to active:", groupCode);
-    }
-    return true;
-  } catch (error) {
-    devLog("Error setting groupCode to active", error);
     return false;
   }
 };

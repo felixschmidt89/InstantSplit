@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 
 import { ROUTES } from "@client-constants/routesConstants";
 import {
-  getFirstGroupCodeInStoredGroupCodesArray,
-  setGroupCodeToCurrentlyActive,
-} from "@client-utils/localStorageUtils";
-import { getActiveGroupCode } from "@/utils/localStorage/index.js";
+  getActiveGroupCode,
+  getFirstGroupCode,
+  setActiveGroupCode,
+} from "@client-utils/localStorage";
 
 const useAutoActiveGroupCodeRedirect = () => {
   const navigate = useNavigate();
@@ -15,10 +15,10 @@ const useAutoActiveGroupCodeRedirect = () => {
     let groupCode = getActiveGroupCode();
 
     if (!groupCode) {
-      groupCode = getFirstGroupCodeInStoredGroupCodesArray();
+      groupCode = getFirstGroupCode();
 
       if (groupCode) {
-        setGroupCodeToCurrentlyActive(groupCode);
+        setActiveGroupCode(groupCode);
       }
     }
 

@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { setGroupCodeToCurrentlyActive } from "../../../../utils/localStorageUtils";
 import { submitOnEnterClick } from "../../../../utils/formUtils";
 import { sendFormSubmitButtonStyles } from "../../../../constants/stylesConstants";
 import FormSubmitButton from "../../../FormSubmitButton/FormSubmitButton";
 import { ROUTES } from "../../../../constants/routesConstants";
 import styles from "./RenderGroupSelection.module.css";
+import { setActiveGroupCode } from "@/utils/localStorage";
 
 const RenderGroupSelection = ({ groupCode, groupNamesAndGroupCodes }) => {
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ const RenderGroupSelection = ({ groupCode, groupNamesAndGroupCodes }) => {
   const handleFormSubmit = (event) => {
     event.preventDefault();
     if (selectedGroupCode) {
-      setGroupCodeToCurrentlyActive(selectedGroupCode);
+      setActiveGroupCode(selectedGroupCode);
       navigate(ROUTES.INSTANT_SPLIT);
     }
   };
