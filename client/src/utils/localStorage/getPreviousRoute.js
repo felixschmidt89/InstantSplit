@@ -1,4 +1,5 @@
 import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
+import { getLocalStorageKey } from "./getLocalStorageKey";
 
 export const getPreviousRoute = () =>
-  localStorage.getItem(LOCAL_STORAGE_KEYS.PREVIOUS_ROUTE);
+  getLocalStorageKey(LOCAL_STORAGE_KEYS.PREVIOUS_ROUTE);

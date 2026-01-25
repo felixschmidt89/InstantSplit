@@ -1,4 +1,5 @@
 import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
+import { getLocalStorageKey } from "./getLocalStorageKey";
 
 export const getPwaCtaClosed = () =>
-  localStorage.getItem(LOCAL_STORAGE_KEYS.PWA_CTA_CLOSED);
+  getLocalStorageKey(LOCAL_STORAGE_KEYS.PWA_CTA_CLOSED);

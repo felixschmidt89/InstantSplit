@@ -1,19 +1,6 @@
-import { debugLog } from "@client-utils/debug/debugLog";
-import { getLocalStorageKey } from "./getLocalStorageKey";
+import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
+import { deleteLocalStorageKey } from "./deleteLocalStorageKey";
 
-export const deleteLocalStorageKey = (key) => {
-  try {
-    const targetItem = getLocalStorageKey(key);
-
-    if (targetItem !== null) {
-      localStorage.removeItem(key);
-      debugLog(`Key "${key}" successfully deleted from local storage.`);
-      return true;
-    }
-    debugLog(`Key "${key}" could not be deleted because it does not exist.`);
-    return false;
-  } catch (error) {
-    debugLog(`Error during deletion of key "${key}":`, error);
-    return false;
-  }
+export const deleteActiveGroupCode = () => {
+  return deleteLocalStorageKey(LOCAL_STORAGE_KEYS.ACTIVE_GROUP_CODE);
 };
