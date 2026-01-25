@@ -1,4 +1,3 @@
-import { MOCK_DATA } from "@shared-constants/testConstants";
 import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
 import { getPwaCtaClosed } from "./getPwaCtaClosed";
 import { getLocalStorageKey } from "./getLocalStorageKey";
@@ -19,11 +18,11 @@ describe("getPwaCtaClosed", () => {
   });
 
   it("should return the value from localStorage", () => {
-    getLocalStorageKey.mockReturnValue(MOCK_DATA.BOOLEAN_STRING_TRUE);
+    getLocalStorageKey.mockReturnValue("true");
 
     const result = getPwaCtaClosed();
 
-    expect(result).toBe(MOCK_DATA.BOOLEAN_STRING_TRUE);
+    expect(result).toBe("true");
   });
 
   it("should return null if the key does not exist", () => {

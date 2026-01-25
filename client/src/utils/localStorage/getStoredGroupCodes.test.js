@@ -1,6 +1,10 @@
+import {
+  MOCK_DATA,
+  MOCK_LOCALSTORAGE_VALUES,
+} from "@shared-constants/testConstants";
+import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
 import { getStoredGroupCodes } from "./getStoredGroupCodes";
 import { getLocalStorageKey } from "./getLocalStorageKey";
-import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
 import { debugLog } from "@client-utils/debug/debugLog";
 
 jest.mock("./getLocalStorageKey");
@@ -23,7 +27,7 @@ describe("getStoredGroupCodes", () => {
   });
 
   it("should parse and return an array when valid JSON is stored", () => {
-    const mockCodes = ["ABC123", "XYZ789"];
+    const mockCodes = MOCK_LOCALSTORAGE_VALUES.STORED_GROUP_CODES;
     getLocalStorageKey.mockReturnValue(JSON.stringify(mockCodes));
 
     const result = getStoredGroupCodes();
@@ -32,7 +36,7 @@ describe("getStoredGroupCodes", () => {
   });
 
   it("should return an empty array and log an error if JSON parsing fails", () => {
-    getLocalStorageKey.mockReturnValue("invalid-json-{");
+    getLocalStorageKey.mockReturnValue(MOCK_DATA.STRING);
 
     const result = getStoredGroupCodes();
 

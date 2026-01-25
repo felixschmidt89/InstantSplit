@@ -1,3 +1,4 @@
+import { MOCK_DATA } from "@shared-constants/testConstants";
 import { LANGUAGES } from "@shared-constants/languageConstants";
 import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
 import { setLanguage } from "./setLanguage";
@@ -29,7 +30,7 @@ describe("setLanguage", () => {
   });
 
   it("should return false and not call storage if an invalid language is provided", () => {
-    const result = setLanguage("spanish");
+    const result = setLanguage(MOCK_DATA.STRING);
 
     expect(result).toBe(false);
     expect(setLocalStorageKey).not.toHaveBeenCalled();
