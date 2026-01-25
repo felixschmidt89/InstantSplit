@@ -1,11 +1,12 @@
+import { MOCK_DATA } from "@shared-constants/testConstants";
+import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
 import { getLocalStorageKey } from "./getLocalStorageKey";
 import { debugLog } from "@client-utils/debug/debugLog";
 
 jest.mock("@client-utils/debug/debugLog");
 
 describe("getLocalStorageKey", () => {
-  const mockKey = "test-key";
-  const mockValue = "test-value";
+  const mockKey = LOCAL_STORAGE_KEYS.ACTIVE_GROUP_CODE;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -13,11 +14,11 @@ describe("getLocalStorageKey", () => {
   });
 
   it("should return the value when the key exists", () => {
-    localStorage.setItem(mockKey, mockValue);
+    localStorage.setItem(mockKey, MOCK_DATA.STRING);
 
     const result = getLocalStorageKey(mockKey);
 
-    expect(result).toBe(mockValue);
+    expect(result).toBe(MOCK_DATA.STRING);
     expect(debugLog).not.toHaveBeenCalled();
   });
 
