@@ -187,15 +187,6 @@ export const deleteRouteFromLocalStorage = (key = "previousRoute") => {
 };
 
 /**
- * Deletes application data from local storage, including viewState, previousRoute, and nestedPreviousRoute.
- */
-export const deleteApplicationDataFromLocalStorage = () => {
-  removeViewStateFromLocalStorage();
-  deleteRouteFromLocalStorage("previousRoute");
-  deleteRouteFromLocalStorage("nestedPreviousRoute");
-};
-
-/**
  * Deletes data related to the provided group code from local storage:
  * - Deletes activeGroupCode.
  * - Removes activeGroupCode from the storedGroupCodes array.

@@ -4,8 +4,9 @@ import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 import {
-  deleteApplicationDataFromLocalStorage,
-  deleteGroupDataFromLocalStorage,
+  deleteNestedPreviousRoute,
+  deletePreviousRoute,
+  deleteStoredView,
   getFirstGroupCode,
   setActiveGroupCode,
 } from "@client-utils/localStorage";
@@ -20,6 +21,7 @@ import ConfirmationModal from "@components/ConfirmationModal/ConfirmationModal";
 
 import styles from "./LeaveGroupPage.module.css";
 import useConfirmationModalLogicAndActions from "@hooks/useConfirmationModalLogicAndActions";
+import { deleteGroupCode } from "@/utils/localStorage/deleteGroupCode";
 
 const LeaveGroupPage = () => {
   const { groupName, groupCode } = useParams();
@@ -32,8 +34,10 @@ const LeaveGroupPage = () => {
     handleShowConfirmation,
     handleHideConfirmation,
   } = useConfirmationModalLogicAndActions([
-    // () => deleteApplicationDataFromLocalStorage(),
-    () => deleteGroupDataFromLocalStorage(groupCode),
+    () => deleteStoredView(),
+    () => deletePreviousRoute(),
+    () => deleteNestedPreviousRoute(),
+    () => deleteGroupCode(groupCode),
     () => {
       const newGroupCode = getFirstGroupCode();
       if (newGroupCode) setActiveGroupCode(newGroupCode);
