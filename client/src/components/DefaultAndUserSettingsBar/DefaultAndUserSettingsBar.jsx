@@ -10,8 +10,9 @@ import {
 import { PiUserSwitchLight } from "react-icons/pi";
 import { useTranslation } from "react-i18next";
 
-import { isWebShareAPISupported } from "@client-utils/clientUtils";
+import { isWebShareSupported } from "@client-utils/user";
 import { dynamicRoutes } from "@client-utils/dynamicRoutes";
+import { getActiveGroupCode } from "@client-utils/localStorage";
 
 import { addUserReactIconStyles } from "@client-constants/stylesConstants";
 import { ROUTES } from "@client-constants/routesConstants";
@@ -24,7 +25,6 @@ import InstantSplitLogo from "@components/InstantSplitLogo/InstantSplitLogo";
 import WebShareApiInvite from "@components/ShareGroupInvitation/WebShareApiInvite/WebShareApiInvite";
 
 import styles from "./DefaultAndUserSettingsBar.module.css";
-import { getActiveGroupCode } from "@/utils/localStorage/index.js";
 
 const baseUrl = import.meta.env.VITE_REACT_APP_BASE_URL;
 
@@ -35,7 +35,7 @@ const DefaultAndUserSettingsBar = () => {
   const [isDefaultBarShown, setIsDefaultBarShown] = useState(true);
 
   const groupCode = getActiveGroupCode();
-  const supportsWebShareAPI = isWebShareAPISupported();
+  const canWebShare = isWebShareSupported();
   const { groupData, isFetched } = useFetchGroupData(groupCode);
 
   const group = groupData?.group;
@@ -91,7 +91,7 @@ const DefaultAndUserSettingsBar = () => {
               role='toolbar'
               aria-label='user settings'>
               <span className={styles.icon}>
-                {supportsWebShareAPI ? (
+                {canWebShare ? (
                   <WebShareApiInvite
                     groupName={group.groupName}
                     invitationLink={fullInvitationLink}
