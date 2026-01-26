@@ -3,10 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { usePWAInstall } from "react-use-pwa-install";
 import { useTranslation } from "react-i18next";
 
-import { checkModalClosureUserActionExpiration } from "@client-utils/clientUtils";
+import { shouldShowPwaPrompt as showPwaPrompt } from "@client-utils/user";
 import { devLog } from "@client-utils/errorUtils";
-import { LEGACY_VIEW_TYPES, VIEW_TYPES } from "@client-constants/viewConstants";
-import { ROUTES } from "@client-constants/routesConstants";
 import {
   deleteNestedPreviousRoute,
   deletePreviousRoute,
@@ -15,6 +13,9 @@ import {
   setStoredView,
   deleteGroupCode,
 } from "@client-utils/localStorage";
+
+import { LEGACY_VIEW_TYPES, VIEW_TYPES } from "@client-constants/viewConstants";
+import { ROUTES } from "@client-constants/routesConstants";
 
 import useFetchGroupData from "@hooks/useFetchGroupData";
 import useValidateGroupExistence from "@hooks/useValidateGroupCodeExistence";
@@ -52,8 +53,7 @@ const InstantSplitPage = () => {
   const { isPwa, isMobile, isMobileSafari, isAndroid, isIOS, browserName } =
     useGetClientDeviceAndPwaInfo();
 
-  const lastModalClosureUserActionHasExpired =
-    checkModalClosureUserActionExpiration();
+  const canShowPwaPrompt = showPwaPrompt();
 
   const updateView = (newView) => {
     if (setStoredView(newView)) {
@@ -116,10 +116,8 @@ const InstantSplitPage = () => {
   ]);
 
   useEffect(() => {
-    setShowPwaCtaModal(
-      !!(!isPwa && ctaToRender && lastModalClosureUserActionHasExpired),
-    );
-  }, [isPwa, ctaToRender, lastModalClosureUserActionHasExpired]);
+    setShowPwaCtaModal(!!(!isPwa && ctaToRender && canShowPwaPrompt));
+  }, [isPwa, ctaToRender, canShowPwaPrompt]);
 
   return (
     <main className={styles.mainContainer}>
