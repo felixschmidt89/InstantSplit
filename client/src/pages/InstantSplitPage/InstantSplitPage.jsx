@@ -6,9 +6,17 @@ import { useTranslation } from "react-i18next";
 import { checkModalClosureUserActionExpiration } from "@client-utils/clientUtils";
 import { devLog } from "@client-utils/errorUtils";
 import { LEGACY_VIEW_TYPES, VIEW_TYPES } from "@client-constants/viewConstants";
+import { ROUTES } from "@client-constants/routesConstants";
+import {
+  deleteNestedPreviousRoute,
+  deletePreviousRoute,
+  getActiveGroupCode,
+  getStoredView,
+  setStoredView,
+  deleteGroupCode,
+} from "@client-utils/localStorage";
 
 import useFetchGroupData from "@hooks/useFetchGroupData";
-import useDeletePreviousRouteFromLocalStorage from "@hooks/useDeletePreviousRouteFromLocalStorage";
 import useValidateGroupExistence from "@hooks/useValidateGroupCodeExistence";
 import useGetClientDeviceAndPwaInfo from "@hooks/useGetClientDeviceAndPwaInfo";
 
@@ -19,15 +27,9 @@ import RenderGroupHistory from "@components/GroupBalancesAndHistory/GroupHistory
 import RenderGroupBalances from "@components/GroupBalancesAndHistory/GroupBalances/RenderGroupBalances/RenderGroupBalances";
 import DefaultAndUserSettingsBar from "@components/DefaultAndUserSettingsBar/DefaultAndUserSettingsBar";
 import PwaCtaModal from "@components/PwaCtaModal/PwaCtaModal/PwaCtaModal";
-import ActiveGroupBar from "@/components/ActiveGroupBar/ActiveGroupBar";
+import ActiveGroupBar from "@components/ActiveGroupBar/ActiveGroupBar";
 
 import styles from "./InstantSplitPage.module.css";
-import {
-  getActiveGroupCode,
-  getStoredView,
-  setStoredView,
-} from "@/utils/localStorage";
-import { deleteGroupCode } from "@/utils/localStorage/deleteGroupCode";
 
 const InstantSplitPage = () => {
   const navigate = useNavigate();
@@ -39,7 +41,6 @@ const InstantSplitPage = () => {
   const [view, setView] = useState(
     () => getStoredView() || VIEW_TYPES.BALANCES,
   );
-
   const [ctaToRender, setCtaToRender] = useState(null);
   const [showPwaCtaModal, setShowPwaCtaModal] = useState(null);
 
@@ -59,19 +60,22 @@ const InstantSplitPage = () => {
       setView(newView);
     }
   };
-  useDeletePreviousRouteFromLocalStorage();
-  useDeletePreviousRouteFromLocalStorage("nestedPreviousRoute");
+
+  useEffect(() => {
+    deletePreviousRoute();
+    deleteNestedPreviousRoute();
+  }, []);
 
   useEffect(() => {
     if (!groupCode) {
-      navigate("/");
+      navigate(ROUTES.HOME);
     }
   }, [groupCode, navigate]);
 
   useEffect(() => {
     if (isValidated && !groupExists) {
       deleteGroupCode(groupCode);
-      navigate("/");
+      navigate(ROUTES.HOME);
     }
   }, [navigate, groupCode, isValidated, groupExists]);
 

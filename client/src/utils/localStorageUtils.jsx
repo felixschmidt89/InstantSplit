@@ -5,17 +5,6 @@ import { devLog } from "./errorUtils";
 // TODO: Drop Local Storage from function names
 // TODO:  Atomize local storage utility functions
 
-export const isGroupCodeInStoredGroupCodes = (groupCode) => {
-  try {
-    const storedGroupCodes =
-      JSON.parse(localStorage.getItem("storedGroupCodes")) || [];
-    return storedGroupCodes.includes(groupCode);
-  } catch (error) {
-    devLog("Error checking if groupCode is in storedGroupCodes:", error);
-    return false;
-  }
-};
-
 export const isGroupCodeActive = (groupCode) => {
   const activeCode = localStorage.getItem(LOCAL_STORAGE_KEYS.ACTIVE_GROUP_CODE);
   return activeCode === groupCode;

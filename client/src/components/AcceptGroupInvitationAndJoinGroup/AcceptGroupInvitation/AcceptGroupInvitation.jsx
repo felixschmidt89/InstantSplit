@@ -2,15 +2,15 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import {
-  storeGroupCodeInLocalStorage,
-  isGroupCodeInStoredGroupCodes,
-} from "../../../utils/localStorageUtils";
 import { buttonStyles } from "../../../constants/stylesConstants";
 import TermsAndConditionsSection from "../../Home/TermsAndConditionsSection/TermsAndConditionsSection";
 import { ROUTES } from "../../../constants/routesConstants";
 import styles from "./AcceptGroupInvitation.module.css";
-import { setActiveGroupCode } from "@/utils/localStorage";
+import {
+  isGroupCodeInStoredGroupCodes,
+  setActiveGroupCode,
+  storeGroupCode,
+} from "@/utils/localStorage";
 
 const AcceptGroupInvitation = ({ groupName, groupCode }) => {
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ const AcceptGroupInvitation = ({ groupName, groupCode }) => {
   }, [groupCode, navigate]);
 
   const onInvitationAccept = () => {
-    storeGroupCodeInLocalStorage(groupCode);
+    storeGroupCode(groupCode);
     setActiveGroupCode(groupCode);
     navigate(ROUTES.INSTANT_SPLIT);
   };
