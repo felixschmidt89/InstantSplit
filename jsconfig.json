@@ -47,6 +47,6 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["client/src", "server", "docs"],
+  "include": ["client/src", "server", "docs", "shared/utils/debug/debugLog.js"],
   "exclude": ["node_modules", "client/dist", "server/dist"]
 }

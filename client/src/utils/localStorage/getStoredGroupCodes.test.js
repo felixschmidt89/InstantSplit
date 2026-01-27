@@ -5,10 +5,10 @@ import {
 import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
 import { getStoredGroupCodes } from "./getStoredGroupCodes";
 import { getLocalStorageKey } from "./getLocalStorageKey";
-import { debugLog } from "@client-utils/debug/debugLog";
+import { debugLog } from "@shared-utils/debug/debugLog";
 
 jest.mock("./getLocalStorageKey");
-jest.mock("@client-utils/debug/debugLog");
+jest.mock("@shared-utils/debug/debugLog");
 
 describe("getStoredGroupCodes", () => {
   const mockKey = LOCAL_STORAGE_KEYS.STORED_GROUP_CODES;

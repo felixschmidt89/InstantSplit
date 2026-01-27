@@ -3,7 +3,7 @@ import { getStoredGroupCodes } from "./getStoredGroupCodes";
 import { setLocalStorageKey } from "./setLocalStorageKey";
 import { getActiveGroupCode } from "./getActiveGroupCode";
 import { deleteActiveGroupCode } from "./deleteActiveGroupCode";
-import { debugLog } from "@client-utils/debug/debugLog";
+import { debugLog } from "@shared-utils/debug/debugLog";
 
 export const deleteGroupCode = (groupCode) => {
   try {

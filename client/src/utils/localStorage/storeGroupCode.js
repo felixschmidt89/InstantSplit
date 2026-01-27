@@ -1,5 +1,5 @@
 import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
-import { debugLog } from "@client-utils/debug/debugLog";
+import { debugLog } from "@shared-utils/debug/debugLog";
 import { getStoredGroupCodes } from "./getStoredGroupCodes";
 import { setLocalStorageKey } from "./setLocalStorageKey";
 

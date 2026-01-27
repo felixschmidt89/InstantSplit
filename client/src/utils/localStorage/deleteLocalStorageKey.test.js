@@ -5,10 +5,10 @@ import {
 import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
 import { setLocalStorageKey } from "./setLocalStorageKey";
 import { deleteLocalStorageKey } from "./deleteLocalStorageKey";
-import { debugLog } from "@client-utils/debug/debugLog";
+import { debugLog } from "@shared-utils/debug/debugLog";
 
 jest.mock("./deleteLocalStorageKey");
-jest.mock("@client-utils/debug/debugLog");
+jest.mock("@shared-utils/debug/debugLog");
 
 describe("setLocalStorageKey", () => {
   const mockKey = LOCAL_STORAGE_KEYS.ACTIVE_GROUP_CODE;

@@ -1,18 +1,18 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import useGetInactiveGroupsFromLocalStorage from "../../../../hooks/useGetInactiveGroupsFromLocalStorage";
 import RenderGroupSelection from "../RenderGroupSelection/RenderGroupSelection";
 import ErrorDisplay from "../../../ErrorDisplay/ErrorDisplay";
 import styles from "./SwitchGroups.module.css";
+import useGetStoredGroupsNames from "../../../../hooks/useGetStoredGroupsNames";
 
 const SwitchGroups = ({ groupCode }) => {
   const { t } = useTranslation();
 
   const {
-    inactiveGroupNamesAndGroupCodes,
+    storedGroups,
     isFetched,
     error: fetchAndTransformError,
-  } = useGetInactiveGroupsFromLocalStorage(groupCode);
+  } = useGetStoredGroupsNames(groupCode);
 
   return (
     <div className={styles.container}>
@@ -20,14 +20,14 @@ const SwitchGroups = ({ groupCode }) => {
 
       {isFetched && (
         <>
-          {!inactiveGroupNamesAndGroupCodes?.length ? (
+          {!storedGroups?.length ? (
             <p className={styles.noGroupsMessage}>
               {t("switch-groups-no-additional-groups-copy")}
             </p>
           ) : (
             <RenderGroupSelection
               groupCode={groupCode}
-              groupNamesAndGroupCodes={inactiveGroupNamesAndGroupCodes}
+              groupNamesAndGroupCodes={storedGroups}
             />
           )}
         </>

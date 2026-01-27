@@ -4,9 +4,9 @@ import {
 } from "@shared-constants/testConstants";
 import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
 import { getLocalStorageKey } from "./getLocalStorageKey";
-import { debugLog } from "@client-utils/debug/debugLog";
+import { debugLog } from "@shared-utils/debug/debugLog";
 
-jest.mock("@client-utils/debug/debugLog");
+jest.mock("@shared-utils/debug/debugLog");
 
 describe("getLocalStorageKey", () => {
   const mockKey = LOCAL_STORAGE_KEYS.ACTIVE_GROUP_CODE;

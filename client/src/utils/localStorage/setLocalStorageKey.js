@@ -1,4 +1,4 @@
-import { debugLog } from "@client-utils/debug/debugLog";
+import { debugLog } from "@shared-utils/debug/debugLog";
 import { deleteLocalStorageKey } from "./deleteLocalStorageKey";
 
 export const setLocalStorageKey = (key, value) => {

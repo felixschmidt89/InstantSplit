@@ -47,3 +47,17 @@ export const MOCK_STRINGS = {
     },
   ],
 };
+
+export const MOCK_LOG_METHODS = {
+  LOG: "log",
+  ERROR: "error",
+  WARN: "warn",
+  INFO: "info",
+};
+
+export const MOCK_LOGS = {
+  DEFAULT_MESSAGE: "debug",
+  TEST_MESSAGE: "test_log_message",
+  ERROR_MESSAGE: "api_failure_context",
+  MOCK_ERROR: new Error("mock_internal_error"),
+};

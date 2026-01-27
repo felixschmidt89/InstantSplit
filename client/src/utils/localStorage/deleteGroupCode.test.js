@@ -10,7 +10,7 @@ jest.mock("./getStoredGroupCodes");
 jest.mock("./setLocalStorageKey");
 jest.mock("./getActiveGroupCode");
 jest.mock("./deleteActiveGroupCode");
-jest.mock("@client-utils/debug/debugLog");
+jest.mock("@shared-utils/debug/debugLog");
 
 describe("deleteGroupCode", () => {
   const { STORED_GROUP_CODES, ACTIVE_GROUP_CODE, NEW_TEST_GROUP_CODE } =

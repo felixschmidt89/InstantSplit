@@ -1,13 +1,13 @@
 import { useEffect, useMemo } from "react";
 import axios from "axios";
 
-import { debugLog } from "@client-utils/debug";
 import { API_URL } from "@client-constants/apiConstants";
 import {
   deleteGroupCode,
   getStoredGroupCodes,
 } from "@client-utils/localStorage";
 import { API_ROUTES } from "@shared-constants/apiRoutesConstants";
+import { debugLog } from "@shared-utils/debug/debugLog";
 
 const useSyncStoredGroupCodes = () => {
   const storedGroupCodes = useMemo(() => getStoredGroupCodes(), []);

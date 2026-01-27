@@ -113,6 +113,7 @@ tbd
 
 This is a legacy codebase. When we work on existing files, we always want to refactor for better readability and maintainability, while ensuring minimal side effects. Follow these guidelines:
 
+- **ALWAYS** use `debugLog` utility for all development-time logging. Replace devLog with debugLog whenever shared code uses devLog
 - Drop JSDoc wherever used.
 - Drop import comments
 - Drop comments unless they add significant value.
