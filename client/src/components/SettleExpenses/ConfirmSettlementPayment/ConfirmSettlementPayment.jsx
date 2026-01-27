@@ -3,13 +3,14 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { devLog } from "../../../utils/errorUtils";
-import { setViewStateInLocalStorage } from "../../../utils/localStorageUtils";
 import useConfirmationModalLogicAndActions from "../../../hooks/useConfirmationModalLogicAndActions";
 import ConfirmationModal from "../../ConfirmationModal/ConfirmationModal";
 import emojiConstants from "../../../constants/emojiConstants";
 import Emoji from "../../Emoji/Emoji";
 import { ROUTES } from "../../../constants/routesConstants";
 import styles from "./ConfirmSettlementPayment.module.css";
+import { VIEW_TYPES } from "@client-constants/viewConstants";
+import { setStoredView } from "@client-utils/localStorage";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -75,7 +76,7 @@ const ConfirmSettlementPayment = ({
       });
       devLog("Settlement payment created:", response.data);
 
-      setViewStateInLocalStorage("view2");
+      setStoredView(VIEW_TYPES.BALANCES);
       navigate(ROUTES.INSTANT_SPLIT);
     } catch (error) {
       const errorMessage =

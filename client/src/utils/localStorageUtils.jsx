@@ -5,62 +5,7 @@ import { devLog } from "./errorUtils";
 // TODO: Drop Local Storage from function names
 // TODO:  Atomize local storage utility functions
 
-export const isGroupCodeActive = (groupCode) => {
-  const activeCode = localStorage.getItem(LOCAL_STORAGE_KEYS.ACTIVE_GROUP_CODE);
-  return activeCode === groupCode;
-};
-
 // TODO: Delete, use existing deleteActiveGroupCode.js instead
-/**
- * Removes the 'activeGroupCode' property from local storage.
- * @returns {boolean} - Returns true if 'activeGroupCode' was successfully removed, false if there was an error.
- */
-export const removeActiveGroupCodeFromLocalStorage = () => {
-  try {
-    if (localStorage.getItem(LOCAL_STORAGE_KEYS.ACTIVE_GROUP_CODE)) {
-      localStorage.removeItem(LOCAL_STORAGE_KEYS.ACTIVE_GROUP_CODE);
-    }
-    devLog("Active groupCode has been removed from local storage.");
-    return true;
-  } catch (error) {
-    devLog("Error removing activeGroupCode from local storage:", error);
-    return false;
-  }
-};
-
-/**
- * Removes the groupCode from storedGroupCodes array in local storage, deletes storedGroupCodes array if then empty.
- *
- * @param {string} groupCode - The groupCode of the to be removed group.
- * @returns {boolean} - Returns true if 'activeGroupCode' was successfully removed, false if there was an error.
- */
-export const removeGroupCodeFromStoredGroupCodes = (groupCode) => {
-  try {
-    // Get the stored groupCodes array from local storage
-    let storedGroupCodes = JSON.parse(localStorage.getItem("storedGroupCodes"));
-    // Exclude the to be removed groupCode
-    const updatedGroupCodes = storedGroupCodes.filter(
-      (code) => code !== groupCode,
-    );
-    // Update the storedGroupCodes array or remove the key if it becomes empty
-    if (updatedGroupCodes.length > 0) {
-      localStorage.setItem(
-        "storedGroupCodes",
-        JSON.stringify(updatedGroupCodes),
-      );
-      devLog(
-        "Previously active group code removed from storedGroupCodes array.",
-      );
-    } else {
-      localStorage.removeItem("storedGroupCodes");
-      devLog("Removed storedGroupCodes array.");
-    }
-    return true;
-  } catch (error) {
-    devLog("Error removing groupCode from storedGroupCodes:", error);
-    return false;
-  }
-};
 
 /**
  * Sets the 'viewState' property in local storage.
