@@ -22,6 +22,7 @@ export * from "./deleteNestedPreviousRoute";
 export * from "./setNestedPreviousRoute";
 
 export * from "./getPwaCtaClosed";
+export * from "./setPwaCtaClosed";
 
 export * from "./getStoredView";
 export * from "./setStoredView";

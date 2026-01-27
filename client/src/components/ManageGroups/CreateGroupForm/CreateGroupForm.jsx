@@ -4,10 +4,7 @@ import axios from "axios";
 import { useTranslation } from "react-i18next";
 
 import { devLog, handleApiErrors } from "@client-utils/errorUtils";
-import {
-  setRouteInLocalStorage,
-  storeGroupCodeInLocalStorage,
-} from "@client-utils/localStorageUtils";
+import { storeGroupCodeInLocalStorage } from "@client-utils/localStorageUtils";
 import { plusFormSubmitButtonStyles } from "@client-constants/stylesConstants";
 import { replaceSlashesWithDashes } from "@client-utils/replaceSlashesWithDashes";
 import { ROUTES } from "@client-constants/routesConstants";

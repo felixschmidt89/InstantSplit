@@ -1,4 +1,3 @@
-import { LOCAL_STORAGE_KEYS } from "@/constants/localStorageConstants";
 import { currentTimeStamp } from "../constants/dateConstants";
 import { devLog } from "./errorUtils";
 
@@ -6,24 +5,6 @@ import { devLog } from "./errorUtils";
 // TODO:  Atomize local storage utility functions
 
 // TODO: Delete, use existing deleteActiveGroupCode.js instead
-
-/**
- * Sets the 'pwaCtaClosed' property and timestamp in local storage.
- * @param {string} value - The value to set for 'pwaCtaClosed'.
- * @returns {boolean} - Returns true if 'pwaCtaClosed' was successfully set, false if there was an error.
- */
-export const setPwaCtaClosedInLocalStorage = () => {
-  try {
-    localStorage.setItem("pwaCtaClosed", currentTimeStamp);
-    devLog(
-      `pwaCtaClosed has been set to ${currentTimeStamp} in local storage.`,
-    );
-    return true;
-  } catch (error) {
-    devLog(`Error setting pwaCtaClosed in local storage.`, error);
-    return false;
-  }
-};
 
 /**
  * Adds groupCode to array of storedGroupCode in local storage if it doesn't already exist
