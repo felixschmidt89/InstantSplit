@@ -19,6 +19,7 @@ export * from "./deletePreviousRoute";
 export * from "./setPreviousRoute";
 export * from "./getNestedPreviousRoute";
 export * from "./deleteNestedPreviousRoute";
+export * from "./setNestedPreviousRoute";
 
 export * from "./getPwaCtaClosed";
 
