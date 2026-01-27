@@ -7,15 +7,17 @@ import {
 import { GoHome } from "react-icons/go";
 import { useTranslation } from "react-i18next";
 
-import { devLog } from "@client-utils/errorUtils";
-import { getRouteFromLocalStorage } from "@client-utils/localStorageUtils";
+import { debugLog } from "@shared-utils/debug";
+import {
+  getLocalStorageKey,
+  getActiveGroupCode,
+  deleteGroupCode,
+} from "@client-utils/localStorage";
 import { ROUTES } from "@client-constants/routesConstants";
 import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
 import InstantSplitLogo from "@components/InstantSplitLogo/InstantSplitLogo";
 
 import styles from "./InAppNavigationBar.module.css";
-import { getActiveGroupCode } from "@/utils/localStorage/index.js";
-import { deleteGroupCode } from "@/utils/localStorage/deleteGroupCode";
 
 const InAppNavigationBar = ({
   back = false,
@@ -34,7 +36,7 @@ const InAppNavigationBar = ({
   const navigate = useNavigate();
 
   const handleNavigation = (route) => {
-    devLog("Navigating to:", route);
+    debugLog("Navigating to:", route);
     navigate(route);
   };
 
@@ -43,17 +45,21 @@ const InAppNavigationBar = ({
       ? LOCAL_STORAGE_KEYS.NESTED_PREVIOUS_ROUTE
       : LOCAL_STORAGE_KEYS.PREVIOUS_ROUTE;
 
-    const retrievedRoute = getRouteFromLocalStorage(localStorageKey);
+    const retrievedRoute = getLocalStorageKey(localStorageKey);
 
-    devLog("Navigating to:", retrievedRoute);
+    if (!retrievedRoute) {
+      debugLog(`Navigation aborted: No route found for key ${localStorageKey}`);
+      return;
+    }
+
+    debugLog("Navigating to:", retrievedRoute);
     navigate(retrievedRoute);
   };
 
   const handleAbort = (route) => {
     const groupCode = getActiveGroupCode();
-    // TODO: set group to be deleted by next automatic purge
     deleteGroupCode(groupCode);
-    devLog("Navigating to main application");
+    debugLog("Navigating to main application");
     navigate(route);
   };
 
