@@ -8,39 +8,6 @@ import { devLog } from "./errorUtils";
 // TODO: Delete, use existing deleteActiveGroupCode.js instead
 
 /**
- * Sets the 'viewState' property in local storage.
- * @param {string} value - The value to set for 'viewState'.
- * @returns {boolean} - Returns true if 'viewState' was successfully set, false if there was an error.
- */
-export const setViewStateInLocalStorage = (view) => {
-  try {
-    localStorage.setItem("viewState", view);
-    devLog(`ViewState has been set to ${view} in local storage.`);
-    return true;
-  } catch (error) {
-    devLog(`Error setting viewState to ${view} in local storage.`, error);
-    return false;
-  }
-};
-
-/**
- * Removes the 'viewState' property from local storage.
- * @returns {boolean} - Returns true if 'viewState' was successfully removed, false if there was an error.
- */
-export const removeViewStateFromLocalStorage = () => {
-  try {
-    if (localStorage.getItem("viewState")) {
-      localStorage.removeItem("viewState");
-    }
-    devLog("ViewState has been removed from local storage.");
-    return true;
-  } catch (error) {
-    devLog("Error removing viewState from local storage:", error);
-    return false;
-  }
-};
-
-/**
  * Sets the 'pwaCtaClosed' property and timestamp in local storage.
  * @param {string} value - The value to set for 'pwaCtaClosed'.
  * @returns {boolean} - Returns true if 'pwaCtaClosed' was successfully set, false if there was an error.
