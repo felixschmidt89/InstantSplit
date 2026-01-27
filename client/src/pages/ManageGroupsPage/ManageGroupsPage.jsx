@@ -1,7 +1,11 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 
-import { setRouteInLocalStorage } from "@client-utils/localStorageUtils";
+import {
+  setPreviousRoute,
+  getActiveGroupCode,
+} from "@client-utils/localStorage";
 
 import useValidateAndCleanupStoredGroupCodes from "@hooks/useValidateAndCleanUpStoredGroupCodes";
 
@@ -13,18 +17,18 @@ import ValidateGroupCode from "@components/ManageGroups/ValidateGroupCode/Valida
 import InAppNavigationBar from "@components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 
 import styles from "./ManageGroupsPage.module.css";
-import { getActiveGroupCode } from "@/utils/localStorage/index.js";
 
 const ManageGroupsPage = () => {
   const { t } = useTranslation();
+  const { pathname } = useLocation();
 
   const groupCode = getActiveGroupCode();
 
   useValidateAndCleanupStoredGroupCodes();
 
   useEffect(() => {
-    setRouteInLocalStorage(window.location.pathname, "previousRoute");
-  }, []);
+    setPreviousRoute(pathname);
+  }, [pathname]);
 
   return (
     <main>
