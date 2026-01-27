@@ -4,7 +4,6 @@ import axios from "axios";
 import { useTranslation } from "react-i18next";
 
 import { devLog, handleApiErrors } from "@client-utils/errorUtils";
-import { storeGroupCodeInLocalStorage } from "@client-utils/localStorageUtils";
 import { plusFormSubmitButtonStyles } from "@client-constants/stylesConstants";
 import { replaceSlashesWithDashes } from "@client-utils/replaceSlashesWithDashes";
 import { ROUTES } from "@client-constants/routesConstants";
@@ -15,7 +14,11 @@ import FormSubmitButton from "@components/FormSubmitButton/FormSubmitButton";
 import ErrorModal from "@components/ErrorModal/ErrorModal";
 
 import styles from "./CreateGroupForm.module.css";
-import { setActiveGroupCode, setPreviousRoute } from "@/utils/localStorage";
+import {
+  setActiveGroupCode,
+  setPreviousRoute,
+  storeGroupCode,
+} from "@client-utils/localStorage";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -42,7 +45,7 @@ const CreateGroupForm = ({ isExistingUser = false }) => {
       devLog("Group created:", response);
       const { groupCode } = response.data.group;
 
-      storeGroupCodeInLocalStorage(groupCode);
+      storeGroupCode(groupCode);
       setActiveGroupCode(groupCode);
       setPreviousRoute(pathname);
       navigate(ROUTES.MEMBERS.CREATE);
