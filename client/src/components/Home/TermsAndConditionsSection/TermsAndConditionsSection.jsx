@@ -1,16 +1,14 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { setRouteInLocalStorage } from "../../../utils/localStorageUtils";
-import { ROUTES } from "../../../constants/routesConstants";
+
+import { setPreviousRoute } from "@client-utils/localStorage";
+import { ROUTES } from "@client-constants/routesConstants";
+
 import styles from "./TermsAndConditionsSection.module.css";
 
 const TermsAndConditionsSection = () => {
   const { t } = useTranslation();
-
-  const handleLinkClick = () => {
-    setRouteInLocalStorage(window.location.pathname, "previousRoute");
-  };
+  const { pathname } = useLocation();
 
   return (
     <p className={styles.terms}>
@@ -18,7 +16,7 @@ const TermsAndConditionsSection = () => {
       <Link
         className={styles.tncLink}
         to={ROUTES.TERMS_AND_CONDITIONS}
-        onClick={handleLinkClick}>
+        onClick={() => setPreviousRoute(pathname)}>
         {t("terms-and-conditions-section-tnc")}
       </Link>
       {t("terms-and-conditions-section-append")}.
