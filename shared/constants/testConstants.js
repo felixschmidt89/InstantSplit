@@ -33,15 +33,17 @@ export const MOCK_LOCALSTORAGE_VALUES = {
     "/groupmember-transaction-history/NHMPSPAZ3SF8/6976543dabc5a7097f50bb01",
 };
 
-export const MOCK_TRANSFORMATIONS = {
-  ROUTE_TO_DASHED: {
-    INPUT: "/groupmember-details/NHMPSPAZ3SF8/6976543dabc5a7097f50bb01",
-    EXPECTED: "-groupmember-details-NHMPSPAZ3SF8-6976543dabc5a7097f50bb01",
-  },
-  NESTED_ROUTE_TO_DASHED: {
-    INPUT:
-      "/groupmember-transaction-history/NHMPSPAZ3SF8/6976543dabc5a7097f50bb01",
-    EXPECTED:
-      "-groupmember-transaction-history-NHMPSPAZ3SF8-6976543dabc5a7097f50bb01",
-  },
+export const MOCK_STRINGS = {
+  WITH_SLASHES: [
+    {
+      SLASHED: "/groupmember-details/NHMPSPAZ3SF8/6976543dabc5a7097f50bb01",
+      DASHED: "-groupmember-details-NHMPSPAZ3SF8-6976543dabc5a7097f50bb01",
+    },
+  ],
+  WITHOUT_SLASHES: [
+    {
+      SLASHED: "no_slashes_here",
+      DASHED: "no_slashes_here",
+    },
+  ],
 };

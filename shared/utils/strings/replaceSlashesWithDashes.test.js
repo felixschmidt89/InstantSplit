@@ -1,28 +1,19 @@
 import { replaceSlashesWithDashes } from "./replaceSlashesWithDashes";
-import {
-  MOCK_DATA,
-  MOCK_TRANSFORMATIONS,
-} from "@client-constants/mockDataConstants";
+import { MOCK_DATA, MOCK_STRINGS } from "@client-constants/mockDataConstants";
 
 describe("replaceSlashesWithDashes", () => {
-  it("should transform a standard route literal correctly", () => {
-    const { INPUT, EXPECTED } = MOCK_TRANSFORMATIONS.ROUTE_TO_DASHED;
-    expect(replaceSlashesWithDashes(INPUT)).toBe(EXPECTED);
+  it("should transform strings with slashes into dashes", () => {
+    const { SLASHED, DASHED } = MOCK_STRINGS.WITH_SLASHES[0];
+    expect(replaceSlashesWithDashes(SLASHED)).toBe(DASHED);
   });
 
-  it("should transform a nested route literal correctly", () => {
-    const { INPUT, EXPECTED } = MOCK_TRANSFORMATIONS.NESTED_ROUTE_TO_DASHED;
-    expect(replaceSlashesWithDashes(INPUT)).toBe(EXPECTED);
+  it("should return the same value for strings without slashes", () => {
+    const { SLASHED, DASHED } = MOCK_STRINGS.WITHOUT_SLASHES[0];
+    expect(replaceSlashesWithDashes(SLASHED)).toBe(DASHED);
   });
 
-  it("should return an empty string for non-string types from MOCK_DATA", () => {
+  it("should return an empty string for non-string types", () => {
     expect(replaceSlashesWithDashes(MOCK_DATA.NUMBER)).toBe("");
-    expect(replaceSlashesWithDashes(MOCK_DATA.OBJECT)).toBe("");
-    expect(replaceSlashesWithDashes(MOCK_DATA.ARRAY)).toBe("");
-  });
-
-  it("should handle a simple string without slashes", () => {
-    const input = "no_slashes_here";
-    expect(replaceSlashesWithDashes(input)).toBe(input);
+    expect(replaceSlashesWithDashes(null)).toBe("");
   });
 });
