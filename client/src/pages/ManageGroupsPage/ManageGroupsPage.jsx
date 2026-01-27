@@ -7,8 +7,6 @@ import {
   getActiveGroupCode,
 } from "@client-utils/localStorage";
 
-import useValidateAndCleanupStoredGroupCodes from "@hooks/useValidateAndCleanUpStoredGroupCodes";
-
 import PiratePx from "@components/PiratePx/PiratePx";
 import HelmetMetaTagsNetlify from "@components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import CreateGroupForm from "@components/ManageGroups/CreateGroupForm/CreateGroupForm";
@@ -17,6 +15,7 @@ import ValidateGroupCode from "@components/ManageGroups/ValidateGroupCode/Valida
 import InAppNavigationBar from "@components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 
 import styles from "./ManageGroupsPage.module.css";
+import useSyncStoredGroupCodes from "@/hooks/useSyncStoredGroupCodes";
 
 const ManageGroupsPage = () => {
   const { t } = useTranslation();
@@ -24,7 +23,7 @@ const ManageGroupsPage = () => {
 
   const groupCode = getActiveGroupCode();
 
-  useValidateAndCleanupStoredGroupCodes();
+  useSyncStoredGroupCodes();
 
   useEffect(() => {
     setPreviousRoute(pathname);
