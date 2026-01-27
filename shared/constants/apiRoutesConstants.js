@@ -2,6 +2,7 @@ export const API_ROUTES = {
   GROUPS: {
     GROUPS_BASE: "groups",
     VALIDATE_GROUP_EXISTENCE_CONTINUOUS: "continuous-validate-existence",
+    VALIDATE_GROUP_EXISTENCE_LIMITED: "limited-validate-existence",
   },
   USERS: {
     USERS_BASE: "users",

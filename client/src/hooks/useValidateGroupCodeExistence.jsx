@@ -1,69 +1,74 @@
-// React and Third-Party Libraries
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { StatusCodes } from "http-status-codes";
 import { useTranslation } from "react-i18next";
 
-// Constants and Utils
 import { devLog } from "../utils/errorUtils";
+import { API_URL } from "@client-constants/apiConstants";
+import { API_ROUTES } from "@shared-constants/apiRoutesConstants";
 
-// API URL
-const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-
-/**
- * Custom hook for validating the existence of a groupCode in the database.
- *
- * @param {string} groupCode - The groupCode to validate.
- * @param {string} [validationType="continuous"] - The type of validation to perform ("continuous" or "limited").
- * @returns {Object} - An object containing groupExists state, error state, and isValidated state.
- * @property {boolean|null} groupExists - Indicates whether the group code exists.
- * @property {string|null} error - An error message in case of an error during validation.
- * @property {boolean} isValidated - Indicates whether the validation has been completed.
- */
 function useValidateGroupExistence(groupCode, validationType = "continuous") {
   const [groupExists, setGroupExists] = useState(null);
   const [error, setError] = useState(null);
   const [isValidated, setIsValidated] = useState(false);
   const { t } = useTranslation();
 
+  const {
+    GROUPS_BASE,
+    VALIDATE_GROUP_EXISTENCE_CONTINUOUS,
+    VALIDATE_GROUP_EXISTENCE_LIMITED,
+  } = API_ROUTES.GROUPS;
+
   useEffect(() => {
     const validateGroup = async () => {
+      setError(null);
+      setIsValidated(false);
+
       try {
         devLog(`Validating groupCode ${groupCode} in database`);
-        const endpoint =
+
+        const validateGroupExistence =
           validationType === "limited"
-            ? `${apiUrl}/groups/${groupCode}/limited-validate-existence`
-            : `${apiUrl}/groups/${groupCode}/continuous-validate-existence`;
+            ? VALIDATE_GROUP_EXISTENCE_LIMITED
+            : VALIDATE_GROUP_EXISTENCE_CONTINUOUS;
 
-        const response = await axios.get(endpoint);
+        const endpoint = `${API_URL}/${GROUPS_BASE}/${groupCode}/${validateGroupExistence}`;
 
-        if (response.data.exists === true) {
+        const { data } = await axios.get(endpoint);
+
+        if (data?.exists) {
           setGroupExists(true);
-          setIsValidated(true);
           devLog(`Groupcode ${groupCode} exists.`);
         } else {
           setGroupExists(false);
           setError(t("validate-groupcode-error-groupcode-does-not-exist"));
-          setIsValidated(true);
           devLog(`Groupcode ${groupCode} does not exist.`);
         }
-      } catch (error) {
+      } catch (err) {
         if (
           validationType === "limited" &&
-          error.response &&
-          error.response.status === StatusCodes.TOO_MANY_REQUESTS
+          err.response?.status === StatusCodes.TOO_MANY_REQUESTS
         ) {
           setError(t("validate-groupcode-error-too-many-requests"));
-          devLog("Too many validation requests from this IP address.", error);
+          devLog("Too many validation requests.", err);
         } else {
-          devLog("Error validating group code:", error);
+          devLog("Error validating group code:", err);
           setError(t("generic-error-message"));
         }
+      } finally {
+        setIsValidated(true);
       }
     };
 
-    validateGroup();
-  }, [groupCode, validationType]);
+    if (groupCode) validateGroup();
+  }, [
+    groupCode,
+    validationType,
+    t,
+    GROUPS_BASE,
+    VALIDATE_GROUP_EXISTENCE_CONTINUOUS,
+    VALIDATE_GROUP_EXISTENCE_LIMITED,
+  ]);
 
   return { groupExists, error, isValidated };
 }
