@@ -3,8 +3,7 @@ import axios from "axios";
 import { BALANCE_THRESHOLD } from "../constants/dataConstants";
 import { devLog } from "./errorUtils";
 
-const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-
+import { API_URL } from "@client-constants/apiConstants";
 /**
  * Calculates suggested settlement payments between users with positive and negative balances.
  * Iteratively identifies user pairs, determines the maximum settlement amount, and records settlement payment suggestions in an array.
@@ -16,7 +15,7 @@ const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
  */
 export const calculateSuggestedSettlementPayments = (
   positiveBalanceUsers,
-  negativeBalanceUsers
+  negativeBalanceUsers,
 ) => {
   // Array to gather settlement payment suggestions
   const suggestedSettlementPayments = [];
@@ -29,7 +28,7 @@ export const calculateSuggestedSettlementPayments = (
     // Calculate the highest possible amount for a settlement payment between a user with positive and negative balance
     const amountToSettle = Math.min(
       Math.abs(debtor.userBalanceCalculated),
-      creditor.userBalanceCalculated
+      creditor.userBalanceCalculated,
     );
 
     // Add that settlement payment suggestion to settlements array
@@ -67,7 +66,7 @@ export const calculateSuggestedSettlementPayments = (
 
   devLog(
     "Suggested settlement payments calculated:",
-    suggestedSettlementPayments
+    suggestedSettlementPayments,
   );
   return suggestedSettlementPayments;
 };
@@ -99,7 +98,7 @@ export const calculateAndAddUserBalance = (user) => {
  */
 export const filterUnsettledUsers = (userDetails) => {
   return userDetails.filter(
-    (user) => Math.abs(user.userBalanceCalculated) > BALANCE_THRESHOLD
+    (user) => Math.abs(user.userBalanceCalculated) > BALANCE_THRESHOLD,
   );
 };
 
@@ -145,15 +144,15 @@ export const groupUsersPerPositiveOrNegativeUserBalance = (unsettledUsers) => {
  */
 export const changeFixedDebitorCreditorOrderSetting = async (
   groupCode,
-  fixedDebitorCreditorOrder
+  fixedDebitorCreditorOrder,
 ) => {
   try {
     const response = await axios.patch(
-      `${apiUrl}/groups/fixedDebitorCreditorOrder/${groupCode}`,
+      `${API_URL}/groups/fixedDebitorCreditorOrder/${groupCode}`,
       {
         groupCode,
         fixedDebitorCreditorOrder,
-      }
+      },
     );
     devLog("fixedDebitorCreditorOrder updated:", response);
     return {
@@ -181,7 +180,7 @@ export const changeFixedDebitorCreditorOrderSetting = async (
 export const getGroupHasPersistedDebitorCreditorOrder = async (groupCode) => {
   try {
     const response = await axios.get(
-      `${apiUrl}/groups/has-persisted-order/${groupCode}`
+      `${API_URL}/groups/has-persisted-order/${groupCode}`,
     );
     devLog("groupHasPersistedDebitorCreditorOrder status fetched:", response);
     return {
@@ -192,7 +191,7 @@ export const getGroupHasPersistedDebitorCreditorOrder = async (groupCode) => {
   } catch (error) {
     devLog(
       "Error fetching groupHasPersistedDebitorCreditorOrder status:",
-      error
+      error,
     );
     return {
       success: false,
@@ -215,7 +214,7 @@ export const deleteAllSettlementsForGroup = async (groupCode) => {
       throw new Error("Group code is required");
     }
 
-    const response = await axios.delete(`${apiUrl}/settlements/${groupCode}`);
+    const response = await axios.delete(`${API_URL}/settlements/${groupCode}`);
     devLog(`All settlements for group ${groupCode} deleted:`, response.data);
 
     return {

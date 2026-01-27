@@ -12,7 +12,7 @@ import styles from "./ConfirmSettlementPayment.module.css";
 import { VIEW_TYPES } from "@client-constants/viewConstants";
 import { setStoredView } from "@client-utils/localStorage";
 
-const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+import { API_URL } from "@client-constants/apiConstants";
 
 const ConfirmSettlementPayment = ({
   fixedDebitorCreditorOrder,
@@ -28,7 +28,7 @@ const ConfirmSettlementPayment = ({
   const [error, setError] = useState(null);
 
   devLog("fixedDebitorCreditorOrder:", fixedDebitorCreditorOrder);
-  devLog("API URL:", apiUrl);
+  devLog("API URL:", API_URL);
 
   const handleSettlementPaymentConfirmation = async () => {
     setError(null);
@@ -53,13 +53,13 @@ const ConfirmSettlementPayment = ({
           throw new Error("Invalid settlement data");
         }
 
-        const persistResponse = await axios.post(`${apiUrl}/settlements`, {
+        const persistResponse = await axios.post(`${API_URL}/settlements`, {
           settlements: cleanedSettlements,
         });
         devLog("Settlement suggestions persisted:", persistResponse.data);
       }
 
-      await axios.delete(`${apiUrl}/settlements`, {
+      await axios.delete(`${API_URL}/settlements`, {
         data: {
           from: paymentMakerName,
           to: paymentRecipientName,
@@ -68,7 +68,7 @@ const ConfirmSettlementPayment = ({
         },
       });
 
-      const response = await axios.post(`${apiUrl}/payments`, {
+      const response = await axios.post(`${API_URL}/payments`, {
         paymentMakerName,
         groupCode,
         paymentAmount: Number(paymentAmount),

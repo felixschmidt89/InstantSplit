@@ -19,7 +19,7 @@ import ErrorModal from "@components/ErrorModal/ErrorModal";
 
 import styles from "./UpdateExpense.module.css";
 
-const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+import { API_URL } from "@client-constants/apiConstants";
 
 const UpdateExpense = ({
   expenseInfo,
@@ -58,7 +58,7 @@ const UpdateExpense = ({
     setError(null);
 
     try {
-      const response = await axios.put(`${apiUrl}/expenses/${expenseId}`, {
+      const response = await axios.put(`${API_URL}/expenses/${expenseId}`, {
         expenseDescription,
         expenseAmount,
         groupCode,

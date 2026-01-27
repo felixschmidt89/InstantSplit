@@ -11,8 +11,7 @@ import ErrorModal from "../ErrorModal/ErrorModal";
 import { ROUTES } from "../../constants/routesConstants";
 import styles from "./ChangeResourceName.module.css";
 
-const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-
+import { API_URL } from "@client-constants/apiConstants";
 const ChangeResourceName = ({
   resourceId,
   resourceType,
@@ -47,7 +46,7 @@ const ChangeResourceName = ({
       };
 
       const response = await axios.patch(
-        `${apiUrl}/${pluralResourceType}/${resourceId}`,
+        `${API_URL}/${pluralResourceType}/${resourceId}`,
         payload,
       );
 

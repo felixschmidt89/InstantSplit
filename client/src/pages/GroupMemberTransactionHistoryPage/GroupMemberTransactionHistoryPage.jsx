@@ -25,7 +25,7 @@ import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigation
 import styles from "./GroupMemberTransactionHistoryPage.module.css";
 
 // API URL
-const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+import { API_URL } from "@client-constants/apiConstants";
 
 const GroupMemberTransactionHistoryPage = () => {
   const { t } = useTranslation();
@@ -58,7 +58,7 @@ const GroupMemberTransactionHistoryPage = () => {
     const fetchGroupMemberExpensesAndPayments = async () => {
       try {
         const response = await axios.get(
-          `${apiUrl}/users/${userId}/expenses-and-payments`,
+          `${API_URL}/users/${userId}/expenses-and-payments`,
         );
         devLog(`User ${userId} expenses and payments fetched:`, response);
         const groupMemberTransactionalData =
@@ -75,7 +75,7 @@ const GroupMemberTransactionHistoryPage = () => {
     };
 
     fetchGroupMemberExpensesAndPayments();
-  }, [userId]);
+  }, [userId, t]);
   return (
     <main>
       <HelmetMetaTagsNetlify

@@ -16,7 +16,7 @@ import RenderGroupMemberBalance from "@components/GroupBalancesAndHistory/GroupB
 import styles from "./RenderGroupBalances.module.css";
 import { getActiveGroupCode } from "@/utils/localStorage/index.js";
 
-const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+import { API_URL } from "@client-constants/apiConstants";
 
 const RenderGroupBalances = ({ groupCurrency }) => {
   const { t } = useTranslation();
@@ -32,7 +32,7 @@ const RenderGroupBalances = ({ groupCurrency }) => {
     const fetchUserDetails = async () => {
       try {
         const response = await axios.get(
-          `${apiUrl}/users/byGroupCode/${groupCode}`,
+          `${API_URL}/users/byGroupCode/${groupCode}`,
         );
         const { users } = response.data;
         devLog("User details fetched:", response);

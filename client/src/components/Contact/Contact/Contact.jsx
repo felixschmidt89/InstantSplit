@@ -15,8 +15,7 @@ import SuccessFeedback from "@components/Contact/ContactForm/SuccessFeedback/Suc
 import ErrorModal from "@components/ErrorModal/ErrorModal";
 
 import styles from "./Contact.module.css";
-
-const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+import { API_URL } from "@/constants/apiConstants";
 
 const Contact = () => {
   const { t } = useTranslation();
@@ -114,7 +113,7 @@ const Contact = () => {
           const fileData = new FormData();
           fileData.append("file", file);
 
-          const responseFile = await axios.post(`${apiUrl}/files`, fileData);
+          const responseFile = await axios.post(`${API_URL}/files`, fileData);
           devLog("File sent:", responseFile);
 
           contactData.fileId = responseFile.data.savedFile._id;
@@ -126,7 +125,7 @@ const Contact = () => {
         }
       }
 
-      const response = await axios.post(`${apiUrl}/feedbacks`, contactData);
+      const response = await axios.post(`${API_URL}/feedbacks`, contactData);
       devLog("Message sent:", response);
       setShowForm(false);
 

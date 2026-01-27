@@ -13,7 +13,7 @@ import ErrorModal from "@components/ErrorModal/ErrorModal";
 
 import styles from "./DeleteGroupMemberBin.module.css";
 
-const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+import { API_URL } from "@client-constants/apiConstants";
 
 const DeleteGroupMemberBin = ({
   userId,
@@ -40,7 +40,7 @@ const DeleteGroupMemberBin = ({
 
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(`${apiUrl}/users/${userId}`);
+      const response = await axios.delete(`${API_URL}/users/${userId}`);
 
       if (response.status === StatusCodes.NO_CONTENT) {
         setError(null);

@@ -12,8 +12,7 @@ import FormSubmitButton from "@components/FormSubmitButton/FormSubmitButton";
 
 import styles from "./CreateGroupMemberForm.module.css";
 
-const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-
+import { API_URL } from "@client-constants/apiConstants";
 const CreateGroupMemberForm = ({ incrementRerenderTrigger, groupCode }) => {
   const { t } = useTranslation();
   const inputRef = useRef(null);
@@ -28,7 +27,7 @@ const CreateGroupMemberForm = ({ incrementRerenderTrigger, groupCode }) => {
     setError(null);
 
     try {
-      const response = await axios.post(`${apiUrl}/users`, {
+      const response = await axios.post(`${API_URL}/users`, {
         userName,
         groupCode,
       });

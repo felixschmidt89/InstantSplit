@@ -20,7 +20,7 @@ import {
   storeGroupCode,
 } from "@client-utils/localStorage";
 
-const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+import { API_URL } from "@client-constants/apiConstants";
 
 const CreateGroupForm = ({ isExistingUser = false }) => {
   const navigate = useNavigate();
@@ -38,7 +38,7 @@ const CreateGroupForm = ({ isExistingUser = false }) => {
     setError(null);
 
     try {
-      const response = await axios.post(`${apiUrl}/groups`, {
+      const response = await axios.post(`${API_URL}/groups`, {
         groupName,
       });
 

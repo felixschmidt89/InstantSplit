@@ -17,7 +17,7 @@ import RenderGroupExpensesTotal from "@components/GroupBalancesAndHistory/GroupH
 
 import styles from "./RenderGroupHistory.module.css";
 
-const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+import { API_URL } from "@client-constants/apiConstants";
 
 const RenderGroupHistory = ({ groupCode, groupCurrency }) => {
   const { t } = useTranslation();
@@ -33,7 +33,7 @@ const RenderGroupHistory = ({ groupCode, groupCurrency }) => {
     const fetchGroupExpensesAndPayments = async () => {
       try {
         const response = await axios.get(
-          `${apiUrl}/groups/${groupCode}/expenses-and-payments`,
+          `${API_URL}/groups/${groupCode}/expenses-and-payments`,
         );
         const { groupExpensesAndPayments: data } = response.data;
         devLog("Group expenses and payments data fetched:", response);

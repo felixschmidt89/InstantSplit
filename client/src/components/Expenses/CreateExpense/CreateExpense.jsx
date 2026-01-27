@@ -19,7 +19,7 @@ import ErrorModal from "@components/ErrorModal/ErrorModal";
 
 import styles from "./CreateExpense.module.css";
 
-const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+import { API_URL } from "@client-constants/apiConstants";
 
 const CreateExpense = ({ groupMembers, groupCode }) => {
   const navigate = useNavigate();
@@ -40,7 +40,7 @@ const CreateExpense = ({ groupMembers, groupCode }) => {
     setError(null);
 
     try {
-      const response = await axios.post(`${apiUrl}/expenses`, {
+      const response = await axios.post(`${API_URL}/expenses`, {
         expenseDescription,
         expenseAmount,
         groupCode,

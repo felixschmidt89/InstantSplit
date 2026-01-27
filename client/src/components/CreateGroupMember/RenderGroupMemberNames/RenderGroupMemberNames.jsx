@@ -15,7 +15,7 @@ import DeleteGroupMemberBin from "@components/CreateGroupMember/DeleteGroupMembe
 
 import styles from "./RenderGroupMemberNames.module.css";
 
-const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+import { API_URL } from "@client-constants/apiConstants";
 
 const RenderGroupMemberNames = ({
   rerenderTrigger,
@@ -38,7 +38,7 @@ const RenderGroupMemberNames = ({
     const fetchUserDetails = async () => {
       try {
         const response = await axios.get(
-          `${apiUrl}/users/byGroupCode/${groupCode}`,
+          `${API_URL}/users/byGroupCode/${groupCode}`,
         );
         const { users } = response.data;
 

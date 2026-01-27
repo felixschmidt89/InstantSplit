@@ -18,7 +18,7 @@ import EditPenButton from "@components/EditPenButton/EditPenButton";
 
 import styles from "./ChangeGroupCurrency.module.css";
 
-const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+import { API_URL } from "@client-constants/apiConstants";
 
 const ChangeGroupCurrency = ({ groupCurrency, groupCode }) => {
   const selectRef = useRef(null);
@@ -46,7 +46,7 @@ const ChangeGroupCurrency = ({ groupCurrency, groupCode }) => {
 
     try {
       const response = await axios.patch(
-        `${apiUrl}/groups/currency/${groupCode}`,
+        `${API_URL}/groups/currency/${groupCode}`,
         {
           groupCode,
           currency: currency.selectedCurrency,

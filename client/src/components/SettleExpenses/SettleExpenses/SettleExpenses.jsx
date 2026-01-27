@@ -21,7 +21,7 @@ import RenderSettlementPaymentSuggestions from "@components/SettleExpenses/Rende
 import styles from "./SettleExpenses.module.css";
 import { getActiveGroupCode } from "@/utils/localStorage/index.js";
 
-const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+import { API_URL } from "@client-constants/apiConstants";
 
 const SettleExpenses = () => {
   const { t } = useTranslation();
@@ -69,7 +69,7 @@ const SettleExpenses = () => {
     const fetchAndIdentifyUnsettledUsers = async () => {
       try {
         const response = await axios.get(
-          `${apiUrl}/users/byGroupCode/${groupCode}`,
+          `${API_URL}/users/byGroupCode/${groupCode}`,
         );
         const responseData = response.data;
         devLog("User details fetched:", response);
@@ -105,7 +105,7 @@ const SettleExpenses = () => {
       const fetchPersistedSettlements = async () => {
         try {
           const response = await axios.get(
-            `${apiUrl}/settlements/${groupCode}`,
+            `${API_URL}/settlements/${groupCode}`,
           );
           const settlements = response.data?.settlements || [];
 

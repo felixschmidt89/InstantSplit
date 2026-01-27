@@ -25,7 +25,7 @@ import RenderReactIcon from "@components/RenderReactIcon/RenderReactIcon";
 
 import styles from "./CreatePayment.module.css";
 
-const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+import { API_URL } from "@client-constants/apiConstants";
 
 const CreatePayment = ({ groupMembers, groupCode }) => {
   const navigate = useNavigate();
@@ -43,7 +43,7 @@ const CreatePayment = ({ groupMembers, groupCode }) => {
     setError(null);
 
     try {
-      const response = await axios.post(`${apiUrl}/payments`, {
+      const response = await axios.post(`${API_URL}/payments`, {
         paymentMakerName,
         groupCode,
         paymentAmount,

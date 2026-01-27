@@ -12,7 +12,7 @@ import ErrorModal from "@components/ErrorModal/ErrorModal";
 import styles from "./ChangeDataPurgeSetting.module.css";
 import { devLog } from "@/utils/errorUtils";
 
-const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+import { API_URL } from "@client-constants/apiConstants";
 
 const ChangeDataPurgeSetting = ({ groupCode, inactiveDataPurge }) => {
   const { t } = useTranslation();
@@ -28,7 +28,7 @@ const ChangeDataPurgeSetting = ({ groupCode, inactiveDataPurge }) => {
       setIsActive(updatedIsActive);
 
       const response = await axios.patch(
-        `${apiUrl}/groups/inactiveDataPurge/${groupCode}`,
+        `${API_URL}/groups/inactiveDataPurge/${groupCode}`,
         {
           groupCode,
           inactiveDataPurge: updatedIsActive,

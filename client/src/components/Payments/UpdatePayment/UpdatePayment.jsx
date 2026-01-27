@@ -22,7 +22,7 @@ import RenderReactIcon from "@components/RenderReactIcon/RenderReactIcon";
 
 import styles from "./UpdatePayment.module.css";
 
-const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+import { API_URL } from "@client-constants/apiConstants";
 
 const UpdatePayment = ({
   groupMembers,
@@ -63,7 +63,7 @@ const UpdatePayment = ({
     setError(null);
 
     try {
-      const response = await axios.put(`${apiUrl}/payments/${paymentId}`, {
+      const response = await axios.put(`${API_URL}/payments/${paymentId}`, {
         groupCode,
         paymentAmount,
         paymentMakerName,
