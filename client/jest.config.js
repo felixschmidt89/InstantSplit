@@ -6,8 +6,6 @@ export default {
     "^.+\\.svg$": "jest-transformer-svg",
   },
 
-  // CODECHANGE: Allow transformation of the shared directory
-  // and specific node_modules if needed.
   transformIgnorePatterns: [
     "/node_modules/(?!(@shared-constants)/)",
     "\\.pnp\\.[^\\/]+$",

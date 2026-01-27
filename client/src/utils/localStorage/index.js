@@ -16,6 +16,7 @@ export * from "./isGroupCodeInStoredGroupCodes";
 
 export * from "./getPreviousRoute";
 export * from "./deletePreviousRoute";
+export * from "./setPreviousRoute";
 export * from "./getNestedPreviousRoute";
 export * from "./deleteNestedPreviousRoute";
 
