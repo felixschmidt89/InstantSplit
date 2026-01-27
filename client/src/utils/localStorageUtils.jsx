@@ -53,26 +53,3 @@ export const storeGroupCodeInLocalStorage = (groupCode) => {
     return false;
   }
 };
-
-/**
- * Stores the current route in localStorage for nested navigation.
- * @param {string} route - The route to set in localStorage.
- * @param {string} [key="previousRoute"] - The key under which the route is stored in localStorage. Defaults to "previousRoute". For further nested page, use "nestedPreviousRoute" as key.
- * @returns {null}
- */
-export const setRouteInLocalStorage = (route, key = "previousRoute") => {
-  localStorage.setItem(key, route);
-  devLog(`${key} set in local storage:`, route);
-  return null;
-};
-
-/**
- * Gets the previousRoute from localStorage.
- * @param {string} [key="previousRoute"] - The key under which the route is stored in localStorage. Defaults to "previousRoute". For further nested page, use "nestedPreviousRoute" as key.
- * @returns {string} The retrieved route.
- */
-export const getRouteFromLocalStorage = (key = "previousRoute") => {
-  const route = localStorage.getItem(key) || `No ${key} stored.`;
-  devLog(`${key} retrieved from local storage:`, route);
-  return route;
-};

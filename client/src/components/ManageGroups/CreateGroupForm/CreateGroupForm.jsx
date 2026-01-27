@@ -18,7 +18,7 @@ import FormSubmitButton from "@components/FormSubmitButton/FormSubmitButton";
 import ErrorModal from "@components/ErrorModal/ErrorModal";
 
 import styles from "./CreateGroupForm.module.css";
-import { setActiveGroupCode } from "@/utils/localStorage";
+import { setActiveGroupCode, setPreviousRoute } from "@/utils/localStorage";
 
 const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
 
@@ -26,6 +26,7 @@ const CreateGroupForm = ({ isExistingUser = false }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const inputRef = useRef(null);
+  const pathname = useTranslation();
   const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
     useErrorModalVisibility();
 
@@ -46,8 +47,7 @@ const CreateGroupForm = ({ isExistingUser = false }) => {
 
       storeGroupCodeInLocalStorage(groupCode);
       setActiveGroupCode(groupCode);
-      setRouteInLocalStorage(window.location.pathname, "previousRoute");
-
+      setPreviousRoute(pathname);
       navigate(ROUTES.MEMBERS.CREATE);
     } catch (error) {
       if (error.response) {
