@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { ThemeProvider } from "@mui/material/styles";
 import muiTheme from "./themes/muiTheme";
-import Footer from "./components/common/Footer/Footer";
+import Footer from "./components/Footer/Footer";
 import PageNotFoundPage from "./pages/PageNotFound/PageNotFoundPage";
 import HomePage from "./pages/HomePage/HomePage";
 import OnboardingCreateGroupPage from "./pages/OnboardingCreateGroupPage/OnboardingCreateGroupPage";

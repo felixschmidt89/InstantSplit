@@ -3,17 +3,14 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-// Constants and Utils
-import { isWebShareAPISupported } from "../../utils/clientUtils";
-
 // Hooks
 import useFetchGroupData from "../../hooks/useFetchGroupData";
 
 // Component
-import HelmetMetaTagsNetlify from "../../components/common/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/common/PiratePx/PiratePx";
-import InAppNavigationBar from "../../components/common/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-import ShareGroupInvitation from "../../components/features/ShareGroupInvitation/ShareGroupInvitation/ShareGroupInvitation";
+import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
+import PiratePx from "../../components/PiratePx/PiratePx";
+import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
+import ShareGroupInvitation from "../../components/ShareGroupInvitation/ShareGroupInvitation/ShareGroupInvitation";
 
 // Styles
 import styles from "./ShareGroupInvitationPage.module.css";
@@ -33,7 +30,7 @@ const ShareGroupInvitationPage = () => {
 
   // Force URL-encoded initial groupName
   const urlEncodedGroupName = encodeURIComponent(
-    groupData.group.initialGroupName
+    groupData.group.initialGroupName,
   );
   const invitationLinkDE = `${baseUrl}/join-instantsplit-group/${urlEncodedGroupName}/${groupCode}`;
   const invitationLinkEN = `${baseUrl}/join-en-instantsplit-group/${urlEncodedGroupName}/${groupCode}`;

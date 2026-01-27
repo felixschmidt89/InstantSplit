@@ -1,32 +1,42 @@
-// React and Third-Party Libraries
 import { useState, useEffect } from "react";
 import FontFaceObserver from "fontfaceobserver";
-
-// Constants and Utils
 import { devLog } from "../utils/errorUtils";
+import { FONTS, FONT_STATE } from "@/constants/fontConstants";
 
-/**
- * checks if the "Noto Emoji" font replacing client emojis is loaded.
- * @returns {boolean} True if loaded, otherwise false.
- */
 const useIsNotoEmojiFontLoaded = () => {
-  const [notoEmojiFontIsLoaded, setNotoEmojiFontIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [fontState, setFontState] = useState(null);
 
   useEffect(() => {
-    const font = new FontFaceObserver("Noto Emoji");
+    const font = new FontFaceObserver(FONTS.NOTO_EMOJI);
+    let isMounted = true;
 
     font
-      .load()
+      .load(null, 2000)
       .then(() => {
-        setNotoEmojiFontIsLoaded(true);
-        devLog("Noto Emoji Font loaded successfully");
+        if (isMounted) {
+          setFontState(FONT_STATE.LOADED);
+          setIsLoaded(true);
+          devLog(`${FONTS.NOTO_EMOJI} loaded successfully.`);
+        }
       })
       .catch((error) => {
-        devLog("Font could not be loaded:", error);
+        if (isMounted) {
+          setFontState(FONT_STATE.FALLBACK);
+          setIsLoaded(true);
+          devLog(
+            `${FONTS.NOTO_EMOJI} failed or timed out. Using fallback.`,
+            error,
+          );
+        }
       });
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
-  return notoEmojiFontIsLoaded;
+  return { isLoaded, fontState };
 };
 
 export default useIsNotoEmojiFontLoaded;

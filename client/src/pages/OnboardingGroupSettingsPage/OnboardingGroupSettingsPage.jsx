@@ -1,22 +1,26 @@
-import React from "react";
 import { useTranslation } from "react-i18next";
-import { devLog } from "../../utils/errorUtils";
-import useFetchGroupData from "../../hooks/useFetchGroupData";
-import useGetPreviousRoutesFromLocalStorage from "../../hooks/useGetPreviousRouteFromLocalStorage";
-import HelmetMetaTagsNetlify from "../../components/common/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/common/PiratePx/PiratePx";
-import InAppNavigationBar from "../../components/common/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-import ChangeGroupCurrency from "../../components/features/GroupSettings/ChangeGroupCurrency/ChangeGroupCurrency";
-import ChangeDataPurgeSetting from "../../components/features/GroupSettings/ChangeDataPurgeSetting/ChangeDataPurgeSetting";
-import Spinner from "../../components/common/Spinner/Spinner";
-import GroupCodeSecurity from "../../components/features/GroupSettings/GroupCodeSecurity/GroupCodeSecurity";
-import { ROUTES } from "../../constants/routesConstants";
+
+import useFetchGroupData from "@hooks/useFetchGroupData";
+
+import HelmetMetaTagsNetlify from "@components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
+import PiratePx from "@components/PiratePx/PiratePx";
+import InAppNavigationBar from "@components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
+import ChangeGroupCurrency from "@components/GroupSettings/ChangeGroupCurrency/ChangeGroupCurrency";
+import ChangeDataPurgeSetting from "@components/GroupSettings/ChangeDataPurgeSetting/ChangeDataPurgeSetting";
+import GroupCodeSecurity from "@components/GroupSettings/GroupCodeSecurity/GroupCodeSecurity";
+import Spinner from "@components/Spinner/Spinner";
+
+import { ROUTES } from "@client-constants/routesConstants";
+
 import styles from "./OnboardingGroupSettingsPage.module.css";
+import { getActiveGroupCode } from "@/utils/localStorage/index.js";
 
 const OnboardingGroupSettingsPage = () => {
-  const groupCode = localStorage.getItem("activeGroupCode");
-  const { groupData, isFetched } = useFetchGroupData(groupCode);
   const { t } = useTranslation();
+
+  const groupCode = getActiveGroupCode();
+
+  const { groupData, isFetched } = useFetchGroupData(groupCode);
 
   return (
     <main>
@@ -30,26 +34,29 @@ const OnboardingGroupSettingsPage = () => {
         forward
         forwardRoute={ROUTES.INSTANT_SPLIT}
       />
+
       <div className={styles.container}>
-        {!isFetched ? (
+        {!isFetched && (
           <div className={styles.spinner}>
             <Spinner />
           </div>
-        ) : (
-          groupData && (
-            <div className={styles.settings}>
-              <ChangeGroupCurrency
-                groupCode={groupCode}
-                groupCurrency={groupData.group.currency}
-                isOnboarding
-              />
-              <ChangeDataPurgeSetting
-                groupCode={groupCode}
-                inactiveDataPurge={groupData.group.inactiveDataPurge}
-              />
-              <GroupCodeSecurity groupCode={groupCode} />
-            </div>
-          )
+        )}
+
+        {isFetched && groupData && (
+          <div className={styles.settings}>
+            <ChangeGroupCurrency
+              groupCode={groupCode}
+              groupCurrency={groupData.group.currency}
+              isOnboarding
+            />
+
+            <ChangeDataPurgeSetting
+              groupCode={groupCode}
+              inactiveDataPurge={groupData.group.inactiveDataPurge}
+            />
+
+            <GroupCodeSecurity groupCode={groupCode} />
+          </div>
         )}
       </div>
     </main>

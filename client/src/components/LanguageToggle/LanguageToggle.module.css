@@ -1,23 +1,31 @@
-.languageFlag {
+.language-flag {
+  background: none;
+  border: none;
+  padding: 0;
+  outline: none;
+  cursor: pointer;
   padding-top: 0.5rem;
   width: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.languageFlag {
-  cursor: pointer;
-}
-
-.languageFlag img {
+.language-flag img {
   filter: grayscale(20%);
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: filter 0.2s ease;
 }
 
-.languageFlag img:hover {
+.language-flag img:hover {
   filter: grayscale(0%);
 }
 
 @media (max-width: 768px) {
-  .languageFlag {
+  .language-flag {
     width: 2rem;
     padding-top: 0.1rem;
   }

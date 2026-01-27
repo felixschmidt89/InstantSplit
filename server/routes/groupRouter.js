@@ -14,6 +14,7 @@ import {
   changeFixedDebitorCreditorOrderSetting,
   groupHasPersistedDebitorCreditorOrder,
 } from '../controllers/groupController.js';
+
 import developmentOnlyMiddleware from '../middleware/developmentOnlyMiddleware.js';
 import {
   strictLimiter,
@@ -23,65 +24,59 @@ import {
   laxLimitRequestsPerIpMiddleware,
   laxLimiter,
 } from '../middleware/laxLimitRequestsPerIpMiddleware.js';
+import { API_ROUTES } from '../../shared/constants/apiRoutesConstants.js';
 
 const router = express.Router();
+const { GROUPS, URL_PARAMS } = API_ROUTES;
 
-// Create a new group
 router.post('/', createGroup);
 
-// Change group name
-router.patch('/:groupId', changeGroupName);
+router.patch(`/${URL_PARAMS.GROUP_ID}`, changeGroupName);
 
-// List group names of locally stored groupCodes
-router.get('/StoredGroupNames', listGroupNamesByStoredGroupCodes);
+router.get(`/${GROUPS.STORED_GROUP_NAMES}`, listGroupNamesByStoredGroupCodes);
 
-// Get group info by groupCode
-router.get('/:groupCode', getGroupInfo);
+router.get(`/${URL_PARAMS.GROUP_CODE}`, getGroupInfo);
 
-// Get group currency by groupCode
-router.get('/currency/:groupCode', getGroupCurrency);
+router.get(`/currency/${URL_PARAMS.GROUP_CODE}`, getGroupCurrency);
 
-// Change group currency by groupCode
-router.patch('/currency/:groupCode', changeGroupCurrency);
+router.patch(`/currency/${URL_PARAMS.GROUP_CODE}`, changeGroupCurrency);
 
-// Change group inactiveDataPurge setting by groupCode
-router.patch('/inactiveDataPurge/:groupCode', changeGroupDataPurgeSetting);
-
-// Change group fixedDebitorCreditorOrder setting by groupCode
 router.patch(
-  '/fixedDebitorCreditorOrder/:groupCode',
+  `/data-purge/${URL_PARAMS.GROUP_CODE}`,
+  changeGroupDataPurgeSetting,
+);
+
+router.patch(
+  `/fixed-order-settings/${URL_PARAMS.GROUP_CODE}`,
   changeFixedDebitorCreditorOrderSetting,
 );
 
-// Check persisted debitor/creditor index order
 router.get(
-  '/has-persisted-order/:groupCode',
+  `/has-persisted-order/${URL_PARAMS.GROUP_CODE}`,
   groupHasPersistedDebitorCreditorOrder,
 );
 
-// Laxely limited check if groupCode exists in database (for continuous background active groupCode validation)
 router.get(
-  '/:groupCode/continuous-validate-existence',
+  `/${URL_PARAMS.GROUP_CODE}/${GROUPS.VALIDATE_GROUP_EXISTENCE_CONTINUOUS}`,
   laxLimiter,
   laxLimitRequestsPerIpMiddleware,
   validateGroupExistence,
 );
 
-// Strictly limited check if groupCode exists in database (for manual groupCode input validation in the frontend)
 router.get(
-  '/:groupCode/limited-validate-existence',
+  `/${URL_PARAMS.GROUP_CODE}/${GROUPS.VALIDATE_GROUP_EXISTENCE_LIMITED}`,
   strictLimiter,
   strictlyLimitRequestsPerIpMiddleware,
   validateGroupExistence,
 );
 
-// List all expenses and payments of a group
-router.get('/:groupCode/expenses-and-payments', listExpensesAndPaymentsByGroup);
+router.get(
+  `/${URL_PARAMS.GROUP_CODE}/expenses-and-payments`,
+  listExpensesAndPaymentsByGroup,
+);
 
 // ROUTES FOR DEVELOPMENT/DEBUGGING PURPOSES ONLY
-// List all groups
 router.get('/debug/all', developmentOnlyMiddleware, listAllGroups);
-// Delete all groups
 router.delete('/debug/all', developmentOnlyMiddleware, deleteAllGroups);
 
 export default router;

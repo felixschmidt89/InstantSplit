@@ -6,11 +6,11 @@ import { useTranslation } from "react-i18next";
 import emojiConstants from "../../constants/emojiConstants";
 
 // Components
-import HelmetMetaTagsNetlify from "../../components/common/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/common/PiratePx/PiratePx";
-import Emoji from "../../components/common/Emoji/Emoji";
-import InAppNavigationBar from "../../components/common/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-import RouteButton from "../../components/common/InAppNavigation/RouteButton/RouteButton";
+import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
+import PiratePx from "../../components/PiratePx/PiratePx";
+import Emoji from "../../components/Emoji/Emoji";
+import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
+import RouteButton from "../../components/InAppNavigation/RouteButton/RouteButton";
 
 // Styles
 import styles from "./PageNotFoundPage.module.css";

@@ -6,8 +6,7 @@ import { useTranslation } from "react-i18next";
 // Constants and Utils
 import { devLog } from "../utils/errorUtils";
 
-// API URL
-const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+import { API_URL } from "@client-constants/apiConstants";
 
 /**
  * Custom hook for fetching payment information.
@@ -26,7 +25,7 @@ const useFetchPaymentInfo = (paymentId) => {
   useEffect(() => {
     const fetchPaymentInfo = async () => {
       try {
-        const response = await axios.get(`${apiUrl}/payments/${paymentId}`);
+        const response = await axios.get(`${API_URL}/payments/${paymentId}`);
         const paymentData = response.data.payment;
         devLog("Payment info fetched:", response);
         setPaymentInfo(paymentData);
@@ -38,7 +37,7 @@ const useFetchPaymentInfo = (paymentId) => {
     };
 
     fetchPaymentInfo();
-  }, [paymentId]);
+  }, [paymentId, t]);
 
   return { paymentInfo, isFetched, error };
 };

@@ -1,5 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 
+// TODO: Delete devLog and use debugLog instead throughout the codebase
 /**
  * Utility function to log messages and/or errors in the development environment only.
  *
@@ -34,7 +35,7 @@ export const handleApiErrors = (
   setError,
   router,
   displayErrorModal,
-  t
+  t,
 ) => {
   if (!error) {
     throw new Error("Invalid error object provided.");

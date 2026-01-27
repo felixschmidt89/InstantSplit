@@ -3,10 +3,10 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 
 // Components
-import HelmetMetaTagsNetlify from "../../components/common/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/common/PiratePx/PiratePx";
-import SettleExpenses from "../../components/features/SettleExpenses/SettleExpenses/SettleExpenses";
-import InAppNavigationBar from "../../components/common/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
+import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
+import PiratePx from "../../components/PiratePx/PiratePx";
+import SettleExpenses from "../../components/SettleExpenses/SettleExpenses/SettleExpenses";
+import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 
 // Styles
 import styles from "./SettleExpensesPage.module.css";

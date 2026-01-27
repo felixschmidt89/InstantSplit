@@ -1,50 +1,46 @@
-// React and Third-Party Libraries
-import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
-// Constants and Utils
 import {
-  deleteApplicationDataFromLocalStorage,
-  deleteGroupDataFromLocalStorage,
-  getFirstGroupCodeInStoredGroupCodesArray,
-  setGroupCodeToCurrentlyActive,
-} from "../../utils/localStorageUtils";
-import { buttonStyles } from "../../constants/stylesConstants";
+  deleteNestedPreviousRoute,
+  deletePreviousRoute,
+  deleteStoredView,
+  getFirstGroupCode,
+  setActiveGroupCode,
+} from "@client-utils/localStorage";
+import { buttonStyles } from "@client-constants/stylesConstants";
+import { ROUTES } from "@client-constants/routesConstants";
 
-// Hooks
-import useConfirmationModalLogicAndActions from "../../hooks/useConfirmationModalLogicAndActions";
+import HelmetMetaTagsNetlify from "@components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
+import PiratePx from "@components/PiratePx/PiratePx";
+import CopyToClipboard from "@components/CopyToClipboard/CopyToClipboard";
+import InAppNavigationBar from "@components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
+import ConfirmationModal from "@components/ConfirmationModal/ConfirmationModal";
 
-//Components
-import HelmetMetaTagsNetlify from "../../components/common/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/common/PiratePx/PiratePx";
-import CopyToClipboard from "../../components/common/CopyToClipboard/CopyToClipboard";
-import InAppNavigationBar from "../../components/common/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-import ConfirmationModal from "../../components/common/ConfirmationModal/ConfirmationModal";
-
-// Styles
 import styles from "./LeaveGroupPage.module.css";
-import { ROUTES } from "../../constants/routesConstants";
+import useConfirmationModalLogicAndActions from "@hooks/useConfirmationModalLogicAndActions";
+import { deleteGroupCode } from "@/utils/localStorage/deleteGroupCode";
 
 const LeaveGroupPage = () => {
   const { groupName, groupCode } = useParams();
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  // Get confirmation modal logic from hook, pass callbacks to be executed on confirmation
   const {
     isConfirmationVisible,
     handleConfirmation,
     handleShowConfirmation,
     handleHideConfirmation,
   } = useConfirmationModalLogicAndActions([
-    () => deleteApplicationDataFromLocalStorage(),
-    () => deleteGroupDataFromLocalStorage(groupCode),
+    () => deleteStoredView(),
+    () => deletePreviousRoute(),
+    () => deleteNestedPreviousRoute(),
+    () => deleteGroupCode(groupCode),
     () => {
-      const newGroupCode = getFirstGroupCodeInStoredGroupCodesArray();
-      setGroupCodeToCurrentlyActive(newGroupCode);
+      const newGroupCode = getFirstGroupCode();
+      if (newGroupCode) setActiveGroupCode(newGroupCode);
     },
     () => {
       navigate(ROUTES.INSTANT_SPLIT);
@@ -56,9 +52,11 @@ const LeaveGroupPage = () => {
       <HelmetMetaTagsNetlify title={t("leave-group-on-device-page-title")} />
       <PiratePx COUNT_IDENTIFIER={"leave-group-on-device"} />
       <InAppNavigationBar back={true} />
+
       <h1 className={styles.header}>
         {t("leave-group-on-device-page-header")}
       </h1>
+
       <div className={styles.container}>
         <div className={styles.groupCodeContainer}>
           <div className={styles.groupCodeExplanation}>
@@ -66,6 +64,7 @@ const LeaveGroupPage = () => {
             <span className={styles.groupName}> {groupName} </span>
             {t("leave-group-on-device-groupcode-explanation-part2")}
           </div>
+
           <div className={styles.copyGroupCode}>
             <CopyToClipboard infoToCopy={groupCode} />
           </div>
@@ -80,6 +79,7 @@ const LeaveGroupPage = () => {
             endIcon={<ExitToAppIcon />}>
             {t("leave-group-on-device-page-button")}
           </Button>
+
           {isConfirmationVisible && (
             <ConfirmationModal
               message={t("leave-group-on-device-confirmation-message")}

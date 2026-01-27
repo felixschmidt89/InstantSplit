@@ -1,24 +1,24 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { ROUTES } from "@client-constants/routesConstants";
 import {
-  getFirstGroupCodeInStoredGroupCodesArray,
-  setGroupCodeToCurrentlyActive,
-} from "../utils/localStorageUtils";
-import { ROUTES } from "../constants/routesConstants";
+  getActiveGroupCode,
+  getFirstGroupCode,
+  setActiveGroupCode,
+} from "@client-utils/localStorage";
 
 const useAutoActiveGroupCodeRedirect = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // TODO: Make this a utility function since it's used in multiple places
-    // TODO: Add local storage key constants file
-    let groupCode = localStorage.getItem("activeGroupCode");
+    let groupCode = getActiveGroupCode();
 
     if (!groupCode) {
-      groupCode = getFirstGroupCodeInStoredGroupCodesArray();
+      groupCode = getFirstGroupCode();
 
       if (groupCode) {
-        setGroupCodeToCurrentlyActive(groupCode);
+        setActiveGroupCode(groupCode);
       }
     }
 

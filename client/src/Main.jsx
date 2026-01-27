@@ -7,5 +7,5 @@ import "./i18n/config.js";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <App />
-  </React.StrictMode>
+  </React.StrictMode>,
 );

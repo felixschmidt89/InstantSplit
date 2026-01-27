@@ -87,6 +87,15 @@
   - **Falsy Evaluation**: Prioritize conciseness by leveraging falsy evaluation and optional chaining (e.g., `if (!data?.length)`) instead of explicit null and length checks.
   - **Short-Circuiting**: Use logical AND (`&&`) for conditional prop assignments or rendering where a falsy fallback is acceptable (e.g., `error={localError && t(localError)}`).
 
+- **Logic Block Grouping**:
+  - **Standard**: Organize logic into clearly defined blocks based on functional domains to ensure high scannability and logical flow, do **NOT** add grouping comments
+  - **Ordering**:
+    1. **Initialization**: Primary hooks, state declarations, and reference initializations.
+    2. **Refinement**: Derived data, memoized values, and internal constants.
+    3. **Functional Handlers**: Domain-specific logic blocks (e.g., "Navigation Logic", "Data Transformation", "Event Handlers"). Group all functions belonging to the same domain together
+    4. **Lifecycle/Side Effects**: Execution of side effects (e.g., `useEffect`, observers).
+  - **Visual Separation**: Insert a single empty line between each domain-specific block.
+
 - **Props & Objects**:
   - **Destructuring**: Always destructure props and objects.
   - **PropTypes**: Do **NOT** use `propTypes`.
@@ -104,6 +113,7 @@ tbd
 
 This is a legacy codebase. When we work on existing files, we always want to refactor for better readability and maintainability, while ensuring minimal side effects. Follow these guidelines:
 
+- **ALWAYS** use `debugLog` utility for all development-time logging. Replace devLog with debugLog whenever shared code uses devLog
 - Drop JSDoc wherever used.
 - Drop import comments
 - Drop comments unless they add significant value.
@@ -126,9 +136,51 @@ This is a legacy codebase. When we work on existing files, we always want to ref
 
 ### 8. Pull Request Documentation
 
-- **Standard**: When provided with a GitHub comparison link or a request to summarize a PR, provide two specific components: a Title and a Summary.
+- **Standard**: When provided with a GitHub PR, provide two specific components: a Title and a brief Summary of the changes.
 - **Formatting**: Output the result in a single Markdown code block.
 - **Content Requirements**:
   - **PR Title**: Use the Angular/Conventional Commits format (`type: subject`) in lowercase (e.g., `chore: ...`, `feat: ...`).
   - **Summary Text**: Provide a concise, bulleted list of changes using technical terminology (e.g., "module resolution," "path aliasing").
   - **Exclusions**: Do not include "PR Title" or "Description" headers within the code block; provide only the raw text.
+
+### 9. Atomic Utility Architecture
+
+- **Standard**: Follow a strictly atomic, folder-per-function pattern for all utilities within `shared/utils/`, `server/utils/` and `client/src/utils/`.
+- **Structure**:
+  - Every utility function resides in its own named file (e.g., `replaceSlashesWithDashes.js`).
+  - These files must be grouped within a category folder (e.g., `utils/strings/`).
+- **Barrel Files**:
+  - Each category folder must contain an `index.js` file.
+  - The `index.js` serves as a "barrel" that exports all functions from that folder (e.g., `export * from "./replaceSlashesWithDashes";`).
+- **Imports**:
+  - Consume utilities by referencing the category folder alias (e.g., `import { replaceSlashesWithDashes } from "@shared-utils/strings";`).
+  - Do **NOT** import directly from the individual function file.
+
+### 10. Utility Validation & Migration
+
+- **Validation Protocol**: When interacting with any utility, evaluate it against three criteria:
+  - **Atomicity**: Does the file contain only one primary function?
+  - **Location Accuracy**: Is it placed in the correct environment folder (`shared/`, `client/src/`, or `server/`) based on its dependencies?
+  - **Structure**: Does it belong to a category folder with a corresponding barrel file?
+- **Migration**: If a utility fails validation, recommend a migration to the **Atomic Utility Architecture** (Section 9) before performing any logic updates.
+
+### 11. Testing Standards
+
+- **Test Co-location**:
+  - **Standard**: All unit tests (e.g., `*.test.js`, `*.spec.js`) must be co-located with the source file they validate.
+  - **Structure**: Tests must reside in the same directory as the utility or component (e.g., `src/utils/storage/getLocalStorageKey.test.js`).
+
+- **Constant-Driven Validation**:
+  - **Standard**: Tests must always use imported shared constants (e.g., `LANGUAGES`, `LOCAL_STORAGE_KEYS`) for both input values and expectations.
+  - **Ban on Magic Strings**: Raw string literals (e.g., `"de"`, `"en"`, `"token"`) are strictly prohibited in test assertions for valid application states.
+
+- **Utility Coverage**:
+  - **Requirement**: Every utility function must have a corresponding test file created at the time of refactoring or creation.
+  - **Focus**: Prioritize edge cases, error handling, and environment-specific logic (e.g., `localStorage` availability).
+
+- **Component Coverage**:
+  - **Protocol**: Deferred implementation. Do not add tests for React components until they have undergone a full refactor to meet current coding standards.
+  - **Frameworks**: Utilize `jest` and `react-testing-library` exclusively.
+
+  **Test Data Management**:
+  - **Standard**: Generic mock data used across multiple test suites (e.g., mock IDs, generic strings, dummy objects) must be used in tests and stored in `@shared-constants/testConstants`.

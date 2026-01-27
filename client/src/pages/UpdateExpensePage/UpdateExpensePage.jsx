@@ -3,11 +3,11 @@ import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import useExpenseUpdate from "../../hooks/useExpenseUpdate";
 import useDetermineUpdateTransactionPageOpeningSource from "../../hooks/useCheckUpdateTransactionPageHasBeenOpenedViaUserTransactionsHistoryOrGroupHistory";
-import HelmetMetaTagsNetlify from "../../components/common/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/common/PiratePx/PiratePx";
-import Spinner from "../../components/common/Spinner/Spinner";
-import UpdateExpense from "../../components/features/Expenses/UpdateExpense/UpdateExpense";
-import InAppNavigationBar from "../../components/common/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
+import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
+import PiratePx from "../../components/PiratePx/PiratePx";
+import Spinner from "../../components/Spinner/Spinner";
+import UpdateExpense from "../../components/Expenses/UpdateExpense/UpdateExpense";
+import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import { ROUTES } from "../../constants/routesConstants";
 import styles from "./UpdateExpensePage.module.css";
 

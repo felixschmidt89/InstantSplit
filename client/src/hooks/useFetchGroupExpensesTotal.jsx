@@ -6,8 +6,7 @@ import { useTranslation } from "react-i18next";
 // Constants and Utils
 import { devLog } from "../utils/errorUtils";
 
-// API URL
-const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+import { API_URL } from "@client-constants/apiConstants";
 
 /**
  * Custom hook for fetching group expenses total.
@@ -28,7 +27,7 @@ const useFetchGroupExpensesTotal = (groupCode) => {
     const fetchGroupExpensesTotal = async () => {
       try {
         const response = await axios.get(
-          `${apiUrl}/expenses/totalExpenses/${groupCode}`
+          `${API_URL}/expenses/totalExpenses/${groupCode}`,
         );
         setExpensesTotal(response.data.expensesTotal);
         setIsFetched(true);
@@ -39,7 +38,7 @@ const useFetchGroupExpensesTotal = (groupCode) => {
     };
 
     fetchGroupExpensesTotal();
-  }, [groupCode]);
+  }, [groupCode, t]);
 
   return { expensesTotal, isFetched, error };
 };

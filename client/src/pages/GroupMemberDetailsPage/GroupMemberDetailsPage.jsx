@@ -12,18 +12,18 @@ import useFetchGroupMemberData from "../../hooks/useFetchGroupMemberData";
 import useFetchGroupCurrency from "../../hooks/useFetchGroupCurrency";
 
 // Components
-import HelmetMetaTagsNetlify from "../../components/common/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/common/PiratePx/PiratePx";
-import Spinner from "../../components/common/Spinner/Spinner";
-import RouteButton from "../../components/common/InAppNavigation/RouteButton/RouteButton";
-import DeleteResource from "../../components/common/DeleteResource/DeleteResource";
-import InAppNavigationBar from "../../components/common/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-import Emoji from "../../components/common/Emoji/Emoji";
-import GroupMemberTotals from "../../components/features/GroupMemberDetails/GroupMemberTotals/UserTotals/GroupMemberTotals";
+import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
+import PiratePx from "../../components/PiratePx/PiratePx";
+import Spinner from "../../components/Spinner/Spinner";
+import RouteButton from "../../components/InAppNavigation/RouteButton/RouteButton";
+import DeleteResource from "../../components/DeleteResource/DeleteResource";
+import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
+import Emoji from "../../components/Emoji/Emoji";
+import GroupMemberTotals from "../../components/GroupMemberDetails/GroupMemberTotals/UserTotals/GroupMemberTotals";
 
 // Styles
 import styles from "./GroupMemberDetailsPage.module.css";
-import GroupMemberName from "../../components/features/GroupMemberDetails/GroupMemberName/GroupMemberName";
+import GroupMemberName from "../../components/GroupMemberDetails/GroupMemberName/GroupMemberName";
 
 const GroupMemberDetailsPage = () => {
   const { t } = useTranslation();
@@ -76,7 +76,7 @@ const GroupMemberDetailsPage = () => {
             <RouteButton
               route={`groupmember-transaction-history/${groupCode}/${userId}`}
               buttonText={t(
-                "groupmember-details-page-transactions-history-button-text"
+                "groupmember-details-page-transactions-history-button-text",
               )}
               setPreviousRoute={true}
               margin='0px'
