@@ -1,7 +1,6 @@
-import useIsNotoEmojiFontLoaded from "@hooks/useIsNotoEmojiFontLoaded";
-
+import { FONT_STATE } from "../../constants/fontConstants";
+import useIsNotoEmojiFontLoaded from "../../hooks/useIsNotoEmojiFontLoaded";
 import styles from "./Emoji.module.css";
-import { FONT_STATE } from "@/constants/fontConstants";
 
 type EmojiProps = {
   ariaLabel: string;

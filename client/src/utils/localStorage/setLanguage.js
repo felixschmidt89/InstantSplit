@@ -1,5 +1,5 @@
-import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
-import { LANGUAGES } from "@shared-constants/languageConstants";
+import { LANGUAGES } from "../../../../shared/constants/languageConstants";
+import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
 import { setLocalStorageKey } from "./setLocalStorageKey";
 
 export const setLanguage = (language) => {

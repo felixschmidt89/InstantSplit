@@ -2,26 +2,22 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 
-import { devLog } from "@client-utils/errorUtils";
+import styles from "./SettleExpenses.module.css";
+import { getActiveGroupCode } from "../../../utils/localStorage";
 import {
   calculateAndAddUserBalance,
   changeFixedDebitorCreditorOrderSetting,
   filterUnsettledUsers,
   getGroupHasPersistedDebitorCreditorOrder,
   groupUsersPerPositiveOrNegativeUserBalance,
-} from "@client-utils/settlementUtils";
-
-import useFetchGroupCurrency from "@hooks/useFetchGroupCurrency";
-
-import Spinner from "@components/Spinner/Spinner";
-import ErrorDisplay from "@components/ErrorDisplay/ErrorDisplay";
-import ExpensesSettled from "@components/SettleExpenses/ExpensesSettled/ExpensesSettled";
-import RenderSettlementPaymentSuggestions from "@components/SettleExpenses/RenderSettlementPaymentSuggestions/RenderSettlementPaymentSuggestions";
-
-import styles from "./SettleExpenses.module.css";
-import { getActiveGroupCode } from "@/utils/localStorage/index.js";
-
-import { API_URL } from "@client-constants/apiConstants";
+} from "../../../utils/settlementUtils";
+import { devLog } from "../../../utils/errorUtils";
+import { API_URL } from "../../../constants/apiConstants";
+import useFetchGroupCurrency from "../../../hooks/useFetchGroupCurrency";
+import RenderSettlementPaymentSuggestions from "../RenderSettlementPaymentSuggestions/RenderSettlementPaymentSuggestions";
+import Spinner from "../../Spinner/Spinner";
+import ExpensesSettled from "../ExpensesSettled/ExpensesSettled";
+import ErrorDisplay from "../../ErrorDisplay/ErrorDisplay";
 
 const SettleExpenses = () => {
   const { t } = useTranslation();

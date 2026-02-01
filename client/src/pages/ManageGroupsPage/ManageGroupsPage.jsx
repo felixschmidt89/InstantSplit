@@ -2,20 +2,15 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 
-import {
-  setPreviousRoute,
-  getActiveGroupCode,
-} from "@client-utils/localStorage";
-
-import PiratePx from "@components/PiratePx/PiratePx";
-import HelmetMetaTagsNetlify from "@components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import CreateGroupForm from "@components/ManageGroups/CreateGroupForm/CreateGroupForm";
-import SwitchGroups from "@components/ManageGroups/SwitchGroups/SwitchGroups/SwitchGroups";
-import ValidateGroupCode from "@components/ManageGroups/ValidateGroupCode/ValidateGroupCode";
-import InAppNavigationBar from "@components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-
 import styles from "./ManageGroupsPage.module.css";
-import useSyncStoredGroupCodes from "@/hooks/useSyncStoredGroupCodes";
+import { getActiveGroupCode, setPreviousRoute } from "../../utils/localStorage";
+import useSyncStoredGroupCodes from "../../hooks/useSyncStoredGroupCodes";
+import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
+import PiratePx from "../../components/PiratePx/PiratePx";
+import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
+import SwitchGroups from "../../components/ManageGroups/SwitchGroups/SwitchGroups/SwitchGroups";
+import CreateGroupForm from "../../components/ManageGroups/CreateGroupForm/CreateGroupForm";
+import ValidateGroupCode from "../../components/ManageGroups/ValidateGroupCode/ValidateGroupCode";
 
 const ManageGroupsPage = () => {
   const { t } = useTranslation();

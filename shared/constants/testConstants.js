@@ -1,3 +1,5 @@
+import { API_ROUTES } from "./apiRoutesConstants";
+
 export const MOCK_DATA = {
   STRING: "test_string_value",
   NUMBER: 123,
@@ -62,7 +64,7 @@ export const MOCK_LOGS = {
   MOCK_ERROR: new Error("mock_internal_error"),
 };
 
-export const MOCK_API_URL = "http://localhost:5000/api";
+export const MOCK_API_URL = "http://localhost:5000";
 
 export const MOCK_GROUP_DATA = {
   NAME: "New Test Group",
@@ -92,6 +94,7 @@ export const MOCK_API_ROUTES = {
     VALIDATE_GROUP_EXISTENCE_CONTINUOUS: "continuous-validate-existence",
     VALIDATE_GROUP_EXISTENCE_LIMITED: "limited-validate-existence",
     STORED_GROUP_NAMES: "stored-group-names",
+    TRANSACTIONS: "expenses-and-payments",
   },
   USERS: {
     USERS_BASE: "users",
@@ -113,9 +116,13 @@ export const MOCK_ENDPOINTS = {
   EXPENSES: `/${MOCK_API_ROUTES.EXPENSES.EXPENSES_BASE}`,
   PAYMENTS: `/${MOCK_API_ROUTES.PAYMENTS.PAYMENTS_BASE}`,
   SETTLEMENTS: `/${MOCK_API_ROUTES.SETTLEMENTS.SETTLEMENTS_BASE}`,
+  GROUP_TRANSACTIONS: (groupCode) =>
+    `/${MOCK_API_ROUTES.GROUPS.GROUPS_BASE}/${groupCode}/${MOCK_API_ROUTES.GROUPS.TRANSACTIONS}`,
 };
 
 export const MOCK_FULL_URLS = {
   GROUPS: `${MOCK_API_URL}${MOCK_ENDPOINTS.GROUPS}`,
   USERS: `${MOCK_API_URL}${MOCK_ENDPOINTS.USERS}`,
+  GROUP_TRANSACTIONS: (groupCode) =>
+    `${MOCK_API_URL}${MOCK_ENDPOINTS.GROUP_TRANSACTIONS(groupCode)}`,
 };

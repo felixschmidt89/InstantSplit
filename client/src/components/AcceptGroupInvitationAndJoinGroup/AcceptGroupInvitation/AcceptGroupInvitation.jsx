@@ -10,7 +10,7 @@ import {
   isGroupCodeInStoredGroupCodes,
   setActiveGroupCode,
   storeGroupCode,
-} from "@/utils/localStorage";
+} from "../../../utils/localStorage";
 
 const AcceptGroupInvitation = ({ groupName, groupCode }) => {
   const navigate = useNavigate();

@@ -1,6 +1,6 @@
-import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
 import { deleteStoredView } from "./deleteStoredView";
 import { deleteLocalStorageKey } from "./deleteLocalStorageKey";
+import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
 
 jest.mock("./deleteLocalStorageKey");
 

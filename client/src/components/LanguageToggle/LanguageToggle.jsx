@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { LANGUAGES } from "@shared-constants/languageConstants";
-
-import deFlag from "@assets/flags/de.svg";
-import enFlag from "@assets/flags/gb.svg";
+import deFlag from "../../assets/flags/de.svg";
+import enFlag from "../../assets/flags/gb.svg";
 
 import styles from "./LanguageToggle.module.css";
-import { setLanguage } from "@/utils/localStorage/index.js";
+import { setLanguage } from "../../utils/localStorage/index.js";
+import { LANGUAGES } from "../../../../shared/constants/languageConstants.js";
 
 // TODO: do not use hardcoded alt texts
 

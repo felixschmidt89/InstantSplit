@@ -1,5 +1,5 @@
+import { MOCK_DATA, MOCK_STRINGS } from "../../constants/testConstants";
 import { replaceSlashesWithDashes } from "./replaceSlashesWithDashes";
-import { MOCK_DATA, MOCK_STRINGS } from "@client-constants/mockDataConstants";
 
 describe("replaceSlashesWithDashes", () => {
   it("should transform strings with slashes into dashes", () => {

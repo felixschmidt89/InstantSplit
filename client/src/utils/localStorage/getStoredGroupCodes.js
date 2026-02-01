@@ -1,5 +1,5 @@
-import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
-import { debugLog } from "@shared-utils/debug/debugLog";
+import { debugLog } from "../../../../shared/utils/debug";
+import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
 import { getLocalStorageKey } from "./getLocalStorageKey";
 
 export const getStoredGroupCodes = () => {

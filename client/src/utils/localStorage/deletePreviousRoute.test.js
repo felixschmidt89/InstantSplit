@@ -1,6 +1,6 @@
-import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
 import { deletePreviousRoute } from "./deletePreviousRoute";
 import { deleteLocalStorageKey } from "./deleteLocalStorageKey";
+import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
 
 jest.mock("./deleteLocalStorageKey");
 

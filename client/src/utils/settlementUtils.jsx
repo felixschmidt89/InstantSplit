@@ -1,18 +1,8 @@
-// Constants and Utils
 import axios from "axios";
 import { BALANCE_THRESHOLD } from "../constants/dataConstants";
-import { devLog } from "./errorUtils";
+import { debugLog } from "../../../shared/utils/debug";
+import { API_URL } from "../constants/apiConstants";
 
-import { API_URL } from "@client-constants/apiConstants";
-/**
- * Calculates suggested settlement payments between users with positive and negative balances.
- * Iteratively identifies user pairs, determines the maximum settlement amount, and records settlement payment suggestions in an array.
- * Continues the process until either positive or negative balance users are exhausted, providing an array of settlement payment suggestions.
- *
- * @param {Array} positiveBalanceUsers - An array of users with positive balances.
- * @param {Array} negativeBalanceUsers - An array of users with negative balances.
- * @returns {Array} - An array of settlement payment suggestions.
- */
 export const calculateSuggestedSettlementPayments = (
   positiveBalanceUsers,
   negativeBalanceUsers,
@@ -64,7 +54,7 @@ export const calculateSuggestedSettlementPayments = (
   // Sort suggestedSettlementPayments by debtors alphabetically
   suggestedSettlementPayments.sort((a, b) => a.from.localeCompare(b.from));
 
-  devLog(
+  debugLog(
     "Suggested settlement payments calculated:",
     suggestedSettlementPayments,
   );
@@ -127,8 +117,8 @@ export const groupUsersPerPositiveOrNegativeUserBalance = (unsettledUsers) => {
     }))
     .sort((a, b) => a.userBalanceCalculated - b.userBalanceCalculated);
 
-  devLog("Users with positive balance calculated:", positiveBalanceUsers);
-  devLog("Users with negative balance calculated:", negativeBalanceUsers);
+  debugLog("Users with positive balance calculated:", positiveBalanceUsers);
+  debugLog("Users with negative balance calculated:", negativeBalanceUsers);
 
   return {
     positiveBalanceUsers,
@@ -154,14 +144,14 @@ export const changeFixedDebitorCreditorOrderSetting = async (
         fixedDebitorCreditorOrder,
       },
     );
-    devLog("fixedDebitorCreditorOrder updated:", response);
+    debugLog("fixedDebitorCreditorOrder updated:", response);
     return {
       success: true,
       error: null,
       data: response.data,
     };
   } catch (error) {
-    devLog("Error updating fixedDebitorCreditorOrder:", error);
+    debugLog("Error updating fixedDebitorCreditorOrder:", error);
     return {
       success: false,
       error:
@@ -182,14 +172,14 @@ export const getGroupHasPersistedDebitorCreditorOrder = async (groupCode) => {
     const response = await axios.get(
       `${API_URL}/groups/has-persisted-order/${groupCode}`,
     );
-    devLog("groupHasPersistedDebitorCreditorOrder status fetched:", response);
+    debugLog("groupHasPersistedDebitorCreditorOrder status fetched:", response);
     return {
       success: true,
       error: null,
       data: response.data,
     };
   } catch (error) {
-    devLog(
+    debugLog(
       "Error fetching groupHasPersistedDebitorCreditorOrder status:",
       error,
     );
@@ -215,7 +205,7 @@ export const deleteAllSettlementsForGroup = async (groupCode) => {
     }
 
     const response = await axios.delete(`${API_URL}/settlements/${groupCode}`);
-    devLog(`All settlements for group ${groupCode} deleted:`, response.data);
+    debugLog(`All settlements for group ${groupCode} deleted:`, response.data);
 
     return {
       success: true,
@@ -223,7 +213,7 @@ export const deleteAllSettlementsForGroup = async (groupCode) => {
       data: response.data,
     };
   } catch (error) {
-    devLog(`Error deleting all settlements for group ${groupCode}:`, error);
+    debugLog(`Error deleting all settlements for group ${groupCode}:`, error);
     return {
       success: false,
       error:

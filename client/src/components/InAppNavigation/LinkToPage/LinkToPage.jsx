@@ -1,9 +1,8 @@
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import {
-  setPreviousRoute,
   setNestedPreviousRoute,
-} from "@client-utils/localStorage";
-
+  setPreviousRoute,
+} from "../../../utils/localStorage";
 const LinkToPage = ({
   to,
   children,

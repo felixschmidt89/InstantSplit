@@ -1,12 +1,11 @@
 import i18n from "i18next";
 import HttpApi from "i18next-http-backend";
 import { initReactI18next } from "react-i18next";
-
+import { getLanguage } from "../utils/localStorage";
 import {
-  LANGUAGES,
   DEFAULT_LANGUAGE,
-} from "@shared-constants/languageConstants";
-import { getLanguage } from "@/utils/localStorage/index.js";
+  LANGUAGES,
+} from "../../../shared/constants/languageConstants";
 
 i18n
   .use(HttpApi)

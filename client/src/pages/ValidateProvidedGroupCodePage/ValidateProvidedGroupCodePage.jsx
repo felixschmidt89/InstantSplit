@@ -6,21 +6,19 @@ import {
   IoMdCloseCircleOutline,
 } from "react-icons/io";
 
-import { ROUTES } from "@client-constants/routesConstants";
+import styles from "./ValidateProvidedGroupCodePage.module.css";
+import useValidateGroupExistence from "../../hooks/useValidateGroupCodeExistence";
 import {
   getPreviousRoute,
   setActiveGroupCode,
   storeGroupCode,
-} from "@/utils/localStorage/index.js";
-
-import useValidateGroupExistence from "@hooks/useValidateGroupCodeExistence";
-import HelmetMetaTagsNetlify from "@components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "@components/PiratePx/PiratePx";
-import InAppNavigationBar from "@components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-import ErrorDisplay from "@components/ErrorDisplay/ErrorDisplay";
-import Spinner from "@components/Spinner/Spinner";
-
-import styles from "./ValidateProvidedGroupCodePage.module.css";
+} from "../../utils/localStorage";
+import { ROUTES } from "../../constants/routesConstants";
+import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
+import PiratePx from "../../components/PiratePx/PiratePx";
+import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
+import ErrorDisplay from "../../components/ErrorDisplay/ErrorDisplay";
+import Spinner from "../../components/Spinner/Spinner";
 
 const ValidateProvideGroupCodePage = () => {
   const { t } = useTranslation();

@@ -3,34 +3,30 @@ import { useNavigate } from "react-router-dom";
 import { usePWAInstall } from "react-use-pwa-install";
 import { useTranslation } from "react-i18next";
 
-import { shouldShowPwaPrompt as showPwaPrompt } from "@client-utils/user";
-import { devLog } from "@client-utils/errorUtils";
+import styles from "./InstantSplitPage.module.css";
 import {
+  deleteGroupCode,
   deleteNestedPreviousRoute,
   deletePreviousRoute,
   getActiveGroupCode,
   getStoredView,
   setStoredView,
-  deleteGroupCode,
-} from "@client-utils/localStorage";
-
-import { LEGACY_VIEW_TYPES, VIEW_TYPES } from "@client-constants/viewConstants";
-import { ROUTES } from "@client-constants/routesConstants";
-
-import useFetchGroupData from "@hooks/useFetchGroupData";
-import useValidateGroupExistence from "@hooks/useValidateGroupCodeExistence";
-import useGetClientDeviceAndPwaInfo from "@hooks/useGetClientDeviceAndPwaInfo";
-
-import HelmetMetaTagsNetlify from "@components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "@components/PiratePx/PiratePx";
-import SwitchViewButtonsBar from "@components/GroupBalancesAndHistory/SwitchViewButtonsBar/SwitchViewButtonsBar";
-import RenderGroupHistory from "@components/GroupBalancesAndHistory/GroupHistory/RenderGroupHistory/RenderGroupHistory";
-import RenderGroupBalances from "@components/GroupBalancesAndHistory/GroupBalances/RenderGroupBalances/RenderGroupBalances";
-import DefaultAndUserSettingsBar from "@components/DefaultAndUserSettingsBar/DefaultAndUserSettingsBar";
-import PwaCtaModal from "@components/PwaCtaModal/PwaCtaModal/PwaCtaModal";
-import ActiveGroupBar from "@components/ActiveGroupBar/ActiveGroupBar";
-
-import styles from "./InstantSplitPage.module.css";
+} from "../../utils/localStorage";
+import { LEGACY_VIEW_TYPES, VIEW_TYPES } from "../../constants/viewConstants";
+import useValidateGroupExistence from "../../hooks/useValidateGroupCodeExistence";
+import useFetchGroupData from "../../hooks/useFetchGroupData";
+import useGetClientDeviceAndPwaInfo from "../../hooks/useGetClientDeviceAndPwaInfo";
+import { shouldShowPwaPrompt } from "../../utils/user";
+import { ROUTES } from "../../constants/routesConstants";
+import { devLog } from "../../utils/errorUtils";
+import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
+import PiratePx from "../../components/PiratePx/PiratePx";
+import DefaultAndUserSettingsBar from "../../components/DefaultAndUserSettingsBar/DefaultAndUserSettingsBar";
+import SwitchViewButtonsBar from "../../components/GroupBalancesAndHistory/SwitchViewButtonsBar/SwitchViewButtonsBar";
+import RenderGroupHistory from "../../components/GroupBalancesAndHistory/GroupHistory/RenderGroupHistory/RenderGroupHistory";
+import RenderGroupBalances from "../../components/GroupBalancesAndHistory/GroupBalances/RenderGroupBalances/RenderGroupBalances";
+import ActiveGroupBar from "../../components/ActiveGroupBar/ActiveGroupBar";
+import PwaCtaModal from "../../components/PwaCtaModal/PwaCtaModal/PwaCtaModal";
 
 const InstantSplitPage = () => {
   const navigate = useNavigate();
@@ -53,7 +49,7 @@ const InstantSplitPage = () => {
   const { isPwa, isMobile, isMobileSafari, isAndroid, isIOS, browserName } =
     useGetClientDeviceAndPwaInfo();
 
-  const canShowPwaPrompt = showPwaPrompt();
+  const canShowPwaPrompt = shouldShowPwaPrompt();
 
   const updateView = (newView) => {
     if (setStoredView(newView)) {

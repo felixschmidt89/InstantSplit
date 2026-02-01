@@ -7,17 +7,16 @@ import {
 import { GoHome } from "react-icons/go";
 import { useTranslation } from "react-i18next";
 
-import { debugLog } from "@shared-utils/debug";
-import {
-  getLocalStorageKey,
-  getActiveGroupCode,
-  deleteGroupCode,
-} from "@client-utils/localStorage";
-import { ROUTES } from "@client-constants/routesConstants";
-import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
-import InstantSplitLogo from "@components/InstantSplitLogo/InstantSplitLogo";
-
 import styles from "./InAppNavigationBar.module.css";
+import { ROUTES } from "../../../constants/routesConstants";
+import { debugLog } from "../../../../../shared/utils/debug";
+import { LOCAL_STORAGE_KEYS } from "../../../constants/localStorageConstants";
+import {
+  deleteGroupCode,
+  getActiveGroupCode,
+  getLocalStorageKey,
+} from "../../../utils/localStorage";
+import InstantSplitLogo from "../../InstantSplitLogo/InstantSplitLogo";
 
 const InAppNavigationBar = ({
   back = false,

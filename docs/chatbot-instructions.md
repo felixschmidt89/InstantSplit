@@ -65,14 +65,12 @@
 
 - **Asset Management**:
   - **Location**: Store all component-related assets (images, svgs, fonts) in `client/src/assets/`.
-  - **Path Alias**: Use the `@assets` alias for all imports (e.g., `import logo from "@assets/images/logo.png"`).
   - **Grouping**: Sub-categorize assets by type within the folder (e.g., `assets/flags/`, `assets/icons/`).
 - **Page Architecture**:
   - **Standard**: Folder-per-page pattern inside `src/pages/`.
   - **Structure**: Every page resides in its own named folder (e.g., `src/pages/ContactPage/`).
   - **Naming**: Folder and Primary File must include the "Page" suffix (e.g., `ContactPage.jsx`).
-  - **Explicit Imports**: Do **NOT** use `index.js` files. Imports must explicitly reference the page file (e.g., `import ContactPage from "@pages/ContactPage/ContactPage";`).
-
+  - **Explicit Imports**: Do **NOT** use `index.js` files. Imports must explicitly reference the page file .
 - **Component Architecture & Naming**:
   - **Flat Structure**: All component folders must reside directly under `src/components/`. Sub-categorization folders such as `common/` or `features/` are strictly prohibited.
   - **Folder-per-Component Pattern**: Every component resides in its own named folder (e.g., `src/components/Footer/`).
@@ -90,17 +88,28 @@
   - Only include `React` base import when technically necessary for global object access (e.g., `React.Children`, `React.cloneElement`).
   - Prioritize destructuring specific hooks (e.g., `import { useState } from "react"`) instead of using the `React` prefix.
 
-- **Import Organization**:
-  - Group imports by type: 1. Third-party libraries, 2. Path aliases (`@/`, `@components`, `@pages`, `@constants`, `@utils`, `@hooks`), 3. Local assets and CSS modules.
-  - **NEVER** use relative paths (e.g., `../../../../`) for files outside the current directory; always use the designated **Path Alias**.
-  - Keep a single empty line between import groups to maintain visual separation.
+**Group Imports by Type:**
 
-- **Logic Simplification**:
+1. **Third-party libraries**: Standard npm packages (e.g., `react`, `axios`, `express`).
+2. **Internal Project Files**: All project-specific files (controllers, services, models, utils, constants) using **Relative Paths** (e.g., `../`, `../../`).
+3. **Local Assets and CSS**: Images, styles, and local assets.
+
+**Path Requirements:**
+
+- **ALWAYS** use relative paths for all internal imports.
+- **NEVER** use path aliases (e.g., `@shared`, `@client`, `@server`).
+- **MANDATORY Extensions**: In the backend, always include the `.js` extension for imports to comply with ES Modules.
+
+**Formatting:**
+
+- Keep a single empty line between import groups to maintain visual separation.
+
+* **Logic Simplification**:
   - **Boolean Logic**: Do **NOT** use ternary operators for boolean assignments. Use optional chaining with double negation (e.g., `!!object?.property?.includes(value)`).
   - **Falsy Evaluation**: Prioritize conciseness by leveraging falsy evaluation and optional chaining (e.g., `if (!data?.length)`) instead of explicit null and length checks.
   - **Short-Circuiting**: Use logical AND (`&&`) for conditional prop assignments or rendering where a falsy fallback is acceptable (e.g., `error={localError && t(localError)}`).
 
-- **Logic Block Grouping**:
+* **Logic Block Grouping**:
   - **Standard**: Organize logic into clearly defined blocks based on functional domains to ensure high scannability and logical flow, do **NOT** add grouping comments
   - **Ordering**:
     1. **Initialization**: Primary hooks, state declarations, and reference initializations.
@@ -109,11 +118,11 @@
     4. **Lifecycle/Side Effects**: Execution of side effects (e.g., `useEffect`, observers).
   - **Visual Separation**: Insert a single empty line between each domain-specific block.
 
-- **Props & Objects**:
+* **Props & Objects**:
   - **Destructuring**: Always destructure props and objects.
   - **PropTypes**: Do **NOT** use `propTypes`.
 
-- **Styles**:
+* **Styles**:
   - Use the `classnames` package for conditional classes.
   - Prioritize CSS for styles; use JavaScript only if absolutely necessary.
   - **NEVER** use `px` units; use `rem`, `em`, `%`, `vh`, or `vw`.
@@ -166,7 +175,6 @@ This is a legacy codebase. When we work on existing files, we always want to ref
   - Each category folder must contain an `index.js` file.
   - The `index.js` serves as a "barrel" that exports all functions from that folder (e.g., `export * from "./replaceSlashesWithDashes";`).
 - **Imports**:
-  - Consume utilities by referencing the category folder alias (e.g., `import { replaceSlashesWithDashes } from "@shared-utils/strings";`).
   - Do **NOT** import directly from the individual function file.
 
 ### 11. Utility Validation & Migration

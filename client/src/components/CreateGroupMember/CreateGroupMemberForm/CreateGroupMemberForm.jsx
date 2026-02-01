@@ -2,17 +2,14 @@ import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 
-import { devLog, handleApiErrors } from "@client-utils/errorUtils";
-import { sendFormSubmitButtonStyles } from "@client-constants/stylesConstants";
-
-import useErrorModalVisibility from "@hooks/useErrorModalVisibility";
-
-import ErrorModal from "@components/ErrorModal/ErrorModal";
-import FormSubmitButton from "@components/FormSubmitButton/FormSubmitButton";
-
 import styles from "./CreateGroupMemberForm.module.css";
+import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
+import { API_URL } from "../../../constants/apiConstants";
+import { devLog, handleApiErrors } from "../../../utils/errorUtils";
+import { sendFormSubmitButtonStyles } from "../../../constants/stylesConstants";
+import FormSubmitButton from "../../FormSubmitButton/FormSubmitButton";
+import ErrorModal from "../../ErrorModal/ErrorModal";
 
-import { API_URL } from "@client-constants/apiConstants";
 const CreateGroupMemberForm = ({ incrementRerenderTrigger, groupCode }) => {
   const { t } = useTranslation();
   const inputRef = useRef(null);

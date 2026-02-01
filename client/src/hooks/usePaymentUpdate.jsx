@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
-
-import { getActiveGroupCode } from "@/utils/localStorage/index.js";
-
-import useFetchGroupMembers from "@hooks/useFetchGroupMembers";
-import useFetchPaymentInfo from "@hooks/useFetchPaymentInfo";
+import { getActiveGroupCode } from "../utils/localStorage";
+import useFetchPaymentInfo from "./useFetchPaymentInfo";
+import useFetchGroupMembers from "./useFetchGroupMembers";
 
 const usePaymentUpdate = (paymentId) => {
   const groupCode = getActiveGroupCode();

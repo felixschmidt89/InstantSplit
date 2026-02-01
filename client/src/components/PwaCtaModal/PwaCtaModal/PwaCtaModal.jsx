@@ -1,17 +1,13 @@
-// React and Third-Party Libraries
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@mui/material";
 
-// Constants and Utils
 import { smallButtonStyles } from "../../../constants/stylesConstants";
 
-// Components
 import RenderInstallPwaCta from "../RenderInstallPwaCta/RenderInstallPwaCta";
 
-// Styles
 import styles from "./PwaCtaModal.module.css";
-import { setPwaCtaClosed } from "@client-utils/localStorage";
+import { setPwaCtaClosed } from "../../../utils/localStorage";
 
 const PwaCtaModal = ({ ctaToRender, setShowPwaCtaModal }) => {
   const { t } = useTranslation();

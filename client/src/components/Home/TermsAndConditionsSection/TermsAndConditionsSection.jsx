@@ -1,10 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-import { setPreviousRoute } from "@client-utils/localStorage";
-import { ROUTES } from "@client-constants/routesConstants";
-
 import styles from "./TermsAndConditionsSection.module.css";
+import { ROUTES } from "../../../constants/routesConstants";
+import { setPreviousRoute } from "../../../utils/localStorage";
 
 const TermsAndConditionsSection = () => {
   const { t } = useTranslation();

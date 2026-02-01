@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
-
-import { API_ROUTES } from "@shared-constants/apiRoutesConstants";
-import { API_URL } from "@client-constants/apiConstants";
-import { getStoredGroupCodes } from "@/utils/localStorage";
-import { debugLog } from "@shared-utils/debug/debugLog";
+import { API_ROUTES } from "../../../shared/constants/apiRoutesConstants";
+import { getStoredGroupCodes } from "../utils/localStorage";
+import { API_URL } from "../constants/apiConstants";
+import { debugLog } from "../../../shared/utils/debug";
 
 const useGetStoredGroupsNames = (activeGroupCode) => {
   const { t } = useTranslation();

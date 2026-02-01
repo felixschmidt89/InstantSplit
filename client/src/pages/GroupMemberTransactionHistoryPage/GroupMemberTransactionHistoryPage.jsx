@@ -1,18 +1,15 @@
-// React and Third-Party Libraries
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import axios from "axios";
 
-// Constants and Utils
 import { devLog } from "../../utils/errorUtils";
 
 // Hooks
 import useFetchGroupCurrency from "../../hooks/useFetchGroupCurrency";
 import useFetchGroupMembers from "../../hooks/useFetchGroupMembers";
 
-// Components
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import PiratePx from "../../components/PiratePx/PiratePx";
 import Spinner from "../../components/Spinner/Spinner";
@@ -21,11 +18,7 @@ import UserTransactionsHistory from "../../components/GroupMemberTransactionsHis
 import NoUserTransactions from "../../components/GroupMemberTransactionsHistory/NoGroupMemberTransactions/NoGroupMemberTransactions";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 
-// Styles
 import styles from "./GroupMemberTransactionHistoryPage.module.css";
-
-// API URL
-import { API_URL } from "@client-constants/apiConstants";
 
 const GroupMemberTransactionHistoryPage = () => {
   const { t } = useTranslation();

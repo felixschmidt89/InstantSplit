@@ -1,5 +1,5 @@
-import { MOCK_LOCALSTORAGE_VALUES } from "@shared-constants/testConstants";
-import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
+import { MOCK_LOCALSTORAGE_VALUES } from "../../../../shared/constants/testConstants";
+import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
 import { getLanguage } from "./getLanguage";
 import { getLocalStorageKey } from "./getLocalStorageKey";
 

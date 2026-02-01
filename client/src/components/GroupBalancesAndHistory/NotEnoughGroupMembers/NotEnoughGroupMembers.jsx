@@ -1,10 +1,8 @@
 import { useTranslation } from "react-i18next";
 
-import emojiConstants from "@client-constants/emojiConstants";
-
-import Emoji from "@components/Emoji/Emoji";
-
 import styles from "./NotEnoughGroupMembers.module.css";
+import emojiConstants from "../../../constants/emojiConstants";
+import Emoji from "../../Emoji/Emoji";
 
 const NotEnoughGroupMembers = () => {
   const { t } = useTranslation();

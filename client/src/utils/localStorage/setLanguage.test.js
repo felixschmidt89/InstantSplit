@@ -1,6 +1,6 @@
-import { MOCK_DATA } from "@shared-constants/testConstants";
-import { LANGUAGES } from "@shared-constants/languageConstants";
-import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
+import { LANGUAGES } from "../../../../shared/constants/languageConstants";
+import { MOCK_DATA } from "../../../../shared/constants/testConstants";
+import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
 import { setLanguage } from "./setLanguage";
 import { setLocalStorageKey } from "./setLocalStorageKey";
 

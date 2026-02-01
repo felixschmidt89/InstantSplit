@@ -1,15 +1,16 @@
 import { useTranslation } from "react-i18next";
 
-import { getPreviousRoute } from "@/utils/localStorage/index.js";
-
-import HelmetMetaTagsNetlify from "@components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "@components/PiratePx/PiratePx";
-import InAppNavigationBar from "@components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-import LegalNoticeAuthor from "@components/LegalNotice/LegalNoticeAuthor/LegalNoticeAuthor";
-import LegalNoticeSections from "@components/LegalNotice/LegalNoticeSections/LegalNoticeSections";
-
 import styles from "./LegalNoticePage.module.css";
-import { authorInfo, legalNoticeSections } from "@/contents/legalNoticeContent";
+import { getPreviousRoute } from "../../utils/localStorage";
+import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
+import PiratePx from "../../components/PiratePx/PiratePx";
+import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
+import LegalNoticeAuthor from "../../components/LegalNotice/LegalNoticeAuthor/LegalNoticeAuthor";
+import {
+  authorInfo,
+  legalNoticeSections,
+} from "../../contents/legalNoticeContent";
+import LegalNoticeSections from "../../components/LegalNotice/LegalNoticeSections/LegalNoticeSections";
 
 const LegalNoticePage = () => {
   const { t } = useTranslation();

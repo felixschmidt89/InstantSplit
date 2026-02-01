@@ -1,23 +1,19 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useTranslation } from "react-i18next";
-
-import { devLog } from "@client-utils/errorUtils";
-
-import useFetchGroupMembers from "@hooks/useFetchGroupMembers";
-import useErrorModalVisibility from "@hooks/useErrorModalVisibility";
-
-import Spinner from "@components/Spinner/Spinner";
-import RenderGroupExpense from "@components/GroupBalancesAndHistory/GroupHistory/RenderGroupExpense/RenderGroupExpense";
-import RenderGroupPayment from "@components/GroupBalancesAndHistory/GroupHistory/RenderGroupPayment/RenderGroupPayment";
-import NoGroupTransactions from "@components/GroupBalancesAndHistory/GroupHistory/NoGroupTransactions/NoGroupTransactions";
-import ErrorModal from "@components/ErrorModal/ErrorModal";
-import NotEnoughGroupMembers from "@components/GroupBalancesAndHistory/NotEnoughGroupMembers/NotEnoughGroupMembers";
-import RenderGroupExpensesTotal from "@components/GroupBalancesAndHistory/GroupHistory/RenderTotalGroupExpenses/RenderGroupExpensesTotal";
 
 import styles from "./RenderGroupHistory.module.css";
 
-import { API_URL } from "@client-constants/apiConstants";
+import useErrorModalVisibility from "../../../../hooks/useErrorModalVisibility";
+import useFetchGroupMembers from "../../../../hooks/useFetchGroupMembers";
+import { devLog } from "../../../../utils/errorUtils";
+import RenderGroupExpensesTotal from "../RenderTotalGroupExpenses/RenderGroupExpensesTotal";
+import Spinner from "../../../Spinner/Spinner";
+import RenderGroupExpense from "../RenderGroupExpense/RenderGroupExpense";
+import RenderGroupPayment from "../RenderGroupPayment/RenderGroupPayment";
+import NoGroupTransactions from "../NoGroupTransactions/NoGroupTransactions";
+import NotEnoughGroupMembers from "../../NotEnoughGroupMembers/NotEnoughGroupMembers";
+import ErrorModal from "../../../ErrorModal/ErrorModal";
+import { fetchGroupTransactions } from "../../../../api/groups/fetchGroupTransactions.js";
 
 const RenderGroupHistory = ({ groupCode, groupCurrency }) => {
   const { t } = useTranslation();
@@ -32,11 +28,8 @@ const RenderGroupHistory = ({ groupCode, groupCurrency }) => {
   useEffect(() => {
     const fetchGroupExpensesAndPayments = async () => {
       try {
-        const response = await axios.get(
-          `${API_URL}/groups/${groupCode}/expenses-and-payments`,
-        );
-        const { groupExpensesAndPayments: data } = response.data;
-        devLog("Group expenses and payments data fetched:", response);
+        const data = await fetchGroupTransactions(groupCode);
+        console.log("data");
 
         if (data?.length) {
           const modifiedData = data

@@ -3,16 +3,12 @@ import axios from "axios";
 import { FormControlLabel, Switch } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
-import { INACTIVE_DAYS } from "@client-constants/dataConstants";
-
-import useErrorModalVisibility from "@hooks/useErrorModalVisibility";
-
-import ErrorModal from "@components/ErrorModal/ErrorModal";
-
 import styles from "./ChangeDataPurgeSetting.module.css";
-import { devLog } from "@/utils/errorUtils";
-
-import { API_URL } from "@client-constants/apiConstants";
+import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
+import { API_URL } from "../../../constants/apiConstants";
+import { devLog } from "../../../utils/errorUtils";
+import { INACTIVE_DAYS } from "../../../constants/dataConstants";
+import ErrorModal from "../../ErrorModal/ErrorModal";
 
 const ChangeDataPurgeSetting = ({ groupCode, inactiveDataPurge }) => {
   const { t } = useTranslation();

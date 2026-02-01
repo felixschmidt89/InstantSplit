@@ -251,6 +251,7 @@ export const changeGroupCurrency = async (req, res) => {
   }
 };
 
+// TODO: DELETE
 export const listExpensesAndPaymentsByGroup = async (req, res) => {
   try {
     const { groupCode } = req.params;

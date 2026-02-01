@@ -1,16 +1,15 @@
-import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
-import { MOCK_LOCALSTORAGE_VALUES } from "@shared-constants/testConstants";
 import { deleteGroupCode } from "./deleteGroupCode";
 import { getStoredGroupCodes } from "./getStoredGroupCodes";
 import { setLocalStorageKey } from "./setLocalStorageKey";
 import { getActiveGroupCode } from "./getActiveGroupCode";
 import { deleteActiveGroupCode } from "./deleteActiveGroupCode";
+import { MOCK_LOCALSTORAGE_VALUES } from "../../../../shared/constants/testConstants";
+import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
 
 jest.mock("./getStoredGroupCodes");
 jest.mock("./setLocalStorageKey");
 jest.mock("./getActiveGroupCode");
 jest.mock("./deleteActiveGroupCode");
-jest.mock("@shared-utils/debug/debugLog");
 
 describe("deleteGroupCode", () => {
   const { STORED_GROUP_CODES, ACTIVE_GROUP_CODE, NEW_TEST_GROUP_CODE } =

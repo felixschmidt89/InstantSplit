@@ -3,13 +3,12 @@ import { Button } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import HistoryIcon from "@mui/icons-material/History";
 
-import {
-  setPreviousRoute,
-  setNestedPreviousRoute,
-} from "@client-utils/localStorage";
-
 import styles from "./RouteButton.module.css";
-import { routeButtonStyles } from "@/constants/stylesConstants";
+import {
+  setNestedPreviousRoute,
+  setPreviousRoute,
+} from "../../../utils/localStorage";
+import { routeButtonStyles } from "../../../constants/stylesConstants";
 
 const iconMap = {
   edit: EditIcon,

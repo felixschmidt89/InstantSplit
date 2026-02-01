@@ -10,8 +10,8 @@ import FormSubmitButton from "../FormSubmitButton/FormSubmitButton";
 import ErrorModal from "../ErrorModal/ErrorModal";
 import { ROUTES } from "../../constants/routesConstants";
 import styles from "./ChangeResourceName.module.css";
+import { API_URL } from "../../constants/apiConstants";
 
-import { API_URL } from "@client-constants/apiConstants";
 const ChangeResourceName = ({
   resourceId,
   resourceType,

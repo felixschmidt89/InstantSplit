@@ -1,12 +1,11 @@
 import { useTranslation } from "react-i18next";
 
-import { getLocalizedDateString } from "@shared-utils/dateUtils";
-import { DEFAULT_LANGUAGE } from "@shared-constants/languageConstants";
-
 import { LAST_UPDATE_DATE } from "../termsAndConditionsConstants";
 
 import styles from "./Disclaimer.module.css";
-import { getLanguage } from "@/utils/localStorage/index.js";
+import { DEFAULT_LANGUAGE } from "../../../../../shared/constants/languageConstants";
+import { getLanguage } from "../../../utils/localStorage";
+import { getLocalizedDateString } from "../../../../../shared/utils/dateUtils";
 
 const Disclaimer = () => {
   const { t } = useTranslation();

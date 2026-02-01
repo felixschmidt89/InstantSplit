@@ -1,8 +1,11 @@
-import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
-import { VIEW_TYPES, LEGACY_VIEW_TYPES } from "@client-constants/viewConstants";
 import { getStoredView } from "./getStoredView.js";
 import { getLocalStorageKey } from "./getLocalStorageKey.js";
 import { deleteLocalStorageKey } from "./deleteLocalStorageKey.js";
+import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants.js";
+import {
+  LEGACY_VIEW_TYPES,
+  VIEW_TYPES,
+} from "../../constants/viewConstants.js";
 
 jest.mock("./getLocalStorageKey");
 jest.mock("./deleteLocalStorageKey");

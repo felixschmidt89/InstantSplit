@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-
 import {
-  getPreviousRoute,
   getNestedPreviousRoute,
-} from "@/utils/localStorage/index.js";
+  getPreviousRoute,
+} from "../utils/localStorage";
 
 const useDetermineUpdateTransactionPageOpeningSource = () => {
   const [openedViaGroupHistory, setOpenedViaGroupHistory] = useState(false);

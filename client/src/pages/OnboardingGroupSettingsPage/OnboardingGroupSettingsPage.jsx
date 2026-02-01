@@ -1,19 +1,16 @@
 import { useTranslation } from "react-i18next";
 
-import useFetchGroupData from "@hooks/useFetchGroupData";
-
-import HelmetMetaTagsNetlify from "@components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "@components/PiratePx/PiratePx";
-import InAppNavigationBar from "@components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-import ChangeGroupCurrency from "@components/GroupSettings/ChangeGroupCurrency/ChangeGroupCurrency";
-import ChangeDataPurgeSetting from "@components/GroupSettings/ChangeDataPurgeSetting/ChangeDataPurgeSetting";
-import GroupCodeSecurity from "@components/GroupSettings/GroupCodeSecurity/GroupCodeSecurity";
-import Spinner from "@components/Spinner/Spinner";
-
-import { ROUTES } from "@client-constants/routesConstants";
-
 import styles from "./OnboardingGroupSettingsPage.module.css";
-import { getActiveGroupCode } from "@/utils/localStorage/index.js";
+import { getActiveGroupCode } from "../../utils/localStorage";
+import useFetchGroupData from "../../hooks/useFetchGroupData";
+import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
+import PiratePx from "../../components/PiratePx/PiratePx";
+import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
+import { ROUTES } from "../../constants/routesConstants";
+import Spinner from "../../components/Spinner/Spinner";
+import ChangeGroupCurrency from "../../components/GroupSettings/ChangeGroupCurrency/ChangeGroupCurrency";
+import ChangeDataPurgeSetting from "../../components/GroupSettings/ChangeDataPurgeSetting/ChangeDataPurgeSetting";
+import GroupCodeSecurity from "../../components/GroupSettings/GroupCodeSecurity/GroupCodeSecurity";
 
 const OnboardingGroupSettingsPage = () => {
   const { t } = useTranslation();

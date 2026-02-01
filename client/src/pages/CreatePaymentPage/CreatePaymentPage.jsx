@@ -1,17 +1,13 @@
 import { useTranslation } from "react-i18next";
 
-import { getActiveGroupCode } from "@/utils/localStorage/index.js";
-
-import useFetchGroupMembers from "@hooks/useFetchGroupMembers";
-
-import HelmetMetaTagsNetlify from "@components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "@components/PiratePx/PiratePx";
-import Spinner from "@components/Spinner/Spinner";
-import CreatePayment from "@components/Payments/CreatePayment/CreatePayment";
-import CreateGroupMemberCTA from "@components/GroupBalancesAndHistory/CreateGroupMemberCTA/CreateGroupMemberCTA";
-import InAppNavigationBar from "@components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-
 import styles from "./CreatePaymentPage.module.css";
+import { getActiveGroupCode } from "../../utils/localStorage";
+import useFetchGroupMembers from "../../hooks/useFetchGroupMembers";
+import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
+import PiratePx from "../../components/PiratePx/PiratePx";
+import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
+import CreateGroupMemberCTA from "../../components/GroupBalancesAndHistory/CreateGroupMemberCTA/CreateGroupMemberCTA";
+import CreatePayment from "../../components/Payments/CreatePayment/CreatePayment";
 
 const CreatePaymentPage = () => {
   const { t } = useTranslation();

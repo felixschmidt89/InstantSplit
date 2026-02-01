@@ -1,22 +1,10 @@
-// React and Third-Party Libraries
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 
-// Constants and Utils
-import { devLog } from "../utils/errorUtils";
+import { API_URL } from "../constants/apiConstants";
+import { debugLog } from "../../../shared/utils/debug";
 
-// API
-import { API_URL } from "@client-constants/apiConstants";
-/**
- * Custom hook for fetching group members.
- *
- * @param {string} groupCode - The groupCode of the group to fetch members for.
- * @returns {Object} - Object containing group members and fetch status.
- * @property {string[]} groupMembers - Array of group members' usernames.
- * @property {boolean} isFetched - Indicates whether the group members have been successfully fetched.
- * @property {Error|null} error - The error object if an error occurred during fetching, otherwise null.
- */
 const useFetchGroupMembers = (groupCode) => {
   const { t } = useTranslation();
   const [groupMembers, setGroupMembers] = useState([]);
@@ -31,17 +19,17 @@ const useFetchGroupMembers = (groupCode) => {
         );
         const userData = response.data.users;
         const userNames = userData.map((user) => user.userName);
-        devLog("Group members fetched:", response);
+        debugLog("Group members fetched:", response);
         setGroupMembers(userNames);
         setIsFetched(true);
       } catch (error) {
-        devLog("Error fetching group members:", error);
+        debugLog("Error fetching group members:", error);
         setError(t("generic-error-message"));
       }
     };
 
     fetchGroupMembers();
-  }, [groupCode]);
+  }, [groupCode, t]);
 
   return { groupMembers, isFetched, error };
 };

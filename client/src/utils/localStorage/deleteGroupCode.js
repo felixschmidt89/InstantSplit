@@ -1,9 +1,9 @@
-import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
 import { getStoredGroupCodes } from "./getStoredGroupCodes";
 import { setLocalStorageKey } from "./setLocalStorageKey";
 import { getActiveGroupCode } from "./getActiveGroupCode";
 import { deleteActiveGroupCode } from "./deleteActiveGroupCode";
-import { debugLog } from "@shared-utils/debug/debugLog";
+import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
+import { debugLog } from "../../../../shared/utils/debug";
 
 export const deleteGroupCode = (groupCode) => {
   try {

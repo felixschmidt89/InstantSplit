@@ -3,19 +3,15 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 
-import { devLog } from "@client-utils/errorUtils";
-import emojiConstants from "@client-constants/emojiConstants";
-
-import useErrorModalVisibility from "@hooks/useErrorModalVisibility";
-
-import Spinner from "@components/Spinner/Spinner";
-import ErrorModal from "@components/ErrorModal/ErrorModal";
-import Emoji from "@components/Emoji/Emoji";
-import DeleteGroupMemberBin from "@components/CreateGroupMember/DeleteGroupMemberBin/DeleteGroupMemberBin";
-
 import styles from "./RenderGroupMemberNames.module.css";
-
-import { API_URL } from "@client-constants/apiConstants";
+import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
+import { API_URL } from "../../../constants/apiConstants";
+import { devLog } from "../../../utils/errorUtils";
+import emojiConstants from "../../../constants/emojiConstants";
+import DeleteGroupMemberBin from "../DeleteGroupMemberBin/DeleteGroupMemberBin";
+import Spinner from "../../Spinner/Spinner";
+import Emoji from "../../Emoji/Emoji";
+import ErrorModal from "../../ErrorModal/ErrorModal";
 
 const RenderGroupMemberNames = ({
   rerenderTrigger,

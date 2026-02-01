@@ -1,14 +1,14 @@
+import { getStoredGroupCodes } from "./getStoredGroupCodes";
+import { getLocalStorageKey } from "./getLocalStorageKey";
+import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
+import { debugLog } from "../../../../shared/utils/debug";
 import {
   MOCK_DATA,
   MOCK_LOCALSTORAGE_VALUES,
-} from "@shared-constants/testConstants";
-import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
-import { getStoredGroupCodes } from "./getStoredGroupCodes";
-import { getLocalStorageKey } from "./getLocalStorageKey";
-import { debugLog } from "@shared-utils/debug/debugLog";
+} from "../../../../shared/constants/testConstants";
 
 jest.mock("./getLocalStorageKey");
-jest.mock("@shared-utils/debug/debugLog");
+jest.mock("../../../../shared/utils/debug");
 
 describe("getStoredGroupCodes", () => {
   const mockKey = LOCAL_STORAGE_KEYS.STORED_GROUP_CODES;

@@ -10,32 +10,6 @@
     "isolatedModules": true,
     "noEmit": true,
 
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["client/src/*"],
-      "@client/*": ["client/src/*"],
-
-      "@shared-utils/*": ["shared/utils/*"],
-      "@shared-constants/*": ["shared/constants/*"],
-
-      "@components/*": ["client/src/components/*"],
-      "@pages/*": ["client/src/pages/*"],
-      "@assets/*": ["client/src/assets/*"],
-      "@client-utils/*": ["client/src/utils/*"],
-      "@client-constants/*": ["client/src/constants/*"],
-      "@hooks/*": ["client/src/hooks/*"],
-
-      "@server/*": ["server/*"],
-      "@server-config/*": ["server/config/*"],
-      "@routes/*": ["server/routes/*"],
-      "@models/*": ["server/models/*"],
-      "@controllers/*": ["server/controllers/*"],
-      "@server-utils/*": ["server/utils/*"],
-      "@server-constants/*": ["server/constants/*"],
-
-      "@docs/*": ["docs/*"]
-    },
-
     "strict": true,
     "strictNullChecks": true,
     "strictFunctionTypes": true,
@@ -47,6 +21,6 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["client/src", "server", "docs", "shared/utils/debug/debugLog.js"],
+  "include": ["client/src", "server", "docs", "shared"],
   "exclude": ["node_modules", "client/dist", "server/dist"]
 }

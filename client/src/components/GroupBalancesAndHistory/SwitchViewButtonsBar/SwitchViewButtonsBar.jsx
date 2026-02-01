@@ -1,15 +1,14 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-import {
-  VIEW_TYPES,
-  HISTORY_VIEWS,
-  BALANCE_VIEWS,
-} from "@client-constants/viewConstants";
-
 import SwitchViewButton from "../SwitchViewButton/SwitchViewButton";
 
 import styles from "./SwitchViewButtonsBar.module.css";
+import {
+  BALANCE_VIEWS,
+  HISTORY_VIEWS,
+  VIEW_TYPES,
+} from "../../../constants/viewConstants";
 
 const SwitchViewButtonsBar = ({ view, updateView }) => {
   const { t } = useTranslation();

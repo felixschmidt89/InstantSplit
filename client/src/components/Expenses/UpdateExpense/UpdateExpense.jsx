@@ -4,22 +4,18 @@ import axios from "axios";
 import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
-import { devLog, handleApiErrors } from "@client-utils/errorUtils";
-import { buttonStyles } from "@client-constants/stylesConstants";
-import { changeFixedDebitorCreditorOrderSetting } from "@client-utils/settlementUtils";
-import { ROUTES } from "@client-constants/routesConstants";
-
-import useErrorModalVisibility from "@hooks/useErrorModalVisibility";
-
-import ExpenseDescriptionInput from "@components/Expenses/ExpenseDescriptionInput/ExpenseDescriptionInput";
-import ExpenseAmountInput from "@components/Expenses/ExpenseAmountInput/ExpenseAmountInput";
-import ExpensePayerSelect from "@components/Expenses/ExpensePayerSelect/ExpensePayerSelect";
-import ExpenseBeneficiariesInput from "@components/Expenses/ExpenseBeneficiariesInput/ExpenseBeneficiariesInput";
-import ErrorModal from "@components/ErrorModal/ErrorModal";
-
 import styles from "./UpdateExpense.module.css";
-
-import { API_URL } from "@client-constants/apiConstants";
+import { ROUTES } from "../../../constants/routesConstants";
+import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
+import { API_URL } from "../../../constants/apiConstants";
+import { changeFixedDebitorCreditorOrderSetting } from "../../../utils/settlementUtils";
+import { devLog, handleApiErrors } from "../../../utils/errorUtils";
+import ExpenseDescriptionInput from "../ExpenseDescriptionInput/ExpenseDescriptionInput";
+import ExpenseAmountInput from "../ExpenseAmountInput/ExpenseAmountInput";
+import ExpensePayerSelect from "../ExpensePayerSelect/ExpensePayerSelect";
+import ExpenseBeneficiariesInput from "../ExpenseBeneficiariesInput/ExpenseBeneficiariesInput";
+import { buttonStyles } from "../../../constants/stylesConstants";
+import ErrorModal from "../../ErrorModal/ErrorModal";
 
 const UpdateExpense = ({
   expenseInfo,

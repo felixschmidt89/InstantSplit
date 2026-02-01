@@ -2,9 +2,9 @@ import axios from "axios";
 import { createGroup } from "./createGroup";
 import {
   MOCK_API_RESPONSES,
-  MOCK_GROUP_DATA,
   MOCK_FULL_URLS,
-} from "@shared-constants/testConstants";
+  MOCK_GROUP_DATA,
+} from "../../../../shared/constants/testConstants";
 
 jest.mock("axios");
 

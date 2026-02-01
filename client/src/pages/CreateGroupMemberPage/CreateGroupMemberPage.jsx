@@ -1,16 +1,15 @@
 import { useTranslation } from "react-i18next";
 
-import { ROUTES } from "@client-constants/routesConstants";
-import { getPreviousRoute } from "@/utils/localStorage/index.js";
-import useTriggerRerender from "@hooks/useTriggerRerender";
-
-import HelmetMetaTagsNetlify from "@components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "@components/PiratePx/PiratePx";
-import InAppNavigationBar from "@components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-import CreateGroupMemberForm from "@components/CreateGroupMember/CreateGroupMemberForm/CreateGroupMemberForm";
-import RenderGroupMemberNames from "@components/CreateGroupMember/RenderGroupMemberNames/RenderGroupMemberNames";
-
 import styles from "./CreateGroupMemberPage.module.css";
+import useTriggerRerender from "../../hooks/useTriggerRerender";
+import { getPreviousRoute } from "../../utils/localStorage";
+import { ROUTES } from "../../constants/routesConstants";
+import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
+import PiratePx from "../../components/PiratePx/PiratePx";
+import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
+import CreateGroupMemberForm from "../../components/CreateGroupMember/CreateGroupMemberForm/CreateGroupMemberForm";
+import RenderGroupMemberNames from "../../components/CreateGroupMember/RenderGroupMemberNames/RenderGroupMemberNames";
+import { debugLog } from "../../../../shared/utils/debug/debugLog.js";
 
 const CreateGroupMemberPage = () => {
   const { t } = useTranslation();
@@ -18,6 +17,8 @@ const CreateGroupMemberPage = () => {
     useTriggerRerender();
 
   const previousRoute = getPreviousRoute();
+
+  debugLog("Current previousRoute in Page:", previousRoute);
 
   const isNewUser = !!previousRoute?.includes(ROUTES.ONBOARDING.CREATE_GROUP);
   const isInAppGroupCreation = !!previousRoute?.includes(ROUTES.MANAGE_GROUPS);

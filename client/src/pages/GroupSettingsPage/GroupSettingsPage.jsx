@@ -1,21 +1,18 @@
 import { useTranslation } from "react-i18next";
 
-import { getActiveGroupCode } from "@/utils/localStorage/index.js";
-
-import useFetchGroupData from "@hooks/useFetchGroupData";
-import useSettingsEmoji from "@hooks/useSettingsEmoji";
-
-import HelmetMetaTagsNetlify from "@components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "@components/PiratePx/PiratePx";
-import Emoji from "@components/Emoji/Emoji";
-import InAppNavigationBar from "@components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-import Spinner from "@components/Spinner/Spinner";
-import ChangeGroupCurrency from "@components/GroupSettings/ChangeGroupCurrency/ChangeGroupCurrency";
-import ChangeDataPurgeSetting from "@components/GroupSettings/ChangeDataPurgeSetting/ChangeDataPurgeSetting";
-import GroupCodeSecurity from "@components/GroupSettings/GroupCodeSecurity/GroupCodeSecurity";
-import ChangeGroupName from "@components/GroupSettings/ChangeGroupName/ChangeGroupName";
-
 import styles from "./GroupSettingsPage.module.css";
+import useSettingsEmoji from "../../hooks/useSettingsEmoji";
+import { getActiveGroupCode } from "../../utils/localStorage";
+import useFetchGroupData from "../../hooks/useFetchGroupData";
+import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
+import PiratePx from "../../components/PiratePx/PiratePx";
+import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
+import Emoji from "../../components/Emoji/Emoji";
+import Spinner from "../../components/Spinner/Spinner";
+import ChangeGroupName from "../../components/GroupSettings/ChangeGroupName/ChangeGroupName";
+import ChangeGroupCurrency from "../../components/GroupSettings/ChangeGroupCurrency/ChangeGroupCurrency";
+import ChangeDataPurgeSetting from "../../components/GroupSettings/ChangeDataPurgeSetting/ChangeDataPurgeSetting";
+import GroupCodeSecurity from "../../components/GroupSettings/GroupCodeSecurity/GroupCodeSecurity";
 
 const GroupSettingsPage = () => {
   const { t } = useTranslation();

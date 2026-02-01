@@ -1,4 +1,4 @@
-import { devLog } from "@client-utils/errorUtils";
+import { debugLog } from "../../../../shared/utils/debug";
 import { getStoredGroupCodes } from "./getStoredGroupCodes";
 
 export const getFirstGroupCode = () => {
@@ -7,7 +7,7 @@ export const getFirstGroupCode = () => {
 
     return storedGroupCodes?.length ? storedGroupCodes[0] : null;
   } catch (error) {
-    devLog(
+    debugLog(
       `Error retrieving the first groupCode from the storedGroupCodes array:`,
       error,
     );

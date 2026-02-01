@@ -9,10 +9,9 @@ import emojiConstants from "../../../constants/emojiConstants";
 import Emoji from "../../Emoji/Emoji";
 import { ROUTES } from "../../../constants/routesConstants";
 import styles from "./ConfirmSettlementPayment.module.css";
-import { VIEW_TYPES } from "@client-constants/viewConstants";
-import { setStoredView } from "@client-utils/localStorage";
-
-import { API_URL } from "@client-constants/apiConstants";
+import { API_URL } from "../../../constants/apiConstants";
+import { VIEW_TYPES } from "../../../constants/viewConstants";
+import { setStoredView } from "../../../utils/localStorage";
 
 const ConfirmSettlementPayment = ({
   fixedDebitorCreditorOrder,

@@ -1,13 +1,11 @@
 import { useTranslation } from "react-i18next";
 
-import { getPreviousRoute } from "@/utils/localStorage/index.js";
-
-import HelmetMetaTagsNetlify from "@components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "@components/PiratePx/PiratePx";
-import TermsAndConditions from "@components/TermsAndConditions/TermsAndConditions/TermsAndConditions";
-import InAppNavigationBar from "@components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-
 import styles from "./TermsAndConditionsPage.module.css";
+import TermsAndConditions from "../../components/TermsAndConditions/TermsAndConditions/TermsAndConditions";
+import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
+import PiratePx from "../../components/PiratePx/PiratePx";
+import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
+import { getPreviousRoute } from "../../utils/localStorage";
 
 const TermsAndConditionsPage = () => {
   const { t } = useTranslation();

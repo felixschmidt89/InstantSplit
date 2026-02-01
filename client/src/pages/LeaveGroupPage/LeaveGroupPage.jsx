@@ -3,25 +3,23 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
+import styles from "./LeaveGroupPage.module.css";
+import useConfirmationModalLogicAndActions from "../../hooks/useConfirmationModalLogicAndActions";
 import {
+  deleteGroupCode,
   deleteNestedPreviousRoute,
   deletePreviousRoute,
   deleteStoredView,
   getFirstGroupCode,
   setActiveGroupCode,
-} from "@client-utils/localStorage";
-import { buttonStyles } from "@client-constants/stylesConstants";
-import { ROUTES } from "@client-constants/routesConstants";
-
-import HelmetMetaTagsNetlify from "@components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "@components/PiratePx/PiratePx";
-import CopyToClipboard from "@components/CopyToClipboard/CopyToClipboard";
-import InAppNavigationBar from "@components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-import ConfirmationModal from "@components/ConfirmationModal/ConfirmationModal";
-
-import styles from "./LeaveGroupPage.module.css";
-import useConfirmationModalLogicAndActions from "@hooks/useConfirmationModalLogicAndActions";
-import { deleteGroupCode } from "@/utils/localStorage/deleteGroupCode";
+} from "../../utils/localStorage";
+import { ROUTES } from "../../constants/routesConstants";
+import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
+import PiratePx from "../../components/PiratePx/PiratePx";
+import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
+import CopyToClipboard from "../../components/CopyToClipboard/CopyToClipboard";
+import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
+import { buttonStyles } from "../../constants/stylesConstants";
 
 const LeaveGroupPage = () => {
   const { groupName, groupCode } = useParams();

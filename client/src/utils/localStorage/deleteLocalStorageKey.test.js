@@ -1,14 +1,14 @@
+import { setLocalStorageKey } from "./setLocalStorageKey";
+import { deleteLocalStorageKey } from "./deleteLocalStorageKey";
+import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
 import {
   MOCK_DATA,
   MOCK_ERROR_MESSAGES,
-} from "@shared-constants/testConstants";
-import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
-import { setLocalStorageKey } from "./setLocalStorageKey";
-import { deleteLocalStorageKey } from "./deleteLocalStorageKey";
-import { debugLog } from "@shared-utils/debug/debugLog";
+} from "../../../../shared/constants/testConstants";
+import { debugLog } from "../../../../shared/utils/debug";
 
 jest.mock("./deleteLocalStorageKey");
-jest.mock("@shared-utils/debug/debugLog");
+jest.mock("../../../../shared/utils/debug");
 
 describe("setLocalStorageKey", () => {
   const mockKey = LOCAL_STORAGE_KEYS.ACTIVE_GROUP_CODE;

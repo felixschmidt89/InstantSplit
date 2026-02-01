@@ -4,22 +4,18 @@ import axios from "axios";
 import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
-import { buttonStyles } from "@client-constants/stylesConstants";
-import { devLog, handleApiErrors } from "@client-utils/errorUtils";
-import { changeFixedDebitorCreditorOrderSetting } from "@client-utils/settlementUtils";
-import { ROUTES } from "@client-constants/routesConstants";
-
-import useErrorModalVisibility from "@hooks/useErrorModalVisibility";
-
-import ExpenseBeneficiariesInput from "@components/Expenses/ExpenseBeneficiariesInput/ExpenseBeneficiariesInput";
-import ExpenseAmountInput from "@components/Expenses/ExpenseAmountInput/ExpenseAmountInput";
-import ExpenseDescriptionInput from "@components/Expenses/ExpenseDescriptionInput/ExpenseDescriptionInput";
-import ExpensePayerSelect from "@components/Expenses/ExpensePayerSelect/ExpensePayerSelect";
-import ErrorModal from "@components/ErrorModal/ErrorModal";
-
 import styles from "./CreateExpense.module.css";
-
-import { API_URL } from "@client-constants/apiConstants";
+import { API_URL } from "../../../constants/apiConstants";
+import { changeFixedDebitorCreditorOrderSetting } from "../../../utils/settlementUtils";
+import { devLog, handleApiErrors } from "../../../utils/errorUtils";
+import { ROUTES } from "../../../constants/routesConstants";
+import { buttonStyles } from "../../../constants/stylesConstants";
+import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
+import ExpenseDescriptionInput from "../ExpenseDescriptionInput/ExpenseDescriptionInput";
+import ExpenseAmountInput from "../ExpenseAmountInput/ExpenseAmountInput";
+import ExpensePayerSelect from "../ExpensePayerSelect/ExpensePayerSelect";
+import ExpenseBeneficiariesInput from "../ExpenseBeneficiariesInput/ExpenseBeneficiariesInput";
+import ErrorModal from "../../ErrorModal/ErrorModal";
 
 const CreateExpense = ({ groupMembers, groupCode }) => {
   const navigate = useNavigate();

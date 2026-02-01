@@ -5,27 +5,23 @@ import { Button } from "@mui/material";
 import { IoArrowDownOutline } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
 
-import { devLog, handleApiErrors } from "@client-utils/errorUtils";
-import emojiConstants from "@client-constants/emojiConstants";
-import { buttonStyles } from "@client-constants/stylesConstants";
+import styles from "./CreatePayment.module.css";
+import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
+import { API_URL } from "../../../constants/apiConstants";
+import { devLog, handleApiErrors } from "../../../utils/errorUtils";
 import {
   changeFixedDebitorCreditorOrderSetting,
   deleteAllSettlementsForGroup,
-} from "@client-utils/settlementUtils";
-import { ROUTES } from "@client-constants/routesConstants";
-
-import useErrorModalVisibility from "@hooks/useErrorModalVisibility";
-
-import PaymentAmountInput from "@components/Payments/PaymentAmountInput/PaymentAmountInput";
-import PaymentMakerSelect from "@components/Payments/PaymentMakerSelect/PaymentMakerSelect";
-import PaymentRecipientSelect from "@components/Payments/PaymentRecipientSelect/PaymentRecipientSelect";
-import ErrorModal from "@components/ErrorModal/ErrorModal";
-import Emoji from "@components/Emoji/Emoji";
-import RenderReactIcon from "@components/RenderReactIcon/RenderReactIcon";
-
-import styles from "./CreatePayment.module.css";
-
-import { API_URL } from "@client-constants/apiConstants";
+} from "../../../utils/settlementUtils";
+import { ROUTES } from "../../../constants/routesConstants";
+import PaymentAmountInput from "../PaymentAmountInput/PaymentAmountInput";
+import PaymentMakerSelect from "../PaymentMakerSelect/PaymentMakerSelect";
+import RenderReactIcon from "../../RenderReactIcon/RenderReactIcon";
+import Emoji from "../../Emoji/Emoji";
+import emojiConstants from "../../../constants/emojiConstants";
+import PaymentRecipientSelect from "../PaymentRecipientSelect/PaymentRecipientSelect";
+import { buttonStyles } from "../../../constants/stylesConstants";
+import ErrorModal from "../../ErrorModal/ErrorModal";
 
 const CreatePayment = ({ groupMembers, groupCode }) => {
   const navigate = useNavigate();

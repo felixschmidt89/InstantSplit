@@ -1,4 +1,4 @@
-import { devLog } from "@client-utils/errorUtils";
+import { debugLog } from "../../../../shared/utils/debug";
 import { getStoredGroupCodes } from "./getStoredGroupCodes";
 
 export const isGroupCodeInStoredGroupCodes = (groupCode) => {
@@ -7,7 +7,7 @@ export const isGroupCodeInStoredGroupCodes = (groupCode) => {
 
     return !!storedGroupCodes?.includes(groupCode);
   } catch (error) {
-    devLog("Error checking if groupCode is in storedGroupCodes:", error);
+    debugLog("Error checking if groupCode is in storedGroupCodes:", error);
 
     return false;
   }

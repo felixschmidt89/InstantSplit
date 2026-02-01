@@ -4,8 +4,8 @@ import { StatusCodes } from "http-status-codes";
 import { useTranslation } from "react-i18next";
 
 import { devLog } from "../utils/errorUtils";
-import { API_URL } from "@client-constants/apiConstants";
-import { API_ROUTES } from "@shared-constants/apiRoutesConstants";
+import { API_ROUTES } from "../../../shared/constants/apiRoutesConstants";
+import { API_URL } from "../constants/apiConstants";
 
 function useValidateGroupExistence(groupCode, validationType = "continuous") {
   const [groupExists, setGroupExists] = useState(null);

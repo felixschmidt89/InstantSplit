@@ -4,18 +4,15 @@ import axios from "axios";
 import { useTranslation } from "react-i18next";
 import { usePWAInstall } from "react-use-pwa-install";
 
-import { devLog } from "@client-utils/errorUtils";
-import { ROUTES } from "@client-constants/routesConstants";
-
-import useErrorModalVisibility from "@hooks/useErrorModalVisibility";
-import useGetClientDeviceAndPwaInfo from "@hooks/useGetClientDeviceAndPwaInfo";
-
-import ContactForm from "@components/Contact/ContactForm/ContactForm";
-import SuccessFeedback from "@components/Contact/ContactForm/SuccessFeedback/SuccessFeedback";
-import ErrorModal from "@components/ErrorModal/ErrorModal";
-
 import styles from "./Contact.module.css";
-import { API_URL } from "@/constants/apiConstants";
+import useGetClientDeviceAndPwaInfo from "../../../hooks/useGetClientDeviceAndPwaInfo";
+import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
+import { API_URL } from "../../../constants/apiConstants";
+import { devLog } from "../../../utils/errorUtils";
+import { ROUTES } from "../../../constants/routesConstants";
+import ContactForm from "../ContactForm/ContactForm";
+import ErrorModal from "../../ErrorModal/ErrorModal";
+import SuccessFeedback from "../ContactForm/SuccessFeedback/SuccessFeedback";
 
 const Contact = () => {
   const { t } = useTranslation();

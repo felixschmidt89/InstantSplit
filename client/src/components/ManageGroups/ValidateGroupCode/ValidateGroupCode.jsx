@@ -2,15 +2,12 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-import { submitOnEnterClick } from "@client-utils/formUtils";
-import { sendFormSubmitButtonStyles } from "@client-constants/stylesConstants";
-
-import useErrorModalVisibility from "@hooks/useErrorModalVisibility";
-
-import FormSubmitButton from "@components/FormSubmitButton/FormSubmitButton";
-import ErrorModal from "@components/ErrorModal/ErrorModal";
-
 import styles from "./ValidateGroupCode.module.css";
+import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
+import { submitOnEnterClick } from "../../../utils/formUtils";
+import FormSubmitButton from "../../FormSubmitButton/FormSubmitButton";
+import { sendFormSubmitButtonStyles } from "../../../constants/stylesConstants";
+import ErrorModal from "../../ErrorModal/ErrorModal";
 
 const ValidateGroupCode = ({ isExistingUser = false }) => {
   const { t } = useTranslation();

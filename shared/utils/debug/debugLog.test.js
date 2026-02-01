@@ -1,46 +1,73 @@
-import { MOCK_LOGS, MOCK_LOG_METHODS } from "@shared-constants/testConstants";
-import { debugLog } from "./debugLog";
+import { LOG_LEVELS, LOG_SOURCES } from "../../constants/debugConstants.js";
+import {
+  MOCK_LOGS,
+  MOCK_LOG_METHODS,
+  MOCK_DATA,
+} from "../../constants/testConstants.js";
+import { debugLog } from "./debugLog.js";
 
 describe("debugLog", () => {
-  let logSpy;
-  let errorSpy;
+  const originalEnv = process.env.NODE_ENV;
+  const logSpy = jest
+    .spyOn(console, MOCK_LOG_METHODS.LOG)
+    .mockImplementation(() => {});
+  const errorSpy = jest
+    .spyOn(console, MOCK_LOG_METHODS.ERROR)
+    .mockImplementation(() => {});
 
   beforeEach(() => {
-    logSpy = jest
-      .spyOn(console, MOCK_LOG_METHODS.LOG)
-      .mockImplementation(() => {});
-    errorSpy = jest
-      .spyOn(console, MOCK_LOG_METHODS.ERROR)
-      .mockImplementation(() => {});
+    jest.clearAllMocks();
+    process.env.NODE_ENV = "development";
   });
 
-  afterEach(() => {
-    jest.restoreAllMocks();
+  afterAll(() => {
+    process.env.NODE_ENV = originalEnv;
+    logSpy.mockRestore();
+    errorSpy.mockRestore();
   });
 
-  test("should log default 'debug' message when no arguments are provided", () => {
-    debugLog();
-    expect(logSpy).toHaveBeenCalledWith(MOCK_LOGS.DEFAULT_MESSAGE);
+  it("should log a basic message with default INFO level", () => {
+    debugLog(MOCK_LOGS.TEST_MESSAGE);
+
+    const expectedOutput = `${LOG_LEVELS.INFO.toUpperCase()}: ${MOCK_LOGS.TEST_MESSAGE}`;
+    expect(logSpy).toHaveBeenCalledWith(expectedOutput);
   });
 
-  test("should log provided info message constant", () => {
-    debugLog(MOCK_LOGS.INFO_MESSAGE);
-    expect(logSpy).toHaveBeenCalledWith(MOCK_LOGS.INFO_MESSAGE);
-  });
-
-  test("should log message and associated data object", () => {
-    debugLog(MOCK_LOGS.INFO_MESSAGE, MOCK_LOGS.GENERIC_OBJECT);
-    expect(logSpy).toHaveBeenCalledWith(
-      MOCK_LOGS.INFO_MESSAGE,
-      MOCK_LOGS.GENERIC_OBJECT,
+  it("should include the source tag when LOG_SOURCES.SERVER is provided", () => {
+    debugLog(
+      MOCK_LOGS.TEST_MESSAGE,
+      undefined,
+      LOG_LEVELS.INFO,
+      LOG_SOURCES.SERVER,
     );
+
+    const expectedOutput = `[${LOG_SOURCES.SERVER.toUpperCase()}] ${LOG_LEVELS.INFO.toUpperCase()}: ${MOCK_LOGS.TEST_MESSAGE}`;
+    expect(logSpy).toHaveBeenCalledWith(expectedOutput);
   });
 
-  test("should route to console.error when data is an Error instance", () => {
-    debugLog(MOCK_LOGS.ERROR_CONTEXT, MOCK_LOGS.TEST_ERROR);
-    expect(errorSpy).toHaveBeenCalledWith(
-      MOCK_LOGS.ERROR_CONTEXT,
-      MOCK_LOGS.TEST_ERROR,
+  it("should use console.error when level is LOG_LEVELS.ERROR", () => {
+    debugLog(
+      MOCK_LOGS.ERROR_MESSAGE,
+      undefined,
+      LOG_LEVELS.ERROR,
+      LOG_SOURCES.SERVER,
     );
+
+    const expectedOutput = `[${LOG_SOURCES.SERVER.toUpperCase()}] ${LOG_LEVELS.ERROR.toUpperCase()}: ${MOCK_LOGS.ERROR_MESSAGE}`;
+    expect(errorSpy).toHaveBeenCalledWith(expectedOutput);
   });
-});
+
+  it("should use console.error when data is an instance of Error", () => {
+    debugLog(MOCK_LOGS.TEST_MESSAGE, MOCK_LOGS.MOCK_ERROR, LOG_LEVELS.INFO);
+
+    const expectedOutput = `${LOG_LEVELS.INFO.toUpperCase()}: ${MOCK_LOGS.TEST_MESSAGE}`;
+    expect(errorSpy).toHaveBeenCalledWith(expectedOutput, MOCK_LOGS.MOCK_ERROR);
+  });
+
+  it("should not log when NODE_ENV is production", () => {
+    process.env.NODE_ENV = "production";
+    debugLog(MOCK_DATA.STRING);
+
+    expect(logSpy).not.toHaveBeenCalled();
+    expect(errorSpy).not.toHaveBeenCalled();
+  });

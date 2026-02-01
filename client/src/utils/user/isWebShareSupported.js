@@ -1,9 +1,9 @@
-import { devLog } from "@client-utils/errorUtils";
+import { debugLog } from "../../../../shared/utils/debug";
 
 export const isWebShareSupported = () => {
   const isSupported = !!navigator.share;
 
-  devLog("Web Share API supported:", isSupported);
+  debugLog("Web Share API supported:", isSupported);
 
   return isSupported;
 };

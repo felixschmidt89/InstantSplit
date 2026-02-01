@@ -10,21 +10,17 @@ import {
 import { PiUserSwitchLight } from "react-icons/pi";
 import { useTranslation } from "react-i18next";
 
-import { isWebShareSupported } from "@client-utils/user";
-import { dynamicRoutes } from "@client-utils/dynamicRoutes";
-import { getActiveGroupCode } from "@client-utils/localStorage";
-
-import { addUserReactIconStyles } from "@client-constants/stylesConstants";
-import { ROUTES } from "@client-constants/routesConstants";
-
-import useFetchGroupData from "@hooks/useFetchGroupData";
-import useIsSlimDevice from "@hooks/useIsSlimDevice";
-
-import ReactIconNavigate from "@components/InAppNavigation/ReactIconNavigate/ReactIconNavigate";
-import InstantSplitLogo from "@components/InstantSplitLogo/InstantSplitLogo";
-import WebShareApiInvite from "@components/ShareGroupInvitation/WebShareApiInvite/WebShareApiInvite";
-
 import styles from "./DefaultAndUserSettingsBar.module.css";
+import useIsSlimDevice from "../../hooks/useIsSlimDevice";
+import { getActiveGroupCode } from "../../utils/localStorage";
+import { isWebShareSupported } from "../../utils/user";
+import useFetchGroupData from "../../hooks/useFetchGroupData";
+import { dynamicRoutes } from "../../utils/dynamicRoutes";
+import { addUserReactIconStyles } from "../../constants/stylesConstants";
+import { ROUTES } from "../../constants/routesConstants";
+import WebShareApiInvite from "../ShareGroupInvitation/WebShareApiInvite/WebShareApiInvite";
+import ReactIconNavigate from "../InAppNavigation/ReactIconNavigate/ReactIconNavigate";
+import InstantSplitLogo from "../InstantSplitLogo/InstantSplitLogo";
 
 const baseUrl = import.meta.env.VITE_REACT_APP_BASE_URL;
 

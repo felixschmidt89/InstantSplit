@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import FontFaceObserver from "fontfaceobserver";
 import { devLog } from "../utils/errorUtils";
-import { FONTS, FONT_STATE } from "@/constants/fontConstants";
+import { FONT_STATE, FONTS } from "../constants/fontConstants";
 
 const useIsNotoEmojiFontLoaded = () => {
   const [isLoaded, setIsLoaded] = useState(false);

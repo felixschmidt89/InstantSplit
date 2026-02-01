@@ -1,9 +1,12 @@
+import { PWA_PROMPT_RESHOW_THRESHOLD_MS } from "../../../../shared/constants/applicationConstants";
+import {
+  MOCK_DATA,
+  MOCK_TIME,
+} from "../../../../shared/constants/testConstants";
+import { getPwaCtaClosed } from "../localStorage";
 import { shouldShowPwaPrompt } from "./shouldShowPwaPrompt";
-import { getPwaCtaClosed } from "@client-utils/localStorage";
-import { PWA_PROMPT_RESHOW_THRESHOLD_MS } from "@shared-constants/applicationConstants";
-import { MOCK_DATA, MOCK_TIME } from "@shared-constants/testConstants";
 
-jest.mock("@client-utils/localStorage");
+jest.mock("../localStorage");
 
 describe("shouldShowPwaPrompt", () => {
   beforeEach(() => {

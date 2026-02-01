@@ -1,12 +1,11 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
-import { ROUTES } from "@client-constants/routesConstants";
 import {
   getActiveGroupCode,
   getFirstGroupCode,
   setActiveGroupCode,
-} from "@client-utils/localStorage";
+} from "../utils/localStorage";
+import { ROUTES } from "../constants/routesConstants";
 
 const useAutoActiveGroupCodeRedirect = () => {
   const navigate = useNavigate();

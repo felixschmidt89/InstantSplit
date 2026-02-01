@@ -1,6 +1,6 @@
-import { API_URL, ENDPOINTS } from "@client-constants/apiConstants";
-import { debugLog } from "@shared-utils/debug";
 import axios from "axios";
+import { debugLog } from "../../../../shared/utils/debug";
+import { API_URL, ENDPOINTS } from "../../constants/apiConstants";
 
 export const createGroup = async (groupName) => {
   debugLog("Attempting to create group", { groupName }, "info");

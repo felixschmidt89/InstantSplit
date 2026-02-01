@@ -1,4 +1,4 @@
-import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
+import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
 import { setLocalStorageKey } from "./setLocalStorageKey";
 
 export const setNestedPreviousRoute = (route) => {

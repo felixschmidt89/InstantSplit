@@ -1,23 +1,10 @@
-// React and Third-Party Libraries
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 
-// Constants and Utils
 import { devLog } from "../utils/errorUtils";
+import { API_URL } from "../constants/apiConstants";
 
-import { API_URL } from "@client-constants/apiConstants";
-
-/**
- * Custom hook for fetching expense information.
- *
- * @param {string} expenseId - The ID of the expense to fetch.
- * @returns {Object} An object containing expense information and potential error.
- * @property {Object|null} expenseInfo - The fetched expense information.
- * @property {boolean} isFetched - Indicates whether the expense info has been successfully fetched. 
-* @property {Error|null} error - The error object if an error occurred
-
- */
 const useFetchExpenseInfo = (expenseId) => {
   const { t } = useTranslation();
   const [expenseInfo, setExpenseInfo] = useState(null);
@@ -39,7 +26,7 @@ const useFetchExpenseInfo = (expenseId) => {
     };
 
     fetchExpenseInfo();
-  }, [expenseId]);
+  }, [expenseId, t]);
 
   return { expenseInfo, isFetched, error };
 };

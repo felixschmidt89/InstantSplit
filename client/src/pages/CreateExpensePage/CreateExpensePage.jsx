@@ -1,17 +1,14 @@
 import { useTranslation } from "react-i18next";
 
-import { getActiveGroupCode } from "@/utils/localStorage/index.js";
-
-import useFetchGroupMembers from "@hooks/useFetchGroupMembers";
-
-import HelmetMetaTagsNetlify from "@components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "@components/PiratePx/PiratePx";
-import Spinner from "@components/Spinner/Spinner";
-import CreateExpense from "@components/Expenses/CreateExpense/CreateExpense";
-import InAppNavigationBar from "@components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-import CreateGroupMemberCTA from "@components/GroupBalancesAndHistory/CreateGroupMemberCTA/CreateGroupMemberCTA";
-
 import styles from "./CreateExpensePage.module.css";
+import { getActiveGroupCode } from "../../utils/localStorage";
+import useFetchGroupMembers from "../../hooks/useFetchGroupMembers";
+import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
+import PiratePx from "../../components/PiratePx/PiratePx";
+import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
+import Spinner from "../../components/Spinner/Spinner";
+import CreateGroupMemberCTA from "../../components/GroupBalancesAndHistory/CreateGroupMemberCTA/CreateGroupMemberCTA";
+import CreateExpense from "../../components/Expenses/CreateExpense/CreateExpense";
 
 const CreateExpensePage = () => {
   const { t } = useTranslation();

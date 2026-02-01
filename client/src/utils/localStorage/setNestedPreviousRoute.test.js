@@ -1,7 +1,7 @@
-import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
-import { MOCK_LOCALSTORAGE_VALUES } from "@shared-constants/testConstants";
 import { setNestedPreviousRoute } from "./setNestedPreviousRoute";
 import { setLocalStorageKey } from "./setLocalStorageKey";
+import { MOCK_LOCALSTORAGE_VALUES } from "../../../../shared/constants/testConstants";
+import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
 
 jest.mock("./setLocalStorageKey");
 

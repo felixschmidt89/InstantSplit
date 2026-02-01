@@ -1,32 +1,27 @@
 import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { useTranslation } from "react-i18next";
 
-import { devLog, handleApiErrors } from "@client-utils/errorUtils";
-import { plusFormSubmitButtonStyles } from "@client-constants/stylesConstants";
-import { replaceSlashesWithDashes } from "@client-utils/replaceSlashesWithDashes";
-import { ROUTES } from "@client-constants/routesConstants";
-
-import useErrorModalVisibility from "@hooks/useErrorModalVisibility";
-
-import FormSubmitButton from "@components/FormSubmitButton/FormSubmitButton";
-import ErrorModal from "@components/ErrorModal/ErrorModal";
-
 import styles from "./CreateGroupForm.module.css";
+import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
+import { createGroup } from "../../../api/groups";
+import { devLog, handleApiErrors } from "../../../utils/errorUtils";
 import {
   setActiveGroupCode,
   setPreviousRoute,
   storeGroupCode,
-} from "@client-utils/localStorage";
-
-import { createGroup } from "@client-api/groups";
+} from "../../../utils/localStorage";
+import { ROUTES } from "../../../constants/routesConstants";
+import { replaceSlashesWithDashes } from "../../../utils/replaceSlashesWithDashes";
+import { plusFormSubmitButtonStyles } from "../../../constants/stylesConstants";
+import FormSubmitButton from "../../FormSubmitButton/FormSubmitButton";
+import ErrorModal from "../../ErrorModal/ErrorModal";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const CreateGroupForm = ({ isExistingUser = false }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const inputRef = useRef(null);
-  const pathname = useTranslation();
+  const { pathname } = useLocation();
   const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
     useErrorModalVisibility();
 

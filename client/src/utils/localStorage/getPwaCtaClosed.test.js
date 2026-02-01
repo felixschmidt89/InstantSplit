@@ -1,6 +1,6 @@
-import { LOCAL_STORAGE_KEYS } from "@client-constants/localStorageConstants";
 import { getPwaCtaClosed } from "./getPwaCtaClosed";
 import { getLocalStorageKey } from "./getLocalStorageKey";
+import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
 
 jest.mock("./getLocalStorageKey");
 

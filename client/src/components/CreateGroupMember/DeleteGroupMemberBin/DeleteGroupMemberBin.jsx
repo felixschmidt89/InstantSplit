@@ -4,16 +4,12 @@ import { StatusCodes } from "http-status-codes";
 import { MdDelete } from "react-icons/md";
 import { useTranslation } from "react-i18next";
 
-import { devLog, handleApiErrors } from "@client-utils/errorUtils";
-
-import useErrorModalVisibility from "@hooks/useErrorModalVisibility";
-
-import ConfirmationModal from "@components/ConfirmationModal/ConfirmationModal";
-import ErrorModal from "@components/ErrorModal/ErrorModal";
-
 import styles from "./DeleteGroupMemberBin.module.css";
-
-import { API_URL } from "@client-constants/apiConstants";
+import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
+import { API_URL } from "../../../constants/apiConstants";
+import { devLog, handleApiErrors } from "../../../utils/errorUtils";
+import ConfirmationModal from "../../ConfirmationModal/ConfirmationModal";
+import ErrorModal from "../../ErrorModal/ErrorModal";
 
 const DeleteGroupMemberBin = ({
   userId,

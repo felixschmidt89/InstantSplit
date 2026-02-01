@@ -5,24 +5,20 @@ import { IoArrowDownOutline } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
 
-import { devLog, handleApiErrors } from "@client-utils/errorUtils";
-import emojiConstants from "@client-constants/emojiConstants";
-import { MINIMUM_VALID_AMOUNT } from "@client-constants/dataConstants";
-import { buttonStyles } from "@client-constants/stylesConstants";
-import { ROUTES } from "@client-constants/routesConstants";
-
-import useErrorModalVisibility from "@hooks/useErrorModalVisibility";
-
-import PaymentAmountInput from "@components/Payments/PaymentAmountInput/PaymentAmountInput";
-import PaymentMakerSelect from "@components/Payments/PaymentMakerSelect/PaymentMakerSelect";
-import PaymentRecipientSelect from "@components/Payments/PaymentRecipientSelect/PaymentRecipientSelect";
-import ErrorModal from "@components/ErrorModal/ErrorModal";
-import Emoji from "@components/Emoji/Emoji";
-import RenderReactIcon from "@components/RenderReactIcon/RenderReactIcon";
-
 import styles from "./UpdatePayment.module.css";
-
-import { API_URL } from "@client-constants/apiConstants";
+import { ROUTES } from "../../../constants/routesConstants";
+import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
+import { MINIMUM_VALID_AMOUNT } from "../../../constants/dataConstants";
+import { API_URL } from "../../../constants/apiConstants";
+import { devLog, handleApiErrors } from "../../../utils/errorUtils";
+import PaymentAmountInput from "../PaymentAmountInput/PaymentAmountInput";
+import PaymentMakerSelect from "../PaymentMakerSelect/PaymentMakerSelect";
+import emojiConstants from "../../../constants/emojiConstants";
+import Emoji from "../../Emoji/Emoji";
+import RenderReactIcon from "../../RenderReactIcon/RenderReactIcon";
+import PaymentRecipientSelect from "../PaymentRecipientSelect/PaymentRecipientSelect";
+import { buttonStyles } from "../../../constants/stylesConstants";
+import ErrorModal from "../../ErrorModal/ErrorModal";
 
 const UpdatePayment = ({
   groupMembers,

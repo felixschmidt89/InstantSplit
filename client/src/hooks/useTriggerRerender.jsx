@@ -1,7 +1,6 @@
 import { useState } from "react";
-
-import { devLog } from "@client-utils/errorUtils";
-import { getActiveGroupCode } from "@/utils/localStorage/index.js";
+import { getActiveGroupCode } from "../utils/localStorage";
+import { debugLog } from "../../../shared/utils/debug";
 
 const useTriggerRerender = () => {
   const groupCode = getActiveGroupCode();
@@ -10,7 +9,7 @@ const useTriggerRerender = () => {
 
   const incrementRerenderTrigger = () => {
     setRerenderTrigger((prevValue) => prevValue + 1);
-    devLog("Rerender trigger incremented:", rerenderTrigger);
+    debugLog("Rerender trigger incremented:", rerenderTrigger);
   };
 
   return {

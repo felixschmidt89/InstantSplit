@@ -4,21 +4,17 @@ import { useTranslation } from "react-i18next";
 
 import { currenciesContent } from "../../../contents/currenciesContent";
 
-import { devLog } from "@client-utils/errorUtils";
-import { sendFormSubmitButtonStyles } from "@client-constants/stylesConstants";
-import { submitOnEnterClick } from "@client-utils/formUtils";
-import { findCurrencyLabel } from "@client-utils/currencyUtils";
-
-import useErrorModalVisibility from "@hooks/useErrorModalVisibility";
-import useEditPenVisibility from "@hooks/useEditPenVisibility";
-
-import FormSubmitButton from "@components/FormSubmitButton/FormSubmitButton";
-import ErrorModal from "@components/ErrorModal/ErrorModal";
-import EditPenButton from "@components/EditPenButton/EditPenButton";
-
 import styles from "./ChangeGroupCurrency.module.css";
-
-import { API_URL } from "@client-constants/apiConstants";
+import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
+import { findCurrencyLabel } from "../../../utils/currencyUtils";
+import useEditPenVisibility from "../../../hooks/useEditPenVisibility";
+import { API_URL } from "../../../constants/apiConstants";
+import { devLog } from "../../../utils/errorUtils";
+import { submitOnEnterClick } from "../../../utils/formUtils";
+import FormSubmitButton from "../../FormSubmitButton/FormSubmitButton";
+import { sendFormSubmitButtonStyles } from "../../../constants/stylesConstants";
+import EditPenButton from "../../EditPenButton/EditPenButton";
+import ErrorModal from "../../ErrorModal/ErrorModal";
 
 const ChangeGroupCurrency = ({ groupCurrency, groupCode }) => {
   const selectRef = useRef(null);

@@ -1,11 +1,9 @@
 import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
-import { smallButtonStyles } from "@client-constants/stylesConstants";
-
-import ErrorDisplay from "@components/ErrorDisplay/ErrorDisplay";
-
 import styles from "./ErrorModal.module.css";
+import { smallButtonStyles } from "../../constants/stylesConstants";
+import ErrorDisplay from "../ErrorDisplay/ErrorDisplay";
 
 const ErrorModal = ({ error, onClose, isVisible }) => {
   const { t } = useTranslation();

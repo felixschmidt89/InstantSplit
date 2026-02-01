@@ -2,21 +2,17 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 
-import { devLog } from "@client-utils/errorUtils";
-import { BALANCE_THRESHOLD } from "@client-constants/dataConstants";
-
-import useErrorModalVisibility from "@hooks/useErrorModalVisibility";
-
-import Spinner from "@components/Spinner/Spinner";
-import PiratePx from "@components/PiratePx/PiratePx";
-import NotEnoughGroupMembers from "@components/GroupBalancesAndHistory/NotEnoughGroupMembers/NotEnoughGroupMembers";
-import ErrorModal from "@components/ErrorModal/ErrorModal";
-import RenderGroupMemberBalance from "@components/GroupBalancesAndHistory/GroupBalances/RenderGroupMemberBalance/RenderGroupMemberBalance";
-
 import styles from "./RenderGroupBalances.module.css";
-import { getActiveGroupCode } from "@/utils/localStorage/index.js";
-
-import { API_URL } from "@client-constants/apiConstants";
+import useErrorModalVisibility from "../../../../hooks/useErrorModalVisibility";
+import { getActiveGroupCode } from "../../../../utils/localStorage";
+import { API_URL } from "../../../../constants/apiConstants";
+import { devLog } from "../../../../utils/errorUtils";
+import { BALANCE_THRESHOLD } from "../../../../constants/dataConstants";
+import RenderGroupMemberBalance from "../RenderGroupMemberBalance/RenderGroupMemberBalance";
+import Spinner from "../../../Spinner/Spinner";
+import NotEnoughGroupMembers from "../../NotEnoughGroupMembers/NotEnoughGroupMembers";
+import PiratePx from "../../../PiratePx/PiratePx";
+import ErrorModal from "../../../ErrorModal/ErrorModal";
 
 const RenderGroupBalances = ({ groupCurrency }) => {
   const { t } = useTranslation();

@@ -6,7 +6,7 @@ import { sendFormSubmitButtonStyles } from "../../../../constants/stylesConstant
 import FormSubmitButton from "../../../FormSubmitButton/FormSubmitButton";
 import { ROUTES } from "../../../../constants/routesConstants";
 import styles from "./RenderGroupSelection.module.css";
-import { setActiveGroupCode } from "@/utils/localStorage";
+import { setActiveGroupCode } from "../../../../utils/localStorage";
 
 const RenderGroupSelection = ({ groupCode, groupNamesAndGroupCodes }) => {
   const navigate = useNavigate();

@@ -1,9 +1,10 @@
-import { API_ROUTES } from "@shared-constants/apiRoutesConstants";
+import { API_ROUTES } from "../../../shared/constants/apiRoutesConstants";
 
 export const API_URL = import.meta.env.VITE_REACT_APP_API_URL;
 
 export const ENDPOINTS = {
   GROUPS: `/${API_ROUTES.GROUPS.GROUPS_BASE}`,
+  GROUP_TRANSACTIONS: API_ROUTES.GROUPS.TRANSACTIONS,
   USERS: `/${API_ROUTES.USERS.USERS_BASE}`,
   EXPENSES: `/${API_ROUTES.EXPENSES.EXPENSES_BASE}`,
   PAYMENTS: `/${API_ROUTES.PAYMENTS.PAYMENTS_BASE}`,

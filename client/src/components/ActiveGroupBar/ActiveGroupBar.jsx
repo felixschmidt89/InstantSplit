@@ -1,8 +1,8 @@
-import useSettingsEmoji from "@hooks/useSettingsEmoji";
-import useIsSlimDevice from "@hooks/useIsSlimDevice";
-import useIsNotoEmojiFontLoaded from "@hooks/useIsNotoEmojiFontLoaded";
+import emojiConstants from "../../constants/emojiConstants";
+import useIsNotoEmojiFontLoaded from "../../hooks/useIsNotoEmojiFontLoaded";
+import useIsSlimDevice from "../../hooks/useIsSlimDevice";
+import useSettingsEmoji from "../../hooks/useSettingsEmoji";
 import GroupActionsEmojiButton from "../GroupActionsEmojiButton/GroupActionsEmojiButton";
-import emojiConstants from "@/constants/emojiConstants";
 
 import styles from "./ActiveGroupBar.module.css";
 import { useTranslation } from "react-i18next";
