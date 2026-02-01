@@ -9,14 +9,27 @@
   - **NEVER** apologize or express regret.
   - If info is missing, state "I don't know" (no elaboration).
 
-## 2. Interaction Protocol
+### 2. Workspace & Branch Context
+
+- **Repository**: All development occurs within the `https://github.com/felixschmidt89/InstantSplit` repository.
+- **Primary Development Flow**:
+  - **Standard**: New feature or refactor branches are strictly branched from the `develop` branch.
+  - **UAT**: In specific cases, branches may be created from the `test` branch (UAT deployment).
+- **Active Context**:
+  - The current working context is the branch: `refactor/crud-operation`.
+  - Assume all code provided or referenced exists within this specific branch context unless otherwise stated.
+- **Workflow Protocol**:
+  - When analyzing code, always consider the impact on the `develop` branch integration.
+  - Ensure all refactors maintain compatibility with the existing MERN monorepo structure (Client, Server, Shared).
+
+## 3. Interaction Protocol
 
 - **Code Analysis:** Digest code first. Do not jump to conclusions. Wait for precise instructions. Don't provide code until specifically asked for.
 - **Missing Code:** If code appears missing, **ask for it**; do not hypothesize.
 - **Improvements:** Suggest improvements only after answering the specific request. Ask for individual confirmation before applying.
 - **Correction:** Recognize and correct mistakes immediately.
 
-## 3. General Formatting & Output
+## 4. General Formatting & Output
 
 - **Style:** Bullet points. Concise.
 - **Code Changes:** Highlight your changes to code provided as inline comments using prefix "CODECHANGE:"
@@ -48,7 +61,7 @@
   - No brackets, no body/footer.
   - **Only** provide when you have provided new code below the code block in a new line
 
-### 4. Coding Standards: React & JS
+### 5. Coding Standards: React & JS
 
 - **Asset Management**:
   - **Location**: Store all component-related assets (images, svgs, fonts) in `client/src/assets/`.
@@ -105,11 +118,11 @@
   - Prioritize CSS for styles; use JavaScript only if absolutely necessary.
   - **NEVER** use `px` units; use `rem`, `em`, `%`, `vh`, or `vw`.
 
-### 5. Labeling & Translation Rules
+### 6. Labeling & Translation Rules
 
 tbd
 
-### 6. Refactoring Guidelines
+### 7. Refactoring Guidelines
 
 This is a legacy codebase. When we work on existing files, we always want to refactor for better readability and maintainability, while ensuring minimal side effects. Follow these guidelines:
 
@@ -124,7 +137,7 @@ This is a legacy codebase. When we work on existing files, we always want to ref
 - **Incremental Changes:** Make small, manageable changes rather than large overhauls. Wait for confirmation before proceeding with significant refactors.
 - **Testing:** After refactoring, ensure all existing tests pass. If no tests exist, recommend adding them. Use jest and react-testing-library for testing.
 
-### 7. Technical Debt Management
+### 8. Technical Debt Management
 
 - **Standard**: When requested to document technical debt, use a structured three-tier breakdown: **Issue**, **Impact**, and **Remediation**.
 - **Formatting**: Use a bolded kebab-case title for the debt entry (e.g., `- **Example-Debt-Name**:`) followed by a sub-bulleted list of the three tiers.
@@ -134,7 +147,7 @@ This is a legacy codebase. When we work on existing files, we always want to ref
   - **Remediation**: Provide actionable steps to resolve the debt in alignment with the current **Coding Standards**.
 - **Dynamic Status**: Do **NOT** include "Status: Open" or similar progress markers in the entry unless explicitly asked.
 
-### 8. Pull Request Documentation
+### 9. Pull Request Documentation
 
 - **Standard**: When provided with a GitHub PR, provide two specific components: a Title and a brief Summary of the changes.
 - **Formatting**: Output the result in a single Markdown code block.
@@ -143,7 +156,7 @@ This is a legacy codebase. When we work on existing files, we always want to ref
   - **Summary Text**: Provide a concise, bulleted list of changes using technical terminology (e.g., "module resolution," "path aliasing").
   - **Exclusions**: Do not include "PR Title" or "Description" headers within the code block; provide only the raw text.
 
-### 9. Atomic Utility Architecture
+### 10. Atomic Utility Architecture
 
 - **Standard**: Follow a strictly atomic, folder-per-function pattern for all utilities within `shared/utils/`, `server/utils/` and `client/src/utils/`.
 - **Structure**:
@@ -156,7 +169,7 @@ This is a legacy codebase. When we work on existing files, we always want to ref
   - Consume utilities by referencing the category folder alias (e.g., `import { replaceSlashesWithDashes } from "@shared-utils/strings";`).
   - Do **NOT** import directly from the individual function file.
 
-### 10. Utility Validation & Migration
+### 11. Utility Validation & Migration
 
 - **Validation Protocol**: When interacting with any utility, evaluate it against three criteria:
   - **Atomicity**: Does the file contain only one primary function?
@@ -164,7 +177,7 @@ This is a legacy codebase. When we work on existing files, we always want to ref
   - **Structure**: Does it belong to a category folder with a corresponding barrel file?
 - **Migration**: If a utility fails validation, recommend a migration to the **Atomic Utility Architecture** (Section 9) before performing any logic updates.
 
-### 11. Testing Standards
+### 12. Testing Standards
 
 - **Test Co-location**:
   - **Standard**: All unit tests (e.g., `*.test.js`, `*.spec.js`) must be co-located with the source file they validate.
