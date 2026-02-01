@@ -61,3 +61,61 @@ export const MOCK_LOGS = {
   ERROR_MESSAGE: "api_failure_context",
   MOCK_ERROR: new Error("mock_internal_error"),
 };
+
+export const MOCK_API_URL = "http://localhost:5000/api";
+
+export const MOCK_GROUP_DATA = {
+  NAME: "New Test Group",
+  CODE: MOCK_LOCALSTORAGE_VALUES.NEW_TEST_GROUP_CODE,
+  ID: MOCK_DATA.ID,
+};
+
+export const MOCK_API_RESPONSES = {
+  GROUPS: {
+    CREATE_SUCCESS: {
+      group: {
+        groupName: MOCK_GROUP_DATA.NAME,
+        groupCode: MOCK_GROUP_DATA.CODE,
+        _id: MOCK_GROUP_DATA.ID,
+      },
+    },
+  },
+};
+
+export const MOCK_API_ROUTES = {
+  URL_PARAMS: {
+    GROUP_CODE: ":groupCode",
+    GROUP_ID: ":groupId",
+  },
+  GROUPS: {
+    GROUPS_BASE: "groups",
+    VALIDATE_GROUP_EXISTENCE_CONTINUOUS: "continuous-validate-existence",
+    VALIDATE_GROUP_EXISTENCE_LIMITED: "limited-validate-existence",
+    STORED_GROUP_NAMES: "stored-group-names",
+  },
+  USERS: {
+    USERS_BASE: "users",
+  },
+  EXPENSES: {
+    EXPENSES_BASE: "expenses",
+  },
+  PAYMENTS: {
+    PAYMENTS_BASE: "payments",
+  },
+  SETTLEMENTS: {
+    SETTLEMENTS_BASE: "settlements",
+  },
+};
+
+export const MOCK_ENDPOINTS = {
+  GROUPS: `/${MOCK_API_ROUTES.GROUPS.GROUPS_BASE}`,
+  USERS: `/${MOCK_API_ROUTES.USERS.USERS_BASE}`,
+  EXPENSES: `/${MOCK_API_ROUTES.EXPENSES.EXPENSES_BASE}`,
+  PAYMENTS: `/${MOCK_API_ROUTES.PAYMENTS.PAYMENTS_BASE}`,
+  SETTLEMENTS: `/${MOCK_API_ROUTES.SETTLEMENTS.SETTLEMENTS_BASE}`,
+};
+
+export const MOCK_FULL_URLS = {
+  GROUPS: `${MOCK_API_URL}${MOCK_ENDPOINTS.GROUPS}`,
+  USERS: `${MOCK_API_URL}${MOCK_ENDPOINTS.USERS}`,
+};

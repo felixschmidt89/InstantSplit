@@ -28,3 +28,20 @@
   - **Remediation**: Relocate legal prose into `src/components/LegalNotice/LegalNoticeContent.js` and use local relative imports to ensure high component cohesion.
 
 ## Server
+
+### Technical Debt Management: Server-Side Architecture
+
+- **Monolithic-Backend-Controllers**:
+  - **Issue**: `server/controllers/groupController.js` handles HTTP orchestration, business logic, and database persistence within a single file.
+  - **Impact**: Violates the Single Responsibility Principle; prevents independent testing of domain logic and complicates the transition to a standardized atomic architecture.
+  - **Remediation**: Decompose `groupController.js` into atomic controllers (e.g., `createGroupController.js`) and services (e.g., `createGroupService.js`) following the **Atomic Utility Architecture**.
+
+- **Server-Client-Naming-Collision**:
+  - **Issue**: Lack of distinct suffixes (e.g., `Service`, `Controller`) for backend functions.
+  - **Impact**: High risk of developer confusion and accidental circular imports in a monorepo workspace when searching for "createGroup".
+  - **Remediation**: Apply explicit naming conventions (`createGroup` for Client API, `createGroupService` for Server Logic) during the server refactor phase.
+
+- **Missing-Server-Service-Layer**:
+  - **Issue**: Direct Mongoose model interaction occurring within the Express routing/controller layer.
+  - **Impact**: Tight coupling between the Web Framework (Express) and the Data Layer (Mongoose), making it harder to swap database logic or reuse code in non-web contexts (e.g., CLI tools or cron jobs).
+  - **Remediation**: Extract all database logic into a dedicated `server/services/` directory.

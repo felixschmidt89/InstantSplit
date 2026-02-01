@@ -20,7 +20,7 @@ import {
   storeGroupCode,
 } from "@client-utils/localStorage";
 
-import { API_URL } from "@client-constants/apiConstants";
+import { createGroup } from "@client-api/groups";
 
 const CreateGroupForm = ({ isExistingUser = false }) => {
   const navigate = useNavigate();
@@ -38,12 +38,10 @@ const CreateGroupForm = ({ isExistingUser = false }) => {
     setError(null);
 
     try {
-      const response = await axios.post(`${API_URL}/groups`, {
-        groupName,
-      });
+      const response = await createGroup(groupName);
 
       devLog("Group created:", response);
-      const { groupCode } = response.data.group;
+      const { groupCode } = response.group;
 
       storeGroupCode(groupCode);
       setActiveGroupCode(groupCode);
