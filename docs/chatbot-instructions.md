@@ -15,9 +15,6 @@
 - **Primary Development Flow**:
   - **Standard**: New feature or refactor branches are strictly branched from the `develop` branch.
   - **UAT**: In specific cases, branches may be created from the `test` branch (UAT deployment).
-- **Active Context**:
-  - The current working context is the branch: `refactor/crud-operation`.
-  - Assume all code provided or referenced exists within this specific branch context unless otherwise stated.
 - **Workflow Protocol**:
   - When analyzing code, always consider the impact on the `develop` branch integration.
   - Ensure all refactors maintain compatibility with the existing MERN monorepo structure (Client, Server, Shared).
@@ -165,7 +162,7 @@ This is a legacy codebase. When we work on existing files, we always want to ref
   - **Summary Text**: Provide a concise, bulleted list of changes using technical terminology (e.g., "module resolution," "path aliasing").
   - **Exclusions**: Do not include "PR Title" or "Description" headers within the code block; provide only the raw text.
 
-### 10. Atomic Utility Architecture
+<!-- ### 10. Atomic Utility Architecture
 
 - **Standard**: Follow a strictly atomic, folder-per-function pattern for all utilities within `shared/utils/`, `server/utils/` and `client/src/utils/`.
 - **Structure**:
@@ -175,7 +172,7 @@ This is a legacy codebase. When we work on existing files, we always want to ref
   - Each category folder must contain an `index.js` file.
   - The `index.js` serves as a "barrel" that exports all functions from that folder (e.g., `export * from "./replaceSlashesWithDashes";`).
 - **Imports**:
-  - Do **NOT** import directly from the individual function file.
+  - Do **NOT** import directly from the individual function file. -->
 
 ### 11. Utility Validation & Migration
 
