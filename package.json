@@ -1,0 +1,22 @@
+{
+  "name": "instant-split",
+  "version": "1.0.1",
+  "private": true,
+  "type": "module",
+  "description": "MERN monorepo root for InstantSplit application",
+  "scripts": {
+    "dev": "npx concurrently \"npm run dev --workspace=client\" \"npm run start dev --workspace=server\"",
+    "start:client": "npm run dev --workspace=client",
+    "start:server": "npm run start --workspace=server",
+    "test": "npm test --workspaces --if-present",
+    "test:client": "npm test --workspace=client",
+    "test:server": "npm test --workspace=server"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "workspaces": [
+    "client",
+    "server"
+  ]
+}

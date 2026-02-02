@@ -1,3 +1,5 @@
+// TODO: move to shared constants if needed elsewhere
+
 /**
  * Constant representing the current year.
  * @type {number}

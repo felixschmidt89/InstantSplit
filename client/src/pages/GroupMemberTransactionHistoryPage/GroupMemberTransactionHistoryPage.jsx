@@ -13,19 +13,19 @@ import useFetchGroupCurrency from "../../hooks/useFetchGroupCurrency";
 import useFetchGroupMembers from "../../hooks/useFetchGroupMembers";
 
 // Components
-import HelmetMetaTagsNetlify from "../../components/common/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/common/PiratePx/PiratePx";
-import Spinner from "../../components/common/Spinner/Spinner";
-import ErrorDisplay from "../../components/common/ErrorDisplay/ErrorDisplay";
-import UserTransactionsHistory from "../../components/features/GroupMemberTransactionsHistory/GroupMemberTransactionsHistory/GroupMemberTransactionsHistory";
-import NoUserTransactions from "../../components/features/GroupMemberTransactionsHistory/NoGroupMemberTransactions/NoGroupMemberTransactions";
-import InAppNavigationBar from "../../components/common/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
+import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
+import PiratePx from "../../components/PiratePx/PiratePx";
+import Spinner from "../../components/Spinner/Spinner";
+import ErrorDisplay from "../../components/ErrorDisplay/ErrorDisplay";
+import UserTransactionsHistory from "../../components/GroupMemberTransactionsHistory/GroupMemberTransactionsHistory/GroupMemberTransactionsHistory";
+import NoUserTransactions from "../../components/GroupMemberTransactionsHistory/NoGroupMemberTransactions/NoGroupMemberTransactions";
+import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 
 // Styles
 import styles from "./GroupMemberTransactionHistoryPage.module.css";
 
 // API URL
-const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+import { API_URL } from "@client-constants/apiConstants";
 
 const GroupMemberTransactionHistoryPage = () => {
   const { t } = useTranslation();
@@ -45,10 +45,10 @@ const GroupMemberTransactionHistoryPage = () => {
    * @param {string} itemId - The ID of the deleted resource.
    */
   const updateGroupMemberExpensesAndPaymentsAfterResourceDeletion = (
-    itemId
+    itemId,
   ) => {
     const updatedItems = groupMemberExpensesAndPayments.filter(
-      (item) => item._id !== itemId
+      (item) => item._id !== itemId,
     );
     devLog("Group member expenses and payments updated:", updatedItems);
     setGroupMemberExpensesAndPayments(updatedItems);
@@ -58,7 +58,7 @@ const GroupMemberTransactionHistoryPage = () => {
     const fetchGroupMemberExpensesAndPayments = async () => {
       try {
         const response = await axios.get(
-          `${apiUrl}/users/${userId}/expenses-and-payments`
+          `${API_URL}/users/${userId}/expenses-and-payments`,
         );
         devLog(`User ${userId} expenses and payments fetched:`, response);
         const groupMemberTransactionalData =
@@ -75,7 +75,7 @@ const GroupMemberTransactionHistoryPage = () => {
     };
 
     fetchGroupMemberExpensesAndPayments();
-  }, [userId]);
+  }, [userId, t]);
   return (
     <main>
       <HelmetMetaTagsNetlify

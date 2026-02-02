@@ -3,8 +3,7 @@ import axios from "axios";
 import { useTranslation } from "react-i18next";
 import { devLog } from "../utils/errorUtils";
 
-const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-
+import { API_URL } from "@client-constants/apiConstants";
 /**
  * A React hook that fetches whether a group has a persisted debitor/creditor order.
  *
@@ -24,7 +23,7 @@ const useGroupHasPersistedDebitorCreditorOrder = (groupCode) => {
     const fetchPersistedOrder = async () => {
       try {
         const response = await axios.get(
-          `${apiUrl}/groups/${groupCode}/has-persisted-order`
+          `${API_URL}/groups/${groupCode}/has-persisted-order`,
         );
 
         devLog("Persisted order status fetched:", response);

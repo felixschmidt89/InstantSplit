@@ -1,0 +1,9 @@
+.container {
+  width: 25rem;
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    width: 25rem;
+  }
+}

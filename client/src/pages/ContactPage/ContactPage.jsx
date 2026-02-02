@@ -3,10 +3,10 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 
 // Components
-import HelmetMetaTagsNetlify from "../../components/common/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/common/PiratePx/PiratePx";
-import InAppNavigationBar from "../../components/common/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-import Contact from "../../components/features/Contact/Contact/Contact";
+import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
+import PiratePx from "../../components/PiratePx/PiratePx";
+import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
+import Contact from "../../components/Contact/Contact/Contact";
 
 // Styles
 import styles from "./ContactPage.module.css";

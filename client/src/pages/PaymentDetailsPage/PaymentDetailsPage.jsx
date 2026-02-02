@@ -11,15 +11,15 @@ import useFetchPaymentInfo from "../../hooks/useFetchPaymentInfo";
 import useFetchGroupCurrency from "../../hooks/useFetchGroupCurrency";
 
 // Components
-import HelmetMetaTagsNetlify from "../../components/common/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/common/PiratePx/PiratePx";
-import Spinner from "../../components/common/Spinner/Spinner";
-import RouteButton from "../../components/common/InAppNavigation/RouteButton/RouteButton";
-import DeleteResource from "../../components/common/DeleteResource/DeleteResource";
-import InAppNavigationBar from "../../components/common/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-import RenderPaymentDetails from "../../components/features/Payments/RenderPaymentDetails/RenderPaymentDetails";
-import RenderResourceCreated from "../../components/common/RenderResourceCreated/RenderResourceCreated";
-import Emoji from "../../components/common/Emoji/Emoji";
+import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
+import PiratePx from "../../components/PiratePx/PiratePx";
+import Spinner from "../../components/Spinner/Spinner";
+import RouteButton from "../../components/InAppNavigation/RouteButton/RouteButton";
+import DeleteResource from "../../components/DeleteResource/DeleteResource";
+import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
+import RenderPaymentDetails from "../../components/Payments/RenderPaymentDetails/RenderPaymentDetails";
+import RenderResourceCreated from "../../components/RenderResourceCreated/RenderResourceCreated";
+import Emoji from "../../components/Emoji/Emoji";
 
 // Styles
 import styles from "./PaymentDetailsPage.module.css";

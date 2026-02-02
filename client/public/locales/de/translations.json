@@ -252,7 +252,7 @@
       "key": "section1",
       "title": "Open Source",
       "content": "InstantSplit ist eine Open-Source-Anwendung: Der Quellcode ist frei verfügbar und kann von jedem eingesehen, verändert und zu nicht-kommerziellen Zwecken genutzt werden.",
-      "link": "https://github.com/felixschmidt89/InstantSpilt",
+      "link": "https://github.com/felixschmidt89/InstantSplit",
       "linkText": "GitHub-Repository"
     },
     {
@@ -328,7 +328,7 @@
     }
   ],
   "generic-error-message": "Ein Fehler ist aufgetreten. Bitte erneut versuchen.",
-  "payments-router-conflict-error-payment-maker-and-recipient-can't-be-the-same": "Zahler und Empfänger dürfen nicht identisch sein.",
+  "payments-router-conflict-error--payment-maker-and-recipient-can't-be-the-same-person": "Zahler und Empfänger dürfen nicht identisch sein.",
   "payments-router-bad-request-error-missing-payment-maker": "Zahler fehlt",
   "payments-router-bad-request-error-missing-payment-recipient": "Empfänger fehlt",
   "payments-router-unprocessable-error-missing-payment-amount": "Betrag fehlt",
