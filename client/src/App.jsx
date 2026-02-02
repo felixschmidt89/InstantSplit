@@ -1,16 +1,9 @@
-// React and Third-Party Libraries
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { ThemeProvider } from "@mui/material/styles";
-
-// Themes
 import muiTheme from "./themes/muiTheme";
-
-// Components
-import Footer from "./components/common/Footer/Footer";
-
-// Pages
+import Footer from "./components/Footer/Footer";
 import PageNotFoundPage from "./pages/PageNotFound/PageNotFoundPage";
 import HomePage from "./pages/HomePage/HomePage";
 import OnboardingCreateGroupPage from "./pages/OnboardingCreateGroupPage/OnboardingCreateGroupPage";
@@ -38,8 +31,7 @@ import CreateGroupMemberPage from "./pages/CreateGroupMemberPage/CreateGroupMemb
 import SettleExpensesPage from "./pages/SettleExpensesPage/SettleExpensesPage";
 import GroupMemberDetailsPage from "./pages/GroupMemberDetailsPage/GroupMemberDetailsPage";
 import GroupMemberTransactionHistoryPage from "./pages/GroupMemberTransactionHistoryPage/GroupMemberTransactionHistoryPage";
-
-// Styles
+import { ROUTES } from "./constants/routesConstants";
 import "./App.css";
 
 const App = () => {
@@ -49,83 +41,83 @@ const App = () => {
         <HelmetProvider>
           <Routes>
             <Route index element={<HomePage />} />
-            <Route path='/legal-notice' element={<LegalNoticePage />} />
+            <Route path={ROUTES.LEGAL_NOTICE} element={<LegalNoticePage />} />
             <Route
-              path='/onboarding-group-settings'
+              path={ROUTES.ONBOARDING.GROUP_SETTINGS}
               element={<OnboardingGroupSettingsPage />}
             />
             <Route
-              path='/onboarding-create-group'
+              path={ROUTES.ONBOARDING.CREATE_GROUP}
               element={<OnboardingCreateGroupPage />}
             />
             <Route
-              path='/onboarding-enter-groupcode'
+              path={ROUTES.ONBOARDING.ENTER_GROUPCODE}
               element={<EnterGroupCodePage />}
             />
             <Route
-              path='/groupCode-validator/:groupCode'
+              path={ROUTES.VALIDATORS.GROUPCODE}
               element={<ValidateProvidedGroupCodePage />}
             />
+            <Route path={ROUTES.JOIN_GROUP.DE} element={<JoinGroupDEPage />} />
+            <Route path={ROUTES.JOIN_GROUP.EN} element={<JoinGroupENPage />} />
+            <Route path={ROUTES.TUTORIAL} element={<TutorialPage />} />
+            <Route path={ROUTES.INSTANT_SPLIT} element={<InstantSplitPage />} />
             <Route
-              path='/join-instantsplit-group/:initialGroupName/:groupCode'
-              element={<JoinGroupDEPage />}
+              path={ROUTES.EXPENSE.CREATE}
+              element={<CreateExpensePage />}
             />
             <Route
-              path='/join-en-instantsplit-group/:initialGroupName/:groupCode'
-              element={<JoinGroupENPage />}
-            />
-            <Route
-              path='/tutorial/:initialGroupName/:groupCode'
-              element={<TutorialPage />}
-            />
-            <Route path='/instant-split' element={<InstantSplitPage />} />
-            <Route path='/create-expense' element={<CreateExpensePage />} />
-            <Route
-              path='/update-expense/:groupCode/:expenseId'
+              path={ROUTES.EXPENSE.UPDATE}
               element={<UpdateExpensePage />}
             />
-            <Route path='/create-payment' element={<CreatePaymentPage />} />
             <Route
-              path='/update-payment/:groupCode/:paymentId'
+              path={ROUTES.PAYMENT.CREATE}
+              element={<CreatePaymentPage />}
+            />
+            <Route
+              path={ROUTES.PAYMENT.UPDATE}
               element={<UpdatePaymentPage />}
             />
             <Route
-              path='/create-group-members'
+              path={ROUTES.MEMBERS.CREATE}
               element={<CreateGroupMemberPage />}
             />
-            <Route path='/settle-expenses' element={<SettleExpensesPage />} />
             <Route
-              path='/groupmember-details/:groupCode/:userId'
+              path={ROUTES.SETTLE_EXPENSES}
+              element={<SettleExpensesPage />}
+            />
+            <Route
+              path={ROUTES.MEMBERS.DETAILS}
               element={<GroupMemberDetailsPage />}
             />
             <Route
-              path='/groupmember-transaction-history/:groupCode/:userId'
+              path={ROUTES.MEMBERS.TRANSACTION_HISTORY}
               element={<GroupMemberTransactionHistoryPage />}
             />
             <Route
-              path='/payment-details/:groupCode/:itemId'
+              path={ROUTES.PAYMENT.DETAILS}
               element={<PaymentDetailsPage />}
             />
             <Route
-              path='/expense-details/:groupCode/:itemId'
+              path={ROUTES.EXPENSE.DETAILS}
               element={<ExpenseDetailsPage />}
             />
+            <Route path={ROUTES.LEAVE_GROUP} element={<LeaveGroupPage />} />
             <Route
-              path='/leave-group/:groupName/:groupCode'
-              element={<LeaveGroupPage />}
-            />
-            <Route
-              path='/share-group/:initialGroupName/:groupCode'
+              path={ROUTES.SHARE_GROUP}
               element={<ShareGroupInvitationPage />}
             />
-            <Route path='/manage-groups' element={<ManageGroupsPage />} />
-            <Route path='/contact/:groupCode' element={<ContactPage />} />
-            <Route path='/group-settings' element={<GroupSettingsPage />} />
+            <Route path={ROUTES.MANAGE_GROUPS} element={<ManageGroupsPage />} />
+            <Route path={ROUTES.CONTACT} element={<ContactPage />} />
             <Route
-              path='/terms-and-conditions'
+              path={ROUTES.GROUP_SETTINGS}
+              element={<GroupSettingsPage />}
+            />
+            <Route
+              path={ROUTES.TERMS_AND_CONDITIONS}
               element={<TermsAndConditionsPage />}
             />
-            <Route path='*' element={<PageNotFoundPage />} />
+            <Route path={ROUTES.NOT_FOUND} element={<PageNotFoundPage />} />
           </Routes>
           <Footer />
         </HelmetProvider>

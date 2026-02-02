@@ -6,9 +6,7 @@ import { useTranslation } from "react-i18next";
 
 // Constants and Utils
 import { devLog } from "../utils/errorUtils";
-
-// API URL
-const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
+import { API_URL } from "@client-constants/apiConstants";
 
 /**
  * Custom hook for fetching group data.
@@ -29,7 +27,7 @@ const useFetchGroupData = (groupCode) => {
   useEffect(() => {
     const fetchGroupData = async () => {
       try {
-        const response = await axios.get(`${apiUrl}/groups/${groupCode}`);
+        const response = await axios.get(`${API_URL}/groups/${groupCode}`);
         const fetchedGroupData = response.data;
 
         if (response.status === StatusCodes.NO_CONTENT) {

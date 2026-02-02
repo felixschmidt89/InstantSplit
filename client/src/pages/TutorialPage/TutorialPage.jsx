@@ -7,14 +7,14 @@ import { useTranslation } from "react-i18next";
 import useFetchGroupData from "../../hooks/useFetchGroupData";
 
 // Components
-import HelmetMetaTagsNetlify from "../../components/common/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/common/PiratePx/PiratePx";
-import GroupCodeExplanation from "../../components/features/Tutorial/GroupCodeExplanation/GroupCodeExplanation";
-import InAppNavigationBar from "../../components/common/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-import SyncGroupCodeExplanation from "../../components/features/Tutorial/SyncGroupCodeExplanation/SyncGroupCodeExplanation";
-import GroupBalanceAndHistoryExplanation from "../../components/features/Tutorial/GroupBalanceAndHistoryExplanation/GroupBalanceAndHistoryExplanation";
-import RecommendedBrowsersExplanation from "../../components/features/Tutorial/RecommendedBrowsersExplanation/RecommendedBrowsersExplanation";
-import Spinner from "../../components/common/Spinner/Spinner";
+import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
+import PiratePx from "../../components/PiratePx/PiratePx";
+import GroupCodeExplanation from "../../components/Tutorial/GroupCodeExplanation/GroupCodeExplanation";
+import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
+import SyncGroupCodeExplanation from "../../components/Tutorial/SyncGroupCodeExplanation/SyncGroupCodeExplanation";
+import GroupBalanceAndHistoryExplanation from "../../components/Tutorial/GroupBalanceAndHistoryExplanation/GroupBalanceAndHistoryExplanation";
+import RecommendedBrowsersExplanation from "../../components/Tutorial/RecommendedBrowsersExplanation/RecommendedBrowsersExplanation";
+import Spinner from "../../components/Spinner/Spinner";
 
 // Styles
 import styles from "./TutorialPage.module.css";

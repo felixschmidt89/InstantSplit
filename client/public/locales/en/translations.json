@@ -332,7 +332,7 @@
     }
   ],
   "generic-error-message": "An error occurred. Please try again later.",
-  "payments-router-conflict-error-payment-maker-and-recipient-can't-be-the-same": "payment maker and recipient can't be the same",
+  "payments-router-conflict-error--payment-maker-and-recipient-can't-be-the-same-person": "payment maker and recipient can't be the same",
   "payments-router-bad-request-error-missing-payment-maker": "missing payment maker",
   "payments-router-bad-request-error-missing-payment-recipient": "missing payment recipient",
   "payments-router-unprocessable-error-missing-payment-amount": "missing payment amount",

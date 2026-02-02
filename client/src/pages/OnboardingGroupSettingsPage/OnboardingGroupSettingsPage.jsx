@@ -1,63 +1,61 @@
-// React and Third-Party Libraries
-import React from "react";
 import { useTranslation } from "react-i18next";
 
-// Constants and Utils
-import { devLog } from "../../utils/errorUtils";
+import useFetchGroupData from "@hooks/useFetchGroupData";
 
-// Hooks
-import useFetchGroupData from "../../hooks/useFetchGroupData";
-import useGetPreviousRoutesFromLocalStorage from "../../hooks/useGetPreviousRouteFromLocalStorage";
+import HelmetMetaTagsNetlify from "@components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
+import PiratePx from "@components/PiratePx/PiratePx";
+import InAppNavigationBar from "@components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
+import ChangeGroupCurrency from "@components/GroupSettings/ChangeGroupCurrency/ChangeGroupCurrency";
+import ChangeDataPurgeSetting from "@components/GroupSettings/ChangeDataPurgeSetting/ChangeDataPurgeSetting";
+import GroupCodeSecurity from "@components/GroupSettings/GroupCodeSecurity/GroupCodeSecurity";
+import Spinner from "@components/Spinner/Spinner";
 
-// Components
-import HelmetMetaTagsNetlify from "../../components/common/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/common/PiratePx/PiratePx";
-import InAppNavigationBar from "../../components/common/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-import ChangeGroupCurrency from "../../components/features/GroupSettings/ChangeGroupCurrency/ChangeGroupCurrency";
-import ChangeDataPurgeSetting from "../../components/features/GroupSettings/ChangeDataPurgeSetting/ChangeDataPurgeSetting";
-import Spinner from "../../components/common/Spinner/Spinner";
-import GroupCodeSecurity from "../../components/features/GroupSettings/GroupCodeSecurity/GroupCodeSecurity";
+import { ROUTES } from "@client-constants/routesConstants";
 
-// Styles
 import styles from "./OnboardingGroupSettingsPage.module.css";
+import { getActiveGroupCode } from "@/utils/localStorage/index.js";
 
-/**
- * Page component for rendering group currency & data purge settings during group creation process
- */
 const OnboardingGroupSettingsPage = () => {
-  const groupCode = localStorage.getItem("activeGroupCode");
-  const { groupData, isFetched } = useFetchGroupData(groupCode);
   const { t } = useTranslation();
+
+  const groupCode = getActiveGroupCode();
+
+  const { groupData, isFetched } = useFetchGroupData(groupCode);
 
   return (
     <main>
       <HelmetMetaTagsNetlify
         title={t("onboarding-group-settings-page-title")}
       />
-      <PiratePx COUNT_IDENTIFIER={"onboarding-group-settings"} />
+      <PiratePx COUNT_IDENTIFIER='onboarding-group-settings' />
       <InAppNavigationBar
-        back={true}
-        backRoute={"/create-group-members"}
-        forward={true}
-        forwardRoute='/instant-split'
+        back
+        backRoute={ROUTES.MEMBERS.CREATE}
+        forward
+        forwardRoute={ROUTES.INSTANT_SPLIT}
       />
+
       <div className={styles.container}>
-        {isFetched && groupData ? (
+        {!isFetched && (
+          <div className={styles.spinner}>
+            <Spinner />
+          </div>
+        )}
+
+        {isFetched && groupData && (
           <div className={styles.settings}>
             <ChangeGroupCurrency
               groupCode={groupCode}
               groupCurrency={groupData.group.currency}
-              isOnboarding={true}
+              isOnboarding
             />
+
             <ChangeDataPurgeSetting
               groupCode={groupCode}
               inactiveDataPurge={groupData.group.inactiveDataPurge}
             />
+
             <GroupCodeSecurity groupCode={groupCode} />
-          </div>
-        ) : (
-          <div className={styles.spinner}>
-            <Spinner />
           </div>
         )}
       </div>

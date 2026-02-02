@@ -1,29 +1,29 @@
-// React and Third-Party Libraries
 import { useEffect, useState } from "react";
 
-// Utils and Constants
-import emojiConstants from "../constants/emojiConstants";
-import useGetClientDeviceAndPwaInfo from "./useGetClientDeviceAndPwaInfo";
+import emojiConstants from "@client-constants/emojiConstants";
+import { BROWSERS } from "@client-constants/browserConstants";
+import useGetClientDeviceAndPwaInfo from "@hooks/useGetClientDeviceAndPwaInfo";
 
-// Hooks
-
-/**
- * Custom hook to handle the settings emoji based on the user's browser to handle related
- * Firefox & newly introduced Chrome bug. (settings emoji not rendered correctly, see: https://github.com/googlefonts/noto-emoji/issues/391)
- *
- */
 const useSettingsEmoji = () => {
-  const [settingsEmoji, setSettingsEmoji] = useState(null);
   const { browserName } = useGetClientDeviceAndPwaInfo();
 
+  const [settingsEmoji, setSettingsEmoji] = useState(
+    emojiConstants.settings || "⚙️",
+  );
+
   useEffect(() => {
+    if (!browserName) return;
+
     const lowerCaseBrowser = browserName.toLowerCase();
-    const isFirefoxOrChrome =
-      lowerCaseBrowser.includes("firefox") ||
-      lowerCaseBrowser.includes("chrome");
-    const emojiToUse = isFirefoxOrChrome
-      ? emojiConstants.chromeAndFireFoxSettings
+
+    const hasSettingsEmojiRenderingBug =
+      lowerCaseBrowser.includes(BROWSERS.FIREFOX) ||
+      lowerCaseBrowser.includes(BROWSERS.CHROME);
+
+    const emojiToUse = hasSettingsEmojiRenderingBug
+      ? emojiConstants.settingsFallback
       : emojiConstants.settings;
+
     setSettingsEmoji(emojiToUse);
   }, [browserName]);
 

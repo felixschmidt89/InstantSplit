@@ -3,8 +3,7 @@ import axios from "axios";
 import { useTranslation } from "react-i18next";
 import { devLog } from "../utils/errorUtils";
 
-const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-
+import { API_URL } from "@client-constants/apiConstants";
 /**
  * Custom hook for updating the fixedDebitorCreditorOrder setting of a group.
  *
@@ -17,7 +16,7 @@ const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
  */
 const useSetFixedDebitorCreditorOrder = (
   groupCode,
-  fixedDebitorCreditorOrder
+  fixedDebitorCreditorOrder,
 ) => {
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
@@ -33,11 +32,11 @@ const useSetFixedDebitorCreditorOrder = (
 
         try {
           const response = await axios.patch(
-            `${apiUrl}/groups/fixedDebitorCreditorOrder/${groupCode}`,
+            `${API_URL}/groups/fixedDebitorCreditorOrder/${groupCode}`,
             {
               groupCode,
               fixedDebitorCreditorOrder,
-            }
+            },
           );
           devLog("fixedDebitorCreditorOrder setting updated:", response);
           setIsUpdated(true);

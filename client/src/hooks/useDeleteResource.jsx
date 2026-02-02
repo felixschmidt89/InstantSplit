@@ -8,9 +8,7 @@ import { useTranslation } from "react-i18next";
 // Constants and Utils
 import { devLog } from "../utils/errorUtils";
 
-// API URL
-const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-
+import { API_URL } from "@client-constants/apiConstants";
 /**
  * Custom hook for handling the deletion of a resource.
  *
@@ -31,7 +29,7 @@ const useDeleteResource = (resourceType, resourceId, route) => {
   const deleteResource = async () => {
     try {
       const response = await axios.delete(
-        `${apiUrl}/${resourceType}/${resourceId}`
+        `${API_URL}/${resourceType}/${resourceId}`,
       );
       if (response.status === StatusCodes.NO_CONTENT) {
         setError(null);
@@ -44,7 +42,7 @@ const useDeleteResource = (resourceType, resourceId, route) => {
       } else {
         devLog(
           `Error deleting resource (${resourceType} ${resourceId}):`,
-          error
+          error,
         );
         setError(t("generic-error-message"));
       }
