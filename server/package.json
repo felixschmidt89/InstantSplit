@@ -5,6 +5,9 @@
   "main": "server.js",
   "type": "module",
   "private": true,
+  "imports": {
+    "#shared/*": "../shared/*"
+  },
   "scripts": {
     "start dev": "cross-env NODE_ENV=development nodemon server.js",
     "start prod": "cross-env NODE_ENV=production nodemon server.js",
@@ -21,7 +24,6 @@
   },
   "homepage": "https://github.com/felixschmidt89/InstantSplit#readme",
   "dependencies": {
-    "@instant-split/shared": "*",
     "axios": "^1.6.7",
     "cloudinary": "^2.8.0",
     "compression": "^1.7.4",

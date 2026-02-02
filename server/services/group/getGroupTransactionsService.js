@@ -1,9 +1,9 @@
-import { debugLog } from '../../../shared/utils/debug/debugLog.js';
+import { debugLog } from '@instant-split/shared/utils/debug/debugLog.js';
 import {
   LOG_LEVELS,
   LOG_SOURCES,
-} from '../../../shared/constants/debugConstants.js';
-import { DEBUG_MESSAGES } from '../../../shared/constants/debugMessageConstants.js'; // CODECHANGE: Import from correct file
+} from '@instant-split/shared/constants/debugConstants.js';
+import { DEBUG_MESSAGES } from '@instant-split/shared/constants/debugMessageConstants.js';
 import Expense from '../../models/Expense.js';
 import Payment from '../../models/Payment.js';
 
@@ -31,7 +31,8 @@ export const getGroupTransactionsService = async (groupCode) => {
   );
 
   const transactions = [...expenses, ...payments];
-  transactions.sort((a, b) => a.createdAt - b.createdAt);
+  // CODECHANGE: Sort by createdAt descending (newest first)
+  transactions.sort((a, b) => b.createdAt - a.createdAt);
 
   return transactions;
 };

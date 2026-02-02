@@ -1,15 +1,4 @@
-import { StatusCodes } from 'http-status-codes';
-
-import { setGroupLastActivePropertyToNow } from '../../utils/databaseUtils.js';
-import { getGroupTransactionsService } from '../../services/group/getGroupTransactionsService.js';
 import { debugLog } from '@instant-split/shared/utils/debug/debugLog.js';
-import { API_RESPONSE_STATUS } from '@instant-split/shared/constants/apiStatusConstants.js';
-import { API_MESSAGES } from '@instant-split/shared/constants/apiMessageConstants.js';
-import {
-  DEBUG_MESSAGES,
-  LOG_LEVELS,
-  LOG_SOURCES,
-} from '@instant-split/shared/constants/debugConstants.js';
 
 export const getGroupTransactionsController = async (req, res) => {
   const { groupCode } = req.params;

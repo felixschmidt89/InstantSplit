@@ -1,12 +1,11 @@
-import axios from "axios";
-import { API_URL, ENDPOINTS } from "../../constants/apiConstants.js";
-import { debugLog } from "../../../../shared/utils/debug/debugLog.js";
-
-import { DEBUG_MESSAGES } from "../../../../shared/constants/debugConstants.js";
 import {
+  DEBUG_MESSAGES,
   LOG_LEVELS,
   LOG_SOURCES,
 } from "@instant-split/shared/constants/debugConstants.js";
+import { debugLog } from "@instant-split/shared/utils/debug/debugLog.js";
+import axios from "axios";
+import { API_URL, ENDPOINTS } from "../../constants/apiConstants.js";
 
 export const fetchGroupTransactions = async (groupCode) => {
   debugLog(
