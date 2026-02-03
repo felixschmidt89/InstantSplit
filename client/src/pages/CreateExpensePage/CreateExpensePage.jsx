@@ -5,7 +5,6 @@ import { getActiveGroupCode } from "@/utils/localStorage/index.js";
 import useFetchGroupMembers from "@hooks/useFetchGroupMembers";
 
 import HelmetMetaTagsNetlify from "@components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "@components/PiratePx/PiratePx";
 import Spinner from "@components/Spinner/Spinner";
 import CreateExpense from "@components/Expenses/CreateExpense/CreateExpense";
 import InAppNavigationBar from "@components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
@@ -22,7 +21,6 @@ const CreateExpensePage = () => {
   return (
     <main>
       <HelmetMetaTagsNetlify title={t("create-expense-page-title")} />
-      <PiratePx COUNT_IDENTIFIER='create-expense' />
       <InAppNavigationBar back={true} />
 
       <div className={styles.container}>

@@ -8,7 +8,6 @@ import useFetchGroupData from "../../hooks/useFetchGroupData";
 
 // Component
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/PiratePx/PiratePx";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import ShareGroupInvitation from "../../components/ShareGroupInvitation/ShareGroupInvitation/ShareGroupInvitation";
 
@@ -42,7 +41,6 @@ const ShareGroupInvitationPage = () => {
           groupName: groupData.group.groupName,
         })}
       />
-      <PiratePx COUNT_IDENTIFIER={"share-group"} />
       <InAppNavigationBar back={true} />
 
       {isFetched && (

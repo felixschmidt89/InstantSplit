@@ -13,7 +13,6 @@ import useFetchGroupCurrency from "../../hooks/useFetchGroupCurrency";
 
 // Components
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/PiratePx/PiratePx";
 import Spinner from "../../components/Spinner/Spinner";
 import RouteButton from "../../components/InAppNavigation/RouteButton/RouteButton";
 import DeleteResource from "../../components/DeleteResource/DeleteResource";
@@ -49,7 +48,6 @@ const GroupMemberDetailsPage = () => {
   return (
     <main>
       <HelmetMetaTagsNetlify title={t("groupmember-details-page-title")} />
-      <PiratePx COUNT_IDENTIFIER={"groupmember-details"} />
       <InAppNavigationBar back={true} />
       {groupMemberDataIsFetched && currencyInfoIsFetched ? (
         <div className={styles.container}>

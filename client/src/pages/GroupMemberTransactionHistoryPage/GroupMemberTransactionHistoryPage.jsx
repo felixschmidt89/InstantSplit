@@ -14,7 +14,6 @@ import useFetchGroupMembers from "../../hooks/useFetchGroupMembers";
 
 // Components
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/PiratePx/PiratePx";
 import Spinner from "../../components/Spinner/Spinner";
 import ErrorDisplay from "../../components/ErrorDisplay/ErrorDisplay";
 import UserTransactionsHistory from "../../components/GroupMemberTransactionsHistory/GroupMemberTransactionsHistory/GroupMemberTransactionsHistory";
@@ -81,7 +80,6 @@ const GroupMemberTransactionHistoryPage = () => {
       <HelmetMetaTagsNetlify
         title={t("groupmember-transaction-history-page-title")}
       />
-      <PiratePx COUNT_IDENTIFIER={"groupmember-transaction-history"} />
       <InAppNavigationBar previousRoute={true} home={true} />
       {isLoading && currencyInfoIsFetched && groupMembersIsFetched ? (
         <div className={styles.spinner}>
