@@ -1,9 +1,10 @@
 import axios from "axios";
+
 import { API_URL, ENDPOINTS } from "../../constants/apiConstants.js";
 import { LOG_LEVELS } from "../../../../shared/constants/debugConstants.js";
 import { debugLog } from "../../../../shared/utils/debug/debugLog.js";
 
-const { INFO, ERROR } = LOG_LEVELS;
+const { INFO, LOG_ERROR } = LOG_LEVELS;
 const { GROUPS, GROUP_TRANSACTIONS } = ENDPOINTS;
 
 export const fetchGroupTransactions = async (groupCode) => {
@@ -21,7 +22,7 @@ export const fetchGroupTransactions = async (groupCode) => {
     debugLog(
       "Error fetching group transactions",
       { error: error.message, groupCode },
-      ERROR,
+      LOG_ERROR,
     );
 
     throw error;

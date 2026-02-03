@@ -28,10 +28,10 @@ const RenderGroupHistory = ({ groupCode, groupCurrency }) => {
   useEffect(() => {
     const fetchGroupExpensesAndPayments = async () => {
       try {
-        const data = await fetchGroupTransactions(groupCode);
-        console.log("data");
+        const { transactions } = await fetchGroupTransactions(groupCode);
+        console.log(transactions);
 
-        if (data?.length) {
+        if (transactions?.length) {
           const modifiedData = data
             .map((item) => ({
               ...item,
