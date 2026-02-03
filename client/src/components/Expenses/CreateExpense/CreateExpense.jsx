@@ -1,21 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 import styles from "./CreateExpense.module.css";
-import { API_URL } from "../../../constants/apiConstants";
-import { changeFixedDebitorCreditorOrderSetting } from "../../../utils/settlementUtils";
-import { devLog, handleApiErrors } from "../../../utils/errorUtils";
-import { ROUTES } from "../../../constants/routesConstants";
-import { buttonStyles } from "../../../constants/stylesConstants";
-import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
-import ExpenseDescriptionInput from "../ExpenseDescriptionInput/ExpenseDescriptionInput";
-import ExpenseAmountInput from "../ExpenseAmountInput/ExpenseAmountInput";
-import ExpensePayerSelect from "../ExpensePayerSelect/ExpensePayerSelect";
-import ExpenseBeneficiariesInput from "../ExpenseBeneficiariesInput/ExpenseBeneficiariesInput";
-import ErrorModal from "../../ErrorModal/ErrorModal";
+import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility.jsx";
+import { LOG_LEVELS } from "../../../../../shared/constants/debugConstants.js";
+import { changeFixedDebitorCreditorOrderSetting } from "../../../utils/settlementUtils.jsx";
+import { debugLog } from "../../../../../shared/utils/debug/debugLog.js";
+import { API_URL } from "../../../constants/apiConstants.js";
+import { ROUTES } from "../../../constants/routesConstants.jsx";
+import ExpenseDescriptionInput from "../ExpenseDescriptionInput/ExpenseDescriptionInput.jsx";
+import ExpenseAmountInput from "../ExpenseAmountInput/ExpenseAmountInput.jsx";
+import ExpensePayerSelect from "../ExpensePayerSelect/ExpensePayerSelect.jsx";
+import ExpenseBeneficiariesInput from "../ExpenseBeneficiariesInput/ExpenseBeneficiariesInput.jsx";
+import { buttonStyles } from "../../../constants/stylesConstants.jsx";
+import ErrorModal from "../../ErrorModal/ErrorModal.jsx";
+
+const { LOG_ERROR, INFO } = LOG_LEVELS;
 
 const CreateExpense = ({ groupMembers, groupCode }) => {
   const navigate = useNavigate();
@@ -25,37 +28,66 @@ const CreateExpense = ({ groupMembers, groupCode }) => {
 
   const [expenseDescription, setExpenseDescription] = useState("");
   const [expenseAmount, setExpenseAmount] = useState("");
-  const [expensePayerName, setExpensePayerName] = useState("");
-  const [selectedBeneficiaries, setSelectedBeneficiaries] = useState([
-    ...groupMembers,
-  ]);
+
+  const [expensePayer, setExpensePayer] = useState(null);
+
+  const [selectedBeneficiaries, setSelectedBeneficiaries] = useState([]);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (groupMembers?.length) {
+      setSelectedBeneficiaries(groupMembers);
+    }
+  }, [groupMembers]);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     setError(null);
 
+    if (!expensePayer || !expensePayer._id) {
+      setError(t("expense-payer-required-error"));
+      displayErrorModal();
+      return;
+    }
+
+    if (selectedBeneficiaries.length === 0) {
+      setError(t("expense-beneficiaries-required-error"));
+      displayErrorModal();
+      return;
+    }
+
     try {
-      const response = await axios.post(`${API_URL}/expenses`, {
+      const amount = parseFloat(expenseAmount);
+      const amountPerBeneficiary = amount / selectedBeneficiaries.length;
+
+      const payload = {
         expenseDescription,
-        expenseAmount,
+        expenseAmount: amount,
+        expenseAmountPerBeneficiary: amountPerBeneficiary,
         groupCode,
-        expensePayerName,
-        expenseBeneficiariesNames: selectedBeneficiaries,
-      });
+
+        expensePayer: expensePayer._id,
+
+        expenseBeneficiaries: selectedBeneficiaries.map((b) => b._id),
+      };
+
+      debugLog("Creating expense payload", payload, INFO);
+
+      const response = await axios.post(`${API_URL}/expenses`, payload);
 
       changeFixedDebitorCreditorOrderSetting(groupCode, false);
-      devLog("Expense created:", response);
+      debugLog("Expense created successfully", { id: response.data._id }, INFO);
 
       navigate(ROUTES.INSTANT_SPLIT);
     } catch (error) {
-      if (error?.response) {
-        handleApiErrors(error, setError, "expenses", displayErrorModal, t);
+      debugLog("Error creating expense", { error: error.message }, LOG_ERROR);
+
+      if (error?.response?.data?.message) {
+        setError(error.response.data.message);
       } else {
         setError(t("generic-error-message"));
-        devLog("Error creating expense:", error);
-        displayErrorModal();
       }
+      displayErrorModal();
     }
   };
 
@@ -73,15 +105,15 @@ const CreateExpense = ({ groupMembers, groupCode }) => {
         />
 
         <ExpensePayerSelect
-          expensePayerName={expensePayerName}
-          onPayerChange={setExpensePayerName}
+          expensePayer={expensePayer}
+          onPayerChange={setExpensePayer}
           groupMembers={groupMembers}
         />
 
         <ExpenseBeneficiariesInput
-          selectedBeneficiaries={selectedBeneficiaries}
+          expenseBeneficiaries={selectedBeneficiaries}
+          setExpenseBeneficiaries={setSelectedBeneficiaries}
           groupMembers={groupMembers}
-          onSelectedBeneficiariesChange={setSelectedBeneficiaries}
         />
 
         <Button style={buttonStyles} variant='contained' type='submit'>

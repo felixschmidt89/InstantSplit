@@ -1,66 +1,82 @@
-import { useEffect, useState } from "react";
+import { useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 
 import styles from "./RenderGroupHistory.module.css";
-
-import useErrorModalVisibility from "../../../../hooks/useErrorModalVisibility";
-import useFetchGroupMembers from "../../../../hooks/useFetchGroupMembers";
-import { devLog } from "../../../../utils/errorUtils";
-import RenderGroupExpensesTotal from "../RenderTotalGroupExpenses/RenderGroupExpensesTotal";
-import Spinner from "../../../Spinner/Spinner";
-import RenderGroupExpense from "../RenderGroupExpense/RenderGroupExpense";
-import RenderGroupPayment from "../RenderGroupPayment/RenderGroupPayment";
-import NoGroupTransactions from "../NoGroupTransactions/NoGroupTransactions";
-import NotEnoughGroupMembers from "../../NotEnoughGroupMembers/NotEnoughGroupMembers";
-import ErrorModal from "../../../ErrorModal/ErrorModal";
+import useErrorModalVisibility from "../../../../hooks/useErrorModalVisibility.jsx";
+import {
+  GroupMembersProvider,
+  useGroupMembers,
+} from "../../../../context/GroupMembersContext.jsx";
+import { LOG_LEVELS } from "../../../../../../shared/constants/debugConstants.js";
+import { TRANSACTION_TYPES } from "../../../../../../shared/constants/transactionConstants.js";
 import { fetchGroupTransactions } from "../../../../api/groups/fetchGroupTransactions.js";
+import { debugLog } from "../../../../../../shared/utils/debug/debugLog.js";
+import Spinner from "../../../Spinner/Spinner.jsx";
+import { usePolling } from "../../../../hooks/usePolling.jsx";
+import RenderGroupExpensesTotal from "../RenderTotalGroupExpenses/RenderGroupExpensesTotal.jsx";
+import RenderGroupExpense from "../RenderGroupExpense/RenderGroupExpense.jsx";
+import RenderGroupPayment from "../RenderGroupPayment/RenderGroupPayment.jsx";
+import NoGroupTransactions from "../NoGroupTransactions/NoGroupTransactions.jsx";
+import NotEnoughGroupMembers from "../../NotEnoughGroupMembers/NotEnoughGroupMembers.jsx";
+import ErrorModal from "../../../ErrorModal/ErrorModal.jsx";
 
-const RenderGroupHistory = ({ groupCode, groupCurrency }) => {
+const { INFO, LOG_ERROR } = LOG_LEVELS;
+const { EXPENSE } = TRANSACTION_TYPES;
+
+const GroupHistoryContent = ({ groupCode, groupCurrency }) => {
   const { t } = useTranslation();
+
+  const { groupMembers, isFetched: isMembersFetched } = useGroupMembers();
+
   const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
     useErrorModalVisibility();
 
-  const { groupMembers, isFetched } = useFetchGroupMembers(groupCode);
-  const [groupExpensesAndPayments, setGroupExpensesAndPayments] = useState([]);
+  const [transactions, setTransactions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchGroupExpensesAndPayments = async () => {
+  const getGroupHistory = useCallback(
+    async (isPolling = false) => {
       try {
-        const { transactions } = await fetchGroupTransactions(groupCode);
-        console.log(transactions);
+        if (!isPolling) setIsLoading(true);
 
-        if (transactions?.length) {
-          const modifiedData = data
-            .map((item) => ({
-              ...item,
-              itemId: item._id,
-              itemType: item.expenseDescription
-                ? "expense"
-                : item.paymentAmount
-                  ? "payment"
-                  : "unknown",
-              createdAt: new Date(item.createdAt),
-            }))
-            .sort((a, b) => b.createdAt - a.createdAt);
+        const { transactions: fetchedTransactions } =
+          await fetchGroupTransactions(groupCode);
 
-          devLog("Group expenses and payments data modified:", modifiedData);
-          setGroupExpensesAndPayments(modifiedData);
+        if (fetchedTransactions?.length) {
+          const formattedTransactions = fetchedTransactions.map((item) => ({
+            ...item,
+            createdAt: new Date(item.createdAt),
+          }));
+
+          debugLog(
+            "Group transactions processed",
+            { count: formattedTransactions.length, isPolling },
+            INFO,
+          );
+          setTransactions(formattedTransactions);
         }
 
         setError(null);
-        setIsLoading(false);
       } catch (error) {
-        devLog("Error fetching group expenses and payments:", error);
-        setError(t("generic-error-message"));
-        displayErrorModal();
-        setIsLoading(false);
-      }
-    };
+        debugLog(
+          "Error fetching group history",
+          { error: error.message },
+          LOG_ERROR,
+        );
 
-    fetchGroupExpensesAndPayments();
-  }, [groupCode, t, displayErrorModal]);
+        if (!isPolling) {
+          setError(t("generic-error-message"));
+          displayErrorModal();
+        }
+      } finally {
+        if (!isPolling) setIsLoading(false);
+      }
+    },
+    [groupCode, t, displayErrorModal],
+  );
+
+  usePolling(getGroupHistory);
 
   if (isLoading) {
     return (
@@ -72,7 +88,7 @@ const RenderGroupHistory = ({ groupCode, groupCurrency }) => {
 
   return (
     <div className={styles.container}>
-      {groupExpensesAndPayments?.length ? (
+      {!!transactions?.length ? (
         <>
           <RenderGroupExpensesTotal
             groupCode={groupCode}
@@ -80,14 +96,13 @@ const RenderGroupHistory = ({ groupCode, groupCurrency }) => {
           />
           <div className={styles.container}>
             <ul>
-              {groupExpensesAndPayments.map((item) => (
-                <li key={item._id}>
-                  {item.expenseDescription ? (
+              {transactions.map((item) => (
+                <li key={item.itemId}>
+                  {item.itemType === EXPENSE ? (
                     <RenderGroupExpense
                       item={item}
                       groupCode={groupCode}
                       groupCurrency={groupCurrency}
-                      groupMembers={groupMembers}
                     />
                   ) : (
                     <RenderGroupPayment
@@ -103,7 +118,7 @@ const RenderGroupHistory = ({ groupCode, groupCurrency }) => {
         </>
       ) : (
         <div className={styles.issue}>
-          {isFetched && groupMembers?.length > 1 ? (
+          {isMembersFetched && groupMembers?.length > 1 ? (
             <NoGroupTransactions />
           ) : (
             <NotEnoughGroupMembers />
@@ -117,6 +132,17 @@ const RenderGroupHistory = ({ groupCode, groupCurrency }) => {
         isVisible={isErrorModalVisible}
       />
     </div>
+  );
+};
+
+const RenderGroupHistory = ({ groupCode, groupCurrency }) => {
+  return (
+    <GroupMembersProvider groupCode={groupCode}>
+      <GroupHistoryContent
+        groupCode={groupCode}
+        groupCurrency={groupCurrency}
+      />
+    </GroupMembersProvider>
   );
 };
 

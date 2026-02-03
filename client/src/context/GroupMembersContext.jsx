@@ -1,0 +1,47 @@
+import { createContext, useContext, useMemo } from "react";
+import useFetchGroupMembers from "../hooks/useFetchGroupMembers.jsx";
+
+const GroupMembersContext = createContext();
+
+export const GroupMembersProvider = ({ groupCode, children }) => {
+  const { groupMembers, isFetched, error } = useFetchGroupMembers(groupCode);
+
+  const membersMap = useMemo(() => {
+    const map = {};
+    if (groupMembers?.length) {
+      groupMembers.forEach((member) => {
+        map[member._id] = member.userName;
+      });
+    }
+    return map;
+  }, [groupMembers]);
+
+  const getMemberName = (id) => {
+    if (!id) return "Unknown";
+    return membersMap[id] || "Unknown Member";
+  };
+
+  const value = {
+    groupMembers,
+    getMemberName,
+    isFetched,
+    error,
+  };
+
+  return (
+    <GroupMembersContext.Provider value={value}>
+      {children}
+    </GroupMembersContext.Provider>
+  );
+};
+
+// Custom hook to consume the context
+export const useGroupMembers = () => {
+  const context = useContext(GroupMembersContext);
+  if (!context) {
+    throw new Error(
+      "useGroupMembers must be used within a GroupMembersProvider",
+    );
+  }
+  return context;
+};

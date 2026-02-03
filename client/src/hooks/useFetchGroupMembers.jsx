@@ -1,35 +1,48 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
+import { LOG_LEVELS } from "../../../shared/constants/debugConstants.js";
+import { fetchGroupMembers } from "../api/users/fetchGroupMembers.js";
+import { debugLog } from "../../../shared/utils/debug/debugLog.js";
+import { usePolling } from "./usePolling.jsx";
 
-import { API_URL } from "../constants/apiConstants";
-import { debugLog } from "../../../shared/utils/debug";
+const { LOG_ERROR } = LOG_LEVELS;
 
 const useFetchGroupMembers = (groupCode) => {
   const { t } = useTranslation();
+
   const [groupMembers, setGroupMembers] = useState([]);
   const [isFetched, setIsFetched] = useState(false);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchGroupMembers = async () => {
-      try {
-        const response = await axios.get(
-          `${API_URL}/users/byGroupCode/${groupCode}`,
-        );
-        const userData = response.data.users;
-        const userNames = userData.map((user) => user.userName);
-        debugLog("Group members fetched:", response);
-        setGroupMembers(userNames);
-        setIsFetched(true);
-      } catch (error) {
-        debugLog("Error fetching group members:", error);
-        setError(t("generic-error-message"));
-      }
-    };
+  const getMembers = useCallback(
+    async (isPolling = false) => {
+      if (!groupCode) return;
 
-    fetchGroupMembers();
-  }, [groupCode, t]);
+      try {
+        const response = await fetchGroupMembers(groupCode);
+
+        if (response?.users) {
+          setGroupMembers(response.users);
+          setIsFetched(true);
+        }
+
+        setError(null);
+      } catch (err) {
+        debugLog(
+          "Hook Error: useFetchGroupMembers",
+          { error: err.message },
+          LOG_ERROR,
+        );
+
+        if (!isPolling) {
+          setError(t("generic-error-message"));
+        }
+      }
+    },
+    [groupCode, t],
+  );
+
+  usePolling(getMembers);
 
   return { groupMembers, isFetched, error };
 };

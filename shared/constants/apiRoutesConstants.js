@@ -14,6 +14,7 @@ export const API_ROUTES = {
 
   USERS: {
     USERS_BASE: "users",
+    BY_GROUP_CODE: "byGroupCode",
   },
 
   EXPENSES: {

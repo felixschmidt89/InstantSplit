@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import styles from "./ExpensePayerSelect.module.css";
 
 const ExpensePayerSelect = ({
-  expensePayerName,
+  expensePayer,
   onPayerChange,
   groupMembers,
   setFormChanged,
@@ -13,30 +13,37 @@ const ExpensePayerSelect = ({
   const { t } = useTranslation();
 
   const handlePayerChange = (e) => {
-    onPayerChange(e.target.value);
+    const selectedId = e.target.value;
+
+    const selectedMember = groupMembers.find((m) => m._id === selectedId);
+
+    onPayerChange(selectedMember);
+
     setFormChanged?.(true);
   };
 
-  // TODO: Refactor to hook or utility function if similar patterns emerge
   const handleSelectClick = () => {
     if (isUpdate) {
       selectRef.current?.classList.remove(styles.isUpdate);
     }
   };
 
+  const selectedValue = expensePayer?._id || expensePayer || "";
+
   return (
     <select
       className={`${styles.select} ${isUpdate ? styles.isUpdate : ""}`}
-      value={expensePayerName || ""}
+      value={selectedValue}
       onChange={handlePayerChange}
       onClick={handleSelectClick}
       ref={selectRef}>
-      <option value='' disabled={!expensePayerName}>
+      <option value='' disabled={!selectedValue}>
         {t("expense-payer-select-paid-by")}
       </option>
+
       {groupMembers.map((member) => (
-        <option key={member} value={member}>
-          {member}
+        <option key={member._id} value={member._id}>
+          {member.userName}
         </option>
       ))}
     </select>

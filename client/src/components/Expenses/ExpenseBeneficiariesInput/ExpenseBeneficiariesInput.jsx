@@ -7,9 +7,9 @@ import { toggleBeneficiariesButtonStyles } from "../../../constants/stylesConsta
 import styles from "./ExpenseBeneficiariesInput.module.css";
 
 const ExpenseBeneficiariesInput = ({
-  selectedBeneficiaries,
+  expenseBeneficiaries,
+  setExpenseBeneficiaries,
   groupMembers,
-  onSelectedBeneficiariesChange,
   setFormChanged,
   isUpdate = false,
 }) => {
@@ -24,29 +24,35 @@ const ExpenseBeneficiariesInput = ({
     }
   };
 
-  const handleCheckboxChange = (e) => {
-    const { value, checked } = e.target;
+  const handleCheckboxChange = (member) => {
+    handleDivOrButtonClick();
 
-    onSelectedBeneficiariesChange(
-      checked
-        ? [...selectedBeneficiaries, value]
-        : selectedBeneficiaries.filter((member) => member !== value),
-    );
+    const isSelected = expenseBeneficiaries.some((b) => b._id === member._id);
 
+    let updatedList;
+    if (isSelected) {
+      updatedList = expenseBeneficiaries.filter((b) => b._id !== member._id);
+    } else {
+      updatedList = [...expenseBeneficiaries, member];
+    }
+
+    setExpenseBeneficiaries(updatedList);
     setFormChanged?.(true);
   };
 
   const toggleBeneficiaries = () => {
     handleDivOrButtonClick();
 
-    onSelectedBeneficiariesChange(
-      selectedBeneficiaries.length === groupMembers.length
+    setExpenseBeneficiaries(
+      expenseBeneficiaries.length === groupMembers.length
         ? []
         : [...groupMembers],
     );
 
     setFormChanged?.(true);
   };
+
+  if (!groupMembers || !expenseBeneficiaries) return null;
 
   return (
     <>
@@ -63,20 +69,26 @@ const ExpenseBeneficiariesInput = ({
         onClick={handleDivOrButtonClick}
         ref={divRef}>
         <div className={styles.groupMemberNames}>
-          {groupMembers.map((member) => (
-            <span className={styles.label} key={member}>
-              <label>
-                <input
-                  className={`${styles.input} ${isUpdate ? styles.isUpdate : ""}`}
-                  type='checkbox'
-                  value={member}
-                  checked={selectedBeneficiaries.includes(member)}
-                  onChange={handleCheckboxChange}
-                />
-                {member}
-              </label>
-            </span>
-          ))}
+          {groupMembers.map((member) => {
+            const isChecked = expenseBeneficiaries.some(
+              (b) => b._id === member._id,
+            );
+
+            return (
+              <span className={styles.label} key={member._id}>
+                <label>
+                  <input
+                    className={`${styles.input} ${isUpdate ? styles.isUpdate : ""}`}
+                    type='checkbox'
+                    value={member._id}
+                    checked={isChecked}
+                    onChange={() => handleCheckboxChange(member)}
+                  />
+                  {member.userName}
+                </label>
+              </span>
+            );
+          })}
         </div>
         <div className={styles.button}>
           <Button
@@ -85,7 +97,7 @@ const ExpenseBeneficiariesInput = ({
             color='grey'
             variant='outlined'
             ref={buttonRef}>
-            {selectedBeneficiaries.length === groupMembers.length
+            {expenseBeneficiaries.length === groupMembers.length
               ? t("expense-beneficiaries-input-none")
               : t("expense-beneficiaries-input-all")}
           </Button>
