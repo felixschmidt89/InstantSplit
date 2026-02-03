@@ -8,7 +8,6 @@ import { BALANCE_THRESHOLD } from "@client-constants/dataConstants";
 import useErrorModalVisibility from "@hooks/useErrorModalVisibility";
 
 import Spinner from "@components/Spinner/Spinner";
-import PiratePx from "@components/PiratePx/PiratePx";
 import NotEnoughGroupMembers from "@components/GroupBalancesAndHistory/NotEnoughGroupMembers/NotEnoughGroupMembers";
 import ErrorModal from "@components/ErrorModal/ErrorModal";
 import RenderGroupMemberBalance from "@components/GroupBalancesAndHistory/GroupBalances/RenderGroupMemberBalance/RenderGroupMemberBalance";
@@ -99,8 +98,6 @@ const RenderGroupBalances = ({ groupCurrency }) => {
           <NotEnoughGroupMembers />
         </span>
       )}
-
-      <PiratePx COUNT_IDENTIFIER='group-balances' />
 
       <ErrorModal
         error={error}

@@ -22,7 +22,6 @@ import useValidateGroupExistence from "@hooks/useValidateGroupCodeExistence";
 import useGetClientDeviceAndPwaInfo from "@hooks/useGetClientDeviceAndPwaInfo";
 
 import HelmetMetaTagsNetlify from "@components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "@components/PiratePx/PiratePx";
 import SwitchViewButtonsBar from "@components/GroupBalancesAndHistory/SwitchViewButtonsBar/SwitchViewButtonsBar";
 import RenderGroupHistory from "@components/GroupBalancesAndHistory/GroupHistory/RenderGroupHistory/RenderGroupHistory";
 import RenderGroupBalances from "@components/GroupBalancesAndHistory/GroupBalances/RenderGroupBalances/RenderGroupBalances";
@@ -128,7 +127,6 @@ const InstantSplitPage = () => {
           {groupData?.group && (
             <>
               <HelmetMetaTagsNetlify title={t("main-page-title")} />
-              <PiratePx COUNT_IDENTIFIER='main-application' />
 
               <DefaultAndUserSettingsBar />
 

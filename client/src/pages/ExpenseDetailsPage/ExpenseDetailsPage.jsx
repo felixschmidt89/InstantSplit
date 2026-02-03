@@ -14,7 +14,6 @@ import useFetchGroupCurrency from "../../hooks/useFetchGroupCurrency";
 
 //Components
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/PiratePx/PiratePx";
 import Spinner from "../../components/Spinner/Spinner";
 import RouteButton from "../../components/InAppNavigation/RouteButton/RouteButton";
 import RenderExpenseBeneficiaries from "../../components/Expenses/RenderExpenseBeneficiaries/RenderExpenseBeneficiaries";
@@ -44,7 +43,6 @@ const ExpenseDetailsPage = () => {
   return (
     <main>
       <HelmetMetaTagsNetlify title={t("expense-details-page-title")} />
-      <PiratePx COUNT_IDENTIFIER={"expense-details"} />
       <InAppNavigation back={true} />
       {expenseInfoIsFetched &&
       currencyInfoIsFetched &&

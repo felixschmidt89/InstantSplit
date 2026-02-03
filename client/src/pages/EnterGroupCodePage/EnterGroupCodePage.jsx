@@ -4,7 +4,6 @@ import { useTranslation } from "react-i18next";
 
 // Components
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/PiratePx/PiratePx";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import ValidateGroupCode from "../../components/ManageGroups/ValidateGroupCode/ValidateGroupCode";
 
@@ -17,7 +16,6 @@ const EnterGroupCodePage = () => {
   return (
     <main>
       <HelmetMetaTagsNetlify title={t("enter-groupcode-page-title")} />
-      <PiratePx COUNT_IDENTIFIER={"onboarding-enter-groupcode"} />
       <InAppNavigationBar back={true} backRoute='/' />
       <div className={style.container}>
         <ValidateGroupCode />

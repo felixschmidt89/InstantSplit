@@ -12,7 +12,6 @@ import useFetchGroupCurrency from "../../hooks/useFetchGroupCurrency";
 
 // Components
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/PiratePx/PiratePx";
 import Spinner from "../../components/Spinner/Spinner";
 import RouteButton from "../../components/InAppNavigation/RouteButton/RouteButton";
 import DeleteResource from "../../components/DeleteResource/DeleteResource";
@@ -35,7 +34,6 @@ const PaymentDetailsPage = () => {
   return (
     <main>
       <HelmetMetaTagsNetlify title={t("payment-details-page-title")} />
-      <PiratePx COUNT_IDENTIFIER={"payment-details"} />
       <InAppNavigationBar back={true} />
       {paymentInfoIsFetched && currencyInfoIsFetched ? (
         <div className={styles.container}>

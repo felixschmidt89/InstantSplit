@@ -4,7 +4,6 @@ import { useTranslation } from "react-i18next";
 import useExpenseUpdate from "../../hooks/useExpenseUpdate";
 import useDetermineUpdateTransactionPageOpeningSource from "../../hooks/useCheckUpdateTransactionPageHasBeenOpenedViaUserTransactionsHistoryOrGroupHistory";
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/PiratePx/PiratePx";
 import Spinner from "../../components/Spinner/Spinner";
 import UpdateExpense from "../../components/Expenses/UpdateExpense/UpdateExpense";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
@@ -23,7 +22,6 @@ const UpdateExpensePage = () => {
   return (
     <main>
       <HelmetMetaTagsNetlify title={t("update-expense-page-title")} />
-      <PiratePx COUNT_IDENTIFIER='update-expense' />
 
       {isChecked && openedViaGroupHistory && (
         <InAppNavigationBar previousRoute home />
