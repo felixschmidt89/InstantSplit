@@ -9,7 +9,6 @@ import useDetermineUpdateTransactionPageOpeningSource from "../../hooks/useCheck
 
 // Components
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/PiratePx/PiratePx";
 import Spinner from "../../components/Spinner/Spinner";
 import UpdatePayment from "../../components/Payments/UpdatePayment/UpdatePayment";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
@@ -32,7 +31,6 @@ const UpdatePaymentPage = () => {
     <main>
       <HelmetMetaTagsNetlify title={t("update-payment-page-title")} />
 
-      <PiratePx COUNT_IDENTIFIER={"update-payment"} />
       {isChecked && openedViaGroupHistory && (
         <InAppNavigationBar previousRoute={true} home={true} />
       )}

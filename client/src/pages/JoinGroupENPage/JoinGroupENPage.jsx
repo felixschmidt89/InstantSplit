@@ -7,7 +7,6 @@ import useFetchGroupData from "../../hooks/useFetchGroupData";
 
 // Components
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/PiratePx/PiratePx";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import JoinGroupViaInvitation from "../../components/AcceptGroupInvitationAndJoinGroup/JoinGroupViaInvitation/JoinGroupViaInvitation";
 
@@ -28,7 +27,6 @@ const JoinGroupENPage = () => {
         title={`InstantSplit - invitation to ${groupName}`}
         description={`Join ${groupName} to settle our shared expenses. No registration required.`}
       />
-      <PiratePx COUNT_IDENTIFIER={"join-group-english-page"} />
       <div className={styles.container}>
         <InAppNavigationBar logoOnly={true} />
         {isFetched && (
