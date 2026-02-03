@@ -9,6 +9,7 @@
     "prettier/prettier": "error",
     "import/prefer-default-export": "off",
     "import/extensions": ["error", "always", { "js": "always" }],
+    "import/no-relative-packages": "off",
     "spaced-comment": "off",
     "no-console": "off",
     "consistent-return": "off",
@@ -26,12 +27,8 @@
       { "ignores": ["modules"] }
     ],
     "node/no-missing-import": "off",
-    "import/no-extraneous-dependencies": [
-      "error",
-      {
-        "packageDir": ["./", "../"]
-      }
-    ]
+    "node/no-unpublished-import": "off",
+    "import/no-extraneous-dependencies": "off"
   },
   "settings": {
     "import/resolver": {

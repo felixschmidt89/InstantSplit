@@ -5,9 +5,6 @@
   "main": "server.js",
   "type": "module",
   "private": true,
-  "imports": {
-    "#shared/*": "../shared/*"
-  },
   "scripts": {
     "start dev": "cross-env NODE_ENV=development nodemon server.js",
     "start prod": "cross-env NODE_ENV=production nodemon server.js",

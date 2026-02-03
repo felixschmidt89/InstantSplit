@@ -84,6 +84,9 @@
   - Do **NOT** import `React` from `"react"` by default. Leverage the modern JSX transform (`react-jsx`).
   - Only include `React` base import when technically necessary for global object access (e.g., `React.Children`, `React.cloneElement`).
   - Prioritize destructuring specific hooks (e.g., `import { useState } from "react"`) instead of using the `React` prefix.
+- **Import Destructuring**:
+  - **MANDATORY**: Always destructure properties from imported objects at the top of the file, immediately following the import block.
+  - **Prohibition**: Do **NOT** use member expressions (e.g., `LOG_LEVELS.INFO`) within the functional logic.
 
 **Group Imports by Type:**
 

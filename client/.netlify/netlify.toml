@@ -1,10 +1,15 @@
 redirectsOrigin = "config"
-plugins = []
 headers = []
 
 [functions]
 
 [functions."*"]
+
+[[plugins]]
+origin = "ui"
+package = "@netlify/plugin-lighthouse"
+
+[plugins.inputs]
 
 [build]
 publish = "/home/xedim/Desktop/Active Projects/InstantSpilt/client/dist"
