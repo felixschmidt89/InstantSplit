@@ -1,27 +1,34 @@
 import axios from "axios";
-import { debugLog } from "../../../../shared/utils/debug";
-import { API_URL, ENDPOINTS } from "../../constants/apiConstants";
+
+import { LOG_LEVELS } from "../../../../shared/constants/debugConstants.js";
+import { debugLog } from "../../../../shared/utils/debug/debugLog.js";
+import { API_URL, ENDPOINTS } from "../../constants/apiConstants.js";
+
+const { INFO, SUCCESS, LOG_ERROR } = LOG_LEVELS;
+const { GROUPS } = ENDPOINTS;
 
 export const createGroup = async (groupName) => {
-  debugLog("Attempting to create group", { groupName }, "info");
+  debugLog("Attempting to create group", { groupName }, INFO);
 
   try {
-    const { data } = await axios.post(`${API_URL}${ENDPOINTS.GROUPS}`, {
+    const { data } = await axios.post(`${API_URL}${GROUPS}`, {
       groupName,
     });
 
     debugLog(
       "Group created successfully",
-      { groupId: data.group?._id },
-      "success",
+      { groupId: data?.group?._id },
+      SUCCESS,
     );
+
     return data;
   } catch (error) {
     debugLog(
       "Failed to create group",
       { error: error.message, groupName },
-      "error",
+      LOG_ERROR,
     );
+
     throw error;
   }
 };

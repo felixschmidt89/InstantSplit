@@ -2,6 +2,6 @@ export const LOG_LEVELS = {
   INFO: "info",
   SUCCESS: "success",
   WARN: "warn",
-  ERROR: "error",
+  LOG_ERROR: "error",
   DEBUG: "debug",
 };
