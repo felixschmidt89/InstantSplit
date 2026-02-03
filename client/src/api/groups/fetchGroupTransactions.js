@@ -1,40 +1,29 @@
-import {
-  DEBUG_MESSAGES,
-  LOG_LEVELS,
-  LOG_SOURCES,
-} from "@instant-split/shared/constants/debugConstants.js";
-import { debugLog } from "@instant-split/shared/utils/debug/debugLog.js";
 import axios from "axios";
 import { API_URL, ENDPOINTS } from "../../constants/apiConstants.js";
+import { LOG_LEVELS } from "../../../../shared/constants/debugConstants.js";
+import { debugLog } from "../../../../shared/utils/debug/debugLog.js";
+
+const { INFO, ERROR } = LOG_LEVELS;
+const { GROUPS, GROUP_TRANSACTIONS } = ENDPOINTS;
 
 export const fetchGroupTransactions = async (groupCode) => {
-  debugLog(
-    DEBUG_MESSAGES.API.FETCHING,
-    { groupCode },
-    LOG_LEVELS.INFO,
-    LOG_SOURCES.CLIENT,
-  );
+  debugLog("Fetching group transactions", { groupCode }, INFO);
 
   try {
     const { data } = await axios.get(
-      `${API_URL}${ENDPOINTS.GROUPS}/${groupCode}/${ENDPOINTS.GROUP_TRANSACTIONS}`,
+      `${API_URL}${GROUPS}/${groupCode}/${GROUP_TRANSACTIONS}`,
     );
 
-    debugLog(
-      DEBUG_MESSAGES.API.DATA_RECEIVED,
-      { data },
-      LOG_LEVELS.SUCCESS,
-      LOG_SOURCES.CLIENT,
-    );
+    debugLog("Transaction data received", { count: data?.length }, INFO);
 
     return data;
   } catch (error) {
     debugLog(
-      DEBUG_MESSAGES.API.ERROR,
+      "Error fetching group transactions",
       { error: error.message, groupCode },
-      LOG_LEVELS.ERROR,
-      LOG_SOURCES.CLIENT,
+      ERROR,
     );
+
     throw error;
   }
 };
