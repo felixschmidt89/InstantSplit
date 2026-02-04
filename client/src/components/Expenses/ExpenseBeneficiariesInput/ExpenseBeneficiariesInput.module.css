@@ -3,7 +3,9 @@
   gap: 0.4rem;
   font-weight: bold;
   font-size: 1.6rem;
-  margin: 0 auto;
+  flex-direction: row;
+  align-items: center; /* Centers items vertically */
+  justify-content: center; /* CODECHANGE: Centers items horizontally */
   margin-bottom: 0.2rem;
 }
 

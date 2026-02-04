@@ -65,29 +65,25 @@ const CreateExpense = ({ groupMembers, groupCode }) => {
 
   return (
     <div className={styles.container}>
-      <form onSubmit={handleFormSubmit}>
+      <form className={styles.form} onSubmit={handleFormSubmit}>
         <ExpenseDescriptionInput
           value={expenseDescription}
           onDescriptionChange={setExpenseDescription}
         />
-
         <ExpenseAmountInput
           value={expenseAmount}
           onAmountChange={setExpenseAmount}
         />
-
         <ExpensePayerSelect
           expensePayerName={expensePayerName}
           onPayerChange={setExpensePayerName}
           groupMembers={groupMembers}
         />
-
         <ExpenseBeneficiariesInput
           selectedBeneficiaries={selectedBeneficiaries}
           groupMembers={groupMembers}
           onSelectedBeneficiariesChange={setSelectedBeneficiaries}
         />
-
         <Button style={buttonStyles} variant='contained' type='submit'>
           {t("create-expense-add-expense-button-text")}
         </Button>

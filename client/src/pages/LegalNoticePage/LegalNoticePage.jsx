@@ -2,12 +2,11 @@ import { useTranslation } from "react-i18next";
 
 import { getPreviousRoute } from "@/utils/localStorage/index.js";
 
-import HelmetMetaTagsNetlify from "@components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import InAppNavigationBar from "@components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-import LegalNoticeAuthor from "@components/LegalNotice/LegalNoticeAuthor/LegalNoticeAuthor";
-import LegalNoticeSections from "@components/LegalNotice/LegalNoticeSections/LegalNoticeSections";
-
 import styles from "./LegalNoticePage.module.css";
+import HelmetMetaTagsNetlify from "@/components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
+import InAppNavigationBar from "@/components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
+import LegalNoticeAuthor from "@/components/LegalNotice/LegalNoticeAuthor/LegalNoticeAuthor";
+import LegalNoticeSections from "@/components/LegalNotice/LegalNoticeSections/LegalNoticeSections";
 import { authorInfo, legalNoticeSections } from "@/contents/legalNoticeContent";
 
 const LegalNoticePage = () => {
