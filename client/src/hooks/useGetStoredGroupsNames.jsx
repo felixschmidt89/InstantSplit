@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useTranslation } from "react-i18next";
-import { API_ROUTES } from "../../../shared/constants/apiRoutesConstants";
+
 import { getStoredGroupCodes } from "../utils/localStorage";
-import { API_URL } from "../constants/apiConstants";
 import { debugLog } from "../../../shared/utils/debug";
+import { fetchStoredGroupNames } from "../api/groups/fetchStoredGroupNames";
 
 const useGetStoredGroupsNames = (activeGroupCode) => {
   const { t } = useTranslation();
@@ -13,10 +12,8 @@ const useGetStoredGroupsNames = (activeGroupCode) => {
   const [isFetched, setIsFetched] = useState(false);
   const [error, setError] = useState(null);
 
-  const { GROUPS } = API_ROUTES;
-
   useEffect(() => {
-    const fetchGroupNames = async () => {
+    const getNames = async () => {
       setIsFetched(false);
       setError(null);
 
@@ -28,20 +25,15 @@ const useGetStoredGroupsNames = (activeGroupCode) => {
           return;
         }
 
-        const groupCodesString = groupCodesArray.join(",");
-        const endpoint = `${API_URL}/${GROUPS.BASE}/${GROUPS.STORED_GROUP_NAMES}`;
-
-        const { data } = await axios.get(endpoint, {
-          params: { storedGroupCodes: groupCodesString },
-        });
+        const data = await fetchStoredGroupNames(groupCodesArray);
 
         const allGroups = data?.groupNamesAndGroupCodes || [];
 
-        const otherGroups = allGroups.filter(
+        const notActiveGroups = allGroups.filter(
           (group) => group.groupCode !== activeGroupCode,
         );
 
-        setStoredGroups(otherGroups);
+        setStoredGroups(notActiveGroups);
       } catch (err) {
         debugLog("Error fetching stored group names:", err);
         setError(t("generic-error-message"));
@@ -50,8 +42,8 @@ const useGetStoredGroupsNames = (activeGroupCode) => {
       }
     };
 
-    fetchGroupNames();
-  }, [activeGroupCode, t, GROUPS.BASE, GROUPS.STORED_GROUP_NAMES]);
+    getNames();
+  }, [activeGroupCode, t]);
 
   return { storedGroups, isFetched, error };
 };
