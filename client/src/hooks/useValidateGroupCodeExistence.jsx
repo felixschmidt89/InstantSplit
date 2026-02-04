@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { StatusCodes } from "http-status-codes";
 import { useTranslation } from "react-i18next";
 
 import { devLog } from "../utils/errorUtils";
-import { API_ROUTES } from "../../../shared/constants/apiRoutesConstants";
-import { API_URL } from "../constants/apiConstants";
+import { validateGroupCode } from "../api/groups/validateGroupCode";
 
 function useValidateGroupExistence(groupCode, validationType = "continuous") {
   const [groupExists, setGroupExists] = useState(null);
@@ -13,36 +11,19 @@ function useValidateGroupExistence(groupCode, validationType = "continuous") {
   const [isValidated, setIsValidated] = useState(false);
   const { t } = useTranslation();
 
-  const {
-    BASE,
-    VALIDATE_GROUP_EXISTENCE_CONTINUOUS,
-    VALIDATE_GROUP_EXISTENCE_LIMITED,
-  } = API_ROUTES.GROUPS;
-
   useEffect(() => {
-    const validateGroup = async () => {
+    const validate = async () => {
       setError(null);
       setIsValidated(false);
 
       try {
-        devLog(`Validating groupCode ${groupCode} in database`);
+        const { exists } = await validateGroupCode(groupCode, validationType);
 
-        const validateGroupExistence =
-          validationType === "limited"
-            ? VALIDATE_GROUP_EXISTENCE_LIMITED
-            : VALIDATE_GROUP_EXISTENCE_CONTINUOUS;
-
-        const endpoint = `${API_URL}/${BASE}/${groupCode}/${validateGroupExistence}`;
-
-        const { data } = await axios.get(endpoint);
-
-        if (data?.exists) {
+        if (exists) {
           setGroupExists(true);
-          devLog(`Groupcode ${groupCode} exists.`);
         } else {
           setGroupExists(false);
           setError(t("validate-groupcode-error-groupcode-does-not-exist"));
-          devLog(`Groupcode ${groupCode} does not exist.`);
         }
       } catch (err) {
         if (
@@ -60,15 +41,10 @@ function useValidateGroupExistence(groupCode, validationType = "continuous") {
       }
     };
 
-    if (groupCode) validateGroup();
-  }, [
-    groupCode,
-    validationType,
-    t,
-    BASE,
-    VALIDATE_GROUP_EXISTENCE_CONTINUOUS,
-    VALIDATE_GROUP_EXISTENCE_LIMITED,
-  ]);
+    if (groupCode) {
+      validate();
+    }
+  }, [groupCode, validationType, t]);
 
   return { groupExists, error, isValidated };
 }
