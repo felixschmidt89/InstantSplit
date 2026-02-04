@@ -76,7 +76,7 @@ const RenderGroupBalances = ({ groupCurrency }) => {
     if (groupCode) {
       fetchUserDetails();
     }
-  }, [groupCode, t, displayErrorModal]);
+  }, [groupCode, t]);
 
   if (isLoading) {
     return (
