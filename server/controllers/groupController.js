@@ -405,22 +405,3 @@ export const listAllGroups = async (req, res) => {
     sendInternalError(res, error);
   }
 };
-// TODO: Ensure that this function is limited to development mode only
-
-export const deleteAllGroups = async (req, res) => {
-  try {
-    await Group.deleteMany();
-    res.status(StatusCodes.NO_CONTENT).json({
-      status: 'success',
-      data: null,
-      message: 'All groups deleted successfully.',
-    });
-  } catch (error) {
-    errorLog(
-      error,
-      'Error deleting all groups:',
-      'Failed to delete all groups. Please try again later.',
-    );
-    sendInternalError(res, error);
-  }
-};

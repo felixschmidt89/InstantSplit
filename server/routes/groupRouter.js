@@ -4,7 +4,6 @@ import {
   createGroup,
   changeGroupName,
   listAllGroups,
-  deleteAllGroups,
   listGroupNamesByStoredGroupCodes,
   getGroupInfo,
   validateGroupExistence,
@@ -96,6 +95,5 @@ router.get(
  * Restricted to development environment via middleware
  */
 router.get('/debug/all', developmentOnlyMiddleware, listAllGroups);
-router.delete('/debug/all', developmentOnlyMiddleware, deleteAllGroups);
 
 export default router;
