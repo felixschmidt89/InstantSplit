@@ -13,15 +13,6 @@ const Footer = () => {
       <span className={styles.localeSwitcher}>
         <LanguageToggle />
       </span>
-
-      <a
-        href='https://github.com/felixschmidt89/InstantSplit'
-        target='_blank'
-        rel='noopener noreferrer'
-        className={styles.link}>
-        {t("footer-github-link")}
-      </a>
-
       <Link to={ROUTES.LEGAL_NOTICE} className={styles.link}>
         {t("footer-legal-notice-link")}
       </Link>
