@@ -4,7 +4,6 @@ import { useTranslation } from "react-i18next";
 
 // Components
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/PiratePx/PiratePx";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import CreateGroupForm from "../../components/ManageGroups/CreateGroupForm/CreateGroupForm";
 
@@ -17,7 +16,6 @@ const OnboardingCreateGroupPage = () => {
   return (
     <main>
       <HelmetMetaTagsNetlify title={t("onboarding-create-group-page-title")} />
-      <PiratePx COUNT_IDENTIFIER={"onboarding-create-group"} />
       <InAppNavigationBar back={true} backRoute='/' />
       <div className={styles.container}>
         <CreateGroupForm isExistingUser={false} />

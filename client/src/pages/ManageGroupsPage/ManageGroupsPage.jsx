@@ -7,7 +7,6 @@ import {
   getActiveGroupCode,
 } from "@client-utils/localStorage";
 
-import PiratePx from "@components/PiratePx/PiratePx";
 import HelmetMetaTagsNetlify from "@components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import CreateGroupForm from "@components/ManageGroups/CreateGroupForm/CreateGroupForm";
 import SwitchGroups from "@components/ManageGroups/SwitchGroups/SwitchGroups/SwitchGroups";
@@ -32,7 +31,6 @@ const ManageGroupsPage = () => {
   return (
     <main>
       <HelmetMetaTagsNetlify title={t("manage-groups-page-title")} />
-      <PiratePx COUNT_IDENTIFIER='manage-groups' />
       <InAppNavigationBar back={true} />
 
       <div className={styles.container}>

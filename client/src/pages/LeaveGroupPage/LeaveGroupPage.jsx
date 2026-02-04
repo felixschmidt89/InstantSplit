@@ -14,7 +14,6 @@ import { buttonStyles } from "@client-constants/stylesConstants";
 import { ROUTES } from "@client-constants/routesConstants";
 
 import HelmetMetaTagsNetlify from "@components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "@components/PiratePx/PiratePx";
 import CopyToClipboard from "@components/CopyToClipboard/CopyToClipboard";
 import InAppNavigationBar from "@components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import ConfirmationModal from "@components/ConfirmationModal/ConfirmationModal";
@@ -50,7 +49,6 @@ const LeaveGroupPage = () => {
   return (
     <main>
       <HelmetMetaTagsNetlify title={t("leave-group-on-device-page-title")} />
-      <PiratePx COUNT_IDENTIFIER={"leave-group-on-device"} />
       <InAppNavigationBar back={true} />
 
       <h1 className={styles.header}>

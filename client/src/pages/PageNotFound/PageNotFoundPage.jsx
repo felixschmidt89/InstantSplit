@@ -7,7 +7,6 @@ import emojiConstants from "../../constants/emojiConstants";
 
 // Components
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/PiratePx/PiratePx";
 import Emoji from "../../components/Emoji/Emoji";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import RouteButton from "../../components/InAppNavigation/RouteButton/RouteButton";
@@ -27,7 +26,6 @@ function PageNotFoundPage() {
         {t("page-not-found-page-header")}
       </h1>
       <div className={styles.container}>
-        <PiratePx COUNT_IDENTIFIER={"page-not-found"} />
         <div className={styles.pageNotFoundText}>
           <p>{t("page-not-found-page-explanation")}</p>
           <span className={styles.goToMainButton}>

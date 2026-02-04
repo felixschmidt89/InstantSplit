@@ -6,7 +6,6 @@ import useFetchGroupData from "@hooks/useFetchGroupData";
 import useSettingsEmoji from "@hooks/useSettingsEmoji";
 
 import HelmetMetaTagsNetlify from "@components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "@components/PiratePx/PiratePx";
 import Emoji from "@components/Emoji/Emoji";
 import InAppNavigationBar from "@components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import Spinner from "@components/Spinner/Spinner";
@@ -28,7 +27,6 @@ const GroupSettingsPage = () => {
   return (
     <main>
       <HelmetMetaTagsNetlify title={t("group-settings-page-title")} />
-      <PiratePx COUNT_IDENTIFIER='group-settings' />
       <InAppNavigationBar back={true} />
 
       <div className={styles.container}>

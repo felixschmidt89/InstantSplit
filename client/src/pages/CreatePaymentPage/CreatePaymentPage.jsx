@@ -5,7 +5,6 @@ import { getActiveGroupCode } from "@/utils/localStorage/index.js";
 import useFetchGroupMembers from "@hooks/useFetchGroupMembers";
 
 import HelmetMetaTagsNetlify from "@components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "@components/PiratePx/PiratePx";
 import Spinner from "@components/Spinner/Spinner";
 import CreatePayment from "@components/Payments/CreatePayment/CreatePayment";
 import CreateGroupMemberCTA from "@components/GroupBalancesAndHistory/CreateGroupMemberCTA/CreateGroupMemberCTA";
@@ -23,7 +22,6 @@ const CreatePaymentPage = () => {
   return (
     <main>
       <HelmetMetaTagsNetlify title={t("create-payment-page-title")} />
-      <PiratePx COUNT_IDENTIFIER='create-payment' />
       <InAppNavigationBar back={true} />
 
       <div className={styles.container}>

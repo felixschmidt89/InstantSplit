@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import { getPreviousRoute } from "@/utils/localStorage/index.js";
 
 import HelmetMetaTagsNetlify from "@components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "@components/PiratePx/PiratePx";
 import TermsAndConditions from "@components/TermsAndConditions/TermsAndConditions/TermsAndConditions";
 import InAppNavigationBar from "@components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 
@@ -20,7 +19,6 @@ const TermsAndConditionsPage = () => {
   return (
     <main>
       <HelmetMetaTagsNetlify title={t("terms-and-conditions-page-title")} />
-      <PiratePx COUNT_IDENTIFIER='terms-and-conditions' />
 
       <InAppNavigationBar previousRoute={isInvitedUser} back={!isInvitedUser} />
 
