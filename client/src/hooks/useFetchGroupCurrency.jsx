@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
-import { StatusCodes } from "http-status-codes";
 import { useTranslation } from "react-i18next";
 
 import { devLog } from "../utils/errorUtils";
-import { API_URL } from "../constants/apiConstants";
+import { fetchGroupCurrency } from "../api/groups/fetchGroupCurrency";
 
 const useFetchGroupCurrency = (groupCode) => {
   const { t } = useTranslation();
@@ -13,15 +11,11 @@ const useFetchGroupCurrency = (groupCode) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchGroupCurrency = async () => {
+    const getCurrency = async () => {
       try {
-        const response = await axios.get(
-          `${API_URL}/groups/currency/${groupCode}`,
-        );
+        const data = await fetchGroupCurrency(groupCode);
 
-        const { data, status } = response;
-
-        if (status === StatusCodes.NO_CONTENT) {
+        if (!data) {
           devLog("No group found for groupCode:", groupCode);
           setIsFetched(true);
           return;
@@ -36,7 +30,9 @@ const useFetchGroupCurrency = (groupCode) => {
       }
     };
 
-    fetchGroupCurrency();
+    if (groupCode) {
+      getCurrency();
+    }
   }, [groupCode, t]);
 
   return { groupCurrency, isFetched, error };
