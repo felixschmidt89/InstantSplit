@@ -29,7 +29,7 @@ const useGetStoredGroupsNames = (activeGroupCode) => {
         }
 
         const groupCodesString = groupCodesArray.join(",");
-        const endpoint = `${API_URL}/${GROUPS.GROUPS_BASE}/${GROUPS.STORED_GROUP_NAMES}`;
+        const endpoint = `${API_URL}/${GROUPS.BASE}/${GROUPS.STORED_GROUP_NAMES}`;
 
         const { data } = await axios.get(endpoint, {
           params: { storedGroupCodes: groupCodesString },
@@ -51,7 +51,7 @@ const useGetStoredGroupsNames = (activeGroupCode) => {
     };
 
     fetchGroupNames();
-  }, [activeGroupCode, t, GROUPS.GROUPS_BASE, GROUPS.STORED_GROUP_NAMES]);
+  }, [activeGroupCode, t, GROUPS.BASE, GROUPS.STORED_GROUP_NAMES]);
 
   return { storedGroups, isFetched, error };
 };

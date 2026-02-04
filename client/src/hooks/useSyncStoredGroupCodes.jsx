@@ -8,8 +8,7 @@ import { debugLog } from "../../../shared/utils/debug";
 const useSyncStoredGroupCodes = () => {
   const storedGroupCodes = useMemo(() => getStoredGroupCodes(), []);
 
-  const { GROUPS_BASE, VALIDATE_GROUP_EXISTENCE_CONTINUOUS } =
-    API_ROUTES.GROUPS;
+  const { BASE, VALIDATE_GROUP_EXISTENCE_CONTINUOUS } = API_ROUTES.GROUPS;
 
   useEffect(() => {
     const syncWithServer = async () => {
@@ -18,7 +17,7 @@ const useSyncStoredGroupCodes = () => {
       await Promise.all(
         storedGroupCodes.map(async (groupCode) => {
           try {
-            const endpoint = `${API_URL}/${GROUPS_BASE}/${groupCode}/${VALIDATE_GROUP_EXISTENCE_CONTINUOUS}`;
+            const endpoint = `${API_URL}/${BASE}/${groupCode}/${VALIDATE_GROUP_EXISTENCE_CONTINUOUS}`;
 
             const { data } = await axios.get(endpoint);
 
@@ -34,7 +33,7 @@ const useSyncStoredGroupCodes = () => {
     };
 
     syncWithServer();
-  }, [storedGroupCodes, GROUPS_BASE, VALIDATE_GROUP_EXISTENCE_CONTINUOUS]);
+  }, [storedGroupCodes, BASE, VALIDATE_GROUP_EXISTENCE_CONTINUOUS]);
 };
 
 export default useSyncStoredGroupCodes;

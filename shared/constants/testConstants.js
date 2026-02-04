@@ -90,34 +90,34 @@ export const MOCK_API_ROUTES = {
     GROUP_ID: ":groupId",
   },
   GROUPS: {
-    GROUPS_BASE: "groups",
+    BASE: "groups",
     VALIDATE_GROUP_EXISTENCE_CONTINUOUS: "continuous-validate-existence",
     VALIDATE_GROUP_EXISTENCE_LIMITED: "limited-validate-existence",
     STORED_GROUP_NAMES: "stored-group-names",
     TRANSACTIONS: "expenses-and-payments",
   },
   USERS: {
-    USERS_BASE: "users",
+    BASE: "users",
   },
   EXPENSES: {
-    EXPENSES_BASE: "expenses",
+    BASE: "expenses",
   },
   PAYMENTS: {
-    PAYMENTS_BASE: "payments",
+    BASE: "payments",
   },
   SETTLEMENTS: {
-    SETTLEMENTS_BASE: "settlements",
+    BASE: "settlements",
   },
 };
 
 export const MOCK_ENDPOINTS = {
-  GROUPS: `/${MOCK_API_ROUTES.GROUPS.GROUPS_BASE}`,
-  USERS: `/${MOCK_API_ROUTES.USERS.USERS_BASE}`,
-  EXPENSES: `/${MOCK_API_ROUTES.EXPENSES.EXPENSES_BASE}`,
-  PAYMENTS: `/${MOCK_API_ROUTES.PAYMENTS.PAYMENTS_BASE}`,
-  SETTLEMENTS: `/${MOCK_API_ROUTES.SETTLEMENTS.SETTLEMENTS_BASE}`,
+  GROUPS: `/${MOCK_API_ROUTES.GROUPS.BASE}`,
+  USERS: `/${MOCK_API_ROUTES.USERS.BASE}`,
+  EXPENSES: `/${MOCK_API_ROUTES.EXPENSES.BASE}`,
+  PAYMENTS: `/${MOCK_API_ROUTES.PAYMENTS.BASE}`,
+  SETTLEMENTS: `/${MOCK_API_ROUTES.SETTLEMENTS.BASE}`,
   GROUP_TRANSACTIONS: (groupCode) =>
-    `/${MOCK_API_ROUTES.GROUPS.GROUPS_BASE}/${groupCode}/${MOCK_API_ROUTES.GROUPS.TRANSACTIONS}`,
+    `/${MOCK_API_ROUTES.GROUPS.BASE}/${groupCode}/${MOCK_API_ROUTES.GROUPS.TRANSACTIONS}`,
 };
 
 export const MOCK_FULL_URLS = {

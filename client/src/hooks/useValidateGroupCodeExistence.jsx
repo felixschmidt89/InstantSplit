@@ -14,7 +14,7 @@ function useValidateGroupExistence(groupCode, validationType = "continuous") {
   const { t } = useTranslation();
 
   const {
-    GROUPS_BASE,
+    BASE,
     VALIDATE_GROUP_EXISTENCE_CONTINUOUS,
     VALIDATE_GROUP_EXISTENCE_LIMITED,
   } = API_ROUTES.GROUPS;
@@ -32,7 +32,7 @@ function useValidateGroupExistence(groupCode, validationType = "continuous") {
             ? VALIDATE_GROUP_EXISTENCE_LIMITED
             : VALIDATE_GROUP_EXISTENCE_CONTINUOUS;
 
-        const endpoint = `${API_URL}/${GROUPS_BASE}/${groupCode}/${validateGroupExistence}`;
+        const endpoint = `${API_URL}/${BASE}/${groupCode}/${validateGroupExistence}`;
 
         const { data } = await axios.get(endpoint);
 
@@ -65,7 +65,7 @@ function useValidateGroupExistence(groupCode, validationType = "continuous") {
     groupCode,
     validationType,
     t,
-    GROUPS_BASE,
+    BASE,
     VALIDATE_GROUP_EXISTENCE_CONTINUOUS,
     VALIDATE_GROUP_EXISTENCE_LIMITED,
   ]);
