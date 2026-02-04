@@ -4,16 +4,6 @@ import compression from 'compression';
 import cors from 'cors';
 import multer from 'multer';
 
-// CODECHANGE: Import the constants
-import { API_ROUTES } from './shared/constants/apiRoutesConstants.js';
-
-const nodeEnv = process.env.NODE_ENV;
-if (nodeEnv === 'production') {
-  dotenv.config({ path: './config.prod.env' });
-} else {
-  dotenv.config({ path: './config.dev.env' });
-}
-
 import groupRouter from './routes/groupRouter.js';
 import userRouter from './routes/userRouter.js';
 import expenseRouter from './routes/expenseRouter.js';
@@ -23,6 +13,14 @@ import healthRouter from './routes/healthRouter.js';
 import fileRouter from './routes/fileRouter.js';
 import captchaRouter from './routes/captchaRouter.js';
 import settlementRouter from './routes/settlementRouter.js';
+import { API_ROUTES } from '../shared/constants/apiRoutesConstants.js';
+
+const nodeEnv = process.env.NODE_ENV;
+if (nodeEnv === 'production') {
+  dotenv.config({ path: './config.prod.env' });
+} else {
+  dotenv.config({ path: './config.dev.env' });
+}
 
 const {
   GROUPS,
