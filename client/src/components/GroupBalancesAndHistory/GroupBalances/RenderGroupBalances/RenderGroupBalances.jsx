@@ -1,18 +1,16 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useTranslation } from "react-i18next";
 
 import styles from "./RenderGroupBalances.module.css";
-import useErrorModalVisibility from "../../../../hooks/useErrorModalVisibility";
 import { getActiveGroupCode } from "../../../../utils/localStorage";
-import { devLog } from "../../../../utils/errorUtils";
 import { BALANCE_THRESHOLD } from "../../../../constants/dataConstants";
 import RenderGroupMemberBalance from "../RenderGroupMemberBalance/RenderGroupMemberBalance";
 import Spinner from "../../../Spinner/Spinner";
 import NotEnoughGroupMembers from "../../NotEnoughGroupMembers/NotEnoughGroupMembers";
-import PiratePx from "../../../PiratePx/PiratePx";
 import ErrorModal from "../../../ErrorModal/ErrorModal";
 import { fetchGroupMembers } from "../../../../api/users/fetchGroupMembers.js";
+import useErrorModalVisibility from "../../../../hooks/useErrorModalVisibility.jsx";
+import { devLog } from "../../../../utils/errorUtils.jsx";
 
 const RenderGroupBalances = ({ groupCurrency }) => {
   const { t } = useTranslation();
@@ -92,8 +90,6 @@ const RenderGroupBalances = ({ groupCurrency }) => {
           <NotEnoughGroupMembers />
         </span>
       )}
-
-      <PiratePx COUNT_IDENTIFIER='group-balances' />
 
       <ErrorModal
         error={error}

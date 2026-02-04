@@ -1,9 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
-import { customAlphabet } from 'nanoid';
 import Group from '../models/Group.js';
 import Expense from '../models/Expense.js';
 import Payment from '../models/Payment.js';
-import User from '../models/User.js';
 import {
   devLog,
   errorLog,
@@ -14,8 +12,8 @@ import { generateUniqueGroupCode } from '../utils/groupCodeUtils.js';
 import { setGroupLastActivePropertyToNow } from '../utils/databaseUtils.js';
 import { generateGroupCreationEmailOptions } from '../utils/adminNotificationEmailTemplates.js';
 import { sendAdminEmailNotification } from '../config/adminNotificationEmailConfig.js';
-import { LOG_LEVELS } from '#shared/constants/debugConstants.js';
-import { debugLog } from '#shared/utils/debug/debugLog.js';
+import { LOG_LEVELS } from '../../shared/constants/debugConstants.js';
+import { debugLog } from '../../shared/utils/debug/debugLog.js';
 
 export const createGroup = async (req, res) => {
   try {

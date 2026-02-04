@@ -5,7 +5,6 @@ import useTriggerRerender from "../../hooks/useTriggerRerender";
 import { getPreviousRoute } from "../../utils/localStorage";
 import { ROUTES } from "../../constants/routesConstants";
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/PiratePx/PiratePx";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import CreateGroupMemberForm from "../../components/CreateGroupMember/CreateGroupMemberForm/CreateGroupMemberForm";
 import RenderGroupMemberNames from "../../components/CreateGroupMember/RenderGroupMemberNames/RenderGroupMemberNames";
@@ -27,7 +26,6 @@ const CreateGroupMemberPage = () => {
   return (
     <main>
       <HelmetMetaTagsNetlify title={t("create-group-members-page-title")} />
-      <PiratePx COUNT_IDENTIFIER='create-group-members' />
 
       <InAppNavigationBar
         abort={isNewUser || isInAppGroupCreation}

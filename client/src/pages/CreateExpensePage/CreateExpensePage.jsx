@@ -4,7 +4,6 @@ import styles from "./CreateExpensePage.module.css";
 import { getActiveGroupCode } from "../../utils/localStorage";
 import useFetchGroupMembers from "../../hooks/useFetchGroupMembers";
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/PiratePx/PiratePx";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import Spinner from "../../components/Spinner/Spinner";
 import CreateGroupMemberCTA from "../../components/GroupBalancesAndHistory/CreateGroupMemberCTA/CreateGroupMemberCTA";
@@ -19,7 +18,6 @@ const CreateExpensePage = () => {
   return (
     <main>
       <HelmetMetaTagsNetlify title={t("create-expense-page-title")} />
-      <PiratePx COUNT_IDENTIFIER='create-expense' />
       <InAppNavigationBar back={true} />
 
       <div className={styles.container}>

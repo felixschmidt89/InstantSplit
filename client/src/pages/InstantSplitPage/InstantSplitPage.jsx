@@ -20,7 +20,6 @@ import { shouldShowPwaPrompt } from "../../utils/user";
 import { ROUTES } from "../../constants/routesConstants";
 import { devLog } from "../../utils/errorUtils";
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/PiratePx/PiratePx";
 import DefaultAndUserSettingsBar from "../../components/DefaultAndUserSettingsBar/DefaultAndUserSettingsBar";
 import SwitchViewButtonsBar from "../../components/GroupBalancesAndHistory/SwitchViewButtonsBar/SwitchViewButtonsBar";
 import RenderGroupHistory from "../../components/GroupBalancesAndHistory/GroupHistory/RenderGroupHistory/RenderGroupHistory";
@@ -124,7 +123,6 @@ const InstantSplitPage = () => {
           {groupData?.group && (
             <>
               <HelmetMetaTagsNetlify title={t("main-page-title")} />
-              <PiratePx COUNT_IDENTIFIER='main-application' />
 
               <DefaultAndUserSettingsBar />
 

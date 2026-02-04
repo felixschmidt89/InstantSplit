@@ -42,25 +42,25 @@ router.get(`/${GROUPS.STORED_GROUP_NAMES}`, listGroupNamesByStoredGroupCodes);
 
 router.get(`/${URL_PARAMS.GROUP_CODE}`, getGroupInfo);
 
-/**
- * Currency and Settings Routes
- */
-router.get(`/currency/${URL_PARAMS.GROUP_CODE}`, getGroupCurrency);
-
-router.patch(`/currency/${URL_PARAMS.GROUP_CODE}`, changeGroupCurrency);
+router.get(`/${GROUPS.CURRENCY}/${URL_PARAMS.GROUP_CODE}`, getGroupCurrency);
 
 router.patch(
-  `/data-purge/${URL_PARAMS.GROUP_CODE}`,
+  `/${GROUPS.CURRENCY}/${URL_PARAMS.GROUP_CODE}`,
+  changeGroupCurrency,
+);
+
+router.patch(
+  `/${GROUPS.DATA_PURGE}/${URL_PARAMS.GROUP_CODE}`,
   changeGroupDataPurgeSetting,
 );
 
 router.patch(
-  `/fixed-order-settings/${URL_PARAMS.GROUP_CODE}`,
+  `/${GROUPS.PERSISTED_ORDER}/${URL_PARAMS.GROUP_CODE}`,
   changeFixedDebitorCreditorOrderSetting,
 );
 
 router.get(
-  `/has-persisted-order/${URL_PARAMS.GROUP_CODE}`,
+  `/${GROUPS.HAS_PERSISTED_ORDER}/${URL_PARAMS.GROUP_CODE}`,
   groupHasPersistedDebitorCreditorOrder,
 );
 

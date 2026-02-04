@@ -8,7 +8,6 @@ import useFetchGroupData from "../../hooks/useFetchGroupData";
 
 // Components
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/PiratePx/PiratePx";
 import GroupCodeExplanation from "../../components/Tutorial/GroupCodeExplanation/GroupCodeExplanation";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import SyncGroupCodeExplanation from "../../components/Tutorial/SyncGroupCodeExplanation/SyncGroupCodeExplanation";
@@ -27,7 +26,6 @@ function TutorialPage() {
   return (
     <main>
       <HelmetMetaTagsNetlify title={t("tutorial-page-title")} />
-      <PiratePx COUNT_IDENTIFIER={"tutorial"} />
       <InAppNavigationBar back={true} />
       <div className={styles.container}>
         <h1>{t("tutorial-page-header")}</h1>

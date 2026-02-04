@@ -15,7 +15,6 @@ import {
 } from "../../utils/localStorage";
 import { ROUTES } from "../../constants/routesConstants";
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/PiratePx/PiratePx";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import ErrorDisplay from "../../components/ErrorDisplay/ErrorDisplay";
 import Spinner from "../../components/Spinner/Spinner";
@@ -54,7 +53,6 @@ const ValidateProvideGroupCodePage = () => {
   return (
     <main>
       <HelmetMetaTagsNetlify title={t("validate-groupcode-page-title")} />
-      <PiratePx COUNT_IDENTIFIER='groupCode-validator' />
 
       <InAppNavigationBar
         back

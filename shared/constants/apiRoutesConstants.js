@@ -13,6 +13,9 @@ export const API_ROUTES = {
     VALIDATE_GROUP_EXISTENCE_LIMITED: "limited-validate-existence",
     STORED_GROUP_NAMES: "stored-group-names",
     CURRENCY: "currency",
+    HAS_PERSISTED_ORDER: "has-persisted-order",
+    PERSISTED_ORDER: "persisted-order",
+    DATA_PURGE: "data-purge",
   },
 
   USERS: {

@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import styles from "./LegalNoticePage.module.css";
 import { getPreviousRoute } from "../../utils/localStorage";
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/PiratePx/PiratePx";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import LegalNoticeAuthor from "../../components/LegalNotice/LegalNoticeAuthor/LegalNoticeAuthor";
 import {
@@ -25,7 +24,6 @@ const LegalNoticePage = () => {
         title={t("legal-notice-page-title")}
         description={t("legal-notice-page-description")}
       />
-      <PiratePx COUNT_IDENTIFIER='legal-notice' />
 
       <InAppNavigationBar previousRoute={isInvitedUser} back={!isInvitedUser} />
 

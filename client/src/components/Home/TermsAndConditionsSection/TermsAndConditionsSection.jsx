@@ -9,6 +9,8 @@ const TermsAndConditionsSection = () => {
   const { t } = useTranslation();
   const { pathname } = useLocation();
 
+  // TODO: Implement PiratePx alternative and drop PiratePx from terms and conditions
+
   return (
     <p className={styles.terms}>
       {t("terms-and-conditions-section-text")}{" "}

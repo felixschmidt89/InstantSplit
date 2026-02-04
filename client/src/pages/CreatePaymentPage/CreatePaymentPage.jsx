@@ -4,10 +4,10 @@ import styles from "./CreatePaymentPage.module.css";
 import { getActiveGroupCode } from "../../utils/localStorage";
 import useFetchGroupMembers from "../../hooks/useFetchGroupMembers";
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/PiratePx/PiratePx";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import CreateGroupMemberCTA from "../../components/GroupBalancesAndHistory/CreateGroupMemberCTA/CreateGroupMemberCTA";
 import CreatePayment from "../../components/Payments/CreatePayment/CreatePayment";
+import Spinner from "../../components/Spinner/Spinner.jsx";
 
 const CreatePaymentPage = () => {
   const { t } = useTranslation();
@@ -19,7 +19,6 @@ const CreatePaymentPage = () => {
   return (
     <main>
       <HelmetMetaTagsNetlify title={t("create-payment-page-title")} />
-      <PiratePx COUNT_IDENTIFIER='create-payment' />
       <InAppNavigationBar back={true} />
 
       <div className={styles.container}>

@@ -4,7 +4,6 @@ import styles from "./OnboardingGroupSettingsPage.module.css";
 import { getActiveGroupCode } from "../../utils/localStorage";
 import useFetchGroupData from "../../hooks/useFetchGroupData";
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import PiratePx from "../../components/PiratePx/PiratePx";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import { ROUTES } from "../../constants/routesConstants";
 import Spinner from "../../components/Spinner/Spinner";
@@ -24,7 +23,6 @@ const OnboardingGroupSettingsPage = () => {
       <HelmetMetaTagsNetlify
         title={t("onboarding-group-settings-page-title")}
       />
-      <PiratePx COUNT_IDENTIFIER='onboarding-group-settings' />
       <InAppNavigationBar
         back
         backRoute={ROUTES.MEMBERS.CREATE}

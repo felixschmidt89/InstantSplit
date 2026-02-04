@@ -163,7 +163,8 @@ const DefaultAndUserSettingsBar = () => {
                 translateY={0.1}
               />
             </span>
-            <span className={styles.icon}>
+            {/* TODO: Reactivate when Email function is fixed */}
+            {/* <span className={styles.icon}>
               <ReactIconNavigate
                 icon={IoChatboxOutline}
                 containerHeight='8'
@@ -174,7 +175,7 @@ const DefaultAndUserSettingsBar = () => {
                 iconSize={isVerySlimDevice ? 3 : 3.5}
                 iconScale={0.95}
               />
-            </span>
+            </span> */}
             <span className={styles.icon}>
               <ReactIconNavigate
                 icon={PiUserSwitchLight}
