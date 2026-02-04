@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { useTranslation } from "react-i18next";
 
 import { devLog } from "../utils/errorUtils";
-import { API_URL } from "../constants/apiConstants";
+import { fetchExpense } from "../api/expenses/fetchExpense";
 
 const useFetchExpenseInfo = (expenseId) => {
   const { t } = useTranslation();
@@ -12,12 +11,11 @@ const useFetchExpenseInfo = (expenseId) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchExpenseInfo = async () => {
+    const getExpense = async () => {
       try {
-        const response = await axios.get(`${API_URL}/expenses/${expenseId}`);
-        const expenseData = response.data.expense;
-        devLog("Expense info fetched:", response);
-        setExpenseInfo(expenseData);
+        const data = await fetchExpense(expenseId);
+
+        setExpenseInfo(data.expense);
         setIsFetched(true);
       } catch (error) {
         devLog("Error fetching expense info:", error);
@@ -25,7 +23,9 @@ const useFetchExpenseInfo = (expenseId) => {
       }
     };
 
-    fetchExpenseInfo();
+    if (expenseId) {
+      getExpense();
+    }
   }, [expenseId, t]);
 
   return { expenseInfo, isFetched, error };

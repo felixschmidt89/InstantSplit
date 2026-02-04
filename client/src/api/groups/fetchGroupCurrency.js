@@ -12,7 +12,7 @@ export const fetchGroupCurrency = async (groupCode) => {
 
   try {
     const { data } = await axios.get(
-      `${API_URL}${GROUPS}/${GROUP_CURRENCY}/${groupCode}`,
+      `${API_URL}/${GROUPS}/${GROUP_CURRENCY}/${groupCode}`,
     );
 
     debugLog("Group currency fetched", { currency: data?.currency }, INFO);

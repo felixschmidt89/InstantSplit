@@ -1,5 +1,4 @@
 import express from 'express';
-import { check } from 'express-validator';
 import {
   createExpense,
   listAllExpensesByGroupCode,
@@ -12,26 +11,29 @@ import {
 } from '../controllers/expenseController.js';
 import { expenseValidator } from '../validators/expenseValidator.js';
 import developmentOnlyMiddleware from '../middleware/developmentOnlyMiddleware.js';
+import { API_ROUTES } from '../../shared/constants/apiRoutesConstants.js';
 
 const router = express.Router();
 
-// Create an expense
+const { EXPENSES, URL_PARAMS } = API_ROUTES;
+
 router.post('/', expenseValidator, createExpense);
 
-// Update an expense
-router.put('/:expenseId', expenseValidator, updateExpense);
+router.put(`/${URL_PARAMS.EXPENSE_ID}`, expenseValidator, updateExpense);
 
-// Get expense info by id
-router.get('/:expenseId', getExpenseInfo);
+router.get(`/${URL_PARAMS.EXPENSE_ID}`, getExpenseInfo);
 
-// Delete expense
-router.delete('/:expenseId', deleteExpense);
+router.delete(`/${URL_PARAMS.EXPENSE_ID}`, deleteExpense);
 
-// Get all expenses by GroupCode
-router.get('/byGroupCode/:groupCode', listAllExpensesByGroupCode);
+router.get(
+  `/${EXPENSES.BY_GROUP_CODE}/${URL_PARAMS.GROUP_CODE}`,
+  listAllExpensesByGroupCode,
+);
 
-// Get total expenses by GroupCode
-router.get('/totalExpenses/:groupCode', getExpensesTotalByGroupCode);
+router.get(
+  `/${EXPENSES.TOTAL}/${URL_PARAMS.GROUP_CODE}`,
+  getExpensesTotalByGroupCode,
+);
 
 // ROUTES FOR DEVELOPMENT/DEBUGGING PURPOSES ONLY
 // List all expenses

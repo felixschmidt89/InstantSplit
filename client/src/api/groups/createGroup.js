@@ -11,7 +11,7 @@ export const createGroup = async (groupName) => {
   debugLog("Attempting to create group", { groupName }, INFO);
 
   try {
-    const { data } = await axios.post(`${API_URL}${GROUPS}`, {
+    const { data } = await axios.post(`${API_URL}/${GROUPS}`, {
       groupName,
     });
 

@@ -2,6 +2,7 @@ export const API_ROUTES = {
   URL_PARAMS: {
     GROUP_CODE: ":groupCode",
     GROUP_ID: ":groupId",
+    EXPENSE_ID: ":expenseId",
   },
 
   GROUPS: {
@@ -15,11 +16,13 @@ export const API_ROUTES = {
 
   USERS: {
     BASE: "users",
-    BY_GROUP_CODE: "byGroupCode",
+    BY_GROUP_CODE: "by-groupcode",
   },
 
   EXPENSES: {
     BASE: "expenses",
+    TOTAL: "total-expenses",
+    BY_GROUP_CODE: "by-groupcode",
   },
 
   PAYMENTS: {

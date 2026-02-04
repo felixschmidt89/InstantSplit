@@ -12,7 +12,7 @@ export const fetchGroupMembers = async (groupCode) => {
 
   try {
     const { data } = await axios.get(
-      `${API_URL}${USERS}/${USERS_BY_GROUP_CODE}/${groupCode}`,
+      `${API_URL}/${USERS}/${USERS_BY_GROUP_CODE}/${groupCode}`,
     );
 
     debugLog("Group members fetched", { count: data?.users?.length }, INFO);

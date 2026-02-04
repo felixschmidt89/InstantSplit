@@ -12,7 +12,7 @@ export const fetchGroupTransactions = async (groupCode) => {
 
   try {
     const { data } = await axios.get(
-      `${API_URL}${GROUPS}/${groupCode}/${GROUP_TRANSACTIONS}`,
+      `${API_URL}/${GROUPS}/${groupCode}/${GROUP_TRANSACTIONS}`,
     );
 
     debugLog("Transaction data received", { count: data?.length }, INFO);
