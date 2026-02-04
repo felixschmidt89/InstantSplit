@@ -4,6 +4,9 @@ import compression from 'compression';
 import cors from 'cors';
 import multer from 'multer';
 
+// CODECHANGE: Import the constants
+import { API_ROUTES } from './shared/constants/apiRoutesConstants.js';
+
 const nodeEnv = process.env.NODE_ENV;
 if (nodeEnv === 'production') {
   dotenv.config({ path: './config.prod.env' });
@@ -21,6 +24,18 @@ import fileRouter from './routes/fileRouter.js';
 import captchaRouter from './routes/captchaRouter.js';
 import settlementRouter from './routes/settlementRouter.js';
 
+const {
+  GROUPS,
+  USERS,
+  EXPENSES,
+  PAYMENTS,
+  FEEDBACKS,
+  HEALTH,
+  FILES,
+  CAPTCHAS,
+  SETTLEMENTS,
+} = API_ROUTES;
+
 const app = express();
 
 app.set('trust proxy', 1);
@@ -34,14 +49,14 @@ const upload = multer({ dest: 'uploads/' });
 app.use(compression());
 
 // ROUTES
-app.use(`${API_BASEURL}/groups`, groupRouter);
-app.use(`${API_BASEURL}/users`, userRouter);
-app.use(`${API_BASEURL}/expenses`, expenseRouter);
-app.use(`${API_BASEURL}/payments`, paymentRouter);
-app.use(`${API_BASEURL}/feedbacks`, feedbackRouter);
-app.use(`${API_BASEURL}/health`, healthRouter);
-app.use(`${API_BASEURL}/files`, fileRouter);
-app.use(`${API_BASEURL}/captchas`, captchaRouter);
-app.use(`${API_BASEURL}/settlements`, settlementRouter);
+app.use(`${API_BASEURL}/${GROUPS.GROUPS_BASE}`, groupRouter);
+app.use(`${API_BASEURL}/${USERS.USERS_BASE}`, userRouter);
+app.use(`${API_BASEURL}/${EXPENSES.EXPENSES_BASE}`, expenseRouter);
+app.use(`${API_BASEURL}/${PAYMENTS.PAYMENTS_BASE}`, paymentRouter);
+app.use(`${API_BASEURL}/${FEEDBACKS.FEEDBACKS_BASE}`, feedbackRouter);
+app.use(`${API_BASEURL}/${HEALTH.HEALTH_BASE}`, healthRouter);
+app.use(`${API_BASEURL}/${FILES.FILES_BASE}`, fileRouter);
+app.use(`${API_BASEURL}/${CAPTCHAS.CAPTCHAS_BASE}`, captchaRouter);
+app.use(`${API_BASEURL}/${SETTLEMENTS.SETTLEMENTS_BASE}`, settlementRouter);
 
 export default app;

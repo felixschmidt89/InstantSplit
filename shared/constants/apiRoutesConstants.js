@@ -7,10 +7,10 @@ export const API_ROUTES = {
   GROUPS: {
     GROUPS_BASE: "groups",
     TRANSACTIONS: "expenses-and-payments",
-    CURRENCY: "currency",
     VALIDATE_GROUP_EXISTENCE_CONTINUOUS: "continuous-validate-existence",
     VALIDATE_GROUP_EXISTENCE_LIMITED: "limited-validate-existence",
     STORED_GROUP_NAMES: "stored-group-names",
+    CURRENCY: "currency",
   },
 
   USERS: {
@@ -28,5 +28,18 @@ export const API_ROUTES = {
 
   SETTLEMENTS: {
     SETTLEMENTS_BASE: "settlements",
+  },
+
+  FEEDBACKS: {
+    FEEDBACKS_BASE: "feedbacks",
+  },
+  HEALTH: {
+    HEALTH_BASE: "health",
+  },
+  FILES: {
+    FILES_BASE: "files",
+  },
+  CAPTCHAS: {
+    CAPTCHAS_BASE: "captchas",
   },
 };
