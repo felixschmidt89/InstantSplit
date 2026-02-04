@@ -47,14 +47,14 @@ const upload = multer({ dest: 'uploads/' });
 app.use(compression());
 
 // ROUTES
-app.use(`${API_BASEURL}/${GROUPS.GROUPS_BASE}`, groupRouter);
-app.use(`${API_BASEURL}/${USERS.USERS_BASE}`, userRouter);
-app.use(`${API_BASEURL}/${EXPENSES.EXPENSES_BASE}`, expenseRouter);
-app.use(`${API_BASEURL}/${PAYMENTS.PAYMENTS_BASE}`, paymentRouter);
-app.use(`${API_BASEURL}/${FEEDBACKS.FEEDBACKS_BASE}`, feedbackRouter);
-app.use(`${API_BASEURL}/${HEALTH.HEALTH_BASE}`, healthRouter);
-app.use(`${API_BASEURL}/${FILES.FILES_BASE}`, fileRouter);
-app.use(`${API_BASEURL}/${CAPTCHAS.CAPTCHAS_BASE}`, captchaRouter);
-app.use(`${API_BASEURL}/${SETTLEMENTS.SETTLEMENTS_BASE}`, settlementRouter);
+app.use(`${API_BASEURL}/${GROUPS.BASE}`, groupRouter);
+app.use(`${API_BASEURL}/${USERS.BASE}`, userRouter);
+app.use(`${API_BASEURL}/${EXPENSES.BASE}`, expenseRouter);
+app.use(`${API_BASEURL}/${PAYMENTS.BASE}`, paymentRouter);
+app.use(`${API_BASEURL}/${FEEDBACKS.BASE}`, feedbackRouter);
+app.use(`${API_BASEURL}/${HEALTH.BASE}`, healthRouter);
+app.use(`${API_BASEURL}/${FILES.BASE}`, fileRouter);
+app.use(`${API_BASEURL}/${CAPTCHAS.BASE}`, captchaRouter);
+app.use(`${API_BASEURL}/${SETTLEMENTS.BASE}`, settlementRouter);
 
 export default app;

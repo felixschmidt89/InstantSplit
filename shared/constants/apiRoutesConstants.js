@@ -5,7 +5,7 @@ export const API_ROUTES = {
   },
 
   GROUPS: {
-    GROUPS_BASE: "groups",
+    BASE: "groups",
     TRANSACTIONS: "expenses-and-payments",
     VALIDATE_GROUP_EXISTENCE_CONTINUOUS: "continuous-validate-existence",
     VALIDATE_GROUP_EXISTENCE_LIMITED: "limited-validate-existence",
@@ -14,32 +14,32 @@ export const API_ROUTES = {
   },
 
   USERS: {
-    USERS_BASE: "users",
+    BASE: "users",
     BY_GROUP_CODE: "byGroupCode",
   },
 
   EXPENSES: {
-    EXPENSES_BASE: "expenses",
+    BASE: "expenses",
   },
 
   PAYMENTS: {
-    PAYMENTS_BASE: "payments",
+    BASE: "payments",
   },
 
   SETTLEMENTS: {
-    SETTLEMENTS_BASE: "settlements",
+    BASE: "settlements",
   },
 
   FEEDBACKS: {
-    FEEDBACKS_BASE: "feedbacks",
+    BASE: "feedbacks",
   },
   HEALTH: {
-    HEALTH_BASE: "health",
+    BASE: "health",
   },
   FILES: {
-    FILES_BASE: "files",
+    BASE: "files",
   },
   CAPTCHAS: {
-    CAPTCHAS_BASE: "captchas",
+    BASE: "captchas",
   },
 };
