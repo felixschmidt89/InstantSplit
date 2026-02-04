@@ -67,7 +67,7 @@ const RenderGroupHistory = ({ groupCode, groupCurrency }) => {
     };
 
     fetchGroupExpensesAndPayments();
-  }, [groupCode, t, displayErrorModal]);
+  }, [groupCode, t]);
 
   if (isLoading) {
     return (
