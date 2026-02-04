@@ -13,9 +13,9 @@ const useFetchExpenseInfo = (expenseId) => {
   useEffect(() => {
     const getExpense = async () => {
       try {
-        const data = await fetchExpense(expenseId);
+        const { expense } = await fetchExpense(expenseId);
 
-        setExpenseInfo(data.expense);
+        setExpenseInfo(expense);
         setIsFetched(true);
       } catch (error) {
         devLog("Error fetching expense info:", error);

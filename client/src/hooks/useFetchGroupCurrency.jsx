@@ -13,16 +13,16 @@ const useFetchGroupCurrency = (groupCode) => {
   useEffect(() => {
     const getCurrency = async () => {
       try {
-        const data = await fetchGroupCurrency(groupCode);
+        const { currency } = await fetchGroupCurrency(groupCode);
 
-        if (!data) {
+        if (!currency) {
           devLog("No group found for groupCode:", groupCode);
           setIsFetched(true);
           return;
         }
 
-        devLog("Group currency fetched:", data);
-        setGroupCurrency(data.currency);
+        devLog("Group currency fetched:", currency);
+        setGroupCurrency(currency);
         setIsFetched(true);
       } catch (error) {
         devLog("Error fetching group currency:", error);

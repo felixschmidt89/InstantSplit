@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next";
 import styles from "./RenderGroupBalances.module.css";
 import useErrorModalVisibility from "../../../../hooks/useErrorModalVisibility";
 import { getActiveGroupCode } from "../../../../utils/localStorage";
-import { API_URL } from "../../../../constants/apiConstants";
 import { devLog } from "../../../../utils/errorUtils";
 import { BALANCE_THRESHOLD } from "../../../../constants/dataConstants";
 import RenderGroupMemberBalance from "../RenderGroupMemberBalance/RenderGroupMemberBalance";
@@ -13,6 +12,7 @@ import Spinner from "../../../Spinner/Spinner";
 import NotEnoughGroupMembers from "../../NotEnoughGroupMembers/NotEnoughGroupMembers";
 import PiratePx from "../../../PiratePx/PiratePx";
 import ErrorModal from "../../../ErrorModal/ErrorModal";
+import { fetchGroupMembers } from "../../../../api/users/fetchGroupMembers.js";
 
 const RenderGroupBalances = ({ groupCurrency }) => {
   const { t } = useTranslation();
@@ -27,11 +27,8 @@ const RenderGroupBalances = ({ groupCurrency }) => {
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const response = await axios.get(
-          `${API_URL}/users/byGroupCode/${groupCode}`,
-        );
-        const { users } = response.data;
-        devLog("User details fetched:", response);
+        const { users } = await fetchGroupMembers(groupCode);
+        devLog("User details fetched:", users);
 
         if (users?.length > 0) {
           const formattedDetails = users.map((user) => {
@@ -72,7 +69,7 @@ const RenderGroupBalances = ({ groupCurrency }) => {
     if (groupCode) {
       fetchUserDetails();
     }
-  }, [groupCode, t, displayErrorModal]);
+  }, [groupCode, t]);
 
   if (isLoading) {
     return (

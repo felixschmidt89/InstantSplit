@@ -25,9 +25,10 @@ const useGetStoredGroupsNames = (activeGroupCode) => {
           return;
         }
 
-        const data = await fetchStoredGroupNames(groupCodesArray);
+        const { groupNamesAndGroupCodes } =
+          await fetchStoredGroupNames(groupCodesArray);
 
-        const allGroups = data?.groupNamesAndGroupCodes || [];
+        const allGroups = groupNamesAndGroupCodes || [];
 
         const notActiveGroups = allGroups.filter(
           (group) => group.groupCode !== activeGroupCode,
