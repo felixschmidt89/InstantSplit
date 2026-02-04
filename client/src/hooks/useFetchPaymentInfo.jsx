@@ -1,29 +1,36 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { useTranslation } from "react-i18next";
-import { debugLog } from "../../../shared/utils/debug";
-import { API_URL } from "../constants/apiConstants";
+
+import { debugLog } from "../../../shared/utils/debug/debugLog.js";
+import { LOG_LEVELS } from "../../../shared/constants/debugConstants.js";
+
+import { fetchPayment } from "../api/payments/fetchPayment";
 
 const useFetchPaymentInfo = (paymentId) => {
   const { t } = useTranslation();
   const [paymentInfo, setPaymentInfo] = useState(null);
   const [isFetched, setIsFetched] = useState(false);
   const [error, setError] = useState(null);
+
   useEffect(() => {
-    const fetchPaymentInfo = async () => {
+    const getPayment = async () => {
       try {
-        const response = await axios.get(`${API_URL}/payments/${paymentId}`);
-        const paymentData = response.data.payment;
-        debugLog("Payment info fetched:", response);
-        setPaymentInfo(paymentData);
+        const { payment } = await fetchPayment(paymentId);
+        setPaymentInfo(payment);
         setIsFetched(true);
-      } catch (error) {
-        debugLog("Error fetching payment info:", error);
+      } catch (err) {
+        debugLog(
+          "Error in hook fetching payment info",
+          { error: err.message },
+          LOG_LEVELS.LOG_ERROR,
+        );
         setError(t("generic-error-message"));
       }
     };
 
-    fetchPaymentInfo();
+    if (paymentId) {
+      getPayment();
+    }
   }, [paymentId, t]);
 
   return { paymentInfo, isFetched, error };

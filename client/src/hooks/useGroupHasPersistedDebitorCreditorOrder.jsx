@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { useTranslation } from "react-i18next";
-import { debugLog } from "../../../shared/utils/debug";
-import { API_URL } from "../constants/apiConstants";
+
+import { debugLog } from "../../../shared/utils/debug/debugLog.js";
+import { LOG_LEVELS } from "../../../shared/constants/debugConstants.js";
+
+import { fetchPersistedDebitorCreditorOrder } from "../api/groups/fetchPersistedDebitorCreditorOrder";
 
 const useGroupHasPersistedDebitorCreditorOrder = (groupCode) => {
   const { t } = useTranslation();
@@ -11,24 +13,26 @@ const useGroupHasPersistedDebitorCreditorOrder = (groupCode) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchPersistedOrder = async () => {
+    const getPersistedOrder = async () => {
       try {
-        const response = await axios.get(
-          `${API_URL}/groups/${groupCode}/has-persisted-order`,
-        );
+        const { hasPersistedOrder: exists } =
+          await fetchPersistedDebitorCreditorOrder(groupCode);
 
-        debugLog("Persisted order status fetched:", response);
-        setHasPersistedOrder(response.data);
+        setHasPersistedOrder(exists);
         setIsFetched(true);
-      } catch (error) {
-        debugLog("Error fetching persisted order status:", error);
+      } catch (err) {
+        debugLog(
+          "Error in hook fetching persisted order status",
+          { error: err.message },
+          LOG_LEVELS.LOG_ERROR,
+        );
         setError(t("generic-error-message"));
         setIsFetched(true);
       }
     };
 
     if (groupCode) {
-      fetchPersistedOrder();
+      getPersistedOrder();
     }
   }, [groupCode, t]);
 

@@ -14,6 +14,8 @@ import { generateUniqueGroupCode } from '../utils/groupCodeUtils.js';
 import { setGroupLastActivePropertyToNow } from '../utils/databaseUtils.js';
 import { generateGroupCreationEmailOptions } from '../utils/adminNotificationEmailTemplates.js';
 import { sendAdminEmailNotification } from '../config/adminNotificationEmailConfig.js';
+import { LOG_LEVELS } from '#shared/constants/debugConstants.js';
+import { debugLog } from '#shared/utils/debug/debugLog.js';
 
 export const createGroup = async (req, res) => {
   try {
@@ -344,7 +346,11 @@ export const groupHasPersistedDebitorCreditorOrder = async (req, res) => {
   try {
     const { groupCode } = req.params;
 
-    devLog('Checking fixedDebitorCreditorOrder for group:', { groupCode });
+    debugLog(
+      'Checking fixedDebitorCreditorOrder for group',
+      { groupCode },
+      LOG_LEVELS.INFO,
+    );
 
     if (!groupCode) {
       return res.status(StatusCodes.BAD_REQUEST).json({
@@ -366,14 +372,16 @@ export const groupHasPersistedDebitorCreditorOrder = async (req, res) => {
 
     await setGroupLastActivePropertyToNow(groupCode);
 
-    return res.status(StatusCodes.OK).json(group.fixedDebitorCreditorOrder);
+    const hasPersistedOrder = !!group.fixedDebitorCreditorOrder;
+
+    return res.status(StatusCodes.OK).json({ hasPersistedOrder });
   } catch (error) {
-    devLog('Error in groupHasPersistedDebitorCreditorOrder:', error);
-    errorLog(
-      error,
-      'Error checking fixedDebitorCreditorOrder:',
-      'Failed to check fixedDebitorCreditorOrder. Please try again later.',
+    debugLog(
+      'Error in groupHasPersistedDebitorCreditorOrder',
+      { error: error.message },
+      LOG_LEVELS.LOG_ERROR,
     );
+
     return sendInternalError(res, error);
   }
 };
