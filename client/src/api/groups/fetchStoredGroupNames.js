@@ -18,7 +18,7 @@ export const fetchStoredGroupNames = async (groupCodesArray) => {
     const groupCodesString = groupCodesArray.join(",");
 
     const { data } = await axios.get(
-      `${API_URL}/${GROUPS}${STORED_GROUP_NAMES}`,
+      `${API_URL}/${GROUPS}/${STORED_GROUP_NAMES}`,
       {
         params: { storedGroupCodes: groupCodesString },
       },
