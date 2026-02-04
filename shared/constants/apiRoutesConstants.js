@@ -3,6 +3,7 @@ export const API_ROUTES = {
     GROUP_CODE: ":groupCode",
     GROUP_ID: ":groupId",
     EXPENSE_ID: ":expenseId",
+    USER_ID: ":userId",
   },
 
   GROUPS: {
@@ -17,6 +18,7 @@ export const API_ROUTES = {
   USERS: {
     BASE: "users",
     BY_GROUP_CODE: "by-groupcode",
+    TRANSACTIONS: "expenses-and-payments",
   },
 
   EXPENSES: {

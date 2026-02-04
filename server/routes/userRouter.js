@@ -10,30 +10,32 @@ import {
   listExpensesAndPaymentsByUser,
 } from '../controllers/userController.js';
 import developmentOnlyMiddleware from '../middleware/developmentOnlyMiddleware.js';
+import { API_ROUTES } from '../../shared/constants/apiRoutesConstants.js';
 
 const router = express.Router();
 
-// Create new user
+const { USERS, URL_PARAMS } = API_ROUTES;
+
 router.post('/', createUser);
-// Get user info by id
-router.get('/:userId', getUserInfo);
 
-// Change user name
-router.patch('/:userId', changeUserName);
+router.get(`/${URL_PARAMS.USER_ID}`, getUserInfo);
 
-// Delete user
-router.delete('/:userId', deleteUser);
+router.patch(`/${URL_PARAMS.USER_ID}`, changeUserName);
 
-// List all expenses and payments of a group
-router.get('/:userId/expenses-and-payments', listExpensesAndPaymentsByUser);
+router.delete(`/${URL_PARAMS.USER_ID}`, deleteUser);
 
-// List group members by groupCode
-router.get('/byGroupCode/:groupCode', listAllUsersByGroupCode);
+router.get(
+  `/${USERS.BY_GROUP_CODE}/${URL_PARAMS.GROUP_CODE}`,
+  listAllUsersByGroupCode,
+);
+
+router.get(
+  `/${URL_PARAMS.USER_ID}/${USERS.TRANSACTIONS}`,
+  listExpensesAndPaymentsByUser,
+);
 
 // ROUTES FOR DEVELOPMENT/DEBUGGING PURPOSES ONLY
-// List all users
 router.get('/debug/all', developmentOnlyMiddleware, listAllUsers);
-// Delete all users
 router.delete('/debug/all', developmentOnlyMiddleware, deleteAllUsers);
 
 export default router;

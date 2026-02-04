@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import { useTranslation } from "react-i18next";
 
 import styles from "./RenderGroupMemberNames.module.css";
 import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
-import { API_URL } from "../../../constants/apiConstants";
 import { devLog } from "../../../utils/errorUtils";
 import emojiConstants from "../../../constants/emojiConstants";
 import DeleteGroupMemberBin from "../DeleteGroupMemberBin/DeleteGroupMemberBin";
 import Spinner from "../../Spinner/Spinner";
 import Emoji from "../../Emoji/Emoji";
 import ErrorModal from "../../ErrorModal/ErrorModal";
+
+// CODECHANGE: Import the utility function
+import { fetchGroupMembers } from "../../../api/users/fetchGroupMembers";
 
 const RenderGroupMemberNames = ({
   rerenderTrigger,
@@ -33,10 +34,9 @@ const RenderGroupMemberNames = ({
 
     const fetchUserDetails = async () => {
       try {
-        const response = await axios.get(
-          `${API_URL}/users/byGroupCode/${groupCode}`,
-        );
-        const { users } = response.data;
+        // CODECHANGE: Replaced axios.get with fetchGroupMembers
+        // The utility returns the 'data' object directly, which contains { users: [...] }
+        const { users } = await fetchGroupMembers(groupCode);
 
         if (users?.length > 0) {
           const sortedUserDetails = users.sort(
