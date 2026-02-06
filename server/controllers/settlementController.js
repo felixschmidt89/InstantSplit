@@ -168,7 +168,7 @@ export const deleteAllSettlementsForGroup = async (groupCode) => {
     devLog('Deleting all settlements for group:', { groupCode });
     const result = await Settlement.deleteMany({ groupCode });
 
-    await setGroupLastActivePropertyToNow(groupCode);
+    await touchGroupLastActive(groupCode);
 
     devLog(`Deleted ${result.deletedCount} settlements for group ${groupCode}`);
     return result;

@@ -1,20 +1,22 @@
 import { StatusCodes } from 'http-status-codes';
-import { validationResult } from 'express-validator';
 
 import Expense from '../models/Expense.js';
 import User from '../models/User.js';
 
 import {
-  devLog,
   errorLog,
   sendInternalError,
   sendValidationError,
 } from '../utils/errorUtils.js';
-import { updateFixedDebitorCreditorOrderSetting } from '../utils/databaseUtils.js';
-import { deleteAllSettlementsForGroup } from './settlementController.js';
 import { debugLog } from '../../shared/utils/debug/debugLog.js';
 import { LOG_LEVELS } from '../../shared/constants/debugConstants.js';
+
+import { verifyExpensePayerAndBeneficiaries } from '../utils/expense/verifyExpensePayerAndBeneficiaries.js';
 import { touchGroupLastActive } from '../utils/group/touchGroupLastActive.js';
+
+import { updateFixedDebitorCreditorOrderSetting } from '../utils/databaseUtils.js';
+import { deleteAllSettlementsForGroup } from './settlementController.js';
+import { resetGroupSettlements } from '../utils/group/resetGroupSettlements.js';
 
 const { LOG_ERROR, INFO } = LOG_LEVELS;
 
@@ -30,57 +32,17 @@ export const createExpense = async (req, res) => {
 
     debugLog('Creating expense', { groupCode, expensePayerId }, INFO);
 
-    // 1. Validate Payload
-    if (!expensePayerId) {
-      return res.status(StatusCodes.BAD_REQUEST).json({
-        status: 'fail',
-        message: 'Missing expense payer ID',
-      });
-    }
+    // 1. Shared Validation
+    const { expensePayer, expenseBeneficiaries } =
+      await verifyExpensePayerAndBeneficiaries(
+        expensePayerId,
+        expenseBeneficiaryIds,
+        groupCode,
+      );
 
-    if (!expenseBeneficiaryIds || !expenseBeneficiaryIds.length) {
-      return res.status(StatusCodes.BAD_REQUEST).json({
-        status: 'fail',
-        message: 'At least 1 expense beneficiary is required',
-      });
-    }
-
-    // 2. Fetch & Validate Users (Payer)
-    const expensePayer = await User.findById(expensePayerId);
-
-    if (!expensePayer) {
-      return res.status(StatusCodes.NOT_FOUND).json({
-        status: 'fail',
-        message: 'Expense payer not found',
-      });
-    }
-
-    // Security Check: Ensure payer belongs to the group
-    if (expensePayer.groupCode !== groupCode) {
-      return res.status(StatusCodes.FORBIDDEN).json({
-        status: 'fail',
-        message: 'Payer does not belong to this group',
-      });
-    }
-
-    // 3. Fetch & Validate Users (Beneficiaries)
-    const expenseBeneficiaries = await User.find({
-      _id: { $in: expenseBeneficiaryIds },
-      groupCode, // Ensure they belong to the group
-    });
-
-    if (expenseBeneficiaries.length !== expenseBeneficiaryIds.length) {
-      return res.status(StatusCodes.BAD_REQUEST).json({
-        status: 'fail',
-        message: 'One or more beneficiaries could not be found in this group',
-      });
-    }
-
-    // 4. Calculate Split
     const expenseAmountPerBeneficiary =
       expenseAmount / expenseBeneficiaries.length;
 
-    // 5. Create Expense
     const newExpense = new Expense({
       expenseDescription,
       expenseAmount,
@@ -92,21 +54,15 @@ export const createExpense = async (req, res) => {
 
     const expense = await newExpense.save();
 
-    // 6. Update User Balances
-    // Update Payer
     await expensePayer.updateTotalExpensesPaid();
 
-    // Update Beneficiaries concurrently
     await Promise.all(
       expenseBeneficiaries.map((beneficiary) =>
         beneficiary.updateTotalExpenseBenefitted(),
       ),
     );
 
-    // 7. Trigger Group Side Effects
-    await deleteAllSettlementsForGroup(groupCode);
-    updateFixedDebitorCreditorOrderSetting(groupCode, false);
-    touchGroupLastActive(groupCode);
+    await resetGroupSettlements(groupCode);
 
     debugLog('Expense created successfully', { expenseId: expense._id }, INFO);
 
@@ -116,6 +72,10 @@ export const createExpense = async (req, res) => {
       message: 'Expense created successfully',
     });
   } catch (error) {
+    if (error.status && error.message) {
+      return res.status(error.status).json(error);
+    }
+
     debugLog(
       'Error creating expense',
       { error: error.message, stack: error.stack },
@@ -139,48 +99,25 @@ export const createExpense = async (req, res) => {
 export const updateExpense = async (req, res) => {
   try {
     const { expenseId } = req.params;
-
     const {
-      expensePayerName,
+      expensePayerId,
       groupCode,
       expenseDescription,
       expenseAmount,
-      expenseBeneficiariesNames,
+      expenseBeneficiaryIds,
     } = req.body;
 
-    // Validate if expensePayerName is provided
-    if (!expensePayerName) {
-      return res.status(StatusCodes.BAD_REQUEST).json({
-        status: 'fail',
-        message: 'Expense payer name is required',
-      });
-    }
+    debugLog('Updating expense', { expenseId, groupCode }, INFO);
 
-    // Validate if expenseBeneficiariesNames is provided and has at least one item
-    if (!expenseBeneficiariesNames || !expenseBeneficiariesNames.length) {
-      return res.status(StatusCodes.BAD_REQUEST).json({
-        status: 'fail',
-        message: 'At least 1 expense beneficiary is required',
-      });
-    }
-
-    const expensePayer = await User.findOne({
-      userName: { $in: expensePayerName },
-      groupCode,
-    });
-
-    const expenseBeneficiaries = await User.find({
-      userName: { $in: expenseBeneficiariesNames },
-      groupCode,
-    });
-
-    const groupUsers = await User.find({
-      groupCode,
-    });
+    const { expensePayer, expenseBeneficiaries } =
+      await verifyExpensePayerAndBeneficiaries(
+        expensePayerId,
+        expenseBeneficiaryIds,
+        groupCode,
+      );
 
     const expenseAmountPerBeneficiary =
       expenseAmount / expenseBeneficiaries.length;
-    const beneficiaryIds = expenseBeneficiaries.map((user) => user._id);
 
     const updatedExpenseData = {
       expenseDescription,
@@ -188,38 +125,13 @@ export const updateExpense = async (req, res) => {
       expenseAmountPerBeneficiary,
       groupCode,
       expensePayer: expensePayer._id,
-      expenseBeneficiaries: beneficiaryIds,
+      expenseBeneficiaries: expenseBeneficiaryIds,
     };
 
     const updatedExpense = await Expense.findByIdAndUpdate(
       expenseId,
       updatedExpenseData,
       { new: true, runValidators: true },
-    );
-
-    await deleteAllSettlementsForGroup(groupCode);
-    updateFixedDebitorCreditorOrderSetting(groupCode, false);
-    touchGroupLastActive(groupCode);
-
-    // Update total expenses paid and total expenses benefitted for all users of the group
-    await Promise.all(
-      groupUsers.map(async (userId) => {
-        try {
-          const user = await User.findById(userId);
-          if (!user) {
-            return;
-          }
-          await user.updateTotalExpensesPaid();
-          await user.updateTotalExpenseBenefitted();
-        } catch (error) {
-          errorLog(
-            error,
-            "Error updating group users' total expenses paid and benefitted",
-            'Failed to update expense. Please try again later.',
-          );
-          sendInternalError();
-        }
-      }),
     );
 
     if (!updatedExpense) {
@@ -229,19 +141,47 @@ export const updateExpense = async (req, res) => {
       });
     }
 
+    const groupUsers = await User.find({ groupCode });
+
+    await Promise.all(
+      groupUsers.map(async (user) => {
+        try {
+          await user.updateTotalExpensesPaid();
+          await user.updateTotalExpenseBenefitted();
+        } catch (innerError) {
+          debugLog(
+            'Error updating user balance during expense update',
+            { userId: user._id, error: innerError.message },
+            LOG_ERROR,
+          );
+        }
+      }),
+    );
+
+    await resetGroupSettlements(groupCode);
+
     return res.status(StatusCodes.OK).json({
       status: 'success',
       updatedExpense,
       message: 'Expense updated successfully.',
     });
   } catch (error) {
-    devLog('error:', error);
+    if (error.status && error.message) {
+      return res.status(error.status).json(error);
+    }
+
+    debugLog(
+      'Error updating expense',
+      { error: error.message, stack: error.stack },
+      LOG_ERROR,
+    );
+
     if (error.name === 'ValidationError') {
       sendValidationError(res, error);
     } else {
       errorLog(
         error,
-        'Error creating expense:',
+        'Error updating expense',
         'Failed to update the expense. Please try again later.',
       );
       sendInternalError();
