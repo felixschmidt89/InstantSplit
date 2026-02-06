@@ -1,11 +1,12 @@
 import axios from "axios";
 
+import { API_ROUTES } from "../../../../shared/constants/apiRoutesConstants.js";
 import { LOG_LEVELS } from "../../../../shared/constants/debugConstants.js";
 import { debugLog } from "../../../../shared/utils/debug/debugLog.js";
-import { API_URL, ENDPOINTS } from "../../constants/apiConstants.js";
+import { API_URL } from "../../constants/apiConstants.js";
 
 const { INFO, LOG_ERROR } = LOG_LEVELS;
-const { GROUPS, STORED_GROUP_NAMES } = ENDPOINTS;
+const { BASE, STORED_GROUP_NAMES } = API_ROUTES.GROUPS;
 
 export const fetchStoredGroupNames = async (groupCodesArray) => {
   debugLog(
@@ -18,7 +19,7 @@ export const fetchStoredGroupNames = async (groupCodesArray) => {
     const groupCodesString = groupCodesArray.join(",");
 
     const { data } = await axios.get(
-      `${API_URL}/${GROUPS}/${STORED_GROUP_NAMES}`,
+      `${API_URL}/${BASE}/${STORED_GROUP_NAMES}`,
       {
         params: { storedGroupCodes: groupCodesString },
       },

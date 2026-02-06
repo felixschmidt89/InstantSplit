@@ -1,18 +1,19 @@
 import axios from "axios";
 
-import { API_URL, ENDPOINTS } from "../../constants/apiConstants.js";
+import { API_ROUTES } from "../../../../shared/constants/apiRoutesConstants.js";
 import { LOG_LEVELS } from "../../../../shared/constants/debugConstants.js";
 import { debugLog } from "../../../../shared/utils/debug/debugLog.js";
+import { API_URL } from "../../constants/apiConstants.js";
 
 const { INFO, LOG_ERROR } = LOG_LEVELS;
-const { GROUPS, GROUP_TRANSACTIONS } = ENDPOINTS;
+const { BASE, TRANSACTIONS } = API_ROUTES.GROUPS;
 
 export const fetchGroupTransactions = async (groupCode) => {
   debugLog("Fetching group transactions", { groupCode }, INFO);
 
   try {
     const { data } = await axios.get(
-      `${API_URL}/${GROUPS}/${groupCode}/${GROUP_TRANSACTIONS}`,
+      `${API_URL}/${BASE}/${groupCode}/${TRANSACTIONS}`,
     );
 
     debugLog("Transaction data received", { count: data?.length }, INFO);

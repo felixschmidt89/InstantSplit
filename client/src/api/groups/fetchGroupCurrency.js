@@ -1,18 +1,19 @@
 import axios from "axios";
 
+import { API_ROUTES } from "../../../../shared/constants/apiRoutesConstants.js";
 import { LOG_LEVELS } from "../../../../shared/constants/debugConstants.js";
 import { debugLog } from "../../../../shared/utils/debug/debugLog.js";
-import { API_URL, ENDPOINTS } from "../../constants/apiConstants.js";
+import { API_URL } from "../../constants/apiConstants.js";
 
 const { INFO, LOG_ERROR } = LOG_LEVELS;
-const { GROUPS, GROUP_CURRENCY } = ENDPOINTS;
+const { BASE, CURRENCY } = API_ROUTES.GROUPS;
 
 export const fetchGroupCurrency = async (groupCode) => {
   debugLog("Fetching group currency", { groupCode }, INFO);
 
   try {
     const { data } = await axios.get(
-      `${API_URL}/${GROUPS}/${GROUP_CURRENCY}/${groupCode}`,
+      `${API_URL}/${BASE}/${CURRENCY}/${groupCode}`,
     );
 
     debugLog("Group currency fetched", { currency: data?.currency }, INFO);

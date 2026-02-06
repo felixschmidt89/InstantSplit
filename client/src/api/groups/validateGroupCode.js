@@ -1,13 +1,13 @@
 import axios from "axios";
 
+import { API_ROUTES } from "../../../../shared/constants/apiRoutesConstants.js";
 import { LOG_LEVELS } from "../../../../shared/constants/debugConstants.js";
 import { debugLog } from "../../../../shared/utils/debug/debugLog.js";
-import { API_ROUTES } from "../../../../shared/constants/apiRoutesConstants.js";
-import { API_URL, ENDPOINTS } from "../../constants/apiConstants.js";
+import { API_URL } from "../../constants/apiConstants.js";
 
 const { INFO, LOG_ERROR } = LOG_LEVELS;
-const { GROUPS } = ENDPOINTS;
 const {
+  BASE,
   VALIDATE_GROUP_EXISTENCE_CONTINUOUS,
   VALIDATE_GROUP_EXISTENCE_LIMITED,
 } = API_ROUTES.GROUPS;
@@ -29,7 +29,7 @@ export const validateGroupCode = async (
         : VALIDATE_GROUP_EXISTENCE_CONTINUOUS;
 
     const { data } = await axios.get(
-      `${API_URL}/${GROUPS}/${groupCode}/${validationPath}`,
+      `${API_URL}/${BASE}/${groupCode}/${validationPath}`,
     );
 
     debugLog(`Group validation result`, { exists: data?.exists }, INFO);
