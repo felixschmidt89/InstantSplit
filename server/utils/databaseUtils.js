@@ -175,44 +175,6 @@ export const getUserNameByUserIdHelper = async (userId) => {
 };
 
 /**
- * Updates the lastActive property of a group with the specified groupCode.
- *
- * @param {string} groupCode - The group code to update.
- * @returns {Promise<void>} - A promise that resolves when the update is complete.
- * Logs errors for internal debugging purposes and transforms them for production logging with a custom prefix and user-friendly message.
- */
-export const touchGroupLastActive = async (groupCode) => {
-  try {
-    validateString(groupCode, 'groupCode');
-
-    // Find the group in the database by groupCode
-    const group = await Group.findOne({ groupCode });
-
-    // If the group is found, update its lastActive property
-    if (group) {
-      await group.setLastActive();
-      devLog(
-        `Successfully updated lastActive for group with groupCode "${groupCode}"`,
-      );
-    } else {
-      // If the group is not found, log and transform the error
-      errorLog(
-        new Error(`Group with ${groupCode} not found.'`),
-        'Error setting lastActive:',
-        'Failed to update lastActive. Group not found.',
-      );
-    }
-  } catch (error) {
-    // Log and transform any other error
-    errorLog(
-      error,
-      'Error setting lastActive:',
-      'Failed to update lastActive.',
-    );
-  }
-};
-
-/**
  * Updates the fixedDebitorCreditorOrder setting of a group with the specified groupCode.
  *
  * @param {string} groupCode - The group code to update.
