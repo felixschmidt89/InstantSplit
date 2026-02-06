@@ -10,14 +10,44 @@ import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigation
 import { ROUTES } from "../../constants/routesConstants";
 import styles from "./UpdateExpensePage.module.css";
 
+import {
+  GroupMembersProvider,
+  useGroupMembersContext,
+} from "../../context/GroupMembersContext";
+
+const UpdateExpenseContent = ({ expenseId, groupCode }) => {
+  const { t } = useTranslation();
+
+  const { isFetched: isMembersFetched } = useGroupMembersContext();
+
+  const { isLoading: isExpenseLoading, expenseInfo } =
+    useExpenseUpdate(expenseId);
+
+  if (!isMembersFetched || isExpenseLoading) {
+    return <Spinner />;
+  }
+
+  return (
+    <>
+      <h1 className={styles.header}>{t("update-expense-page-header")}</h1>
+      <div className={styles.container}>
+        <UpdateExpense
+          groupCode={groupCode}
+          expenseId={expenseId}
+          expenseInfo={expenseInfo}
+          route={ROUTES.INSTANT_SPLIT}
+        />
+      </div>
+    </>
+  );
+};
+
 const UpdateExpensePage = () => {
   const { groupCode, expenseId } = useParams();
   const { t } = useTranslation();
 
   const { isChecked, openedViaGroupHistory, openedViaUserTransactionsHistory } =
     useDetermineUpdateTransactionPageOpeningSource();
-
-  const { isLoading, expenseInfo, groupMembers } = useExpenseUpdate(expenseId);
 
   return (
     <main>
@@ -30,22 +60,9 @@ const UpdateExpensePage = () => {
         <InAppNavigationBar nestedPreviousRoute home />
       )}
 
-      {isLoading ? (
-        <Spinner />
-      ) : (
-        <>
-          <h1 className={styles.header}>{t("update-expense-page-header")}</h1>
-          <div className={styles.container}>
-            <UpdateExpense
-              groupCode={groupCode}
-              groupMembers={groupMembers}
-              expenseId={expenseId}
-              expenseInfo={expenseInfo}
-              route={ROUTES.INSTANT_SPLIT}
-            />
-          </div>
-        </>
-      )}
+      <GroupMembersProvider groupCode={groupCode}>
+        <UpdateExpenseContent expenseId={expenseId} groupCode={groupCode} />
+      </GroupMembersProvider>
     </main>
   );
 };
