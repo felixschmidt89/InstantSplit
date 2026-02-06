@@ -4,25 +4,25 @@ const feedbackSchema = new Schema(
   {
     name: {
       type: String,
-      required: [true, 'Name is required'],
+      required: true,
       trim: true,
-      minlength: [1, 'Name must be at least 1 character long'],
-      maxlength: [50, 'Name cannot exceed 50 characters'],
+      minlength: 1,
+      maxlength: 50,
     },
     email: {
       type: String,
       trim: true,
-      maxlength: [50, 'Email cannot exceed 50 characters'],
+      maxlength: 50,
     },
     messageType: {
       type: String,
     },
     feedback: {
       type: String,
-      required: [true, 'Message is required'],
+      required: true,
       trim: true,
-      minlength: [1, 'Message must be at least 1 character long'],
-      maxlength: [2500, 'Feedback cannot exceed 1000 characters'],
+      minlength: 1,
+      maxlength: 2500,
     },
     groupCode: {
       type: String,
