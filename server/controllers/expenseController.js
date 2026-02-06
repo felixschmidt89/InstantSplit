@@ -195,10 +195,9 @@ export const getExpenseInfo = async (req, res) => {
     if (expense) {
       touchGroupLastActive(expense.groupCode);
     }
-
     res.status(StatusCodes.OK).json({
       status: 'success',
-      data: { expense },
+      expense,
       message: 'Expense info retrieved successfully.',
     });
   } catch (error) {
@@ -207,7 +206,7 @@ export const getExpenseInfo = async (req, res) => {
       'Error retrieving expense info:',
       'Failed to retrieve the expense info. Please try again later.',
     );
-    sendInternalError();
+    sendInternalError(res);
   }
 };
 

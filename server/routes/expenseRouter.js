@@ -35,11 +35,7 @@ router.get(
   getExpensesTotalByGroupCode,
 );
 
-// ROUTES FOR DEVELOPMENT/DEBUGGING PURPOSES ONLY
-// List all expenses
 router.get('/debug/all', developmentOnlyMiddleware, listAllExpenses);
-
-// Delete all expenses
 router.delete('/debug/all', developmentOnlyMiddleware, deleteAllExpenses);
 
 export default router;

@@ -14,20 +14,17 @@ const API_FULL_URL = process.env.API_FULL_URL;
  */
 
 async function seedDemoData(groupCode) {
-  // Exit early if no groupCode is provided
   if (!groupCode) {
     console.error('No groupCode provided. Exiting seedDemoData script.');
     return;
   }
 
-  // Check if the groupCode exists in the database, exit early if not.
   const group = await Group.findOne({ groupCode });
   if (!group) {
     console.error('Group not found in database. Exiting seedDemoData script.');
     return;
   }
 
-  // Define users to create
   const users = [
     { userName: 'Emma', groupCode },
     { userName: 'Liam', groupCode },
@@ -51,7 +48,7 @@ async function seedDemoData(groupCode) {
         `Error creating user ${user.userName}:`,
         error.response.data,
       );
-      throw error; // Propagate the error to stop the process if a user creation fails
+      throw error;
     }
   }
 

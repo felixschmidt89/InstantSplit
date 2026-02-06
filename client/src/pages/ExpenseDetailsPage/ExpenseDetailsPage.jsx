@@ -1,18 +1,13 @@
-// React and Third-Party Libraries
-import React from "react";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-// Constants and Utils
-import emojiConstants from "../../constants/emojiConstants";
-import { devLog } from "../../utils/errorUtils";
-
-// Hooks
 import useFetchExpenseInfo from "../../hooks/useFetchExpenseInfo";
-import useFetchGroupMembers from "../../hooks/useFetchGroupMembers";
 import useFetchGroupCurrency from "../../hooks/useFetchGroupCurrency";
+import {
+  GroupMembersProvider,
+  useGroupMembersContext,
+} from "../../context/GroupMembersContext";
 
-//Components
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import Spinner from "../../components/Spinner/Spinner";
 import RouteButton from "../../components/InAppNavigation/RouteButton/RouteButton";
@@ -23,66 +18,85 @@ import DeleteResource from "../../components/DeleteResource/DeleteResource";
 import InAppNavigation from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import Emoji from "../../components/Emoji/Emoji";
 
-// Styles
+import emojiConstants from "../../constants/emojiConstants";
+import { LOG_LEVELS } from "../../../../shared/constants/debugConstants";
+import { debugLog } from "../../../../shared/utils/debug/debugLog";
+
 import styles from "./ExpenseDetailsPage.module.css";
 
-const ExpenseDetailsPage = () => {
+const { INFO } = LOG_LEVELS;
+
+const ExpenseDetailsContent = () => {
+  const { t } = useTranslation();
   const { groupCode, itemId } = useParams();
+
+  const { groupMembers, isFetched: groupMembersIsFetched } =
+    useGroupMembersContext();
+
   const { groupCurrency, isFetched: currencyInfoIsFetched } =
     useFetchGroupCurrency(groupCode);
   const { expenseInfo, isFetched: expenseInfoIsFetched } =
     useFetchExpenseInfo(itemId);
-  const { groupMembers, isFetched: groupMembersIsFetched } =
-    useFetchGroupMembers(groupCode);
-  const { t } = useTranslation();
 
-  devLog("ExpenseInfo fetched", expenseInfo);
-  devLog("Group currency fetched:", currencyInfoIsFetched);
-  devLog("Group members fetched", groupMembers);
+  debugLog("ExpenseInfo fetched", { expenseInfo }, INFO);
+  debugLog("Group currency fetched:", { currencyInfoIsFetched }, INFO);
+  debugLog("Group members fetched", { count: groupMembers?.length }, INFO);
+
+  if (
+    !expenseInfoIsFetched ||
+    !currencyInfoIsFetched ||
+    !groupMembersIsFetched ||
+    !expenseInfo
+  ) {
+    return <Spinner />;
+  }
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.emoji}>
+        <Emoji ariaLabel={"expense emoji"} emoji={emojiConstants.expense} />
+      </div>
+      <h1>{expenseInfo.expenseDescription}</h1>
+      <div className={styles.detailsBox}>
+        <RenderExpenseDetails
+          expenseInfo={expenseInfo}
+          groupCurrency={groupCurrency}
+          expenseAmountPerBeneficiary={expenseInfo.expenseAmountPerBeneficiary}
+          expenseBeneficiaries={expenseInfo.expenseBeneficiaries}
+        />
+        <RenderExpenseBeneficiaries
+          expenseBeneficiaries={expenseInfo.expenseBeneficiaries}
+          allGroupMembersBenefitFromExpense={
+            groupMembers.length === expenseInfo.expenseBeneficiaries.length
+          }
+        />
+        <RenderResourceCreated
+          createdAt={expenseInfo.createdAt}
+          updatedAt={expenseInfo.updatedAt}
+        />
+      </div>
+      <RouteButton
+        route={`update-expense/${groupCode}/${itemId}`}
+        buttonText={t("expense-details-edit-expense-button-text")}
+        setPreviousRoute={true}
+        endIcon={"edit"}
+      />
+      <DeleteResource resourceId={itemId} resourceType='expenses' />
+    </div>
+  );
+};
+
+const ExpenseDetailsPage = () => {
+  const { t } = useTranslation();
+  const { groupCode } = useParams();
 
   return (
     <main>
       <HelmetMetaTagsNetlify title={t("expense-details-page-title")} />
       <InAppNavigation back={true} />
-      {expenseInfoIsFetched &&
-      currencyInfoIsFetched &&
-      groupMembersIsFetched ? (
-        <div className={styles.container}>
-          <div className={styles.emoji}>
-            <Emoji ariaLabel={"expense emoji"} emoji={emojiConstants.expense} />
-          </div>
-          <h1>{expenseInfo.expenseDescription}</h1>
-          <div className={styles.detailsBox}>
-            <RenderExpenseDetails
-              expenseInfo={expenseInfo}
-              groupCurrency={groupCurrency}
-              expenseAmountPerBeneficiary={
-                expenseInfo.expenseAmountPerBeneficiary
-              }
-              expenseBeneficiaries={expenseInfo.expenseBeneficiaries}
-            />
-            <RenderExpenseBeneficiaries
-              expenseBeneficiaries={expenseInfo.expenseBeneficiaries}
-              allGroupMembersBenefitFromExpense={
-                groupMembers.length === expenseInfo.expenseBeneficiaries.length
-              }
-            />
-            <RenderResourceCreated
-              createdAt={expenseInfo.createdAt}
-              updatedAt={expenseInfo.updatedAt}
-            />
-          </div>
-          <RouteButton
-            route={`update-expense/${groupCode}/${itemId}`}
-            buttonText={t("expense-details-edit-expense-button-text")}
-            setPreviousRoute={true}
-            endIcon={"edit"}
-          />
-          <DeleteResource resourceId={itemId} resourceType='expenses' />
-        </div>
-      ) : (
-        <Spinner />
-      )}
+      <GroupMembersProvider groupCode={groupCode}>
+        <ExpenseDetailsContent />
+      </GroupMembersProvider>
     </main>
   );
 };
