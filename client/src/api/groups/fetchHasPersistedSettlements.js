@@ -8,8 +8,8 @@ import { API_URL } from "../../constants/apiConstants.js";
 const { INFO, LOG_ERROR } = LOG_LEVELS;
 const { BASE, HAS_PERSISTED_ORDER } = API_ROUTES.GROUPS;
 
-export const fetchPersistedDebitorCreditorOrder = async (groupCode) => {
-  debugLog("Fetching persisted order status", { groupCode }, INFO);
+export const fetchHasPersistedSettlements = async (groupCode) => {
+  debugLog("Checking if group has persisted settlements", { groupCode }, INFO);
 
   try {
     const { data } = await axios.get(
@@ -17,15 +17,15 @@ export const fetchPersistedDebitorCreditorOrder = async (groupCode) => {
     );
 
     debugLog(
-      "Persisted order status fetched",
-      { hasPersistedOrder: data },
+      "Persisted settlements check complete",
+      { hasPersistedSettlements: data },
       INFO,
     );
 
     return data;
   } catch (error) {
     debugLog(
-      "Error fetching persisted order status",
+      "Error checking persisted settlements status",
       { error: error.message, groupCode },
       LOG_ERROR,
     );

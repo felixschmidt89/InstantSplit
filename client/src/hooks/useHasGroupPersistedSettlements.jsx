@@ -4,9 +4,9 @@ import { useTranslation } from "react-i18next";
 import { debugLog } from "../../../shared/utils/debug/debugLog.js";
 import { LOG_LEVELS } from "../../../shared/constants/debugConstants.js";
 
-import { fetchPersistedDebitorCreditorOrder } from "../api/groups/fetchPersistedDebitorCreditorOrder";
+import { fetchHasPersistedSettlements } from "../api/groups/fetchHasPersistedSettlements.js";
 
-const useGroupHasPersistedDebitorCreditorOrder = (groupCode) => {
+const useHasGroupPersistedSettlements = (groupCode) => {
   const { t } = useTranslation();
   const [hasPersistedOrder, setHasPersistedOrder] = useState(null);
   const [isFetched, setIsFetched] = useState(false);
@@ -16,7 +16,7 @@ const useGroupHasPersistedDebitorCreditorOrder = (groupCode) => {
     const getPersistedOrder = async () => {
       try {
         const { hasPersistedOrder: exists } =
-          await fetchPersistedDebitorCreditorOrder(groupCode);
+          await fetchHasPersistedSettlements(groupCode);
 
         setHasPersistedOrder(exists);
         setIsFetched(true);
@@ -39,4 +39,4 @@ const useGroupHasPersistedDebitorCreditorOrder = (groupCode) => {
   return { hasPersistedOrder, isFetched, error };
 };
 
-export default useGroupHasPersistedDebitorCreditorOrder;
+export default useHasGroupPersistedSettlements;
