@@ -3,6 +3,8 @@
  * When adding currencies, ensure that the value is unique and max 3 characters
  * @type {Array<{value: string, label: string}>}
  */
+
+// TODO: Replace with shared constants file
 export const currenciesContent = [
   { value: "€", label: "Euro" },
   { value: "$", label: "US Dollar" },

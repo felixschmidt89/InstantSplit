@@ -88,6 +88,10 @@
   - **MANDATORY**: Always destructure properties from imported objects at the top of the file, immediately following the import block.
   - **Prohibition**: Do **NOT** use member expressions (e.g., `LOG_LEVELS.INFO`) within the functional logic.
 
+* **Avoid Regex**:
+  - **Priority**: Always prioritize standard string/array methods (e.g., `.includes()`, `.startsWith()`, `.split()`) over Regular Expressions.
+  - **Usage**: Use Regex **only** when complex pattern matching is strictly required and cannot be achieved cleanly with native methods.
+
 **Group Imports by Type:**
 
 1. **Third-party libraries**: Standard npm packages (e.g., `react`, `axios`, `express`).

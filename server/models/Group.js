@@ -1,36 +1,39 @@
 import { Schema, model } from 'mongoose';
-import { devLog } from '../utils/errorUtils.js';
+
+import { DEFAULT_CURRENCY } from '../../shared/constants/currencyConstants.js';
+import { debugLog } from '#shared/utils/debug/debugLog.js';
+import { LOG_LEVELS } from '#shared/constants/debugConstants.js';
 
 const groupSchema = new Schema(
   {
     groupCode: {
       type: String,
-      required: [true, 'Missing groupCode'],
-      index: true, // Index for quick lookups
+      required: true,
+      index: true,
     },
     groupName: {
       type: String,
       trim: true,
-      required: [true, 'Missing group name'],
-      minlength: [1, 'The group name must be at least 1 characters long'],
-      maxlength: [30, 'The group name cannot exceed 30 characters'],
-      index: true, // Index for quick lookups
+      required: true,
+      minlength: 1,
+      maxlength: 30,
+      index: true,
     },
-    // groupName set during registration, used for client routing
     initialGroupName: {
       type: String,
       trim: true,
       validate: {
-        validator: (value) => !/\//.test(value), // disallow slashes
-        message: 'The group name must not include slashes',
+        validator: (value) => !value.includes('/'),
       },
     },
-    currency: { type: String, default: '€' },
+    currency: {
+      type: String,
+      default: DEFAULT_CURRENCY,
+    },
     lastActive: {
       type: Date,
       default: Date.now,
     },
-    // indicates whether group inactivity data purge is activated for the group.
     inactiveDataPurge: {
       type: Boolean,
       default: true,
@@ -43,19 +46,22 @@ const groupSchema = new Schema(
   { timestamps: true },
 );
 
-/**
- * Sets the lastActive property to the current date and time, which is used for group inactivity data purge.
- * @memberof Group
- * @method setLastActive
- * @returns {Promise<void>} A Promise that resolves after the lastActive property is updated and saved.
- * @throws {Error} If there's an error setting the lastActive property.
- */ groupSchema.methods.setLastActive = async function () {
+groupSchema.methods.setLastActive = async function () {
   try {
     this.lastActive = new Date();
     await this.save();
-    devLog('lastActive set to now');
+
+    debugLog(
+      'lastActive set to now',
+      { groupCode: this.groupCode },
+      LOG_LEVELS.INFO,
+    );
   } catch (error) {
-    console.error('Error setting lastActive to now:', error);
+    debugLog(
+      'Error setting lastActive',
+      { error: error.message },
+      LOG_LEVELS.LOG_ERROR,
+    );
     throw error;
   }
 };
