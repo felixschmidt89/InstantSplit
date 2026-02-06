@@ -1,19 +1,21 @@
 import { Schema, model } from 'mongoose';
 import Expense from './Expense.js';
 import Payment from './Payment.js';
+import { debugLog } from '../utils/debugLog.js';
+import { LOG_LEVELS } from '../constants/debugConstants.js';
 
 const userSchema = new Schema(
   {
     userName: {
       type: String,
       trim: true,
-      required: [true, 'Missing user name'],
-      minlength: [1, 'Username must be at least 1 character long'],
-      maxlength: [20, 'Username cannot exceed 20 characters'],
+      required: true,
+      minlength: 1,
+      maxlength: 20,
     },
     groupCode: {
       type: String,
-      required: [true, 'Missing groupCode'],
+      required: true,
     },
     totalExpensesPaidAmount: {
       type: Number,
@@ -34,8 +36,8 @@ const userSchema = new Schema(
   },
   {
     timestamps: true,
-    toJSON: { virtuals: true }, // Enable virtual properties to be included in JSON output
-    toObject: { virtuals: true }, // Enable virtual properties to be included in object representations
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   },
 );
 
@@ -48,15 +50,13 @@ userSchema.virtual('userBalance').get(function () {
     this.totalPaymentsReceivedAmount;
   return Number(balance);
 });
+
 userSchema.virtual('expensesSettled').get(function () {
   return this.get('userBalance') === 0;
 });
 
 // METHODS
 
-/** Calculates and updates the totalExpensesPaidAmount of a user
- * @throws {Error} -
- */
 userSchema.methods.updateTotalExpensesPaid = async function () {
   const userId = this._id;
 
@@ -73,8 +73,8 @@ userSchema.methods.updateTotalExpensesPaid = async function () {
       },
     ]);
 
-    // eslint-disable-next-line no-use-before-define
-    await User.findOneAndUpdate(
+    // CODECHANGE: Use this.constructor to avoid circular dependency/linter errors
+    await this.constructor.findOneAndUpdate(
       { _id: userId },
       {
         $set: {
@@ -83,17 +83,15 @@ userSchema.methods.updateTotalExpensesPaid = async function () {
       },
     );
   } catch (error) {
-    console.error(
-      'Error calculating and updating total expensesPaidAmount:',
-      error,
+    debugLog(
+      'Error calculating totalExpensesPaidAmount',
+      { error: error.message, userId },
+      LOG_LEVELS.LOG_ERROR,
     );
     throw error;
   }
 };
 
-/** Calculates and updates the totalExpensesBenefittedAmount of a user
- * @throws {Error} -
- */
 userSchema.methods.updateTotalExpenseBenefitted = async function () {
   const userId = this._id;
 
@@ -111,8 +109,8 @@ userSchema.methods.updateTotalExpenseBenefitted = async function () {
         },
       },
     ]);
-    // eslint-disable-next-line no-use-before-define
-    await User.findOneAndUpdate(
+
+    await this.constructor.findOneAndUpdate(
       { _id: userId },
       {
         $set: {
@@ -121,17 +119,15 @@ userSchema.methods.updateTotalExpenseBenefitted = async function () {
       },
     );
   } catch (error) {
-    console.error(
-      'Error calculating and updating total benefittedExpensesAmount:',
-      error,
+    debugLog(
+      'Error calculating totalExpenseBenefittedAmount',
+      { error: error.message, userId },
+      LOG_LEVELS.LOG_ERROR,
     );
     throw error;
   }
 };
 
-/** Calculates and updates the totalPaymentsReceivedAmount of a user
- * @throws {Error} -
- */
 userSchema.methods.updateTotalPaymentsReceived = async function () {
   try {
     const userId = this._id;
@@ -147,8 +143,8 @@ userSchema.methods.updateTotalPaymentsReceived = async function () {
         },
       },
     ]);
-    // eslint-disable-next-line no-use-before-define
-    await User.findOneAndUpdate(
+
+    await this.constructor.findOneAndUpdate(
       { _id: userId },
       {
         $set: {
@@ -157,17 +153,16 @@ userSchema.methods.updateTotalPaymentsReceived = async function () {
       },
     );
   } catch (error) {
-    console.error(
-      'Error calculating and updating totalPaymentsReceivedAmount:',
-      error,
+    debugLog(
+      'Error calculating totalPaymentsReceivedAmount',
+      { error: error.message, userId },
+      LOG_LEVELS.LOG_ERROR,
     );
     throw error;
   }
 };
 
-/** Calculates and updates the totalPaymentsMadeAmount of a user
- * @throws {Error} -
- */ userSchema.methods.updateTotalPaymentsMadeAmount = async function () {
+userSchema.methods.updateTotalPaymentsMadeAmount = async function () {
   try {
     const userId = this._id;
 
@@ -183,8 +178,7 @@ userSchema.methods.updateTotalPaymentsReceived = async function () {
       },
     ]);
 
-    // eslint-disable-next-line no-use-before-define
-    await User.findOneAndUpdate(
+    await this.constructor.findOneAndUpdate(
       { _id: userId },
       {
         $set: {
@@ -193,9 +187,10 @@ userSchema.methods.updateTotalPaymentsReceived = async function () {
       },
     );
   } catch (error) {
-    console.error(
-      'Error calculating and updating totalPaymentsMadeAmount:',
-      error,
+    debugLog(
+      'Error updating totalPaymentsMadeAmount',
+      { error: error.message, userId },
+      LOG_LEVELS.LOG_ERROR,
     );
     throw error;
   }
