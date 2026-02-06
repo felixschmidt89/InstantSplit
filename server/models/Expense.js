@@ -5,35 +5,35 @@ const expenseSchema = new Schema(
     expenseDescription: {
       type: String,
       trim: true,
-      required: [true, 'expense description missing'],
-      minlength: [1, 'expense description must be at least 1 characters'],
-      maxlength: [100, 'expense description must not exceed 100 characters'],
+      required: true,
+      minlength: 1,
+      maxlength: 100,
     },
     expenseAmount: {
       type: Number,
-      required: [true, 'expense amount missing'],
-      min: [0.01, 'expense amount must be at least 0.01'],
-      max: [99999.99, 'expense amount must not exceed 99999.99'],
+      required: true,
+      min: 0.01,
+      max: 99999.99,
     },
     expenseAmountPerBeneficiary: {
       type: Number,
-      required: [true, 'expense amount missing'],
+      required: true,
     },
     expensePayer: {
       type: Schema.Types.ObjectId,
       ref: 'User',
-      required: [true, 'Invalid expense payer ID'],
+      required: true,
     },
     expenseBeneficiaries: [
       {
         type: Schema.Types.ObjectId,
         ref: 'User',
-        required: [true, 'Invalid expense beneficiary ID'],
+        required: true,
       },
     ],
     groupCode: {
       type: String,
-      required: [true, 'Missing groupCode'],
+      required: true,
     },
   },
   {
