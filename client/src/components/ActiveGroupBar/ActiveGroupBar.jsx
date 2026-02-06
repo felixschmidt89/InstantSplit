@@ -1,17 +1,20 @@
-import emojiConstants from "../../constants/emojiConstants";
+import { useTranslation } from "react-i18next";
+
 import useIsNotoEmojiFontLoaded from "../../hooks/useIsNotoEmojiFontLoaded";
 import useIsSlimDevice from "../../hooks/useIsSlimDevice";
 import useSettingsEmoji from "../../hooks/useSettingsEmoji";
+
 import GroupActionsEmojiButton from "../GroupActionsEmojiButton/GroupActionsEmojiButton";
+import emojiConstants from "../../constants/emojiConstants";
+// Ensure this path matches where you saved the ROUTES file
+import { ROUTES } from "../../constants/routesConstants";
 
 import styles from "./ActiveGroupBar.module.css";
-import { useTranslation } from "react-i18next";
 
 const ActiveGroupBar = () => {
-  const settingsEmoji = useSettingsEmoji();
   const { t } = useTranslation();
+  const settingsEmoji = useSettingsEmoji();
   const isSlimDevice = useIsSlimDevice();
-
   const { isLoaded, fontState } = useIsNotoEmojiFontLoaded();
 
   if (!isLoaded) {
@@ -25,7 +28,7 @@ const ActiveGroupBar = () => {
       aria-label='active group bar'
       data-font-state={fontState}>
       <GroupActionsEmojiButton
-        route={"group-settings"}
+        route={ROUTES.GROUP_SETTINGS}
         emoji={settingsEmoji}
         translateX={0}
         explanationText={t("active-group-bar-settings-emoji-copy")}
@@ -33,7 +36,7 @@ const ActiveGroupBar = () => {
       />
 
       <GroupActionsEmojiButton
-        route={"create-group-members"}
+        route={ROUTES.MEMBERS.CREATE}
         emoji={emojiConstants.member}
         plusIcon={true}
         plusIconTranslateX={-0.8}
@@ -45,7 +48,7 @@ const ActiveGroupBar = () => {
       />
 
       <GroupActionsEmojiButton
-        route={"create-expense"}
+        route={ROUTES.EXPENSE.CREATE}
         emoji={emojiConstants.expense}
         plusIcon={true}
         plusIconTranslateX={-0.6}
@@ -55,7 +58,7 @@ const ActiveGroupBar = () => {
       />
 
       <GroupActionsEmojiButton
-        route={"settle-expenses"}
+        route={ROUTES.SETTLE_EXPENSES}
         emoji={emojiConstants.settle}
         explanationText={t("active-group-bar-settle-emoji-copy")}
         ariaLabel='settle expenses emoji'
