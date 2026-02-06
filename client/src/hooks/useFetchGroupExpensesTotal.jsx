@@ -1,31 +1,40 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { useTranslation } from "react-i18next";
 
-import { devLog } from "../utils/errorUtils";
-import { API_URL } from "../constants/apiConstants";
+import { fetchGroupExpensesTotal } from "../api/expenses/fetchGroupExpensesTotal";
+import { LOG_LEVELS } from "../../../shared/constants/debugConstants";
+import { debugLog } from "../../../shared/utils/debug/debugLog";
+
+const { LOG_ERROR } = LOG_LEVELS;
 
 const useFetchGroupExpensesTotal = (groupCode) => {
   const { t } = useTranslation();
+
   const [expensesTotal, setExpensesTotal] = useState(null);
   const [isFetched, setIsFetched] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchGroupExpensesTotal = async () => {
+    if (!groupCode) return;
+
+    const getGroupExpensesTotal = async () => {
       try {
-        const response = await axios.get(
-          `${API_URL}/expenses/totalExpenses/${groupCode}`,
-        );
-        setExpensesTotal(response.data.expensesTotal);
+        const { expensesTotal } = await fetchGroupExpensesTotal(groupCode);
+
+        setExpensesTotal(expensesTotal);
         setIsFetched(true);
       } catch (error) {
-        devLog("Error fetching group expenses total:", error);
+        debugLog(
+          "Error in useFetchGroupExpensesTotal:",
+          { error, groupCode },
+          LOG_ERROR,
+        );
         setError(t("generic-error-message"));
+        setIsFetched(true);
       }
     };
 
-    fetchGroupExpensesTotal();
+    getGroupExpensesTotal();
   }, [groupCode, t]);
 
   return { expensesTotal, isFetched, error };
