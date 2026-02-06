@@ -10,13 +10,11 @@ import {
   sendInternalError,
   sendValidationError,
 } from '../utils/errorUtils.js';
-import {
-  touchGroupLastActive,
-  updateFixedDebitorCreditorOrderSetting,
-} from '../utils/databaseUtils.js';
+import { updateFixedDebitorCreditorOrderSetting } from '../utils/databaseUtils.js';
 import { deleteAllSettlementsForGroup } from './settlementController.js';
 import { debugLog } from '../../shared/utils/debug/debugLog.js';
 import { LOG_LEVELS } from '../../shared/constants/debugConstants.js';
+import { touchGroupLastActive } from '../utils/group/touchGroupLastActive.js';
 
 const { LOG_ERROR, INFO } = LOG_LEVELS;
 

@@ -7,21 +7,18 @@ import {
   sendValidationError,
 } from '../utils/errorUtils.js';
 import { StatusCodes } from 'http-status-codes';
-import {
-  touchGroupLastActive,
-  updateFixedDebitorCreditorOrderSetting,
-} from '../utils/databaseUtils.js';
+import { updateFixedDebitorCreditorOrderSetting } from '../utils/databaseUtils.js';
 import {
   deleteAllGroupSettlements,
   deleteAllSettlementsForGroup,
 } from './settlementController.js';
+import { touchGroupLastActive } from '../utils/group/touchGroupLastActive.js';
 
 export const createPayment = async (req, res) => {
   try {
     const { paymentMakerName, groupCode, paymentAmount, paymentRecipientName } =
       req.body;
 
-    // Set the lastActive property of the group to now
     touchGroupLastActive(groupCode);
 
     // Validate if paymentMakerName is provided

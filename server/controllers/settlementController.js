@@ -6,10 +6,8 @@ import {
   sendInternalError,
   sendValidationError,
 } from '../utils/errorUtils.js';
-import {
-  touchGroupLastActive,
-  updateFixedDebitorCreditorOrderSetting,
-} from '../utils/databaseUtils.js';
+import { updateFixedDebitorCreditorOrderSetting } from '../utils/databaseUtils.js';
+import { touchGroupLastActive } from '../utils/group/touchGroupLastActive.js';
 
 export const persistGroupSettlements = async (req, res) => {
   try {
@@ -139,7 +137,7 @@ export const deleteSettlement = async (req, res) => {
       });
     }
     await updateFixedDebitorCreditorOrderSetting(groupCode, true);
-    touchGroupLastActive(groupCode);
+    await touchGroupLastActive(groupCode);
 
     res.status(StatusCodes.NO_CONTENT).json({
       status: 'success',
@@ -170,7 +168,7 @@ export const deleteAllSettlementsForGroup = async (groupCode) => {
     devLog('Deleting all settlements for group:', { groupCode });
     const result = await Settlement.deleteMany({ groupCode });
 
-    await touchGroupLastActive(groupCode);
+    await setGroupLastActivePropertyToNow(groupCode);
 
     devLog(`Deleted ${result.deletedCount} settlements for group ${groupCode}`);
     return result;
@@ -201,7 +199,7 @@ export const deleteAllGroupSettlements = async (req, res) => {
       });
     }
 
-    touchGroupLastActive(groupCode);
+    await touchGroupLastActive(groupCode);
 
     res.status(StatusCodes.NO_CONTENT).json({
       status: 'success',

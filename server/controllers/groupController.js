@@ -9,11 +9,11 @@ import {
   sendValidationError,
 } from '../utils/errorUtils.js';
 import { generateUniqueGroupCode } from '../utils/groupCodeUtils.js';
-import { touchGroupLastActive } from '../utils/databaseUtils.js';
 import { generateGroupCreationEmailOptions } from '../utils/adminNotificationEmailTemplates.js';
 import { sendAdminEmailNotification } from '../config/adminNotificationEmailConfig.js';
 import { LOG_LEVELS } from '../../shared/constants/debugConstants.js';
 import { debugLog } from '../../shared/utils/debug/debugLog.js';
+import { touchGroupLastActive } from '../utils/group/touchGroupLastActive.js';
 
 export const createGroup = async (req, res) => {
   try {

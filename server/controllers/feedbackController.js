@@ -1,9 +1,9 @@
 import { StatusCodes } from 'http-status-codes';
-import { touchGroupLastActive } from '../utils/databaseUtils.js';
 import Feedback from '../models/Feedback.js';
 import { errorLog, sendInternalError } from '../utils/errorUtils.js';
 import { sendAdminEmailNotification } from '../config/adminNotificationEmailConfig.js';
 import { generateFeedbackEmailOptions } from '../utils/adminNotificationEmailTemplates.js';
+import { touchGroupLastActive } from '../utils/group/touchGroupLastActive.js';
 
 export const createFeedback = async (req, res) => {
   try {

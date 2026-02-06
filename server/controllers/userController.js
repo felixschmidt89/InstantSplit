@@ -8,7 +8,7 @@ import {
   sendInternalError,
   sendValidationError,
 } from '../utils/errorUtils.js';
-import { touchGroupLastActive } from '../utils/databaseUtils.js';
+import { touchGroupLastActive } from '../utils/group/touchGroupLastActive.js';
 
 export const createUser = async (req, res) => {
   try {

@@ -6,7 +6,7 @@ import { API_RESPONSE_STATUS } from '../../../shared/constants/apiStatusConstant
 import { LOG_LEVELS } from '../../../shared/constants/debugConstants.js';
 import { debugLog } from '../../../shared/utils/debug/debugLog.js';
 import { getGroupTransactionsService } from '../../services/group/getGroupTransactionsService.js';
-import { touchGroupLastActive } from '../../utils/databaseUtils.js';
+import { touchGroupLastActive } from '../../utils/group/touchGroupLastActive.js';
 
 const { OK, INTERNAL_SERVER_ERROR } = StatusCodes;
 const { SUCCESS, STATUS_ERROR } = API_RESPONSE_STATUS;
