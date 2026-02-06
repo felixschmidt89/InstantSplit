@@ -5,7 +5,7 @@
   "type": "module",
   "description": "MERN monorepo root for InstantSplit application",
   "scripts": {
-    "dev": "npx concurrently \"npm run dev --workspace=client\" \"npm run start dev --workspace=server\"",
+    "start": "npx concurrently \"npm run dev --workspace=client\" \"npm run start dev --workspace=server\"",
     "start:client": "npm run dev --workspace=client",
     "start:server": "npm run start --workspace=server",
     "test": "npm test --workspaces --if-present",
