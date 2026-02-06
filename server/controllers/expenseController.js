@@ -11,11 +11,9 @@ import {
 import { debugLog } from '../../shared/utils/debug/debugLog.js';
 import { LOG_LEVELS } from '../../shared/constants/debugConstants.js';
 
+// Domain Utils
 import { verifyExpensePayerAndBeneficiaries } from '../utils/expense/verifyExpensePayerAndBeneficiaries.js';
 import { touchGroupLastActive } from '../utils/group/touchGroupLastActive.js';
-
-import { updateFixedDebitorCreditorOrderSetting } from '../utils/databaseUtils.js';
-import { deleteAllSettlementsForGroup } from './settlementController.js';
 import { resetGroupSettlements } from '../utils/group/resetGroupSettlements.js';
 
 const { LOG_ERROR, INFO } = LOG_LEVELS;
@@ -32,7 +30,6 @@ export const createExpense = async (req, res) => {
 
     debugLog('Creating expense', { groupCode, expensePayerId }, INFO);
 
-    // 1. Shared Validation
     const { expensePayer, expenseBeneficiaries } =
       await verifyExpensePayerAndBeneficiaries(
         expensePayerId,
@@ -55,7 +52,6 @@ export const createExpense = async (req, res) => {
     const expense = await newExpense.save();
 
     await expensePayer.updateTotalExpensesPaid();
-
     await Promise.all(
       expenseBeneficiaries.map((beneficiary) =>
         beneficiary.updateTotalExpenseBenefitted(),
@@ -196,12 +192,13 @@ export const getExpenseInfo = async (req, res) => {
       .populate('expensePayer', 'userName')
       .populate('expenseBeneficiaries', 'userName');
 
-    const groupCode = expense.groupCode;
-    touchGroupLastActive(groupCode);
+    if (expense) {
+      touchGroupLastActive(expense.groupCode);
+    }
 
     res.status(StatusCodes.OK).json({
       status: 'success',
-      expense,
+      data: { expense },
       message: 'Expense info retrieved successfully.',
     });
   } catch (error) {
@@ -222,21 +219,28 @@ export const deleteExpense = async (req, res) => {
       .populate('expensePayer')
       .populate('expenseBeneficiaries');
 
+    if (!expenseToDelete) {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        status: 'fail',
+        message: 'Expense not found',
+      });
+    }
+
     const { expensePayer, expenseBeneficiaries, groupCode } = expenseToDelete;
 
     await Expense.deleteOne({ _id: expenseToDelete._id });
 
-    await deleteAllSettlementsForGroup(groupCode);
-    updateFixedDebitorCreditorOrderSetting(groupCode, false);
-    touchGroupLastActive(groupCode);
+    await resetGroupSettlements(groupCode);
 
-    // Update total expenses paid by the expense payer
-    await expensePayer.updateTotalExpensesPaid();
+    if (expensePayer) {
+      await expensePayer.updateTotalExpensesPaid();
+    }
 
-    // Update total expenses benefitted from by expense beneficiaries concurrently
     await Promise.all(
       expenseBeneficiaries.map(async (beneficiary) => {
-        await beneficiary.updateTotalExpenseBenefitted();
+        if (beneficiary) {
+          await beneficiary.updateTotalExpenseBenefitted();
+        }
       }),
     );
 
@@ -283,7 +287,6 @@ export const getExpensesTotalByGroupCode = async (req, res) => {
 
     touchGroupLastActive(groupCode);
 
-    // Calculate the sum of all expenses associated with the groupcode
     const totalExpenses = await Expense.aggregate([
       { $match: { groupCode } },
       { $group: { _id: null, total: { $sum: '$expenseAmount' } } },
@@ -298,7 +301,7 @@ export const getExpensesTotalByGroupCode = async (req, res) => {
     errorLog(
       error,
       'Error fetching total group expenses:',
-      'Failed to lost total group expenses. Please try again later.',
+      'Failed to fetch total group expenses. Please try again later.',
     );
     sendInternalError();
   }
