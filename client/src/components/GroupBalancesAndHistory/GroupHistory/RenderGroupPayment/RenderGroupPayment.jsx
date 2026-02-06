@@ -1,16 +1,13 @@
-// React and Third-Party Libraries
 import React from "react";
 import { Link } from "react-router-dom";
 import { IoArrowForwardOutline } from "react-icons/io5";
 
-// Constants and Utils
 import Emoji from "../../../Emoji/Emoji";
 
-// Styles
 import styles from "./RenderGroupPayment.module.css";
 import RenderReactIcon from "../../../RenderReactIcon/RenderReactIcon";
 import { LOG_LEVELS } from "../../../../../../shared/constants/debugConstants.js";
-import { useGroupMembers } from "../../../../context/GroupMembersContext.jsx";
+import { useGroupMembersContext } from "../../../../context/GroupMembersContext.jsx";
 import { debugLog } from "../../../../../../shared/utils/debug/debugLog.js";
 import emojiConstants from "../../../../constants/emojiConstants.jsx";
 
@@ -26,7 +23,7 @@ const { INFO } = LOG_LEVELS;
  * @returns {JSX.Element} React component.
  */
 const RenderGroupPayment = ({ item, groupCode, groupCurrency }) => {
-  const { getMemberName } = useGroupMembers();
+  const { getMemberName } = useGroupMembersContext();
 
   const makerId = item.paymentMaker?._id || item.paymentMaker;
   const recipientId = item.paymentRecipient?._id || item.paymentRecipient;

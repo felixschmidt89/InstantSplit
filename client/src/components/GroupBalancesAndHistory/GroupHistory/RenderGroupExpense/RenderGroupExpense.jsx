@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import styles from "./RenderGroupExpense.module.css";
 
-import { useGroupMembers } from "../../../../context/GroupMembersContext.jsx";
+import { useGroupMembersContext } from "../../../../context/GroupMembersContext.jsx";
 import Emoji from "../../../Emoji/Emoji";
 import { LOG_LEVELS } from "../../../../../../shared/constants/debugConstants.js";
 import { debugLog } from "../../../../../../shared/utils/debug/debugLog.js";
@@ -15,7 +15,7 @@ const { INFO } = LOG_LEVELS;
 const RenderGroupExpense = ({ item, groupCode, groupCurrency }) => {
   const { t } = useTranslation();
 
-  const { getMemberName, groupMembers } = useGroupMembers();
+  const { getMemberName, groupMembers } = useGroupMembersContext();
 
   const payerId = item.expensePayer?._id || item.expensePayer;
   const payerName = getMemberName(payerId);

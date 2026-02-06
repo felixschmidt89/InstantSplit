@@ -5,7 +5,7 @@ import styles from "./RenderGroupHistory.module.css";
 import useErrorModalVisibility from "../../../../hooks/useErrorModalVisibility.jsx";
 import {
   GroupMembersProvider,
-  useGroupMembers,
+  useGroupMembersContext,
 } from "../../../../context/GroupMembersContext.jsx";
 import { LOG_LEVELS } from "../../../../../../shared/constants/debugConstants.js";
 import { TRANSACTION_TYPES } from "../../../../../../shared/constants/transactionConstants.js";
@@ -26,7 +26,8 @@ const { EXPENSE } = TRANSACTION_TYPES;
 const GroupHistoryContent = ({ groupCode, groupCurrency }) => {
   const { t } = useTranslation();
 
-  const { groupMembers, isFetched: isMembersFetched } = useGroupMembers();
+  const { groupMembers, isFetched: isMembersFetched } =
+    useGroupMembersContext();
 
   const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
     useErrorModalVisibility();

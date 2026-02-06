@@ -35,12 +35,11 @@ export const GroupMembersProvider = ({ groupCode, children }) => {
   );
 };
 
-// Custom hook to consume the context
-export const useGroupMembers = () => {
+export const useGroupMembersContext = () => {
   const context = useContext(GroupMembersContext);
   if (!context) {
     throw new Error(
-      "useGroupMembers must be used within a GroupMembersProvider",
+      "useGroupMembersContext must be used within a GroupMembersProvider",
     );
   }
   return context;
