@@ -1,6 +1,7 @@
 import { Schema, model } from 'mongoose';
 
 const settlementSchema = new Schema(
+  // TODO: Use ObjectId references for from and to, add migration script to update existing settlements
   {
     from: {
       type: String,
@@ -12,13 +13,14 @@ const settlementSchema = new Schema(
     },
     amount: {
       type: Number,
-      required: [true, 'Missing settlement amount'],
-      min: [0.01, 'The settlement amount must be at least 0.01'],
-      max: [99999.99, 'The settlement amount may not exceed 99999.99'],
+      required: true,
+      min: 0.01,
+      max: 99999.99,
     },
     groupCode: {
       type: String,
-      required: [true, 'Missing groupCode'],
+      required: true,
+      trim: true,
     },
   },
   {
