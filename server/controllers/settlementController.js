@@ -7,7 +7,7 @@ import {
   sendValidationError,
 } from '../utils/errorUtils.js';
 import {
-  setGroupLastActivePropertyToNow,
+  touchGroupLastActive,
   updateFixedDebitorCreditorOrderSetting,
 } from '../utils/databaseUtils.js';
 
@@ -83,7 +83,7 @@ export const persistGroupSettlements = async (req, res) => {
     devLog('Settlements saved, updating group settings:', { groupCode });
 
     await updateFixedDebitorCreditorOrderSetting(groupCode, true);
-    await setGroupLastActivePropertyToNow(groupCode);
+    await touchGroupLastActive(groupCode);
 
     res.status(StatusCodes.CREATED).json({
       status: 'success',
@@ -139,7 +139,7 @@ export const deleteSettlement = async (req, res) => {
       });
     }
     await updateFixedDebitorCreditorOrderSetting(groupCode, true);
-    setGroupLastActivePropertyToNow(groupCode);
+    touchGroupLastActive(groupCode);
 
     res.status(StatusCodes.NO_CONTENT).json({
       status: 'success',
@@ -170,7 +170,7 @@ export const deleteAllSettlementsForGroup = async (groupCode) => {
     devLog('Deleting all settlements for group:', { groupCode });
     const result = await Settlement.deleteMany({ groupCode });
 
-    await setGroupLastActivePropertyToNow(groupCode);
+    await touchGroupLastActive(groupCode);
 
     devLog(`Deleted ${result.deletedCount} settlements for group ${groupCode}`);
     return result;
@@ -201,7 +201,7 @@ export const deleteAllGroupSettlements = async (req, res) => {
       });
     }
 
-    setGroupLastActivePropertyToNow(groupCode);
+    touchGroupLastActive(groupCode);
 
     res.status(StatusCodes.NO_CONTENT).json({
       status: 'success',
@@ -241,7 +241,7 @@ export const getAllGroupSettlements = async (req, res) => {
       });
     }
 
-    await setGroupLastActivePropertyToNow(groupCode);
+    await touchGroupLastActive(groupCode);
 
     res.status(StatusCodes.OK).json({
       status: 'success',

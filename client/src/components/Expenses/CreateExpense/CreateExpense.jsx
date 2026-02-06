@@ -11,26 +11,27 @@ import { changeFixedDebitorCreditorOrderSetting } from "../../../utils/settlemen
 import { debugLog } from "../../../../../shared/utils/debug/debugLog.js";
 import { API_URL } from "../../../constants/apiConstants.js";
 import { ROUTES } from "../../../constants/routesConstants.jsx";
+import { buttonStyles } from "../../../constants/stylesConstants.jsx";
 import ExpenseDescriptionInput from "../ExpenseDescriptionInput/ExpenseDescriptionInput.jsx";
 import ExpenseAmountInput from "../ExpenseAmountInput/ExpenseAmountInput.jsx";
 import ExpensePayerSelect from "../ExpensePayerSelect/ExpensePayerSelect.jsx";
 import ExpenseBeneficiariesInput from "../ExpenseBeneficiariesInput/ExpenseBeneficiariesInput.jsx";
-import { buttonStyles } from "../../../constants/stylesConstants.jsx";
 import ErrorModal from "../../ErrorModal/ErrorModal.jsx";
+import { useGroupMembersContext } from "../../../context/GroupMembersContext";
 
 const { LOG_ERROR, INFO } = LOG_LEVELS;
 
-const CreateExpense = ({ groupMembers, groupCode }) => {
+const CreateExpense = ({ groupCode }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
     useErrorModalVisibility();
 
+  const { groupMembers } = useGroupMembersContext();
+
   const [expenseDescription, setExpenseDescription] = useState("");
   const [expenseAmount, setExpenseAmount] = useState("");
-
   const [expensePayer, setExpensePayer] = useState(null);
-
   const [selectedBeneficiaries, setSelectedBeneficiaries] = useState([]);
   const [error, setError] = useState(null);
 
@@ -65,10 +66,8 @@ const CreateExpense = ({ groupMembers, groupCode }) => {
         expenseAmount: amount,
         expenseAmountPerBeneficiary: amountPerBeneficiary,
         groupCode,
-
-        expensePayer: expensePayer._id,
-
-        expenseBeneficiaries: selectedBeneficiaries.map((b) => b._id),
+        expensePayerId: expensePayer._id,
+        expenseBeneficiaryIds: selectedBeneficiaries.map((b) => b._id),
       };
 
       debugLog("Creating expense payload", payload, INFO);

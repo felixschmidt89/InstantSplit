@@ -9,7 +9,7 @@ import {
   sendValidationError,
 } from '../utils/errorUtils.js';
 import { generateUniqueGroupCode } from '../utils/groupCodeUtils.js';
-import { setGroupLastActivePropertyToNow } from '../utils/databaseUtils.js';
+import { touchGroupLastActive } from '../utils/databaseUtils.js';
 import { generateGroupCreationEmailOptions } from '../utils/adminNotificationEmailTemplates.js';
 import { sendAdminEmailNotification } from '../config/adminNotificationEmailConfig.js';
 import { LOG_LEVELS } from '../../shared/constants/debugConstants.js';
@@ -30,7 +30,7 @@ export const createGroup = async (req, res) => {
 
     sendAdminEmailNotification(mailOptions);
 
-    setGroupLastActivePropertyToNow(groupCode);
+    touchGroupLastActive(groupCode);
 
     res.status(StatusCodes.CREATED).json({
       status: 'success',
@@ -255,7 +255,7 @@ export const changeGroupCurrency = async (req, res) => {
 export const listExpensesAndPaymentsByGroup = async (req, res) => {
   try {
     const { groupCode } = req.params;
-    setGroupLastActivePropertyToNow(groupCode);
+    touchGroupLastActive(groupCode);
     const [expenses, payments] = await Promise.all([
       Expense.find({ groupCode }).populate('expensePayer', 'userName'),
       Payment.find({ groupCode })
@@ -286,7 +286,7 @@ export const getGroupInfo = async (req, res) => {
   try {
     const { groupCode } = req.params;
 
-    setGroupLastActivePropertyToNow(groupCode);
+    touchGroupLastActive(groupCode);
 
     const group = await Group.findOne({ groupCode });
 
@@ -368,7 +368,7 @@ export const groupHasPersistedDebitorCreditorOrder = async (req, res) => {
       });
     }
 
-    await setGroupLastActivePropertyToNow(groupCode);
+    await touchGroupLastActive(groupCode);
 
     const hasPersistedOrder = !!group.fixedDebitorCreditorOrder;
 

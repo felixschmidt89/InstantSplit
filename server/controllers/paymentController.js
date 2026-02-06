@@ -8,7 +8,7 @@ import {
 } from '../utils/errorUtils.js';
 import { StatusCodes } from 'http-status-codes';
 import {
-  setGroupLastActivePropertyToNow,
+  touchGroupLastActive,
   updateFixedDebitorCreditorOrderSetting,
 } from '../utils/databaseUtils.js';
 import {
@@ -22,7 +22,7 @@ export const createPayment = async (req, res) => {
       req.body;
 
     // Set the lastActive property of the group to now
-    setGroupLastActivePropertyToNow(groupCode);
+    touchGroupLastActive(groupCode);
 
     // Validate if paymentMakerName is provided
     if (!paymentMakerName) {
@@ -105,7 +105,7 @@ export const updatePayment = async (req, res) => {
       paymentRecipientName,
     } = req.body;
 
-    setGroupLastActivePropertyToNow(groupCode);
+    touchGroupLastActive(groupCode);
 
     const storedPaymentMaker = await User.findOne({
       userName: { $eq: storedPaymentMakerName },
@@ -188,7 +188,7 @@ export const getPaymentInfo = async (req, res) => {
 
     // Set the lastActive property of the group to now
     const groupCode = payment.groupCode;
-    setGroupLastActivePropertyToNow(groupCode);
+    touchGroupLastActive(groupCode);
 
     res.status(StatusCodes.OK).json({
       status: 'success',
@@ -215,7 +215,7 @@ export const deletePayment = async (req, res) => {
 
     // Set the lastActive property of the group to now
     const groupCode = paymentToDelete.groupCode;
-    setGroupLastActivePropertyToNow(groupCode);
+    touchGroupLastActive(groupCode);
 
     const { paymentRecipient, paymentMaker } = paymentToDelete;
 

@@ -11,81 +11,106 @@ import {
   sendValidationError,
 } from '../utils/errorUtils.js';
 import {
-  setGroupLastActivePropertyToNow,
+  touchGroupLastActive,
   updateFixedDebitorCreditorOrderSetting,
 } from '../utils/databaseUtils.js';
-import {
-  deleteAllGroupSettlements,
-  deleteAllSettlementsForGroup,
-} from './settlementController.js';
+import { deleteAllSettlementsForGroup } from './settlementController.js';
+import { debugLog } from '../../shared/utils/debug/debugLog.js';
+import { LOG_LEVELS } from '../../shared/constants/debugConstants.js';
 
-/** Creates a new expense
- *  Updates totalExpenseAmountPaid by expense payer and totalExpenseBenefittedAmount from by expense beneficiaries
- */
+const { LOG_ERROR, INFO } = LOG_LEVELS;
+
 export const createExpense = async (req, res) => {
   try {
     const {
-      expensePayerName,
+      expensePayerId,
       groupCode,
       expenseDescription,
       expenseAmount,
-      expenseBeneficiariesNames,
+      expenseBeneficiaryIds,
     } = req.body;
 
-    // Validate if expensePayerName is provided
-    if (!expensePayerName) {
+    debugLog('Creating expense', { groupCode, expensePayerId }, INFO);
+
+    // 1. Validate Payload
+    if (!expensePayerId) {
       return res.status(StatusCodes.BAD_REQUEST).json({
         status: 'fail',
-        message: 'missing expense payer',
+        message: 'Missing expense payer ID',
       });
     }
 
-    // Validate if expenseBeneficiariesNames is provided and has at least one item
-    if (!expenseBeneficiariesNames || !expenseBeneficiariesNames.length) {
+    if (!expenseBeneficiaryIds || !expenseBeneficiaryIds.length) {
       return res.status(StatusCodes.BAD_REQUEST).json({
         status: 'fail',
-        message: 'at least 1 expense beneficiary is required',
+        message: 'At least 1 expense beneficiary is required',
       });
     }
 
-    const expensePayer = await User.findOne({
-      userName: { $in: expensePayerName },
-      groupCode,
-    });
+    // 2. Fetch & Validate Users (Payer)
+    const expensePayer = await User.findById(expensePayerId);
 
+    if (!expensePayer) {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        status: 'fail',
+        message: 'Expense payer not found',
+      });
+    }
+
+    // Security Check: Ensure payer belongs to the group
+    if (expensePayer.groupCode !== groupCode) {
+      return res.status(StatusCodes.FORBIDDEN).json({
+        status: 'fail',
+        message: 'Payer does not belong to this group',
+      });
+    }
+
+    // 3. Fetch & Validate Users (Beneficiaries)
     const expenseBeneficiaries = await User.find({
-      userName: { $in: expenseBeneficiariesNames },
-      groupCode,
+      _id: { $in: expenseBeneficiaryIds },
+      groupCode, // Ensure they belong to the group
     });
 
+    if (expenseBeneficiaries.length !== expenseBeneficiaryIds.length) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        status: 'fail',
+        message: 'One or more beneficiaries could not be found in this group',
+      });
+    }
+
+    // 4. Calculate Split
     const expenseAmountPerBeneficiary =
       expenseAmount / expenseBeneficiaries.length;
 
-    const beneficiaryIds = expenseBeneficiaries.map((user) => user._id);
-
+    // 5. Create Expense
     const newExpense = new Expense({
       expenseDescription,
       expenseAmount,
       expenseAmountPerBeneficiary,
       groupCode,
       expensePayer: expensePayer._id,
-      expenseBeneficiaries: beneficiaryIds,
+      expenseBeneficiaries: expenseBeneficiaryIds,
     });
 
     const expense = await newExpense.save();
 
-    // Update total expenses paid by expense payer
+    // 6. Update User Balances
+    // Update Payer
     await expensePayer.updateTotalExpensesPaid();
 
-    // Update total expenses benefitted from by expense beneficiaries concurrently
+    // Update Beneficiaries concurrently
     await Promise.all(
-      expenseBeneficiaries.map(async (beneficiary) => {
-        await beneficiary.updateTotalExpenseBenefitted();
-      }),
+      expenseBeneficiaries.map((beneficiary) =>
+        beneficiary.updateTotalExpenseBenefitted(),
+      ),
     );
+
+    // 7. Trigger Group Side Effects
     await deleteAllSettlementsForGroup(groupCode);
     updateFixedDebitorCreditorOrderSetting(groupCode, false);
-    setGroupLastActivePropertyToNow(groupCode);
+    touchGroupLastActive(groupCode);
+
+    debugLog('Expense created successfully', { expenseId: expense._id }, INFO);
 
     return res.status(StatusCodes.CREATED).json({
       status: 'success',
@@ -93,17 +118,23 @@ export const createExpense = async (req, res) => {
       message: 'Expense created successfully',
     });
   } catch (error) {
-    devLog('error:', error);
+    debugLog(
+      'Error creating expense',
+      { error: error.message, stack: error.stack },
+      LOG_ERROR,
+    );
+
     if (error.name === 'ValidationError') {
-      sendValidationError(res, error);
-    } else {
-      errorLog(
-        error,
-        'Error creating expense:',
-        'Failed to create expense. Please try again later.',
-      );
-      sendInternalError();
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        status: 'fail',
+        message: error.message,
+      });
     }
+
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      status: 'error',
+      message: 'Failed to create expense. Please try again later.',
+    });
   }
 };
 
@@ -170,7 +201,7 @@ export const updateExpense = async (req, res) => {
 
     await deleteAllSettlementsForGroup(groupCode);
     updateFixedDebitorCreditorOrderSetting(groupCode, false);
-    setGroupLastActivePropertyToNow(groupCode);
+    touchGroupLastActive(groupCode);
 
     // Update total expenses paid and total expenses benefitted for all users of the group
     await Promise.all(
@@ -228,7 +259,7 @@ export const getExpenseInfo = async (req, res) => {
       .populate('expenseBeneficiaries', 'userName');
 
     const groupCode = expense.groupCode;
-    setGroupLastActivePropertyToNow(groupCode);
+    touchGroupLastActive(groupCode);
 
     res.status(StatusCodes.OK).json({
       status: 'success',
@@ -259,7 +290,7 @@ export const deleteExpense = async (req, res) => {
 
     await deleteAllSettlementsForGroup(groupCode);
     updateFixedDebitorCreditorOrderSetting(groupCode, false);
-    setGroupLastActivePropertyToNow(groupCode);
+    touchGroupLastActive(groupCode);
 
     // Update total expenses paid by the expense payer
     await expensePayer.updateTotalExpensesPaid();
@@ -289,7 +320,7 @@ export const listAllExpensesByGroupCode = async (req, res) => {
   try {
     const { groupCode } = req.params;
 
-    setGroupLastActivePropertyToNow(groupCode);
+    touchGroupLastActive(groupCode);
 
     const expenses = await Expense.find({ groupCode });
     res.status(StatusCodes.OK).json({
@@ -312,7 +343,7 @@ export const getExpensesTotalByGroupCode = async (req, res) => {
   try {
     const { groupCode } = req.params;
 
-    setGroupLastActivePropertyToNow(groupCode);
+    touchGroupLastActive(groupCode);
 
     // Calculate the sum of all expenses associated with the groupcode
     const totalExpenses = await Expense.aggregate([

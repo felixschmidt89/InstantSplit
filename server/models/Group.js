@@ -1,8 +1,8 @@
 import { Schema, model } from 'mongoose';
 
 import { DEFAULT_CURRENCY } from '../../shared/constants/currencyConstants.js';
-import { debugLog } from '#shared/utils/debug/debugLog.js';
-import { LOG_LEVELS } from '#shared/constants/debugConstants.js';
+import { debugLog } from '../../shared/utils/debug/debugLog.js';
+import { LOG_LEVELS } from '../../shared/constants/debugConstants.js';
 
 const groupSchema = new Schema(
   {
@@ -46,19 +46,19 @@ const groupSchema = new Schema(
   { timestamps: true },
 );
 
-groupSchema.methods.setLastActive = async function () {
+groupSchema.methods.touchLastActive = async function () {
   try {
     this.lastActive = new Date();
     await this.save();
 
     debugLog(
-      'lastActive set to now',
+      'lastActive touched',
       { groupCode: this.groupCode },
       LOG_LEVELS.INFO,
     );
   } catch (error) {
     debugLog(
-      'Error setting lastActive',
+      'Error touching lastActive',
       { error: error.message },
       LOG_LEVELS.LOG_ERROR,
     );

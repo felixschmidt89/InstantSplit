@@ -8,12 +8,12 @@ import {
   sendInternalError,
   sendValidationError,
 } from '../utils/errorUtils.js';
-import { setGroupLastActivePropertyToNow } from '../utils/databaseUtils.js';
+import { touchGroupLastActive } from '../utils/databaseUtils.js';
 
 export const createUser = async (req, res) => {
   try {
     const { userName, groupCode } = req.body;
-    setGroupLastActivePropertyToNow(groupCode);
+    touchGroupLastActive(groupCode);
 
     // Check if a user with the same name and group code already exists
     const existingUser = await User.findOne({ userName, groupCode });
@@ -51,7 +51,7 @@ export const getUserInfo = async (req, res) => {
     const user = await User.findById(userId);
     const groupCode = user.groupCode;
 
-    setGroupLastActivePropertyToNow(groupCode);
+    touchGroupLastActive(groupCode);
 
     res.status(StatusCodes.OK).json({
       status: 'success',
@@ -79,7 +79,7 @@ export const changeUserName = async (req, res) => {
       groupCode,
     });
 
-    setGroupLastActivePropertyToNow(groupCode);
+    touchGroupLastActive(groupCode);
 
     // Check if a user with the same name and group code already exists
     const existingUser = await User.findOne({ userName, groupCode });
@@ -199,7 +199,7 @@ export const deleteUser = async (req, res) => {
 
     const groupCode = userToDelete.groupCode;
 
-    setGroupLastActivePropertyToNow(groupCode);
+    touchGroupLastActive(groupCode);
 
     await User.deleteOne({ _id: userToDelete._id });
 
@@ -221,7 +221,7 @@ export const listAllUsersByGroupCode = async (req, res) => {
   try {
     const { groupCode } = req.params;
 
-    setGroupLastActivePropertyToNow(groupCode);
+    touchGroupLastActive(groupCode);
 
     // Find users by group code
     let users = await User.find({ groupCode });

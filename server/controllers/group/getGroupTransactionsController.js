@@ -6,7 +6,7 @@ import { API_RESPONSE_STATUS } from '../../../shared/constants/apiStatusConstant
 import { LOG_LEVELS } from '../../../shared/constants/debugConstants.js';
 import { debugLog } from '../../../shared/utils/debug/debugLog.js';
 import { getGroupTransactionsService } from '../../services/group/getGroupTransactionsService.js';
-import { setGroupLastActivePropertyToNow } from '../../utils/databaseUtils.js';
+import { touchGroupLastActive } from '../../utils/databaseUtils.js';
 
 const { OK, INTERNAL_SERVER_ERROR } = StatusCodes;
 const { SUCCESS, STATUS_ERROR } = API_RESPONSE_STATUS;
@@ -19,7 +19,7 @@ export const getGroupTransactionsController = async (req, res) => {
   debugLog('Fetching group transactions', { groupCode }, INFO);
 
   try {
-    await setGroupLastActivePropertyToNow(groupCode);
+    await touchGroupLastActive(groupCode);
     const rawTransactions = await getGroupTransactionsService(groupCode);
 
     const transactions = rawTransactions

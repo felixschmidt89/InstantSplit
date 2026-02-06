@@ -14,11 +14,9 @@ const ExpensePayerSelect = ({
 
   const handlePayerChange = (e) => {
     const selectedId = e.target.value;
-
     const selectedMember = groupMembers.find((m) => m._id === selectedId);
 
     onPayerChange(selectedMember);
-
     setFormChanged?.(true);
   };
 
@@ -28,7 +26,7 @@ const ExpensePayerSelect = ({
     }
   };
 
-  const selectedValue = expensePayer?._id || expensePayer || "";
+  const selectedValue = expensePayer?._id || "";
 
   return (
     <select

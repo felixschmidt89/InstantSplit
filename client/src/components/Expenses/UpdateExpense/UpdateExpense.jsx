@@ -10,17 +10,17 @@ import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
 import { API_URL } from "../../../constants/apiConstants";
 import { changeFixedDebitorCreditorOrderSetting } from "../../../utils/settlementUtils";
 import { devLog, handleApiErrors } from "../../../utils/errorUtils";
+import { buttonStyles } from "../../../constants/stylesConstants";
 import ExpenseDescriptionInput from "../ExpenseDescriptionInput/ExpenseDescriptionInput";
 import ExpenseAmountInput from "../ExpenseAmountInput/ExpenseAmountInput";
 import ExpensePayerSelect from "../ExpensePayerSelect/ExpensePayerSelect";
 import ExpenseBeneficiariesInput from "../ExpenseBeneficiariesInput/ExpenseBeneficiariesInput";
-import { buttonStyles } from "../../../constants/stylesConstants";
 import ErrorModal from "../../ErrorModal/ErrorModal";
+import { useGroupMembersContext } from "../../../context/GroupMembersContext";
 
 const UpdateExpense = ({
   expenseInfo,
   groupCode,
-  groupMembers,
   expenseId,
   route = ROUTES.INSTANT_SPLIT,
 }) => {
@@ -29,23 +29,25 @@ const UpdateExpense = ({
   const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
     useErrorModalVisibility();
 
+  const { groupMembers } = useGroupMembersContext();
+
   const storedExpenseDescription = expenseInfo?.expenseDescription;
   const storedExpenseAmount = expenseInfo?.expenseAmount;
-  const storedExpensePayerName = expenseInfo?.expensePayer?.userName;
-  const storedBeneficiariesNames = expenseInfo?.expenseBeneficiaries?.map(
-    (beneficiary) => beneficiary.userName,
-  );
+
+  const storedExpensePayer = expenseInfo?.expensePayer;
+  const storedBeneficiaries = expenseInfo?.expenseBeneficiaries;
 
   const [expenseDescription, setExpenseDescription] = useState(
     storedExpenseDescription,
   );
   const [expenseAmount, setExpenseAmount] = useState(storedExpenseAmount);
-  const [expensePayerName, setExpensePayerName] = useState(
-    storedExpensePayerName,
-  );
+
+  const [expensePayer, setExpensePayer] = useState(storedExpensePayer);
+
   const [selectedBeneficiaries, setSelectedBeneficiaries] = useState(
-    storedBeneficiariesNames,
+    storedBeneficiaries || [],
   );
+
   const [formChanged, setFormChanged] = useState(false);
   const [error, setError] = useState(null);
 
@@ -58,10 +60,10 @@ const UpdateExpense = ({
         expenseDescription,
         expenseAmount,
         groupCode,
-        expensePayerName,
-        expenseBeneficiariesNames: selectedBeneficiaries,
-        storedExpensePayerName,
-        storedBeneficiariesNames,
+        expensePayerId: expensePayer?._id,
+        expenseBeneficiaryIds: selectedBeneficiaries.map((b) => b._id),
+        storedExpensePayerId: storedExpensePayer?._id,
+        storedExpenseBeneficiaryIds: storedBeneficiaries?.map((b) => b._id),
       });
 
       changeFixedDebitorCreditorOrderSetting(groupCode, false);
@@ -96,8 +98,8 @@ const UpdateExpense = ({
         />
 
         <ExpensePayerSelect
-          expensePayerName={expensePayerName}
-          onPayerChange={setExpensePayerName}
+          expensePayer={expensePayer}
+          onPayerChange={setExpensePayer}
           groupMembers={groupMembers}
           setFormChanged={setFormChanged}
           isUpdate
@@ -105,9 +107,9 @@ const UpdateExpense = ({
 
         <div className={styles.beneficiaries}>
           <ExpenseBeneficiariesInput
-            selectedBeneficiaries={selectedBeneficiaries}
+            expenseBeneficiaries={selectedBeneficiaries}
+            setExpenseBeneficiaries={setSelectedBeneficiaries}
             groupMembers={groupMembers}
-            onSelectedBeneficiariesChange={setSelectedBeneficiaries}
             setFormChanged={setFormChanged}
             isUpdate
           />

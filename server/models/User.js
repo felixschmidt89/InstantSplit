@@ -1,8 +1,8 @@
 import { Schema, model } from 'mongoose';
 import Expense from './Expense.js';
 import Payment from './Payment.js';
-import { debugLog } from '../utils/debugLog.js';
-import { LOG_LEVELS } from '../constants/debugConstants.js';
+import { debugLog } from '../../shared/utils/debug/debugLog.js';
+import { LOG_LEVELS } from '../../shared/constants/debugConstants.js';
 
 const userSchema = new Schema(
   {

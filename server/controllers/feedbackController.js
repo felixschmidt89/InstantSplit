@@ -1,5 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
-import { setGroupLastActivePropertyToNow } from '../utils/databaseUtils.js';
+import { touchGroupLastActive } from '../utils/databaseUtils.js';
 import Feedback from '../models/Feedback.js';
 import { errorLog, sendInternalError } from '../utils/errorUtils.js';
 import { sendAdminEmailNotification } from '../config/adminNotificationEmailConfig.js';
@@ -9,7 +9,7 @@ export const createFeedback = async (req, res) => {
   try {
     const { name, email, messageType, feedback, groupCode, fileId } = req.body;
 
-    setGroupLastActivePropertyToNow(groupCode);
+    touchGroupLastActive(groupCode);
 
     const newFeedback = new Feedback({
       name,

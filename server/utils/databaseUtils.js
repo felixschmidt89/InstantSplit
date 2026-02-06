@@ -181,7 +181,7 @@ export const getUserNameByUserIdHelper = async (userId) => {
  * @returns {Promise<void>} - A promise that resolves when the update is complete.
  * Logs errors for internal debugging purposes and transforms them for production logging with a custom prefix and user-friendly message.
  */
-export const setGroupLastActivePropertyToNow = async (groupCode) => {
+export const touchGroupLastActive = async (groupCode) => {
   try {
     validateString(groupCode, 'groupCode');
 
