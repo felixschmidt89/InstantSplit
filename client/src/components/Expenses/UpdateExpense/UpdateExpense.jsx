@@ -1,22 +1,22 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 import styles from "./UpdateExpense.module.css";
 import { ROUTES } from "../../../constants/routesConstants";
 import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
-import { API_URL } from "../../../constants/apiConstants";
-import { changeFixedDebitorCreditorOrderSetting } from "../../../utils/settlementUtils";
 import { devLog, handleApiErrors } from "../../../utils/errorUtils";
 import { buttonStyles } from "../../../constants/stylesConstants";
+import { useGroupMembersContext } from "../../../context/GroupMembersContext";
+
+import { updateExpense } from "../../../api/expenses/updateExpense";
+
 import ExpenseDescriptionInput from "../ExpenseDescriptionInput/ExpenseDescriptionInput";
 import ExpenseAmountInput from "../ExpenseAmountInput/ExpenseAmountInput";
 import ExpensePayerSelect from "../ExpensePayerSelect/ExpensePayerSelect";
 import ExpenseBeneficiariesInput from "../ExpenseBeneficiariesInput/ExpenseBeneficiariesInput";
 import ErrorModal from "../../ErrorModal/ErrorModal";
-import { useGroupMembersContext } from "../../../context/GroupMembersContext";
 
 const UpdateExpense = ({
   expenseInfo,
@@ -33,7 +33,6 @@ const UpdateExpense = ({
 
   const storedExpenseDescription = expenseInfo?.expenseDescription;
   const storedExpenseAmount = expenseInfo?.expenseAmount;
-
   const storedExpensePayer = expenseInfo?.expensePayer;
   const storedBeneficiaries = expenseInfo?.expenseBeneficiaries;
 
@@ -41,9 +40,7 @@ const UpdateExpense = ({
     storedExpenseDescription,
   );
   const [expenseAmount, setExpenseAmount] = useState(storedExpenseAmount);
-
   const [expensePayer, setExpensePayer] = useState(storedExpensePayer);
-
   const [selectedBeneficiaries, setSelectedBeneficiaries] = useState(
     storedBeneficiaries || [],
   );
@@ -56,7 +53,7 @@ const UpdateExpense = ({
     setError(null);
 
     try {
-      const response = await axios.put(`${API_URL}/expenses/${expenseId}`, {
+      const payload = {
         expenseDescription,
         expenseAmount,
         groupCode,
@@ -64,10 +61,11 @@ const UpdateExpense = ({
         expenseBeneficiaryIds: selectedBeneficiaries.map((b) => b._id),
         storedExpensePayerId: storedExpensePayer?._id,
         storedExpenseBeneficiaryIds: storedBeneficiaries?.map((b) => b._id),
-      });
+      };
 
-      changeFixedDebitorCreditorOrderSetting(groupCode, false);
-      devLog("Expense updated:", response);
+      const response = await updateExpense(expenseId, payload);
+
+      devLog("Expense updated flow complete", response);
       navigate(route);
     } catch (error) {
       if (error?.response) {
