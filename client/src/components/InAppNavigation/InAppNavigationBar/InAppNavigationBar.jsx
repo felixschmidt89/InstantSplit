@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import {
   IoArrowBackCircleOutline,
   IoCloseCircleOutline,
@@ -9,7 +8,7 @@ import { useTranslation } from "react-i18next";
 
 import styles from "./InAppNavigationBar.module.css";
 import { ROUTES } from "../../../constants/routesConstants";
-import { debugLog } from "../../../../../shared/utils/debug";
+import { debugLog } from "../../../../../shared/utils/debug/debugLog";
 import { LOCAL_STORAGE_KEYS } from "../../../constants/localStorageConstants";
 import {
   deleteGroupCode,
@@ -17,6 +16,7 @@ import {
   getLocalStorageKey,
 } from "../../../utils/localStorage";
 import InstantSplitLogo from "../../InstantSplitLogo/InstantSplitLogo";
+import useAppNavigate from "../../../hooks/useAppNavigate";
 
 const InAppNavigationBar = ({
   back = false,
@@ -32,11 +32,11 @@ const InAppNavigationBar = ({
   logoOnly = false,
 }) => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
+  const navigate = useAppNavigate();
 
   const handleNavigation = (route) => {
     debugLog("Navigating to:", route);
-    navigate(`/${route}`);
+    navigate(route);
   };
 
   const handleNestedNavigation = () => {
@@ -52,14 +52,14 @@ const InAppNavigationBar = ({
     }
 
     debugLog("Navigating to:", retrievedRoute);
-    navigate(`/${retrievedRoute}`);
+    navigate(retrievedRoute);
   };
 
   const handleAbort = (route) => {
     const groupCode = getActiveGroupCode();
     deleteGroupCode(groupCode);
     debugLog("Navigating to main application");
-    navigate(`/${route}`);
+    navigate(route);
   };
 
   return (
