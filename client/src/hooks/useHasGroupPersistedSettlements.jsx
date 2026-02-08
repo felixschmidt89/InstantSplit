@@ -8,21 +8,22 @@ import { fetchHasPersistedSettlements } from "../api/groups/fetchHasPersistedSet
 
 const useHasGroupPersistedSettlements = (groupCode) => {
   const { t } = useTranslation();
-  const [hasPersistedOrder, setHasPersistedOrder] = useState(null);
+
+  const [hasPersistedSettlements, setHasPersistedSettlements] = useState(null);
   const [isFetched, setIsFetched] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const getPersistedOrder = async () => {
+    const fetchPersistedSettlementsStatus = async () => {
       try {
         const { hasPersistedOrder: exists } =
           await fetchHasPersistedSettlements(groupCode);
 
-        setHasPersistedOrder(exists);
+        setHasPersistedSettlements(exists);
         setIsFetched(true);
       } catch (err) {
         debugLog(
-          "Error in hook fetching persisted order status",
+          "Error in hook fetching persisted settlements status",
           { error: err.message },
           LOG_LEVELS.LOG_ERROR,
         );
@@ -32,11 +33,11 @@ const useHasGroupPersistedSettlements = (groupCode) => {
     };
 
     if (groupCode) {
-      getPersistedOrder();
+      fetchPersistedSettlementsStatus();
     }
   }, [groupCode, t]);
 
-  return { hasPersistedOrder, isFetched, error };
+  return { hasPersistedSettlements, isFetched, error };
 };
 
 export default useHasGroupPersistedSettlements;

@@ -127,42 +127,6 @@ export const groupUsersPerPositiveOrNegativeUserBalance = (unsettledUsers) => {
 };
 
 /**
- * Updates the fixedDebitorCreditorOrder setting for a group
- * @param {string} groupCode - The groupCode of the group
- * @param {boolean} fixedDebitorCreditorOrder - The new fixedDebitorCreditorOrder value
- * @returns {Promise<Object>} - Promise resolving to { success, error, data }
- */
-export const changeFixedDebitorCreditorOrderSetting = async (
-  groupCode,
-  fixedDebitorCreditorOrder,
-) => {
-  try {
-    const response = await axios.patch(
-      `${API_URL}/groups/fixedDebitorCreditorOrder/${groupCode}`,
-      {
-        groupCode,
-        fixedDebitorCreditorOrder,
-      },
-    );
-    debugLog("fixedDebitorCreditorOrder updated:", response);
-    return {
-      success: true,
-      error: null,
-      data: response.data,
-    };
-  } catch (error) {
-    debugLog("Error updating fixedDebitorCreditorOrder:", error);
-    return {
-      success: false,
-      error:
-        error.response?.data?.message ||
-        "Failed to update fixedDebitorCreditorOrder setting",
-      data: null,
-    };
-  }
-};
-
-/**
  * Fetches whether a group has a persisted debitor/creditor order
  * @param {string} groupCode - The groupCode of the group
  * @returns {Promise<Object>} - Promise resolving to { success, error, data }

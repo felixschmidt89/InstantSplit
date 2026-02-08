@@ -1,170 +1,161 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { useTranslation } from "react-i18next";
 
-import styles from "./SettleExpenses.module.css";
-import { getActiveGroupCode } from "../../../utils/localStorage";
-import {
-  calculateAndAddUserBalance,
-  changeFixedDebitorCreditorOrderSetting,
-  filterUnsettledUsers,
-  getGroupHasPersistedDebitorCreditorOrder,
-  groupUsersPerPositiveOrNegativeUserBalance,
-} from "../../../utils/settlementUtils";
-import { devLog } from "../../../utils/errorUtils";
-import { API_URL } from "../../../constants/apiConstants";
 import useFetchGroupCurrency from "../../../hooks/useFetchGroupCurrency";
+import useHasGroupPersistedSettlements from "../../../hooks/useHasGroupPersistedSettlements";
+import useFetchUnsettledGroupMembers from "../../../hooks/useFetchUnsettledGroupMembers";
+import useUpdateGroupHasPersistedSettlements from "../../../hooks/useUpdateGroupHasPersistedSettlements";
+
+import { fetchSettlements } from "../../../api/settlements/fetchSettlements";
+
+import { getActiveGroupCode } from "../../../utils/localStorage";
+import { groupUsersPerPositiveOrNegativeUserBalance } from "../../../utils/settlementUtils";
+
+import { LOG_LEVELS } from "../../../../../shared/constants/debugConstants.js";
+import { debugLog } from "../../../../../shared/utils/debug/debugLog.js";
+
 import RenderSettlementPaymentSuggestions from "../RenderSettlementPaymentSuggestions/RenderSettlementPaymentSuggestions";
 import Spinner from "../../Spinner/Spinner";
 import ExpensesSettled from "../ExpensesSettled/ExpensesSettled";
 import ErrorDisplay from "../../ErrorDisplay/ErrorDisplay";
 
-const SettleExpenses = () => {
-  const { t } = useTranslation();
+import styles from "./SettleExpenses.module.css";
 
+const { LOG_ERROR, INFO } = LOG_LEVELS;
+
+const SettleExpenses = () => {
   const groupCode = getActiveGroupCode();
+
+  // --- Hooks ---
   const { groupCurrency, isFetched: groupCurrencyIsFetched } =
     useFetchGroupCurrency(groupCode);
 
-  const [unsettledUsers, setUnsettledUsers] = useState([]);
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const {
+    hasPersistedSettlements,
+    isFetched: isPersistedOrderFetched,
+    error: persistedOrderError,
+  } = useHasGroupPersistedSettlements(groupCode);
+
+  const {
+    unsettledUsers,
+    isLoading: isUnsettledUsersLoading,
+    error: unsettledUsersError,
+  } = useFetchUnsettledGroupMembers(groupCode);
+
+  const {
+    updateStatus: updatePersistedStatus,
+    error: updateStatusError,
+    isLoading: isUpdatingStatus,
+  } = useUpdateGroupHasPersistedSettlements();
+
+  // --- Local State ---
+  const [displayError, setDisplayError] = useState(null);
   const [fixedDebitorCreditorOrder, setFixedDebitorCreditorOrder] =
     useState(null);
-  const [statusError, setStatusError] = useState(null);
   const [persistedSettlements, setPersistedSettlements] = useState([]);
 
+  // --- Derived Data ---
   const { positiveBalanceUsers, negativeBalanceUsers } =
     groupUsersPerPositiveOrNegativeUserBalance(
       unsettledUsers,
       fixedDebitorCreditorOrder,
     );
 
+  // --- Effects ---
+
+  // 1. Sync persisted order state
   useEffect(() => {
-    const getFixedDebitorCreditorOrderSetting = async () => {
-      try {
-        const result =
-          await getGroupHasPersistedDebitorCreditorOrder(groupCode);
+    if (isPersistedOrderFetched) {
+      setFixedDebitorCreditorOrder(hasPersistedSettlements);
+    }
+  }, [hasPersistedSettlements, isPersistedOrderFetched]);
 
-        if (result?.success) {
-          setFixedDebitorCreditorOrder(result.data);
-          devLog("Fixed debitor/creditor order status:", result.data);
-        } else {
-          setStatusError(result?.error || t("generic-error-message"));
-        }
-      } catch (error) {
-        devLog("Error fetching fixedDebitorCreditorOrder status:", error);
-        setStatusError(t("generic-error-message"));
-      }
-    };
-
-    getFixedDebitorCreditorOrderSetting();
-  }, [groupCode, t]);
-
+  // 2. Handle errors from all hooks
   useEffect(() => {
-    const fetchAndIdentifyUnsettledUsers = async () => {
-      try {
-        const response = await axios.get(
-          `${API_URL}/users/by-groupcode/${groupCode}`,
-        );
-        const responseData = response.data;
-        devLog("User details fetched:", response);
+    if (persistedOrderError) setDisplayError(persistedOrderError);
+    if (unsettledUsersError) setDisplayError(unsettledUsersError);
+    if (updateStatusError) setDisplayError(updateStatusError);
+  }, [persistedOrderError, unsettledUsersError, updateStatusError]);
 
-        if (responseData?.users?.length) {
-          const userDetails = responseData.users.map((user) =>
-            calculateAndAddUserBalance(user),
-          );
-          const unsettledUserDetails = filterUnsettledUsers(userDetails);
-
-          devLog("Unsettled users identified:", unsettledUserDetails);
-          setUnsettledUsers(unsettledUserDetails);
-        } else {
-          setUnsettledUsers([]);
-        }
-
-        setIsLoading(false);
-      } catch (error) {
-        devLog(
-          "Error fetching and identifying users with unsettled balances:",
-          error,
-        );
-        setError(t("generic-error-message"));
-        setIsLoading(false);
-      }
-    };
-
-    fetchAndIdentifyUnsettledUsers();
-  }, [groupCode, t]);
-
+  // 3. Handle Persisted Settlements Fetching & Correction Logic
   useEffect(() => {
     if (fixedDebitorCreditorOrder === true) {
-      const fetchPersistedSettlements = async () => {
+      const getPersistedSettlements = async () => {
         try {
-          const response = await axios.get(
-            `${API_URL}/settlements/${groupCode}`,
-          );
-          const settlements = response.data?.settlements || [];
+          const data = await fetchSettlements(groupCode);
+          const settlements = data?.settlements || [];
 
           setPersistedSettlements(settlements);
-          devLog("Persisted settlements fetched:", response.data);
 
+          // If flag is true but no settlements exist, auto-correct the flag to false
           if (!settlements?.length) {
-            await changeFixedDebitorCreditorOrderSetting(groupCode, false);
+            await updatePersistedStatus(groupCode, false);
             setFixedDebitorCreditorOrder(false);
-            devLog(
+            debugLog(
               "No persisted settlements, set fixedDebitorCreditorOrder to false",
+              {},
+              INFO,
             );
           }
         } catch (error) {
-          devLog("Error fetching persisted settlements:", error);
+          debugLog(
+            "Error fetching persisted settlements",
+            { error: error.message },
+            LOG_ERROR,
+          );
 
           if (
             error.response?.data?.message ===
             "No settlements found for this group"
           ) {
             setPersistedSettlements([]);
-            await changeFixedDebitorCreditorOrderSetting(groupCode, false);
+            await updatePersistedStatus(groupCode, false);
             setFixedDebitorCreditorOrder(false);
-            devLog(
+            debugLog(
               "No settlements found, set fixedDebitorCreditorOrder to false",
+              {},
+              INFO,
             );
           } else {
-            setError(
-              error.response?.data?.message || t("generic-error-message"),
+            setDisplayError(
+              error.response?.data?.message || "An error occurred",
             );
           }
         }
       };
 
-      fetchPersistedSettlements();
+      getPersistedSettlements();
     }
-  }, [fixedDebitorCreditorOrder, groupCode, t]);
+  }, [fixedDebitorCreditorOrder, groupCode, updatePersistedStatus]);
+
+  // --- Render ---
+
+  if (isUnsettledUsersLoading || isUpdatingStatus) {
+    return (
+      <div className={styles.spinner}>
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <div>
-      {isLoading ? (
-        <div className={styles.spinner}>
-          <Spinner />
-        </div>
-      ) : (
-        <div>
-          {unsettledUsers?.length && groupCurrencyIsFetched ? (
-            <div className={styles.container}>
-              <RenderSettlementPaymentSuggestions
-                fixedDebitorCreditorOrder={fixedDebitorCreditorOrder}
-                positiveBalanceUsers={positiveBalanceUsers}
-                negativeBalanceUsers={negativeBalanceUsers}
-                groupCurrency={groupCurrency}
-                groupCode={groupCode}
-                persistedSettlements={persistedSettlements}
-              />
-            </div>
-          ) : (
-            <ExpensesSettled />
-          )}
-        </div>
-      )}
-      <ErrorDisplay error={error} />
+      <div>
+        {unsettledUsers?.length && groupCurrencyIsFetched ? (
+          <div className={styles.container}>
+            <RenderSettlementPaymentSuggestions
+              fixedDebitorCreditorOrder={fixedDebitorCreditorOrder}
+              positiveBalanceUsers={positiveBalanceUsers}
+              negativeBalanceUsers={negativeBalanceUsers}
+              groupCurrency={groupCurrency}
+              groupCode={groupCode}
+              persistedSettlements={persistedSettlements}
+            />
+          </div>
+        ) : (
+          <ExpensesSettled />
+        )}
+      </div>
+      <ErrorDisplay error={displayError} />
     </div>
   );
 };

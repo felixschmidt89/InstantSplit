@@ -52,7 +52,6 @@ const CreateGroupForm = ({ isExistingUser = false }) => {
       storeGroupCode(groupCode);
       setActiveGroupCode(groupCode);
       setPreviousRoute(pathname);
-
       navigate(ROUTES.MEMBERS.CREATE);
     } catch (error) {
       if (error.response) {

@@ -10,7 +10,7 @@ const { BASE, HAS_PERSISTED_ORDER } = API_ROUTES.GROUPS;
 export const fetchHasPersistedSettlements = async (groupCode) => {
   try {
     const { data } = await apiClient.get(
-      `/${BASE}/${groupCode}/${HAS_PERSISTED_ORDER}`,
+      `/${BASE}/${HAS_PERSISTED_ORDER}/${groupCode}/`,
     );
 
     return data;
