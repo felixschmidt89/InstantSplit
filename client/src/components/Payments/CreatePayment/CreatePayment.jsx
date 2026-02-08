@@ -9,10 +9,7 @@ import styles from "./CreatePayment.module.css";
 import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
 import { API_URL } from "../../../constants/apiConstants";
 import { devLog, handleApiErrors } from "../../../utils/errorUtils";
-import {
-  changeFixedDebitorCreditorOrderSetting,
-  deleteAllSettlementsForGroup,
-} from "../../../utils/settlementUtils";
+import { deleteAllSettlementsForGroup } from "../../../utils/settlementUtils";
 import { ROUTES } from "../../../constants/routesConstants";
 import PaymentAmountInput from "../PaymentAmountInput/PaymentAmountInput";
 import PaymentMakerSelect from "../PaymentMakerSelect/PaymentMakerSelect";

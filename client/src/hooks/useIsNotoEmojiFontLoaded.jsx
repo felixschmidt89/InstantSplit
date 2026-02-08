@@ -1,8 +1,20 @@
 import { useState, useEffect } from "react";
 import FontFaceObserver from "fontfaceobserver";
-import { devLog } from "../utils/errorUtils";
+
+import { debugLog } from "../../../shared/utils/debug/debugLog";
+import { LOG_LEVELS } from "../../../shared/constants/debugConstants";
 import { FONT_STATE, FONTS } from "../constants/fontConstants";
 
+const { INFO, LOG_ERROR } = LOG_LEVELS;
+
+/**
+ * Checks if the Noto Emoji font is loaded and available for use.
+ * Uses FontFaceObserver to detect font readiness or timeout.
+ *
+ * @returns {Object} The font loading status.
+ * @returns {boolean} isLoaded - True if the loading attempt has completed (successfully or failed).
+ * @returns {string|null} fontState - The final state of the font (e.g., FONT_STATE.LOADED or FONT_STATE.FALLBACK).
+ */
 const useIsNotoEmojiFontLoaded = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [fontState, setFontState] = useState(null);
@@ -17,16 +29,17 @@ const useIsNotoEmojiFontLoaded = () => {
         if (isMounted) {
           setFontState(FONT_STATE.LOADED);
           setIsLoaded(true);
-          devLog(`${FONTS.NOTO_EMOJI} loaded successfully.`);
+          debugLog(`${FONTS.NOTO_EMOJI} loaded successfully.`, {}, INFO);
         }
       })
       .catch((error) => {
         if (isMounted) {
           setFontState(FONT_STATE.FALLBACK);
           setIsLoaded(true);
-          devLog(
+          debugLog(
             `${FONTS.NOTO_EMOJI} failed or timed out. Using fallback.`,
-            error,
+            { error: error.message },
+            LOG_ERROR,
           );
         }
       });
