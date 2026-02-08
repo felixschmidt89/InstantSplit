@@ -75,6 +75,14 @@
   - **Explicit Imports**: Do **NOT** use `index.js` files. Imports must explicitly reference the component file (e.g., `import Footer from "@components/Footer/Footer";`).
   - **Styles**: Component-specific styles must use the CSS Module naming convention matching the component (e.g., `Footer.module.css`).
 
+- **Navigation**:
+  - **Standard**: STRICTLY use the custom hook `useAppNavigate` (from `hooks/useAppNavigate`) instead of `useNavigate` from `react-router-dom`.
+  - **Reasoning**: Ensures all routes are automatically treated as absolute paths to prevent relative path appending errors.
+
+- **API Logging**:
+  - **Redundancy**: Do **NOT** manually log API requests or responses (e.g., "Fetching data...", "Data fetched successfully") within API functions or components.
+  - **Automation**: Rely exclusively on the `axiosInstance` interceptors, which automatically log all requests and responses via `debugLog`.
+
 - **Syntax & Functions**:
   - Use ES6 modules and `async/await`.
   - Functional components only.
