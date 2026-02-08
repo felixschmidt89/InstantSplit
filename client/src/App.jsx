@@ -36,99 +36,114 @@ import GroupMemberDetailsPage from "./pages/GroupMemberDetailsPage/GroupMemberDe
 import GroupMemberTransactionHistoryPage from "./pages/GroupMemberTransactionHistoryPage/GroupMemberTransactionHistoryPage";
 import { ROUTES } from "./constants/routesConstants";
 import "./App.css";
+import { GroupProvider } from "./context/GroupContext.jsx";
 
 const App = () => {
   return (
     <ThemeProvider theme={muiTheme}>
-      <BrowserRouter>
-        <HelmetProvider>
-          <Routes>
-            <Route index element={<HomePage />} />
-            <Route path={ROUTES.LEGAL_NOTICE} element={<LegalNoticePage />} />
-            <Route
-              path={ROUTES.ONBOARDING.GROUP_SETTINGS}
-              element={<OnboardingGroupSettingsPage />}
-            />
-            <Route
-              path={ROUTES.ONBOARDING.CREATE_GROUP}
-              element={<OnboardingCreateGroupPage />}
-            />
-            <Route
-              path={ROUTES.ONBOARDING.ENTER_GROUPCODE}
-              element={<EnterGroupCodePage />}
-            />
-            <Route
-              path={ROUTES.VALIDATORS.GROUPCODE}
-              element={<ValidateProvidedGroupCodePage />}
-            />
-            <Route path={ROUTES.JOIN_GROUP.DE} element={<JoinGroupDEPage />} />
-            <Route path={ROUTES.JOIN_GROUP.EN} element={<JoinGroupENPage />} />
-            <Route path={ROUTES.TUTORIAL} element={<TutorialPage />} />
-            <Route path={ROUTES.INSTANT_SPLIT} element={<InstantSplitPage />} />
-            <Route path={ROUTES.MANAGE_GROUPS} element={<ManageGroupsPage />} />
-            <Route path={ROUTES.CONTACT} element={<ContactPage />} />
-            <Route
-              path={ROUTES.TERMS_AND_CONDITIONS}
-              element={<TermsAndConditionsPage />}
-            />
+      <GroupProvider>
+        <BrowserRouter>
+          <HelmetProvider>
+            <Routes>
+              <Route index element={<HomePage />} />
+              <Route path={ROUTES.LEGAL_NOTICE} element={<LegalNoticePage />} />
+              <Route
+                path={ROUTES.ONBOARDING.GROUP_SETTINGS}
+                element={<OnboardingGroupSettingsPage />}
+              />
+              <Route
+                path={ROUTES.ONBOARDING.CREATE_GROUP}
+                element={<OnboardingCreateGroupPage />}
+              />
+              <Route
+                path={ROUTES.ONBOARDING.ENTER_GROUPCODE}
+                element={<EnterGroupCodePage />}
+              />
+              <Route
+                path={ROUTES.VALIDATORS.GROUPCODE}
+                element={<ValidateProvidedGroupCodePage />}
+              />
+              <Route
+                path={ROUTES.JOIN_GROUP.DE}
+                element={<JoinGroupDEPage />}
+              />
+              <Route
+                path={ROUTES.JOIN_GROUP.EN}
+                element={<JoinGroupENPage />}
+              />
+              <Route path={ROUTES.TUTORIAL} element={<TutorialPage />} />
+              <Route
+                path={ROUTES.INSTANT_SPLIT}
+                element={<InstantSplitPage />}
+              />
+              <Route
+                path={ROUTES.MANAGE_GROUPS}
+                element={<ManageGroupsPage />}
+              />
+              <Route path={ROUTES.CONTACT} element={<ContactPage />} />
+              <Route
+                path={ROUTES.TERMS_AND_CONDITIONS}
+                element={<TermsAndConditionsPage />}
+              />
 
-            <Route element={<GroupContextWrapper />}>
-              <Route
-                path={ROUTES.MEMBERS.TRANSACTION_HISTORY}
-                element={<GroupMemberTransactionHistoryPage />}
-              />
-              <Route
-                path={ROUTES.MEMBERS.DETAILS}
-                element={<GroupMemberDetailsPage />}
-              />
-              <Route
-                path={ROUTES.EXPENSE.CREATE}
-                element={<CreateExpensePage />}
-              />
-              <Route
-                path={ROUTES.EXPENSE.UPDATE}
-                element={<UpdateExpensePage />}
-              />
-              <Route
-                path={ROUTES.PAYMENT.CREATE}
-                element={<CreatePaymentPage />}
-              />
-              <Route
-                path={ROUTES.PAYMENT.UPDATE}
-                element={<UpdatePaymentPage />}
-              />
-              <Route
-                path={ROUTES.MEMBERS.CREATE}
-                element={<CreateGroupMemberPage />}
-              />
-              <Route
-                path={ROUTES.SETTLE_EXPENSES}
-                element={<SettleExpensesPage />}
-              />
-              <Route
-                path={ROUTES.PAYMENT.DETAILS}
-                element={<PaymentDetailsPage />}
-              />
-              <Route
-                path={ROUTES.EXPENSE.DETAILS}
-                element={<ExpenseDetailsPage />}
-              />
-              <Route path={ROUTES.LEAVE_GROUP} element={<LeaveGroupPage />} />
-              <Route
-                path={ROUTES.SHARE_GROUP}
-                element={<ShareGroupInvitationPage />}
-              />
-              <Route
-                path={ROUTES.GROUP_SETTINGS}
-                element={<GroupSettingsPage />}
-              />
-            </Route>
+              <Route element={<GroupContextWrapper />}>
+                <Route
+                  path={ROUTES.MEMBERS.TRANSACTION_HISTORY}
+                  element={<GroupMemberTransactionHistoryPage />}
+                />
+                <Route
+                  path={ROUTES.MEMBERS.DETAILS}
+                  element={<GroupMemberDetailsPage />}
+                />
+                <Route
+                  path={ROUTES.EXPENSE.CREATE}
+                  element={<CreateExpensePage />}
+                />
+                <Route
+                  path={ROUTES.EXPENSE.UPDATE}
+                  element={<UpdateExpensePage />}
+                />
+                <Route
+                  path={ROUTES.PAYMENT.CREATE}
+                  element={<CreatePaymentPage />}
+                />
+                <Route
+                  path={ROUTES.PAYMENT.UPDATE}
+                  element={<UpdatePaymentPage />}
+                />
+                <Route
+                  path={ROUTES.MEMBERS.CREATE}
+                  element={<CreateGroupMemberPage />}
+                />
+                <Route
+                  path={ROUTES.SETTLE_EXPENSES}
+                  element={<SettleExpensesPage />}
+                />
+                <Route
+                  path={ROUTES.PAYMENT.DETAILS}
+                  element={<PaymentDetailsPage />}
+                />
+                <Route
+                  path={ROUTES.EXPENSE.DETAILS}
+                  element={<ExpenseDetailsPage />}
+                />
+                <Route path={ROUTES.LEAVE_GROUP} element={<LeaveGroupPage />} />
+                <Route
+                  path={ROUTES.SHARE_GROUP}
+                  element={<ShareGroupInvitationPage />}
+                />
+                <Route
+                  path={ROUTES.GROUP_SETTINGS}
+                  element={<GroupSettingsPage />}
+                />
+              </Route>
 
-            <Route path={ROUTES.NOT_FOUND} element={<PageNotFoundPage />} />
-          </Routes>
-          <Footer />
-        </HelmetProvider>
-      </BrowserRouter>
+              <Route path={ROUTES.NOT_FOUND} element={<PageNotFoundPage />} />
+            </Routes>
+            <Footer />
+          </HelmetProvider>
+        </BrowserRouter>
+      </GroupProvider>
     </ThemeProvider>
   );
 };

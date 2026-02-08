@@ -2,7 +2,6 @@ import { useTranslation } from "react-i18next";
 
 import styles from "./GroupSettingsPage.module.css";
 import useSettingsEmoji from "../../hooks/useSettingsEmoji";
-import { getActiveGroupCode } from "../../utils/localStorage";
 import useFetchGroupData from "../../hooks/useFetchGroupData";
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
@@ -12,14 +11,15 @@ import ChangeGroupName from "../../components/GroupSettings/ChangeGroupName/Chan
 import ChangeGroupCurrency from "../../components/GroupSettings/ChangeGroupCurrency/ChangeGroupCurrency";
 import ChangeDataPurgeSetting from "../../components/GroupSettings/ChangeDataPurgeSetting/ChangeDataPurgeSetting";
 import GroupCodeSecurity from "../../components/GroupSettings/GroupCodeSecurity/GroupCodeSecurity";
+import { useGroupContext } from "../../context/GroupContext.jsx";
 
 const GroupSettingsPage = () => {
   const { t } = useTranslation();
   const settingsEmoji = useSettingsEmoji();
 
-  const groupCode = getActiveGroupCode();
+  const { activeGroupCode } = useGroupContext();
 
-  const { groupData, isFetched } = useFetchGroupData(groupCode);
+  const { groupData, isFetched } = useFetchGroupData(activeGroupCode);
 
   return (
     <main>
@@ -40,19 +40,23 @@ const GroupSettingsPage = () => {
 
         {isFetched && groupData && (
           <div className={styles.settingsContainer}>
-            <ChangeGroupName groupData={groupData} groupCode={groupCode} />
+            {/* Pass activeGroupCode down to children */}
+            <ChangeGroupName
+              groupData={groupData}
+              groupCode={activeGroupCode}
+            />
 
             <ChangeGroupCurrency
-              groupCode={groupCode}
+              groupCode={activeGroupCode}
               groupCurrency={groupData.group.currency}
             />
 
             <ChangeDataPurgeSetting
-              groupCode={groupCode}
+              groupCode={activeGroupCode}
               inactiveDataPurge={groupData.group.inactiveDataPurge}
             />
 
-            <GroupCodeSecurity groupCode={groupCode} />
+            <GroupCodeSecurity groupCode={activeGroupCode} />
           </div>
         )}
       </div>

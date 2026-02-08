@@ -24,11 +24,11 @@ export const GroupMembersProvider = ({ groupCode, children }) => {
 
   const value = {
     groupMembers: groupMembers || [],
-    groupCode, // <--- Add this so children can access it!
+    groupCode,
     getMemberName,
     isFetched,
     error,
-    refreshGroupMembers: refetch, // <--- Add this so children can trigger updates!
+    refreshGroupMembers: refetch,
   };
 
   return (
