@@ -1,20 +1,15 @@
-import axios from "axios";
+import apiClient from "../axiosInstance.js";
 
 import { API_ROUTES } from "../../../../shared/constants/apiRoutesConstants.js";
 import { LOG_LEVELS } from "../../../../shared/constants/debugConstants.js";
 import { debugLog } from "../../../../shared/utils/debug/debugLog.js";
-import { API_URL } from "../../constants/apiConstants.js";
 
-const { INFO, LOG_ERROR } = LOG_LEVELS;
+const { LOG_ERROR } = LOG_LEVELS;
 const { BASE } = API_ROUTES.EXPENSES;
 
 export const createExpense = async (payload) => {
-  debugLog("Creating expense with payload:", payload, INFO);
-
   try {
-    const { data } = await axios.post(`${API_URL}/${BASE}`, payload);
-
-    debugLog("Expense created successfully", { id: data?._id }, INFO);
+    const { data } = await apiClient.post(`/${BASE}`, payload);
 
     return data;
   } catch (error) {

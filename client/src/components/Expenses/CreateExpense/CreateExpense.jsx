@@ -6,7 +6,6 @@ import { useTranslation } from "react-i18next";
 import styles from "./CreateExpense.module.css";
 import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility.jsx";
 import { LOG_LEVELS } from "../../../../../shared/constants/debugConstants.js";
-import { changeFixedDebitorCreditorOrderSetting } from "../../../utils/settlementUtils.jsx";
 import { debugLog } from "../../../../../shared/utils/debug/debugLog.js";
 import { ROUTES } from "../../../constants/routesConstants.jsx";
 import { buttonStyles } from "../../../constants/stylesConstants.jsx";
@@ -20,7 +19,7 @@ import ExpensePayerSelect from "../ExpensePayerSelect/ExpensePayerSelect.jsx";
 import ExpenseBeneficiariesInput from "../ExpenseBeneficiariesInput/ExpenseBeneficiariesInput.jsx";
 import ErrorModal from "../../ErrorModal/ErrorModal.jsx";
 
-const { LOG_ERROR, INFO } = LOG_LEVELS;
+const { LOG_ERROR } = LOG_LEVELS;
 
 const CreateExpense = ({ groupCode }) => {
   const navigate = useNavigate();
@@ -70,13 +69,9 @@ const CreateExpense = ({ groupCode }) => {
         expenseBeneficiaryIds: selectedBeneficiaries.map((b) => b._id),
       };
 
-      const responseData = await createExpense(payload);
+      await createExpense(payload);
 
-      await changeFixedDebitorCreditorOrderSetting(groupCode, false);
-
-      debugLog("Expense created flow complete", { id: responseData._id }, INFO);
-
-      navigate(ROUTES.INSTANT_SPLIT);
+      navigate(`/${ROUTES.INSTANT_SPLIT}`);
     } catch (error) {
       debugLog("Error creating expense", { error: error.message }, LOG_ERROR);
 
