@@ -1,5 +1,6 @@
 import axios from "axios";
-import { API_URL } from "../constants/apiConstants.js";
+
+import { API_URL } from "../constants/apiConstants";
 import { LOG_LEVELS } from "../../../shared/constants/debugConstants.js";
 import { debugLog } from "../../../shared/utils/debug/debugLog.js";
 
@@ -32,7 +33,7 @@ apiClient.interceptors.response.use(
   (response) => {
     debugLog(
       `API Response: ${response.status} ${response.config.url}`,
-      null,
+      response.data ? { data: response.data } : null,
       INFO,
     );
     return response;
