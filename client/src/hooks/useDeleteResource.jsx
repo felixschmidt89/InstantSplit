@@ -21,7 +21,7 @@ const useDeleteResource = (resourceType, resourceId, route) => {
       if (response.status === StatusCodes.NO_CONTENT) {
         setError(null);
         devLog(`Resource (${resourceType} ${resourceId}) has been deleted.`);
-        navigate(route);
+        navigate(`/${route}`);
       }
     } catch (error) {
       if (error.response && error.response.status === StatusCodes.BAD_REQUEST) {

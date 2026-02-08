@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 
 import styles from "./CreateGroupForm.module.css";
 import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
-import { createGroup } from "../../../api/groups";
 import { devLog, handleApiErrors } from "../../../utils/errorUtils";
 import {
   setActiveGroupCode,
@@ -16,6 +15,7 @@ import { plusFormSubmitButtonStyles } from "../../../constants/stylesConstants";
 import FormSubmitButton from "../../FormSubmitButton/FormSubmitButton";
 import ErrorModal from "../../ErrorModal/ErrorModal";
 import { useLocation, useNavigate } from "react-router-dom";
+import { createGroup } from "../../../api/groups/createGroup.js";
 
 const CreateGroupForm = ({ isExistingUser = false }) => {
   const navigate = useNavigate();
@@ -34,14 +34,12 @@ const CreateGroupForm = ({ isExistingUser = false }) => {
 
     try {
       const response = await createGroup(groupName);
-
-      devLog("Group created:", response);
       const { groupCode } = response.group;
 
       storeGroupCode(groupCode);
       setActiveGroupCode(groupCode);
       setPreviousRoute(pathname);
-      navigate(ROUTES.MEMBERS.CREATE);
+      navigate(`/${ROUTES.MEMBERS.CREATE}`);
     } catch (error) {
       if (error.response) {
         handleApiErrors(error, setError, "groups", displayErrorModal, t);

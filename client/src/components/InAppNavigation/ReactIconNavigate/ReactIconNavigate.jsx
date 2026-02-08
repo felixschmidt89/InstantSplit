@@ -59,11 +59,10 @@ const ReactIconNavigate = ({
     } else if (url) {
       window.open(url, "_blank");
     } else {
-      // Check if onClick is a function before invoking it
       if (typeof onClick === "function") {
         onClick();
       } else {
-        navigate(route);
+        navigate(`/${route}`);
       }
     }
   };

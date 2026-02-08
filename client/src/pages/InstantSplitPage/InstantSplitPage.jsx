@@ -63,14 +63,14 @@ const InstantSplitPage = () => {
 
   useEffect(() => {
     if (!groupCode) {
-      navigate(ROUTES.HOME);
+      navigate(`/${ROUTES.HOME}`);
     }
   }, [groupCode, navigate]);
 
   useEffect(() => {
     if (isValidated && !groupExists) {
       deleteGroupCode(groupCode);
-      navigate(ROUTES.HOME);
+      navigate(`/${ROUTES.HOME}`);
     }
   }, [navigate, groupCode, isValidated, groupExists]);
 

@@ -36,7 +36,7 @@ const InAppNavigationBar = ({
 
   const handleNavigation = (route) => {
     debugLog("Navigating to:", route);
-    navigate(route);
+    navigate(`/${route}`);
   };
 
   const handleNestedNavigation = () => {
@@ -52,14 +52,14 @@ const InAppNavigationBar = ({
     }
 
     debugLog("Navigating to:", retrievedRoute);
-    navigate(retrievedRoute);
+    navigate(`/${retrievedRoute}`);
   };
 
   const handleAbort = (route) => {
     const groupCode = getActiveGroupCode();
     deleteGroupCode(groupCode);
     debugLog("Navigating to main application");
-    navigate(route);
+    navigate(`/${route}`);
   };
 
   return (

@@ -127,7 +127,7 @@ const Contact = () => {
       setShowForm(false);
 
       setTimeout(() => {
-        navigate(ROUTES.INSTANT_SPLIT);
+        navigate(`/${ROUTES.INSTANT_SPLIT}`);
       }, 2500);
     } catch (error) {
       devLog("Error creating Feedback:", error);

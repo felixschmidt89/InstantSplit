@@ -19,14 +19,14 @@ const AcceptGroupInvitation = ({ groupName, groupCode }) => {
   useEffect(() => {
     if (isGroupCodeInStoredGroupCodes(groupCode)) {
       setActiveGroupCode(groupCode);
-      navigate(ROUTES.INSTANT_SPLIT);
+      navigate(`/${ROUTES.INSTANT_SPLIT}`);
     }
   }, [groupCode, navigate]);
 
   const onInvitationAccept = () => {
     storeGroupCode(groupCode);
     setActiveGroupCode(groupCode);
-    navigate(ROUTES.INSTANT_SPLIT);
+    navigate(`/${ROUTES.INSTANT_SPLIT}`);
   };
 
   return (

@@ -69,7 +69,7 @@ const UpdatePayment = ({
       });
 
       devLog("Payment updated:", response);
-      navigate(route);
+      navigate(`/${route}`);
     } catch (error) {
       if (error.response) {
         handleApiErrors(error, setError, "payments", displayErrorModal, t);

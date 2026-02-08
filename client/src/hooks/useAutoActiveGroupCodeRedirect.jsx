@@ -22,7 +22,7 @@ const useAutoActiveGroupCodeRedirect = () => {
     }
 
     if (groupCode) {
-      navigate(ROUTES.INSTANT_SPLIT);
+      navigate(`/${ROUTES.INSTANT_SPLIT}`);
     }
   }, [navigate]);
 };

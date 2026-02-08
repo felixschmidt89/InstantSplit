@@ -39,7 +39,7 @@ const ValidateProvideGroupCodePage = () => {
       setActiveGroupCode(groupCode);
 
       const timeoutId = setTimeout(() => {
-        navigate(ROUTES.INSTANT_SPLIT);
+        navigate(`/${ROUTES.INSTANT_SPLIT}`);
       }, 2500);
 
       return () => clearTimeout(timeoutId);

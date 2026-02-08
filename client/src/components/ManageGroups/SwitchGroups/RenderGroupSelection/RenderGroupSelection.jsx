@@ -21,7 +21,7 @@ const RenderGroupSelection = ({ groupCode, groupNamesAndGroupCodes }) => {
     event.preventDefault();
     if (selectedGroupCode) {
       setActiveGroupCode(selectedGroupCode);
-      navigate(ROUTES.INSTANT_SPLIT);
+      navigate(`/${ROUTES.INSTANT_SPLIT}`);
     }
   };
 

@@ -40,7 +40,7 @@ const LeaveGroupPage = () => {
       if (newGroupCode) setActiveGroupCode(newGroupCode);
     },
     () => {
-      navigate(ROUTES.INSTANT_SPLIT);
+      navigate(`/${ROUTES.INSTANT_SPLIT}`);
     },
   ]);
 

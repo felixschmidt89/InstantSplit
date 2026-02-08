@@ -76,7 +76,7 @@ const ConfirmSettlementPayment = ({
       devLog("Settlement payment created:", response.data);
 
       setStoredView(VIEW_TYPES.BALANCES);
-      navigate(ROUTES.INSTANT_SPLIT);
+      navigate(`/${ROUTES.INSTANT_SPLIT}`);
     } catch (error) {
       const errorMessage =
         error.response?.data?.message || t("generic-error-message");

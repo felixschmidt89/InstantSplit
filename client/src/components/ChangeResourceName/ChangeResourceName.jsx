@@ -53,7 +53,7 @@ const ChangeResourceName = ({
       devLog(`${resourceType} name updated:`, response);
 
       if (navigateToMain) {
-        navigate(ROUTES.INSTANT_SPLIT);
+        navigate(`/${ROUTES.INSTANT_SPLIT}`);
       }
       callback?.(newResourceName);
 

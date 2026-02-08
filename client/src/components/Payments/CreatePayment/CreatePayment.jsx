@@ -50,7 +50,7 @@ const CreatePayment = ({ groupMembers, groupCode }) => {
       changeFixedDebitorCreditorOrderSetting(groupCode, false);
       deleteAllSettlementsForGroup(groupCode);
 
-      navigate(ROUTES.INSTANT_SPLIT);
+      navigate(`/${ROUTES.INSTANT_SPLIT}`);
     } catch (error) {
       if (error?.response) {
         handleApiErrors(error, setError, "payments", displayErrorModal, t);

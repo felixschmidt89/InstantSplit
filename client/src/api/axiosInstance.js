@@ -16,9 +16,11 @@ const apiClient = axios.create({
 
 apiClient.interceptors.request.use(
   (config) => {
+    const hasPayload = config.data !== undefined && config.data !== null;
+
     debugLog(
       `API Request: ${config.method.toUpperCase()} ${config.url}`,
-      config.data ? { payload: config.data } : null,
+      hasPayload ? { payload: config.data } : null,
       INFO,
     );
     return config;
