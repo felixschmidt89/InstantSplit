@@ -4,7 +4,8 @@ import useFetchGroupMembers from "../hooks/useFetchGroupMembers.jsx";
 const GroupMembersContext = createContext();
 
 export const GroupMembersProvider = ({ groupCode, children }) => {
-  const { groupMembers, isFetched, error } = useFetchGroupMembers(groupCode);
+  const { groupMembers, isFetched, error, refetch } =
+    useFetchGroupMembers(groupCode);
 
   const membersMap = useMemo(() => {
     const map = {};
@@ -22,10 +23,12 @@ export const GroupMembersProvider = ({ groupCode, children }) => {
   };
 
   const value = {
-    groupMembers,
+    groupMembers: groupMembers || [],
+    groupCode, // <--- Add this so children can access it!
     getMemberName,
     isFetched,
     error,
+    refreshGroupMembers: refetch, // <--- Add this so children can trigger updates!
   };
 
   return (

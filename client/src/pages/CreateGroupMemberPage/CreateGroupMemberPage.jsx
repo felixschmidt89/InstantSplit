@@ -1,7 +1,5 @@
 import { useTranslation } from "react-i18next";
-
 import styles from "./CreateGroupMemberPage.module.css";
-import useTriggerRerender from "../../hooks/useTriggerRerender";
 import { getPreviousRoute } from "../../utils/localStorage";
 import { ROUTES } from "../../constants/routesConstants";
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
@@ -12,9 +10,6 @@ import { debugLog } from "../../../../shared/utils/debug/debugLog.js";
 
 const CreateGroupMemberPage = () => {
   const { t } = useTranslation();
-  const { groupCode, rerenderTrigger, incrementRerenderTrigger } =
-    useTriggerRerender();
-
   const previousRoute = getPreviousRoute();
 
   debugLog("Current previousRoute in Page:", previousRoute);
@@ -39,19 +34,11 @@ const CreateGroupMemberPage = () => {
         {!isNewUser && <h1>{t("create-group-members-page-header")}</h1>}
         <h2>{t("create-group-members-form-header")}</h2>
 
-        <CreateGroupMemberForm
-          incrementRerenderTrigger={incrementRerenderTrigger}
-          groupCode={groupCode}
-        />
+        <CreateGroupMemberForm />
       </div>
 
       <div className={styles.container}>
-        <RenderGroupMemberNames
-          rerenderTrigger={rerenderTrigger}
-          groupCode={groupCode}
-          incrementRerenderTrigger={incrementRerenderTrigger}
-          isInAppGroupCreation={isInAppGroupCreation}
-        />
+        <RenderGroupMemberNames isInAppGroupCreation={isInAppGroupCreation} />
       </div>
     </main>
   );

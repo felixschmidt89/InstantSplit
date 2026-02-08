@@ -44,7 +44,12 @@ const useFetchGroupMembers = (groupCode) => {
 
   usePolling(getMembers);
 
-  return { groupMembers, isFetched, error };
+  return {
+    groupMembers: groupMembers || [],
+    isFetched,
+    error,
+    refetch: getMembers,
+  };
 };
 
 export default useFetchGroupMembers;

@@ -1,34 +1,27 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useState } from "react";
 import { StatusCodes } from "http-status-codes";
 import { MdDelete } from "react-icons/md";
 import { useTranslation } from "react-i18next";
 
 import styles from "./DeleteGroupMemberBin.module.css";
 import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
-import { API_URL } from "../../../constants/apiConstants";
 import { devLog, handleApiErrors } from "../../../utils/errorUtils";
+import { useGroupMembersContext } from "../../../context/GroupMembersContext";
 import ConfirmationModal from "../../ConfirmationModal/ConfirmationModal";
 import ErrorModal from "../../ErrorModal/ErrorModal";
 
-const DeleteGroupMemberBin = ({
-  userId,
-  groupMemberName,
-  incrementRerenderTrigger,
-  rerenderTrigger,
-}) => {
+import { deleteGroupMember } from "../../../api/users/deleteGroupMember";
+
+const DeleteGroupMemberBin = ({ userId, groupMemberName }) => {
   const { t } = useTranslation();
+  const { refreshGroupMembers } = useGroupMembersContext();
   const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
     useErrorModalVisibility();
 
   const [isConfirmationVisible, setIsConfirmationVisible] = useState(false);
-  const [deletionSuccess, setDeletionSuccess] = useState(false);
   const [error, setError] = useState(null);
 
-  const handleShowConfirmation = () => {
-    setIsConfirmationVisible(true);
-  };
-
+  const handleShowConfirmation = () => setIsConfirmationVisible(true);
   const handleHideConfirmation = () => {
     setIsConfirmationVisible(false);
     setError(null);
@@ -36,13 +29,16 @@ const DeleteGroupMemberBin = ({
 
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(`${API_URL}/users/${userId}`);
+      const response = await deleteGroupMember(userId);
 
       if (response.status === StatusCodes.NO_CONTENT) {
         setError(null);
         devLog(`Group member ${userId} has been deleted.`);
-        setDeletionSuccess(true);
         handleHideConfirmation();
+
+        if (refreshGroupMembers) {
+          await refreshGroupMembers();
+        }
       }
     } catch (error) {
       setIsConfirmationVisible(false);
@@ -51,18 +47,10 @@ const DeleteGroupMemberBin = ({
         handleApiErrors(error, setError, "users", displayErrorModal, t);
       } else {
         setError(t("generic-error-message"));
-        devLog(`Error deleting group member ${userId}:`, error);
         displayErrorModal();
       }
     }
   };
-
-  useEffect(() => {
-    if (deletionSuccess && rerenderTrigger) {
-      setDeletionSuccess(false);
-      incrementRerenderTrigger();
-    }
-  }, [deletionSuccess, incrementRerenderTrigger, rerenderTrigger]);
 
   return (
     <div className={styles.container}>
