@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import useFetchGroupCurrency from "../../../hooks/useFetchGroupCurrency";
 import useHasGroupPersistedSettlements from "../../../hooks/useHasGroupPersistedSettlements";
-import useFetchUnsettledGroupMembers from "../../../hooks/useFetchUnsettledGroupMembers";
+import useFetchUnsettledGroupMembers from "../../../hooks/useUnsettledGroupMembers.jsx";
 import useUpdateGroupHasPersistedSettlements from "../../../hooks/useUpdateGroupHasPersistedSettlements";
 
 import { fetchSettlements } from "../../../api/settlements/fetchSettlements";
@@ -25,7 +25,6 @@ const { LOG_ERROR, INFO } = LOG_LEVELS;
 const SettleExpenses = () => {
   const groupCode = getActiveGroupCode();
 
-  // --- Hooks ---
   const { groupCurrency, isFetched: groupCurrencyIsFetched } =
     useFetchGroupCurrency(groupCode);
 
@@ -47,36 +46,29 @@ const SettleExpenses = () => {
     isLoading: isUpdatingStatus,
   } = useUpdateGroupHasPersistedSettlements();
 
-  // --- Local State ---
   const [displayError, setDisplayError] = useState(null);
   const [fixedDebitorCreditorOrder, setFixedDebitorCreditorOrder] =
     useState(null);
   const [persistedSettlements, setPersistedSettlements] = useState([]);
 
-  // --- Derived Data ---
   const { positiveBalanceUsers, negativeBalanceUsers } =
     groupUsersPerPositiveOrNegativeUserBalance(
       unsettledUsers,
       fixedDebitorCreditorOrder,
     );
 
-  // --- Effects ---
-
-  // 1. Sync persisted order state
   useEffect(() => {
     if (isPersistedOrderFetched) {
       setFixedDebitorCreditorOrder(hasPersistedSettlements);
     }
   }, [hasPersistedSettlements, isPersistedOrderFetched]);
 
-  // 2. Handle errors from all hooks
   useEffect(() => {
     if (persistedOrderError) setDisplayError(persistedOrderError);
     if (unsettledUsersError) setDisplayError(unsettledUsersError);
     if (updateStatusError) setDisplayError(updateStatusError);
   }, [persistedOrderError, unsettledUsersError, updateStatusError]);
 
-  // 3. Handle Persisted Settlements Fetching & Correction Logic
   useEffect(() => {
     if (fixedDebitorCreditorOrder === true) {
       const getPersistedSettlements = async () => {
@@ -86,7 +78,6 @@ const SettleExpenses = () => {
 
           setPersistedSettlements(settlements);
 
-          // If flag is true but no settlements exist, auto-correct the flag to false
           if (!settlements?.length) {
             await updatePersistedStatus(groupCode, false);
             setFixedDebitorCreditorOrder(false);

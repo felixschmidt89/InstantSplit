@@ -11,7 +11,7 @@ import { LOG_LEVELS } from "../../../shared/constants/debugConstants";
 
 const { LOG_ERROR } = LOG_LEVELS;
 
-const useFetchUnsettledGroupMembers = (groupCode) => {
+const useUnsettledGroupMembers = (groupCode) => {
   const { t } = useTranslation();
 
   const [unsettledUsers, setUnsettledUsers] = useState([]);
@@ -19,7 +19,7 @@ const useFetchUnsettledGroupMembers = (groupCode) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const getUnsettledMembers = async () => {
+    const loadAndCalculateMembers = async () => {
       setIsLoading(true);
       setError(null);
 
@@ -27,11 +27,9 @@ const useFetchUnsettledGroupMembers = (groupCode) => {
         const responseData = await fetchGroupMembers(groupCode);
 
         if (responseData?.users?.length) {
-          // Calculate balances for everyone
           const userDetails = responseData.users.map((user) =>
             calculateAndAddUserBalance(user),
           );
-          // Filter out those with 0 balance
           const unsettledUserDetails = filterUnsettledUsers(userDetails);
 
           setUnsettledUsers(unsettledUserDetails);
@@ -40,7 +38,7 @@ const useFetchUnsettledGroupMembers = (groupCode) => {
         }
       } catch (err) {
         debugLog(
-          "Error fetching unsettled group members",
+          "Error loading unsettled group members",
           { error: err.message, groupCode },
           LOG_ERROR,
         );
@@ -51,11 +49,11 @@ const useFetchUnsettledGroupMembers = (groupCode) => {
     };
 
     if (groupCode) {
-      getUnsettledMembers();
+      loadAndCalculateMembers();
     }
   }, [groupCode, t]);
 
   return { unsettledUsers, isLoading, error };
 };
 
-export default useFetchUnsettledGroupMembers;
+export default useUnsettledGroupMembers;
