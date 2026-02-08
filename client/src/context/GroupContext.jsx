@@ -19,7 +19,6 @@ export const GroupProvider = ({ children }) => {
     getActiveGroupCode(),
   );
 
-  // Update RAM and Disk
   const updateActiveGroup = useCallback((newCode) => {
     setActiveGroupCode(newCode);
     setActiveGroupCodeState(newCode);
