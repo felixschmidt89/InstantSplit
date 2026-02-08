@@ -1,32 +1,45 @@
 import { useState, useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-import styles from "./CreateGroupForm.module.css";
+import useAppNavigate from "../../../hooks/useAppNavigate";
 import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
-import { devLog, handleApiErrors } from "../../../utils/errorUtils";
+
 import {
   setActiveGroupCode,
   setPreviousRoute,
   storeGroupCode,
 } from "../../../utils/localStorage";
-import { ROUTES } from "../../../constants/routesConstants";
+import { handleApiErrors } from "../../../utils/errorUtils";
 import { replaceSlashesWithDashes } from "../../../utils/replaceSlashesWithDashes";
+
+import { ROUTES } from "../../../constants/routesConstants";
 import { plusFormSubmitButtonStyles } from "../../../constants/stylesConstants";
+import { createGroup } from "../../../api/groups/createGroup";
+
 import FormSubmitButton from "../../FormSubmitButton/FormSubmitButton";
 import ErrorModal from "../../ErrorModal/ErrorModal";
-import { useLocation, useNavigate } from "react-router-dom";
-import { createGroup } from "../../../api/groups/createGroup.js";
+import styles from "./CreateGroupForm.module.css";
+import { LOG_LEVELS } from "../../../../../shared/constants/debugConstants.js";
+import { debugLog } from "../../../../../shared/utils/debug/debugLog.js";
+
+const { LOG_ERROR } = LOG_LEVELS;
 
 const CreateGroupForm = ({ isExistingUser = false }) => {
-  const navigate = useNavigate();
+  const navigate = useAppNavigate();
+  const { pathname } = useLocation();
   const { t } = useTranslation();
   const inputRef = useRef(null);
-  const { pathname } = useLocation();
+
   const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
     useErrorModalVisibility();
 
   const [groupName, setGroupName] = useState("");
   const [error, setError] = useState(null);
+
+  const handleInputChange = (e) => {
+    setGroupName(replaceSlashesWithDashes(e.target.value));
+  };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -39,20 +52,17 @@ const CreateGroupForm = ({ isExistingUser = false }) => {
       storeGroupCode(groupCode);
       setActiveGroupCode(groupCode);
       setPreviousRoute(pathname);
-      navigate(`/${ROUTES.MEMBERS.CREATE}`);
+
+      navigate(ROUTES.MEMBERS.CREATE);
     } catch (error) {
       if (error.response) {
         handleApiErrors(error, setError, "groups", displayErrorModal, t);
       } else {
         setError(t("generic-error-message"));
-        devLog("Error creating group.", error);
+        debugLog("Error creating group", { error: error.message }, LOG_ERROR);
         displayErrorModal();
       }
     }
-  };
-
-  const handleInputChange = (e) => {
-    setGroupName(replaceSlashesWithDashes(e.target.value));
   };
 
   useEffect(() => {

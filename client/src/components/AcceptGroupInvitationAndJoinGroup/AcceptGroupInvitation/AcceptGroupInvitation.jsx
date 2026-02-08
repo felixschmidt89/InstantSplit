@@ -1,33 +1,35 @@
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
+
+import useAppNavigate from "../../../hooks/useAppNavigate";
 import { buttonStyles } from "../../../constants/stylesConstants";
-import TermsAndConditionsSection from "../../Home/TermsAndConditionsSection/TermsAndConditionsSection";
 import { ROUTES } from "../../../constants/routesConstants";
-import styles from "./AcceptGroupInvitation.module.css";
 import {
   isGroupCodeInStoredGroupCodes,
   setActiveGroupCode,
   storeGroupCode,
 } from "../../../utils/localStorage";
 
-const AcceptGroupInvitation = ({ groupName, groupCode }) => {
-  const navigate = useNavigate();
-  const { t } = useTranslation();
+import TermsAndConditionsSection from "../../Home/TermsAndConditionsSection/TermsAndConditionsSection";
+import styles from "./AcceptGroupInvitation.module.css";
 
-  useEffect(() => {
-    if (isGroupCodeInStoredGroupCodes(groupCode)) {
-      setActiveGroupCode(groupCode);
-      navigate(`/${ROUTES.INSTANT_SPLIT}`);
-    }
-  }, [groupCode, navigate]);
+const AcceptGroupInvitation = ({ groupName, groupCode }) => {
+  const navigate = useAppNavigate();
+  const { t } = useTranslation();
 
   const onInvitationAccept = () => {
     storeGroupCode(groupCode);
     setActiveGroupCode(groupCode);
-    navigate(`/${ROUTES.INSTANT_SPLIT}`);
+    navigate(ROUTES.INSTANT_SPLIT);
   };
+
+  useEffect(() => {
+    if (isGroupCodeInStoredGroupCodes(groupCode)) {
+      setActiveGroupCode(groupCode);
+      navigate(ROUTES.INSTANT_SPLIT);
+    }
+  }, [groupCode, navigate]);
 
   return (
     <div className={styles.container}>
@@ -39,6 +41,7 @@ const AcceptGroupInvitation = ({ groupName, groupCode }) => {
           {t("join-group-button-text")}
         </Button>
       </div>
+
       <div className={styles.termsAndConditions}>
         <TermsAndConditionsSection />
       </div>
