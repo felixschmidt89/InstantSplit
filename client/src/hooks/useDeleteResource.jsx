@@ -1,33 +1,26 @@
 import { useState } from "react";
-import axios from "axios";
 import { StatusCodes } from "http-status-codes";
-import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
+import useAppNavigate from "./useAppNavigate";
+import { deleteResource as apiDeleteResource } from "../api/common/deleteResource";
 import { devLog } from "../utils/errorUtils";
-import { API_URL } from "../constants/apiConstants";
 
 const useDeleteResource = (resourceType, resourceId, route) => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
+  const navigate = useAppNavigate();
   const [error, setError] = useState(null);
   const resourceTypeSingular = resourceType.slice(0, -1);
 
   const deleteResource = async () => {
     try {
-      const response = await axios.delete(
-        `${API_URL}/${resourceType}/${resourceId}`,
-      );
+      const response = await apiDeleteResource(resourceType, resourceId);
 
       if (response.status === StatusCodes.NO_CONTENT) {
         setError(null);
         devLog(`Resource (${resourceType} ${resourceId}) has been deleted.`);
 
-        if (typeof route === "string" && route.trim().length > 0) {
-          const cleanRoute = route.startsWith("/") ? route : `/${route}`;
-          navigate(cleanRoute);
-        }
-
+        navigate(route);
         return response;
       }
     } catch (error) {

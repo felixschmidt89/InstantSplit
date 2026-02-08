@@ -1,10 +1,6 @@
 import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
-/**
- * A wrapper around useNavigate that ensures all string paths
- * are treated as absolute paths (prepends '/' if missing).
- */
 const useAppNavigate = () => {
   const navigate = useNavigate();
 
@@ -15,11 +11,18 @@ const useAppNavigate = () => {
         return;
       }
 
-      let target = route;
-
-      if (typeof route === "string" && !route.startsWith("/")) {
-        target = `/${route}`;
+      if (!route || typeof route !== "string") {
+        return;
       }
+
+      const trimmedRoute = route.trim();
+      if (trimmedRoute.length === 0) {
+        return;
+      }
+
+      const target = trimmedRoute.startsWith("/")
+        ? trimmedRoute
+        : `/${trimmedRoute}`;
 
       navigate(target, options);
     },
