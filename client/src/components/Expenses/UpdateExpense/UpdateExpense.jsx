@@ -65,7 +65,7 @@ const UpdateExpense = ({
 
       const response = await updateExpense(expenseId, payload);
 
-      devLog("Expense updated flow complete", response);
+      devLog("Expense updated", response);
       navigate(route);
     } catch (error) {
       if (error?.response) {
