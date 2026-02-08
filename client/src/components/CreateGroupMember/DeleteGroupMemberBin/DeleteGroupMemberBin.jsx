@@ -1,16 +1,13 @@
 import { useState } from "react";
-import { StatusCodes } from "http-status-codes";
 import { MdDelete } from "react-icons/md";
 import { useTranslation } from "react-i18next";
 
 import styles from "./DeleteGroupMemberBin.module.css";
 import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
-import { devLog, handleApiErrors } from "../../../utils/errorUtils";
+import useDeleteResource from "../../../hooks/useDeleteResource";
 import { useGroupMembersContext } from "../../../context/GroupMembersContext";
 import ConfirmationModal from "../../ConfirmationModal/ConfirmationModal";
 import ErrorModal from "../../ErrorModal/ErrorModal";
-
-import { deleteGroupMember } from "../../../api/users/deleteGroupMember";
 
 const DeleteGroupMemberBin = ({ userId, groupMemberName }) => {
   const { t } = useTranslation();
@@ -19,36 +16,24 @@ const DeleteGroupMemberBin = ({ userId, groupMemberName }) => {
     useErrorModalVisibility();
 
   const [isConfirmationVisible, setIsConfirmationVisible] = useState(false);
-  const [error, setError] = useState(null);
+
+  const { deleteResource, error: hookError } = useDeleteResource(
+    "users",
+    userId,
+    null,
+    refreshGroupMembers,
+  );
 
   const handleShowConfirmation = () => setIsConfirmationVisible(true);
-  const handleHideConfirmation = () => {
-    setIsConfirmationVisible(false);
-    setError(null);
-  };
+  const handleHideConfirmation = () => setIsConfirmationVisible(false);
 
   const handleDelete = async () => {
     try {
-      const response = await deleteGroupMember(userId);
-
-      if (response.status === StatusCodes.NO_CONTENT) {
-        setError(null);
-        devLog(`Group member ${userId} has been deleted.`);
-        handleHideConfirmation();
-
-        if (refreshGroupMembers) {
-          await refreshGroupMembers();
-        }
-      }
-    } catch (error) {
+      await deleteResource();
+      handleHideConfirmation();
+    } catch (err) {
       setIsConfirmationVisible(false);
-
-      if (error?.response) {
-        handleApiErrors(error, setError, "users", displayErrorModal, t);
-      } else {
-        setError(t("generic-error-message"));
-        displayErrorModal();
-      }
+      displayErrorModal();
     }
   };
 
@@ -69,12 +54,12 @@ const DeleteGroupMemberBin = ({ userId, groupMemberName }) => {
           onConfirm={handleDelete}
           onCancel={handleHideConfirmation}
           isVisible={isConfirmationVisible}
-          error={error}
+          error={hookError}
         />
       )}
 
       <ErrorModal
-        error={error && t(error)}
+        error={hookError && t(hookError)}
         onClose={handleCloseErrorModal}
         isVisible={isErrorModalVisible}
       />
