@@ -26,7 +26,7 @@ export const getUserTransactionsService = async (userId) => {
   transactions.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   return {
-    transactions,
+    transactions: transactions || [],
     expenseCount: expenses.length,
     paymentCount: payments.length,
     results: transactions.length,

@@ -27,6 +27,8 @@ const useDeleteResource = (resourceType, resourceId, route) => {
           const cleanRoute = route.startsWith("/") ? route : `/${route}`;
           navigate(cleanRoute);
         }
+
+        return response;
       }
     } catch (error) {
       if (error.response && error.response.status === StatusCodes.BAD_REQUEST) {
@@ -38,6 +40,7 @@ const useDeleteResource = (resourceType, resourceId, route) => {
         );
         setError(t("generic-error-message"));
       }
+      throw error;
     }
   };
 

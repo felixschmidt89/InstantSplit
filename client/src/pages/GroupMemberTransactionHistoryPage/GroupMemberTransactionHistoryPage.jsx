@@ -1,16 +1,19 @@
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
+// Hooks
 import useFetchGroupCurrency from "../../hooks/useFetchGroupCurrency";
 import useGroupMemberTransactions from "../../hooks/useGroupMemberTransactions";
 import { useGroupMembersContext } from "../../context/GroupMembersContext";
 
+// Components
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import Spinner from "../../components/Spinner/Spinner";
 import ErrorDisplay from "../../components/ErrorDisplay/ErrorDisplay";
 import GroupMemberTransactionsHistory from "../../components/GroupMemberTransactionsHistory/GroupMemberTransactionsHistory/GroupMemberTransactionsHistory";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 
+// Styles
 import styles from "./GroupMemberTransactionHistoryPage.module.css";
 
 const GroupMemberTransactionHistoryPage = () => {
@@ -27,7 +30,7 @@ const GroupMemberTransactionHistoryPage = () => {
     transactions,
     isLoading: transactionsIsLoading,
     error: transactionsError,
-    removeTransactionFromLocalState,
+    refetchTransactions,
   } = useGroupMemberTransactions(userId);
 
   const isPageLoading =
@@ -50,7 +53,7 @@ const GroupMemberTransactionHistoryPage = () => {
           <GroupMemberTransactionsHistory
             transactions={transactions}
             groupCode={groupCode}
-            onDeleteResource={removeTransactionFromLocalState}
+            onDeleteResource={refetchTransactions}
             groupCurrency={groupCurrency}
             groupMembers={groupMembers}
           />

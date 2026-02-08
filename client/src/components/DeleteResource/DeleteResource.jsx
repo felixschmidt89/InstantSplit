@@ -14,22 +14,22 @@ const DeleteResource = ({
   route = ROUTES.INSTANT_SPLIT,
   isButton = true,
   navigateOnDelete = true,
-  showResourceType = true,
   onDeleteResource,
 }) => {
   const { t } = useTranslation();
   const [isConfirmationVisible, setIsConfirmationVisible] = useState(false);
   const [localError, setLocalError] = useState(null);
 
+  const redirectPath = navigateOnDelete ? route : undefined;
+
   const { deleteResource, error: hookError } = useDeleteResource(
     resourceType,
     resourceId,
-    navigateOnDelete ? route : null,
+    redirectPath,
   );
 
   useEffect(() => {
     if (hookError) {
-      // TODO: Make this transformation a proper utility function
       const transformedError = `delete-resource-error-${hookError
         .toLowerCase()
         .replace(/[^\w\s]|_/g, "")
@@ -40,9 +40,18 @@ const DeleteResource = ({
     }
   }, [hookError]);
 
-  const handleDelete = () => {
-    deleteResource();
-    onDeleteResource?.(resourceId);
+  const handleDelete = async () => {
+    try {
+      await deleteResource();
+
+      setIsConfirmationVisible(false);
+
+      if (onDeleteResource) {
+        await onDeleteResource();
+      }
+    } catch (err) {
+      // Error handled by hook
+    }
   };
 
   const handleShowConfirmation = () => {
@@ -61,7 +70,7 @@ const DeleteResource = ({
           style={buttonStyles}
           color='error'
           variant='outlined'
-          type='submit'
+          type='button'
           endIcon={<DeleteIcon />}>
           {t("delete-resource-delete-copy")}
         </Button>
@@ -69,7 +78,9 @@ const DeleteResource = ({
         <span
           className={styles.link}
           onClick={handleShowConfirmation}
-          role='button'>
+          role='button'
+          tabIndex={0}
+          onKeyDown={(e) => e.key === "Enter" && handleShowConfirmation()}>
           {t("delete-resource-delete-copy")}
         </span>
       )}
