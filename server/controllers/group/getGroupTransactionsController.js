@@ -1,6 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
 
-import { TRANSACTION_TYPES } from '../../../shared/constants/transactionConstants.js';
 import { API_MESSAGES } from '../../../shared/constants/apiMessageConstants.js';
 import { API_RESPONSE_STATUS } from '../../../shared/constants/apiStatusConstants.js';
 import { LOG_LEVELS } from '../../../shared/constants/debugConstants.js';
@@ -11,43 +10,19 @@ import { touchGroupLastActive } from '../../utils/group/touchGroupLastActive.js'
 const { OK, INTERNAL_SERVER_ERROR } = StatusCodes;
 const { SUCCESS, STATUS_ERROR } = API_RESPONSE_STATUS;
 const { INFO, LOG_ERROR } = LOG_LEVELS;
-const { EXPENSE, PAYMENT, UNKNOWN } = TRANSACTION_TYPES;
 
-export const getGroupTransactionsController = async (req, res) => {
+export const getGroupTransactions = async (req, res) => {
   const { groupCode } = req.params;
 
   debugLog('Fetching group transactions', { groupCode }, INFO);
 
   try {
     await touchGroupLastActive(groupCode);
-    const rawTransactions = await getGroupTransactionsService(groupCode);
 
-    const transactions = rawTransactions
-      .map((item) => {
-        const itemObject = item.toObject ? item.toObject() : item;
-        let itemType;
-
-        switch (true) {
-          case !!itemObject.expenseDescription:
-            itemType = EXPENSE;
-            break;
-          case !!itemObject.paymentAmount:
-            itemType = PAYMENT;
-            break;
-          default:
-            itemType = UNKNOWN;
-        }
-
-        return {
-          ...itemObject,
-          itemId: itemObject._id,
-          itemType,
-        };
-      })
-      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    const transactions = await getGroupTransactionsService(groupCode);
 
     debugLog(
-      'Transactions processed and sorted',
+      'Group transactions fetched successfully',
       { count: transactions.length },
       INFO,
     );
@@ -60,7 +35,7 @@ export const getGroupTransactionsController = async (req, res) => {
     });
   } catch (error) {
     debugLog(
-      'Failed to fetch transactions',
+      'Failed to fetch group transactions',
       { error: error.message, groupCode },
       LOG_ERROR,
     );

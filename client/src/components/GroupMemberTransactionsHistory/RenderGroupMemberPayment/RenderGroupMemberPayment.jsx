@@ -14,14 +14,7 @@ import LinkToPage from "../../InAppNavigation/LinkToPage/LinkToPage";
 // Styles
 import styles from "./RenderGroupMemberPayment.module.css";
 
-/**
- * Component for rendering details of a groupmember's single payment.
- * @param {Object} props - The component props.
- * @param {Object} props.item - The payment item object.
- * @param {string} props.groupCode - The associated groupCode.
- * @param {Function} props.onDelete - Callback function for deleting the payment.
- * @returns {JSX.Element} React component. */
-const NoGroupMemberTransactions = ({
+const RenderGroupMemberPayment = ({
   item,
   groupCode,
   onDeleteResource,
@@ -29,14 +22,16 @@ const NoGroupMemberTransactions = ({
 }) => {
   const { t } = useTranslation();
 
+  if (!item?.paymentMaker?.userName || !item?.paymentRecipient?.userName) {
+    return null;
+  }
+
   return (
     <div className={styles.payments}>
       {/* Left Column */}
       <div className={styles.leftColumn}>
         <span className={styles.paymentEmoji}>
-          <Emoji
-            ariaLabel={"payment emoji"}
-            emoji={emojiConstants.payment}></Emoji>
+          <Emoji ariaLabel={"payment emoji"} emoji={emojiConstants.payment} />
         </span>
         <ul>
           <li>
@@ -79,13 +74,14 @@ const NoGroupMemberTransactions = ({
           )}
         </ul>
       </div>
+
       {/* Right Column */}
       <ul className={styles.rightColumn}>
         <li className={styles.amountLine}>
           <div className={styles.paymentAmount}>
             <div>
               <RenderDataAttributeWithAriaLabel
-                attribute={item.paymentAmount.toFixed(2)}
+                attribute={item.paymentAmount?.toFixed(2) || "0.00"}
                 ariaLabel={"payment amount"}
               />
               <span>{groupCurrency}</span>
@@ -116,4 +112,4 @@ const NoGroupMemberTransactions = ({
   );
 };
 
-export default NoGroupMemberTransactions;
+export default RenderGroupMemberPayment;

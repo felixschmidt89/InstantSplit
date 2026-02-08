@@ -18,10 +18,15 @@ const useDeleteResource = (resourceType, resourceId, route) => {
       const response = await axios.delete(
         `${API_URL}/${resourceType}/${resourceId}`,
       );
+
       if (response.status === StatusCodes.NO_CONTENT) {
         setError(null);
         devLog(`Resource (${resourceType} ${resourceId}) has been deleted.`);
-        navigate(`/${route}`);
+
+        if (typeof route === "string" && route.trim().length > 0) {
+          const cleanRoute = route.startsWith("/") ? route : `/${route}`;
+          navigate(cleanRoute);
+        }
       }
     } catch (error) {
       if (error.response && error.response.status === StatusCodes.BAD_REQUEST) {

@@ -7,7 +7,6 @@ export const buildDynamicRoute = (ROUTE, parameters = {}) => {
     },
     ROUTE,
   );
-
   devLog(`Dynamic Route built: ${ROUTE} -> ${dynamicRoute}`);
   return dynamicRoute;
 };

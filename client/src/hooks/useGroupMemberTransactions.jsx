@@ -14,51 +14,61 @@ const useGroupMemberTransactions = (userId) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const loadTransactions = async () => {
-      setIsLoading(true);
-      setError(null);
+  const loadTransactions = useCallback(async () => {
+    if (!userId) return;
 
-      try {
-        const data = await fetchGroupMemberTransactions(userId);
-        const userTransactions = data?.userExpensesAndPayments || [];
+    setIsLoading(true);
+    setError(null);
 
-        debugLog(
-          `User ${userId} transactions fetched`,
-          { count: userTransactions.length },
-          INFO,
-        );
+    try {
+      const data = await fetchGroupMemberTransactions(userId);
 
-        setTransactions(userTransactions);
-      } catch (err) {
-        debugLog(
-          "Error in hook loading transactions",
-          { error: err.message },
-          LOG_ERROR,
-        );
-        setError(t("generic-error-message"));
-      } finally {
-        setIsLoading(false);
-      }
-    };
+      const { transactions: fetchedTransactions = [] } = data || {};
 
-    if (userId) {
-      loadTransactions();
+      debugLog(
+        `User ${userId} transactions fetched`,
+        {
+          count: fetchedTransactions.length,
+          expenses: data?.expenseCount,
+          payments: data?.paymentCount,
+        },
+        INFO,
+      );
+
+      setTransactions(fetchedTransactions);
+    } catch (err) {
+      debugLog(
+        "Error in hook loading transactions",
+        { error: err.message },
+        LOG_ERROR,
+      );
+      setError(t("generic-error-message"));
+    } finally {
+      setIsLoading(false);
     }
   }, [userId, t]);
 
-  /**
-   * Helper to remove a transaction from the local state (e.g. after deletion).
-   */
-  const removeTransaction = useCallback((itemId) => {
+  useEffect(() => {
+    loadTransactions();
+  }, [loadTransactions]);
+
+  const removeTransactionFromLocalState = useCallback((itemId) => {
     setTransactions((prev) => {
-      const updated = prev.filter((item) => item._id !== itemId);
+      const updated = prev.filter(
+        (item) => (item._id || item.itemId) !== itemId,
+      );
       debugLog("Removed transaction from local state", { itemId }, INFO);
       return updated;
     });
   }, []);
 
-  return { transactions, isLoading, error, removeTransaction };
+  return {
+    transactions,
+    isLoading,
+    error,
+    removeTransactionFromLocalState,
+    refetchTransactions: loadTransactions,
+  };
 };
 
 export default useGroupMemberTransactions;

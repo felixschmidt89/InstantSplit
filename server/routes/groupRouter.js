@@ -14,8 +14,7 @@ import {
   groupHasPersistedDebitorCreditorOrder,
 } from '../controllers/groupController.js';
 
-// Atomic Controller Imports
-import { getGroupTransactionsController } from '../controllers/group/getGroupTransactionsController.js';
+import { getGroupTransactions } from '../controllers/group/getGroupTransactionsController.js';
 
 import developmentOnlyMiddleware from '../middleware/developmentOnlyMiddleware.js';
 import {
@@ -87,7 +86,7 @@ router.get(
  */
 router.get(
   `/${URL_PARAMS.GROUP_CODE}/${GROUPS.TRANSACTIONS}`,
-  getGroupTransactionsController,
+  getGroupTransactions,
 );
 
 /**

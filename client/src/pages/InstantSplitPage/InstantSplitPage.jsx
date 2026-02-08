@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { usePWAInstall } from "react-use-pwa-install";
 import { useTranslation } from "react-i18next";
 
@@ -19,6 +18,7 @@ import useGetClientDeviceAndPwaInfo from "../../hooks/useGetClientDeviceAndPwaIn
 import { shouldShowPwaPrompt } from "../../utils/user";
 import { ROUTES } from "../../constants/routesConstants";
 import { devLog } from "../../utils/errorUtils";
+import useAppNavigate from "../../hooks/useAppNavigate"; // Assuming this is the path
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import DefaultAndUserSettingsBar from "../../components/DefaultAndUserSettingsBar/DefaultAndUserSettingsBar";
 import SwitchViewButtonsBar from "../../components/GroupBalancesAndHistory/SwitchViewButtonsBar/SwitchViewButtonsBar";
@@ -28,7 +28,7 @@ import ActiveGroupBar from "../../components/ActiveGroupBar/ActiveGroupBar";
 import PwaCtaModal from "../../components/PwaCtaModal/PwaCtaModal/PwaCtaModal";
 
 const InstantSplitPage = () => {
-  const navigate = useNavigate();
+  const navigate = useAppNavigate(); // Using the new wrapper hook
   const { t } = useTranslation();
   const isPWAInstallPromptAvailable = usePWAInstall();
 
@@ -63,14 +63,14 @@ const InstantSplitPage = () => {
 
   useEffect(() => {
     if (!groupCode) {
-      navigate(`/${ROUTES.HOME}`);
+      navigate(ROUTES.HOME);
     }
   }, [groupCode, navigate]);
 
   useEffect(() => {
     if (isValidated && !groupExists) {
       deleteGroupCode(groupCode);
-      navigate(`/${ROUTES.HOME}`);
+      navigate(ROUTES.HOME);
     }
   }, [navigate, groupCode, isValidated, groupExists]);
 

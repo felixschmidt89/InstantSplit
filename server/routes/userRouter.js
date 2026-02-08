@@ -1,4 +1,5 @@
 import express from 'express';
+// Legacy imports
 import {
   createUser,
   listAllUsers,
@@ -7,15 +8,19 @@ import {
   deleteUser,
   deleteAllUsers,
   getUserInfo,
-  listExpensesAndPaymentsByUser,
 } from '../controllers/userController.js';
+
+import { getUserTransactions } from '../controllers/user/getUserTransactionsController.js';
+
 import developmentOnlyMiddleware from '../middleware/developmentOnlyMiddleware.js';
 import { API_ROUTES } from '../../shared/constants/apiRoutesConstants.js';
 
 const router = express.Router();
-
 const { USERS, URL_PARAMS } = API_ROUTES;
 
+/**
+ * User Management Routes
+ */
 router.post('/', createUser);
 
 router.get(`/${URL_PARAMS.USER_ID}`, getUserInfo);
@@ -29,12 +34,11 @@ router.get(
   listAllUsersByGroupCode,
 );
 
-router.get(
-  `/${URL_PARAMS.USER_ID}/${USERS.TRANSACTIONS}`,
-  listExpensesAndPaymentsByUser,
-);
+router.get(`/${URL_PARAMS.USER_ID}/${USERS.TRANSACTIONS}`, getUserTransactions);
 
-// ROUTES FOR DEVELOPMENT/DEBUGGING PURPOSES ONLY
+/**
+ * Development and Debugging Routes
+ */
 router.get('/debug/all', developmentOnlyMiddleware, listAllUsers);
 router.delete('/debug/all', developmentOnlyMiddleware, deleteAllUsers);
 
