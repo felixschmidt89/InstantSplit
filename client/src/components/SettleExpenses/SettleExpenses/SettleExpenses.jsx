@@ -65,7 +65,7 @@ const SettleExpenses = () => {
     const fetchAndIdentifyUnsettledUsers = async () => {
       try {
         const response = await axios.get(
-          `${API_URL}/users/byGroupCode/${groupCode}`,
+          `${API_URL}/users/by-groupcode/${groupCode}`,
         );
         const responseData = response.data;
         devLog("User details fetched:", response);

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
@@ -9,15 +8,17 @@ import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility.jsx"
 import { LOG_LEVELS } from "../../../../../shared/constants/debugConstants.js";
 import { changeFixedDebitorCreditorOrderSetting } from "../../../utils/settlementUtils.jsx";
 import { debugLog } from "../../../../../shared/utils/debug/debugLog.js";
-import { API_URL } from "../../../constants/apiConstants.js";
 import { ROUTES } from "../../../constants/routesConstants.jsx";
 import { buttonStyles } from "../../../constants/stylesConstants.jsx";
+import { useGroupMembersContext } from "../../../context/GroupMembersContext";
+
+import { createExpense } from "../../../api/expenses/createExpense.js";
+
 import ExpenseDescriptionInput from "../ExpenseDescriptionInput/ExpenseDescriptionInput.jsx";
 import ExpenseAmountInput from "../ExpenseAmountInput/ExpenseAmountInput.jsx";
 import ExpensePayerSelect from "../ExpensePayerSelect/ExpensePayerSelect.jsx";
 import ExpenseBeneficiariesInput from "../ExpenseBeneficiariesInput/ExpenseBeneficiariesInput.jsx";
 import ErrorModal from "../../ErrorModal/ErrorModal.jsx";
-import { useGroupMembersContext } from "../../../context/GroupMembersContext";
 
 const { LOG_ERROR, INFO } = LOG_LEVELS;
 
@@ -50,7 +51,6 @@ const CreateExpense = ({ groupCode }) => {
       displayErrorModal();
       return;
     }
-
     if (selectedBeneficiaries.length === 0) {
       setError(t("expense-beneficiaries-required-error"));
       displayErrorModal();
@@ -70,12 +70,11 @@ const CreateExpense = ({ groupCode }) => {
         expenseBeneficiaryIds: selectedBeneficiaries.map((b) => b._id),
       };
 
-      debugLog("Creating expense payload", payload, INFO);
+      const responseData = await createExpense(payload);
 
-      const response = await axios.post(`${API_URL}/expenses`, payload);
+      await changeFixedDebitorCreditorOrderSetting(groupCode, false);
 
-      changeFixedDebitorCreditorOrderSetting(groupCode, false);
-      debugLog("Expense created successfully", { id: response.data._id }, INFO);
+      debugLog("Expense created flow complete", { id: responseData._id }, INFO);
 
       navigate(ROUTES.INSTANT_SPLIT);
     } catch (error) {
