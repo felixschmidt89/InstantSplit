@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { LOG_LEVELS } from "../../../shared/constants/debugConstants.js";
 import { fetchGroupMembers } from "../api/users/fetchGroupMembers.js";
@@ -13,6 +13,14 @@ const useFetchGroupMembers = (groupCode) => {
   const [groupMembers, setGroupMembers] = useState([]);
   const [isFetched, setIsFetched] = useState(false);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (!groupCode) {
+      setGroupMembers([]);
+      setIsFetched(false);
+      setError(null);
+    }
+  }, [groupCode]);
 
   const getMembers = useCallback(
     async (isPolling = false) => {
@@ -45,7 +53,7 @@ const useFetchGroupMembers = (groupCode) => {
   usePolling(getMembers);
 
   return {
-    groupMembers: groupMembers || [],
+    groupMembers,
     isFetched,
     error,
     refetch: getMembers,

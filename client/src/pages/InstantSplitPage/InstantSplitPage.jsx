@@ -28,7 +28,7 @@ import ActiveGroupBar from "../../components/ActiveGroupBar/ActiveGroupBar";
 import PwaCtaModal from "../../components/PwaCtaModal/PwaCtaModal/PwaCtaModal";
 
 const InstantSplitPage = () => {
-  const navigate = useAppNavigate(); // Using the new wrapper hook
+  const navigate = useAppNavigate(); 
   const { t } = useTranslation();
   const isPWAInstallPromptAvailable = usePWAInstall();
 

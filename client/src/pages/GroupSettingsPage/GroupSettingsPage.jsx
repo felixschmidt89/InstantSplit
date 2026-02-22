@@ -40,7 +40,6 @@ const GroupSettingsPage = () => {
 
         {isFetched && groupData && (
           <div className={styles.settingsContainer}>
-            {/* Pass activeGroupCode down to children */}
             <ChangeGroupName
               groupData={groupData}
               groupCode={activeGroupCode}

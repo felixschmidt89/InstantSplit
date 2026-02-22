@@ -1,24 +1,26 @@
-import { Outlet, useParams } from "react-router-dom";
-
-import { GroupProvider } from "../context/GroupContext";
+import { Outlet, useParams, Navigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useGroupContext } from "../context/GroupContext";
 import { getActiveGroupCode } from "../utils/localStorage/getActiveGroupCode";
+import { ROUTES } from "../constants/routesConstants";
 
 const GroupContextWrapper = () => {
   const { groupCode } = useParams();
+  const { setActiveGroupCode, activeGroupCode } = useGroupContext();
 
-  const activeGroupCode = groupCode || getActiveGroupCode();
+  useEffect(() => {
+    if (groupCode && groupCode !== activeGroupCode) {
+      setActiveGroupCode(groupCode);
+    }
+  }, [groupCode, activeGroupCode, setActiveGroupCode]);
 
-  const hasActiveGroupCode = Boolean(activeGroupCode);
+  const currentCode = groupCode || activeGroupCode || getActiveGroupCode();
 
-  if (!hasActiveGroupCode) {
-    return <Outlet />;
+  if (!currentCode) {
+    return <Navigate to={ROUTES.HOME} replace />;
   }
 
-  return (
-    <GroupProvider groupCode={activeGroupCode}>
-      <Outlet />
-    </GroupProvider>
-  );
+  return <Outlet />;
 };
 
 export default GroupContextWrapper;

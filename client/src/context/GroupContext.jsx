@@ -9,7 +9,7 @@ import {
 import {
   deleteGroupCode,
   getActiveGroupCode,
-  setActiveGroupCode,
+  setActiveGroupCode as setLocalStorageActiveGroup,
 } from "../utils/localStorage";
 import { LOCAL_STORAGE_KEYS } from "../constants/localStorageConstants";
 import useFetchGroupMembers from "../hooks/useFetchGroupMembers";
@@ -21,8 +21,8 @@ export const GroupProvider = ({ children }) => {
     getActiveGroupCode(),
   );
 
-  const updateActiveGroup = useCallback((newCode) => {
-    setActiveGroupCode(newCode);
+  const setActiveGroupCode = useCallback((newCode) => {
+    setLocalStorageActiveGroup(newCode);
     setActiveGroupCodeState(newCode);
   }, []);
 
@@ -70,7 +70,7 @@ export const GroupProvider = ({ children }) => {
 
   const value = {
     activeGroupCode,
-    updateActiveGroup,
+    setActiveGroupCode,
     removeGroup,
     groupMembers: groupMembers || [],
     getMemberName,
@@ -86,7 +86,8 @@ export const GroupProvider = ({ children }) => {
 
 export const useGroupContext = () => {
   const context = useContext(GroupContext);
-  if (!context)
+  if (!context) {
     throw new Error("useGroupContext must be used within a GroupProvider");
+  }
   return context;
 };

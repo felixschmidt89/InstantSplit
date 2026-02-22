@@ -7,9 +7,8 @@ import styles from "./CreateExpense.module.css";
 import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility.jsx";
 import { LOG_LEVELS } from "../../../../../shared/constants/debugConstants.js";
 import { debugLog } from "../../../../../shared/utils/debug/debugLog.js";
-import { ROUTES } from "../../../constants/routesConstants.jsx";
+import { ROUTES } from "../../../constants/routesConstants.js";
 import { buttonStyles } from "../../../constants/stylesConstants.jsx";
-// CODECHANGE: Migrated from GroupMembersContext to unified GroupContext
 import { useGroupContext } from "../../../context/GroupContext";
 
 import { createExpense } from "../../../api/expenses/createExpense.js";

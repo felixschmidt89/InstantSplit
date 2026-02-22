@@ -1,23 +1,35 @@
-// React and Third-Party Libraries
-import React from "react";
-
-// Styles
+import { EXTERNAL_LINK_PROPS } from "../../../constants/linkConstants.js";
+import { legalNoticeSections } from "../legalNoticeData";
 import styles from "./LegalNoticeSections.module.css";
 
-/**
- * Renders legal notice sections.
- *
- * @param {Object} props - The component props.
- * @param {Array} props.LegalNoticeSections - An array of legal notice sections.
- * @returns {JSX.Element} React component. */
-const LegalNoticeSections = ({ legalNoticeSections }) => {
+const LegalNoticeSections = () => {
   return (
     <div className={styles.container}>
-      {LegalNoticeSections.map((section) => (
-        <div key={section.key} className={styles.section}>
-          <h2>{section.title}</h2>
-          <div>{section.content}</div>
-        </div>
+      {legalNoticeSections.map(({ id, title, paragraphs, attribution }) => (
+        <section key={id} className={styles.section}>
+          <h3>{title}</h3>
+          <div className={styles.text}>
+            {paragraphs.map((paragraph, index) => (
+              <p key={index}>{paragraph}</p>
+            ))}
+
+            {attribution && (
+              <p className={styles.attribution}>
+                Erstellt mit dem{" "}
+                <a
+                  href={attribution.legalNoticeGenerator.url}
+                  {...EXTERNAL_LINK_PROPS}>
+                  {attribution.legalNoticeGenerator.label}
+                </a>
+                {" der "}
+                <a href={attribution.lawFirm.url} {...EXTERNAL_LINK_PROPS}>
+                  {attribution.lawFirm.label}
+                </a>
+                .
+              </p>
+            )}
+          </div>
+        </section>
       ))}
     </div>
   );
