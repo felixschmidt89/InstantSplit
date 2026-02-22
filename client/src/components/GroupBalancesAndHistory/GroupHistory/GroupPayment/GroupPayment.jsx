@@ -1,35 +1,26 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { IoArrowForwardOutline } from "react-icons/io5";
 
-import Emoji from "../../../Emoji/Emoji";
-
-import styles from "./RenderGroupPayment.module.css";
-import RenderReactIcon from "../../../RenderReactIcon/RenderReactIcon";
+import Emoji from "../../../Emoji/Emoji.js";
+import RenderReactIcon from "../../../RenderReactIcon/RenderReactIcon.jsx";
+import { useGroupContext } from "../../../../context/GroupContext.jsx";
 import { LOG_LEVELS } from "../../../../../../shared/constants/debugConstants.js";
-import { useGroupMembersContext } from "../../../../context/GroupMembersContext.jsx";
 import { debugLog } from "../../../../../../shared/utils/debug/debugLog.js";
 import emojiConstants from "../../../../constants/emojiConstants.jsx";
 
+import styles from "./GroupPayment.module.css";
+
 const { INFO } = LOG_LEVELS;
 
-/**
- * Component for rendering a single group payment.
- *
- * @param {Object} props - The component properties.
- * @param {Object} props.item - The payment item to be rendered.
- * @param {string} props.groupCode - The groupCode of the group.
- * @param {string} props.groupCurrency - The currency of the group.
- * @returns {JSX.Element} React component.
- */
-const RenderGroupPayment = ({ item, groupCode, groupCurrency }) => {
-  const { getMemberName } = useGroupMembersContext();
+const GroupPayment = ({ item, groupCode, groupCurrency }) => {
+  const { getMemberName } = useGroupContext();
 
-  const makerId = item.paymentMaker?._id || item.paymentMaker;
-  const recipientId = item.paymentRecipient?._id || item.paymentRecipient;
+  const makerIdentifier = item.paymentMaker?._id || item.paymentMaker;
+  const recipientIdentifier =
+    item.paymentRecipient?._id || item.paymentRecipient;
 
-  const makerName = getMemberName(makerId);
-  const recipientName = getMemberName(recipientId);
+  const makerName = getMemberName(makerIdentifier);
+  const recipientName = getMemberName(recipientIdentifier);
 
   debugLog(
     "Rendering payment item",
@@ -65,4 +56,4 @@ const RenderGroupPayment = ({ item, groupCode, groupCurrency }) => {
   );
 };
 
-export default RenderGroupPayment;
+export default GroupPayment;

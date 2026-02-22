@@ -5,7 +5,7 @@ import { ROUTES } from "../../constants/routesConstants";
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import CreateGroupMemberForm from "../../components/CreateGroupMember/CreateGroupMemberForm/CreateGroupMemberForm";
-import RenderGroupMemberNames from "../../components/CreateGroupMember/RenderGroupMemberNames/RenderGroupMemberNames";
+import RenderGroupMemberNames from "../../components/CreateGroupMember/GroupMemberNames/GroupMemberNames.jsx";
 import { debugLog } from "../../../../shared/utils/debug/debugLog.js";
 
 const CreateGroupMemberPage = () => {

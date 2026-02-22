@@ -1,40 +1,38 @@
 import { useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 
-import styles from "./RenderGroupHistory.module.css";
-import useErrorModalVisibility from "../../../../hooks/useErrorModalVisibility.jsx";
-import {
-  GroupMembersProvider,
-  useGroupMembersContext,
-} from "../../../../context/GroupMembersContext.jsx";
-import { LOG_LEVELS } from "../../../../../../shared/constants/debugConstants.js";
-import { TRANSACTION_TYPES } from "../../../../../../shared/constants/transactionConstants.js";
+import { useGroupContext } from "../../../../context/GroupContext.jsx";
 import { fetchGroupTransactions } from "../../../../api/groups/fetchGroupTransactions.js";
 import { debugLog } from "../../../../../../shared/utils/debug/debugLog.js";
-import Spinner from "../../../Spinner/Spinner.jsx";
+import { LOG_LEVELS } from "../../../../../../shared/constants/debugConstants.js";
+import { TRANSACTION_TYPES } from "../../../../../../shared/constants/transactionConstants.js";
+import useErrorModalVisibility from "../../../../hooks/useErrorModalVisibility.jsx";
 import { usePolling } from "../../../../hooks/usePolling.jsx";
+import Spinner from "../../../Spinner/Spinner.jsx";
 import RenderGroupExpensesTotal from "../RenderTotalGroupExpenses/RenderGroupExpensesTotal.jsx";
-import RenderGroupExpense from "../RenderGroupExpense/RenderGroupExpense.jsx";
-import RenderGroupPayment from "../RenderGroupPayment/RenderGroupPayment.jsx";
+import RenderGroupExpense from "../GroupExpense/GroupExpense.jsx";
+import RenderGroupPayment from "../GroupPayment/GroupPayment.jsx";
 import NoGroupTransactions from "../NoGroupTransactions/NoGroupTransactions.jsx";
 import NotEnoughGroupMembers from "../../NotEnoughGroupMembers/NotEnoughGroupMembers.jsx";
 import ErrorModal from "../../../ErrorModal/ErrorModal.jsx";
 
+import styles from "./GroupHistory.module.css";
+
 const { INFO, LOG_ERROR } = LOG_LEVELS;
 const { EXPENSE } = TRANSACTION_TYPES;
 
-const GroupHistoryContent = ({ groupCode, groupCurrency }) => {
+const GroupHistory = ({ groupCode, groupCurrency }) => {
   const { t } = useTranslation();
-
-  const { groupMembers, isFetched: isMembersFetched } =
-    useGroupMembersContext();
-
+  const { groupMembers, isFetched: isMembersFetched } = useGroupContext();
   const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
     useErrorModalVisibility();
-
   const [transactions, setTransactions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const hasMultipleMembers = groupMembers?.length > 1;
+  const hasTransactions = Boolean(transactions?.length);
+  const hasSufficientMembers = isMembersFetched && hasMultipleMembers;
 
   const getGroupHistory = useCallback(
     async (isPolling = false) => {
@@ -89,7 +87,7 @@ const GroupHistoryContent = ({ groupCode, groupCurrency }) => {
 
   return (
     <div className={styles.container}>
-      {!!transactions?.length ? (
+      {hasTransactions ? (
         <>
           <RenderGroupExpensesTotal
             groupCode={groupCode}
@@ -119,7 +117,7 @@ const GroupHistoryContent = ({ groupCode, groupCurrency }) => {
         </>
       ) : (
         <div className={styles.issue}>
-          {isMembersFetched && groupMembers?.length > 1 ? (
+          {hasSufficientMembers ? (
             <NoGroupTransactions />
           ) : (
             <NotEnoughGroupMembers />
@@ -136,15 +134,4 @@ const GroupHistoryContent = ({ groupCode, groupCurrency }) => {
   );
 };
 
-const RenderGroupHistory = ({ groupCode, groupCurrency }) => {
-  return (
-    <GroupMembersProvider groupCode={groupCode}>
-      <GroupHistoryContent
-        groupCode={groupCode}
-        groupCurrency={groupCurrency}
-      />
-    </GroupMembersProvider>
-  );
-};
-
-export default RenderGroupHistory;
+export default GroupHistory;

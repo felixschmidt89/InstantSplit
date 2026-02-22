@@ -117,9 +117,11 @@
 - Keep a single empty line between import groups to maintain visual separation.
 
 * **Logic Simplification**:
-  - **Boolean Logic**: Do **NOT** use ternary operators for boolean assignments. Use optional chaining with double negation (e.g., `!!object?.property?.includes(value)`).
-  - **Falsy Evaluation**: Prioritize conciseness by leveraging falsy evaluation and optional chaining (e.g., `if (!data?.length)`) instead of explicit null and length checks.
-  - **Short-Circuiting**: Use logical AND (`&&`) for conditional prop assignments or rendering where a falsy fallback is acceptable (e.g., `error={localError && t(localError)}`).
+  - **Explicit Booleans**: Do **NOT** use double negation (`!!`) for truthiness casting. Use the native JavaScript `Boolean()` function (e.g., `Boolean(transactions?.length)`) to enforce strict boolean types
+  - **No Redundant Wrappers**: Do **NOT** use `Boolean()` to wrap expressions that natively evaluate to a boolean (e.g., relational operators like `array.length > 1` or logical operators between booleans like `isReady && hasMembers`). Only use `Boolean()` when explicitly casting truthy/falsy values.
+  - **Semantic Variables**: Extract inline conditionals and evaluations out of JSX into well-named, descriptive boolean variables at the top of the component (e.g., `const hasTransactions = Boolean(transactions?.length);`). This strictly separates business logic from presentation and ensures the JSX reads semantically.
+  - **Boolean Assignments**: Do **NOT** use ternary operators for boolean assignments. Directly assign the logical evaluation or truthiness cast to the variable.
+  - **Short-Circuiting**: Use logical AND (`&&`) for conditional rendering only when evaluated against strict semantic boolean variables.
 
 * **Logic Block Grouping**:
   - **Standard**: Organize logic into clearly defined blocks based on functional domains to ensure high scannability and logical flow, do **NOT** add grouping comments

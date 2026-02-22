@@ -1,12 +1,9 @@
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
+import { useGroupContext } from "../../context/GroupContext";
 import useFetchExpenseInfo from "../../hooks/useFetchExpenseInfo";
 import useFetchGroupCurrency from "../../hooks/useFetchGroupCurrency";
-import {
-  GroupMembersProvider,
-  useGroupMembersContext,
-} from "../../context/GroupMembersContext";
 
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import Spinner from "../../components/Spinner/Spinner";
@@ -26,12 +23,11 @@ import styles from "./ExpenseDetailsPage.module.css";
 
 const { INFO } = LOG_LEVELS;
 
-const ExpenseDetailsContent = () => {
+const ExpenseDetailsPage = () => {
   const { t } = useTranslation();
   const { groupCode, itemId } = useParams();
 
-  const { groupMembers, isFetched: groupMembersIsFetched } =
-    useGroupMembersContext();
+  const { groupMembers, isFetched: groupMembersIsFetched } = useGroupContext();
 
   const { groupCurrency, isFetched: currencyInfoIsFetched } =
     useFetchGroupCurrency(groupCode);
@@ -42,61 +38,59 @@ const ExpenseDetailsContent = () => {
   debugLog("Group currency fetched:", { currencyInfoIsFetched }, INFO);
   debugLog("Group members fetched", { count: groupMembers?.length }, INFO);
 
-  if (
+  const isPageLoading =
     !expenseInfoIsFetched ||
     !currencyInfoIsFetched ||
     !groupMembersIsFetched ||
-    !expenseInfo
-  ) {
-    return <Spinner />;
-  }
-
-  return (
-    <div className={styles.container}>
-      <div className={styles.emoji}>
-        <Emoji ariaLabel={"expense emoji"} emoji={emojiConstants.expense} />
-      </div>
-      <h1>{expenseInfo.expenseDescription}</h1>
-      <div className={styles.detailsBox}>
-        <RenderExpenseDetails
-          expenseInfo={expenseInfo}
-          groupCurrency={groupCurrency}
-          expenseAmountPerBeneficiary={expenseInfo.expenseAmountPerBeneficiary}
-          expenseBeneficiaries={expenseInfo.expenseBeneficiaries}
-        />
-        <RenderExpenseBeneficiaries
-          expenseBeneficiaries={expenseInfo.expenseBeneficiaries}
-          allGroupMembersBenefitFromExpense={
-            groupMembers.length === expenseInfo.expenseBeneficiaries.length
-          }
-        />
-        <RenderResourceCreated
-          createdAt={expenseInfo.createdAt}
-          updatedAt={expenseInfo.updatedAt}
-        />
-      </div>
-      <RouteButton
-        route={`update-expense/${groupCode}/${itemId}`}
-        buttonText={t("expense-details-edit-expense-button-text")}
-        setPreviousRoute={true}
-        endIcon={"edit"}
-      />
-      <DeleteResource resourceId={itemId} resourceType='expenses' />
-    </div>
-  );
-};
-
-const ExpenseDetailsPage = () => {
-  const { t } = useTranslation();
-  const { groupCode } = useParams();
+    !expenseInfo;
+  const allGroupMembersBenefitFromExpense =
+    groupMembers?.length === expenseInfo?.expenseBeneficiaries?.length;
 
   return (
     <main>
       <HelmetMetaTagsNetlify title={t("expense-details-page-title")} />
       <InAppNavigation back={true} />
-      <GroupMembersProvider groupCode={groupCode}>
-        <ExpenseDetailsContent />
-      </GroupMembersProvider>
+
+      {isPageLoading ? (
+        <Spinner />
+      ) : (
+        <div className={styles.container}>
+          <div className={styles.emoji}>
+            <Emoji ariaLabel={"expense emoji"} emoji={emojiConstants.expense} />
+          </div>
+
+          <h1>{expenseInfo.expenseDescription}</h1>
+
+          <div className={styles.detailsBox}>
+            <RenderExpenseDetails
+              expenseInfo={expenseInfo}
+              groupCurrency={groupCurrency}
+              expenseAmountPerBeneficiary={
+                expenseInfo.expenseAmountPerBeneficiary
+              }
+              expenseBeneficiaries={expenseInfo.expenseBeneficiaries}
+            />
+            <RenderExpenseBeneficiaries
+              expenseBeneficiaries={expenseInfo.expenseBeneficiaries}
+              allGroupMembersBenefitFromExpense={
+                allGroupMembersBenefitFromExpense
+              }
+            />
+            <RenderResourceCreated
+              createdAt={expenseInfo.createdAt}
+              updatedAt={expenseInfo.updatedAt}
+            />
+          </div>
+
+          <RouteButton
+            route={`update-expense/${groupCode}/${itemId}`}
+            buttonText={t("expense-details-edit-expense-button-text")}
+            setPreviousRoute={true}
+            endIcon={"edit"}
+          />
+          <DeleteResource resourceId={itemId} resourceType='expenses' />
+        </div>
+      )}
     </main>
   );
 };

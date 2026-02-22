@@ -1,19 +1,26 @@
 import { useTranslation } from "react-i18next";
-import styles from "./CreatePaymentPage.module.css";
+
+// CODECHANGE: Removed GroupMembersContext import as it's now unified in GroupContext
 import { useGroupContext } from "../../context/GroupContext";
-import { useGroupMembersContext } from "../../context/GroupMembersContext";
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import CreateGroupMemberCTA from "../../components/GroupBalancesAndHistory/CreateGroupMemberCTA/CreateGroupMemberCTA";
 import CreatePayment from "../../components/Payments/CreatePayment/CreatePayment";
 import Spinner from "../../components/Spinner/Spinner.jsx";
 
+import styles from "./CreatePaymentPage.module.css";
+
 const CreatePaymentPage = () => {
   const { t } = useTranslation();
 
-  const { activeGroupCode } = useGroupContext();
+  const {
+    activeGroupCode,
+    groupMembers,
+    isFetched: isMembersFetched,
+  } = useGroupContext();
 
-  const { groupMembers, isFetched } = useGroupMembersContext();
+  const isPageLoading = !isMembersFetched;
+  const hasSufficientMembers = groupMembers?.length > 1;
 
   return (
     <main>
@@ -23,15 +30,15 @@ const CreatePaymentPage = () => {
       <div className={styles.container}>
         <h1>{t("create-payment-page-header")}</h1>
 
-        {!isFetched ? (
+        {isPageLoading ? (
           <Spinner />
-        ) : groupMembers?.length <= 1 ? (
-          <CreateGroupMemberCTA />
-        ) : (
+        ) : hasSufficientMembers ? (
           <CreatePayment
             groupMembers={groupMembers}
             groupCode={activeGroupCode}
           />
+        ) : (
+          <CreateGroupMemberCTA />
         )}
       </div>
     </main>

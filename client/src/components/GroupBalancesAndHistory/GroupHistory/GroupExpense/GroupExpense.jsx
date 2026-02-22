@@ -1,26 +1,25 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-import styles from "./RenderGroupExpense.module.css";
-
-import { useGroupMembersContext } from "../../../../context/GroupMembersContext.jsx";
+import { useGroupContext } from "../../../../context/GroupContext.jsx";
 import Emoji from "../../../Emoji/Emoji";
 import { LOG_LEVELS } from "../../../../../../shared/constants/debugConstants.js";
 import { debugLog } from "../../../../../../shared/utils/debug/debugLog.js";
 import emojiConstants from "../../../../constants/emojiConstants.jsx";
 
+import styles from "./GroupExpense.module.css";
+
 const { INFO } = LOG_LEVELS;
 
-const RenderGroupExpense = ({ item, groupCode, groupCurrency }) => {
+const GroupExpense = ({ item, groupCode, groupCurrency }) => {
   const { t } = useTranslation();
 
-  const { getMemberName, groupMembers } = useGroupMembersContext();
+  const { getMemberName, groupMembers } = useGroupContext();
 
-  const payerId = item.expensePayer?._id || item.expensePayer;
-  const payerName = getMemberName(payerId);
+  const payerIdentifier = item.expensePayer?._id || item.expensePayer;
+  const payerName = getMemberName(payerIdentifier);
 
-  const allGroupMembersBenefitFromExpense =
+  const doesEveryMemberBenefit =
     groupMembers && item.expenseBeneficiaries.length === groupMembers.length;
 
   debugLog(
@@ -38,7 +37,7 @@ const RenderGroupExpense = ({ item, groupCode, groupCurrency }) => {
           <Emoji ariaLabel='expense emoji' emoji={emojiConstants.expense} />
         </span>
 
-        {allGroupMembersBenefitFromExpense && (
+        {doesEveryMemberBenefit && (
           <span className={styles.forAll}>
             {t("render-group-expense-for-all-badge")}
           </span>
@@ -61,4 +60,4 @@ const RenderGroupExpense = ({ item, groupCode, groupCurrency }) => {
   );
 };
 
-export default RenderGroupExpense;
+export default GroupExpense;

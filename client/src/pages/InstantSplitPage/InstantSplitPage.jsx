@@ -22,7 +22,7 @@ import useAppNavigate from "../../hooks/useAppNavigate"; // Assuming this is the
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import DefaultAndUserSettingsBar from "../../components/DefaultAndUserSettingsBar/DefaultAndUserSettingsBar";
 import SwitchViewButtonsBar from "../../components/GroupBalancesAndHistory/SwitchViewButtonsBar/SwitchViewButtonsBar";
-import RenderGroupHistory from "../../components/GroupBalancesAndHistory/GroupHistory/RenderGroupHistory/RenderGroupHistory";
+import RenderGroupHistory from "../../components/GroupBalancesAndHistory/GroupHistory/GroupHistory/GroupHistory";
 import RenderGroupBalances from "../../components/GroupBalancesAndHistory/GroupBalances/RenderGroupBalances/RenderGroupBalances";
 import ActiveGroupBar from "../../components/ActiveGroupBar/ActiveGroupBar";
 import PwaCtaModal from "../../components/PwaCtaModal/PwaCtaModal/PwaCtaModal";

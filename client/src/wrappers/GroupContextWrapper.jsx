@@ -1,5 +1,6 @@
 import { Outlet, useParams } from "react-router-dom";
-import { GroupMembersProvider } from "../context/GroupMembersContext";
+
+import { GroupProvider } from "../context/GroupContext";
 import { getActiveGroupCode } from "../utils/localStorage/getActiveGroupCode";
 
 const GroupContextWrapper = () => {
@@ -7,14 +8,16 @@ const GroupContextWrapper = () => {
 
   const activeGroupCode = groupCode || getActiveGroupCode();
 
-  if (!activeGroupCode) {
+  const hasActiveGroupCode = Boolean(activeGroupCode);
+
+  if (!hasActiveGroupCode) {
     return <Outlet />;
   }
 
   return (
-    <GroupMembersProvider groupCode={activeGroupCode}>
+    <GroupProvider groupCode={activeGroupCode}>
       <Outlet />
-    </GroupMembersProvider>
+    </GroupProvider>
   );
 };
 

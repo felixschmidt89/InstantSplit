@@ -2,20 +2,22 @@ import { useState } from "react";
 import { MdDelete } from "react-icons/md";
 import { useTranslation } from "react-i18next";
 
-import styles from "./DeleteGroupMemberBin.module.css";
+import { useGroupContext } from "../../../context/GroupContext";
 import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
 import useDeleteResource from "../../../hooks/useDeleteResource";
-import { useGroupMembersContext } from "../../../context/GroupMembersContext";
 import ConfirmationModal from "../../ConfirmationModal/ConfirmationModal";
 import ErrorModal from "../../ErrorModal/ErrorModal";
 
+import styles from "./DeleteGroupMemberBin.module.css";
+
 const DeleteGroupMemberBin = ({ userId, groupMemberName }) => {
   const { t } = useTranslation();
-  const { refreshGroupMembers } = useGroupMembersContext();
+  const { refreshGroupMembers } = useGroupContext();
   const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
     useErrorModalVisibility();
 
-  const [isConfirmationVisible, setIsConfirmationVisible] = useState(false);
+  const [shouldShowConfirmationModal, setShouldShowConfirmationModal] =
+    useState(false);
 
   const { deleteResource, error: hookError } = useDeleteResource(
     "users",
@@ -24,18 +26,20 @@ const DeleteGroupMemberBin = ({ userId, groupMemberName }) => {
     refreshGroupMembers,
   );
 
-  const handleShowConfirmation = () => setIsConfirmationVisible(true);
-  const handleHideConfirmation = () => setIsConfirmationVisible(false);
+  const handleShowConfirmation = () => setShouldShowConfirmationModal(true);
+  const handleHideConfirmation = () => setShouldShowConfirmationModal(false);
 
   const handleDelete = async () => {
     try {
       await deleteResource();
       handleHideConfirmation();
-    } catch (err) {
-      setIsConfirmationVisible(false);
+    } catch (error) {
+      setShouldShowConfirmationModal(false);
       displayErrorModal();
     }
   };
+
+  const hasHookError = Boolean(hookError);
 
   return (
     <div className={styles.container}>
@@ -46,20 +50,20 @@ const DeleteGroupMemberBin = ({ userId, groupMemberName }) => {
         <MdDelete />
       </span>
 
-      {isConfirmationVisible && (
+      {shouldShowConfirmationModal && (
         <ConfirmationModal
           message={t("delete-group-member-bin-component-confirmation-message", {
             groupMemberName,
           })}
           onConfirm={handleDelete}
           onCancel={handleHideConfirmation}
-          isVisible={isConfirmationVisible}
+          isVisible={shouldShowConfirmationModal}
           error={hookError}
         />
       )}
 
       <ErrorModal
-        error={hookError && t(hookError)}
+        error={hasHookError && t(hookError)}
         onClose={handleCloseErrorModal}
         isVisible={isErrorModalVisible}
       />

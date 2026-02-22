@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import useFetchExpenseInfo from "./useFetchExpenseInfo";
 import { getActiveGroupCode } from "../utils/localStorage";
-import { useGroupMembersContext } from "../context/GroupMembersContext.jsx";
+import { useGroupContext } from "../context/GroupContext.jsx";
 
 const useUpdateExpense = (expenseId) => {
   const groupCode = getActiveGroupCode();
@@ -14,16 +14,15 @@ const useUpdateExpense = (expenseId) => {
     groupMembers,
     error: groupMembersError,
     isFetched: isGroupMembersFetched,
-  } = useGroupMembersContext();
+  } = useGroupContext();
 
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const isReady = expenseInfo && isGroupMembersFetched;
+    const hasRequiredData = expenseInfo && isGroupMembersFetched;
+    const hasErrors = Boolean(fetchExpenseError || groupMembersError);
 
-    const hasErrors = fetchExpenseError || groupMembersError;
-
-    if (isReady || hasErrors) {
+    if (hasRequiredData || hasErrors) {
       setIsLoading(false);
     }
   }, [

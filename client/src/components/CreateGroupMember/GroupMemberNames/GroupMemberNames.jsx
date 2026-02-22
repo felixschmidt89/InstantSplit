@@ -1,33 +1,39 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-import styles from "./RenderGroupMemberNames.module.css";
+import { useGroupContext } from "../../../context/GroupContext";
+import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
 import emojiConstants from "../../../constants/emojiConstants";
 import DeleteGroupMemberBin from "../DeleteGroupMemberBin/DeleteGroupMemberBin";
 import Spinner from "../../Spinner/Spinner";
 import Emoji from "../../Emoji/Emoji";
 import ErrorModal from "../../ErrorModal/ErrorModal";
 
-import { useGroupMembersContext } from "../../../context/GroupMembersContext";
-import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
+import styles from "./GroupMemberNames.module.css";
 
-const RenderGroupMemberNames = ({ isInAppGroupCreation }) => {
+const GroupMemberNames = ({ isInAppGroupCreation }) => {
   const { t } = useTranslation();
 
-  const { groupMembers, groupCode, isLoading, error, refreshGroupMembers } =
-    useGroupMembersContext();
+  const {
+    groupMembers,
+    activeGroupCode: groupCode,
+    isLoading,
+    error,
+    refreshGroupMembers,
+  } = useGroupContext();
 
   const { isErrorModalVisible, handleCloseErrorModal } =
     useErrorModalVisibility();
 
-  // Memoize the sorted list to avoid re-sorting on every render
-  // unless the members array actually changes
   const sortedMembers = useMemo(() => {
     return [...groupMembers].sort(
       (userA, userB) => new Date(userB.createdAt) - new Date(userA.createdAt),
     );
   }, [groupMembers]);
+
+  const hasNoMembers = sortedMembers.length === 0;
+  const shouldShowErrorModal = Boolean(isErrorModalVisible || error);
 
   if (isLoading) {
     return (
@@ -45,7 +51,7 @@ const RenderGroupMemberNames = ({ isInAppGroupCreation }) => {
         </h2>
 
         <div className={styles.members}>
-          {sortedMembers.length === 0 ? (
+          {hasNoMembers ? (
             <span className={styles.noGroupMembers}>
               {t("render-groupmember-names-component-no-group-members-copy")}
             </span>
@@ -107,10 +113,10 @@ const RenderGroupMemberNames = ({ isInAppGroupCreation }) => {
       <ErrorModal
         error={error}
         onClose={handleCloseErrorModal}
-        isVisible={isErrorModalVisible || !!error}
+        isVisible={shouldShowErrorModal}
       />
     </div>
   );
 };
 
-export default RenderGroupMemberNames;
+export default GroupMemberNames;

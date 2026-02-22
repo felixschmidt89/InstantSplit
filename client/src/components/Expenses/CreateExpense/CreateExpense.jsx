@@ -9,7 +9,8 @@ import { LOG_LEVELS } from "../../../../../shared/constants/debugConstants.js";
 import { debugLog } from "../../../../../shared/utils/debug/debugLog.js";
 import { ROUTES } from "../../../constants/routesConstants.jsx";
 import { buttonStyles } from "../../../constants/stylesConstants.jsx";
-import { useGroupMembersContext } from "../../../context/GroupMembersContext";
+// CODECHANGE: Migrated from GroupMembersContext to unified GroupContext
+import { useGroupContext } from "../../../context/GroupContext";
 
 import { createExpense } from "../../../api/expenses/createExpense.js";
 
@@ -27,7 +28,7 @@ const CreateExpense = ({ groupCode }) => {
   const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
     useErrorModalVisibility();
 
-  const { groupMembers } = useGroupMembersContext();
+  const { groupMembers } = useGroupContext();
 
   const [expenseDescription, setExpenseDescription] = useState("");
   const [expenseAmount, setExpenseAmount] = useState("");
@@ -36,21 +37,26 @@ const CreateExpense = ({ groupCode }) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (groupMembers?.length) {
+    const hasMembers = groupMembers && groupMembers.length > 0;
+    if (hasMembers) {
       setSelectedBeneficiaries(groupMembers);
     }
   }, [groupMembers]);
 
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
     setError(null);
 
-    if (!expensePayer || !expensePayer._id) {
+    const isPayerMissing = !expensePayer || !expensePayer._id;
+    const isBeneficiaryMissing = selectedBeneficiaries.length === 0;
+
+    if (isPayerMissing) {
       setError(t("expense-payer-required-error"));
       displayErrorModal();
       return;
     }
-    if (selectedBeneficiaries.length === 0) {
+
+    if (isBeneficiaryMissing) {
       setError(t("expense-beneficiaries-required-error"));
       displayErrorModal();
       return;
@@ -66,7 +72,9 @@ const CreateExpense = ({ groupCode }) => {
         expenseAmountPerBeneficiary: amountPerBeneficiary,
         groupCode,
         expensePayerId: expensePayer._id,
-        expenseBeneficiaryIds: selectedBeneficiaries.map((b) => b._id),
+        expenseBeneficiaryIds: selectedBeneficiaries.map(
+          (beneficiary) => beneficiary._id,
+        ),
       };
 
       await createExpense(payload);
@@ -75,8 +83,9 @@ const CreateExpense = ({ groupCode }) => {
     } catch (error) {
       debugLog("Error creating expense", { error: error.message }, LOG_ERROR);
 
-      if (error?.response?.data?.message) {
-        setError(error.response.data.message);
+      const apiErrorMessage = error?.response?.data?.message;
+      if (apiErrorMessage) {
+        setError(apiErrorMessage);
       } else {
         setError(t("generic-error-message"));
       }

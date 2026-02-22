@@ -4,6 +4,7 @@ import {
   useState,
   useEffect,
   useCallback,
+  useMemo,
 } from "react";
 import {
   deleteGroupCode,
@@ -11,6 +12,7 @@ import {
   setActiveGroupCode,
 } from "../utils/localStorage";
 import { LOCAL_STORAGE_KEYS } from "../constants/localStorageConstants";
+import useFetchGroupMembers from "../hooks/useFetchGroupMembers";
 
 const GroupContext = createContext();
 
@@ -27,15 +29,33 @@ export const GroupProvider = ({ children }) => {
   const removeGroup = useCallback(
     (groupCode) => {
       const success = deleteGroupCode(groupCode);
-
-      if (success) {
-        if (activeGroupCode === groupCode) {
-          setActiveGroupCodeState(null);
-        }
+      if (success && activeGroupCode === groupCode) {
+        setActiveGroupCodeState(null);
       }
       return success;
     },
     [activeGroupCode],
+  );
+
+  const { groupMembers, isFetched, error, refetch } =
+    useFetchGroupMembers(activeGroupCode);
+
+  const membersMap = useMemo(() => {
+    const map = {};
+    if (groupMembers?.length) {
+      groupMembers.forEach((member) => {
+        map[member._id] = member.userName;
+      });
+    }
+    return map;
+  }, [groupMembers]);
+
+  const getMemberName = useCallback(
+    (id) => {
+      if (!id) return "Unknown";
+      return membersMap[id] || "Unknown Member";
+    },
+    [membersMap],
   );
 
   useEffect(() => {
@@ -44,16 +64,23 @@ export const GroupProvider = ({ children }) => {
         setActiveGroupCodeState(e.newValue);
       }
     };
-
     window.addEventListener("storage", handleStorageChange);
     return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
+  const value = {
+    activeGroupCode,
+    updateActiveGroup,
+    removeGroup,
+    groupMembers: groupMembers || [],
+    getMemberName,
+    isFetched,
+    error,
+    refreshGroupMembers: refetch,
+  };
+
   return (
-    <GroupContext.Provider
-      value={{ activeGroupCode, updateActiveGroup, removeGroup }}>
-      {children}
-    </GroupContext.Provider>
+    <GroupContext.Provider value={value}>{children}</GroupContext.Provider>
   );
 };
 

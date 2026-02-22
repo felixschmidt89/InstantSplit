@@ -1,16 +1,14 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import { Button } from "@mui/material";
 
-import styles from "./UpdateExpense.module.css";
-import { ROUTES } from "../../../constants/routesConstants";
+import { useGroupContext } from "../../../context/GroupContext";
+import useAppNavigate from "../../../hooks/useAppNavigate";
 import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
-import { devLog, handleApiErrors } from "../../../utils/errorUtils";
-import { buttonStyles } from "../../../constants/stylesConstants";
-import { useGroupMembersContext } from "../../../context/GroupMembersContext";
-
 import { updateExpense } from "../../../api/expenses/updateExpense";
+import { handleApiErrors } from "../../../utils/errorUtils";
+import { buttonStyles } from "../../../constants/stylesConstants";
+import { ROUTES } from "../../../constants/routesConstants";
 
 import ExpenseDescriptionInput from "../ExpenseDescriptionInput/ExpenseDescriptionInput";
 import ExpenseAmountInput from "../ExpenseAmountInput/ExpenseAmountInput";
@@ -18,18 +16,21 @@ import ExpensePayerSelect from "../ExpensePayerSelect/ExpensePayerSelect";
 import ExpenseBeneficiariesInput from "../ExpenseBeneficiariesInput/ExpenseBeneficiariesInput";
 import ErrorModal from "../../ErrorModal/ErrorModal";
 
+import styles from "./UpdateExpense.module.css";
+import { debugLog } from "../../../../../shared/utils/debug/debugLog.js";
+
 const UpdateExpense = ({
   expenseInfo,
   groupCode,
   expenseId,
   route = ROUTES.INSTANT_SPLIT,
 }) => {
-  const navigate = useNavigate();
+  const navigate = useAppNavigate();
   const { t } = useTranslation();
   const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
     useErrorModalVisibility();
 
-  const { groupMembers } = useGroupMembersContext();
+  const { groupMembers } = useGroupContext();
 
   const storedExpenseDescription = expenseInfo?.expenseDescription;
   const storedExpenseAmount = expenseInfo?.expenseAmount;
@@ -45,11 +46,11 @@ const UpdateExpense = ({
     storedBeneficiaries || [],
   );
 
-  const [formChanged, setFormChanged] = useState(false);
+  const [hasFormChanged, setHasFormChanged] = useState(false);
   const [error, setError] = useState(null);
 
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
     setError(null);
 
     try {
@@ -58,12 +59,16 @@ const UpdateExpense = ({
         expenseAmount,
         groupCode,
         expensePayerId: expensePayer?._id,
-        expenseBeneficiaryIds: selectedBeneficiaries.map((b) => b._id),
+        expenseBeneficiaryIds: selectedBeneficiaries.map(
+          (beneficiary) => beneficiary._id,
+        ),
         storedExpensePayerId: storedExpensePayer?._id,
-        storedExpenseBeneficiaryIds: storedBeneficiaries?.map((b) => b._id),
+        storedExpenseBeneficiaryIds: storedBeneficiaries?.map(
+          (beneficiary) => beneficiary._id,
+        ),
       };
 
-      const response = await updateExpense(expenseId, payload);
+      await updateExpense(expenseId, payload);
 
       navigate(`/${route}`);
     } catch (error) {
@@ -71,11 +76,13 @@ const UpdateExpense = ({
         handleApiErrors(error, setError, "expenses", displayErrorModal, t);
       } else {
         setError(t("generic-error-message"));
-        devLog("Error updating expense:", error);
+        debugLog("Error updating expense", { error: error.message });
         displayErrorModal();
       }
     }
   };
+
+  const isSubmitButtonVisible = hasFormChanged;
 
   return (
     <div className={styles.container}>
@@ -83,14 +90,14 @@ const UpdateExpense = ({
         <ExpenseDescriptionInput
           value={expenseDescription}
           onDescriptionChange={setExpenseDescription}
-          setFormChanged={setFormChanged}
+          setFormChanged={setHasFormChanged}
           isUpdate
         />
 
         <ExpenseAmountInput
           value={expenseAmount}
           onAmountChange={setExpenseAmount}
-          setFormChanged={setFormChanged}
+          setFormChanged={setHasFormChanged}
           isUpdate
         />
 
@@ -98,7 +105,7 @@ const UpdateExpense = ({
           expensePayer={expensePayer}
           onPayerChange={setExpensePayer}
           groupMembers={groupMembers}
-          setFormChanged={setFormChanged}
+          setFormChanged={setHasFormChanged}
           isUpdate
         />
 
@@ -107,12 +114,12 @@ const UpdateExpense = ({
             expenseBeneficiaries={selectedBeneficiaries}
             setExpenseBeneficiaries={setSelectedBeneficiaries}
             groupMembers={groupMembers}
-            setFormChanged={setFormChanged}
+            setFormChanged={setHasFormChanged}
             isUpdate
           />
         </div>
 
-        {formChanged && (
+        {isSubmitButtonVisible && (
           <Button style={buttonStyles} variant='contained' type='submit'>
             {t("update-expense-button-text")}
           </Button>
