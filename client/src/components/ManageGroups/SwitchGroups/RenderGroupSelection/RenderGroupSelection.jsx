@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { submitOnEnterClick } from "../../../../utils/formUtils";
 import { sendFormSubmitButtonStyles } from "../../../../constants/stylesConstants";
 import FormSubmitButton from "../../../FormSubmitButton/FormSubmitButton";
 import { ROUTES } from "../../../../constants/routesConstants";
 import styles from "./RenderGroupSelection.module.css";
 import { setActiveGroupCode } from "../../../../utils/localStorage";
+import { submitOnEnter } from "../../../../utils/form/submitOnEnter.js";
 
 const RenderGroupSelection = ({ groupCode, groupNamesAndGroupCodes }) => {
   const navigate = useNavigate();
@@ -25,8 +25,8 @@ const RenderGroupSelection = ({ groupCode, groupNamesAndGroupCodes }) => {
     }
   };
 
-  const handleKeyDown = (e) => {
-    submitOnEnterClick(e, handleFormSubmit);
+  const handleKeyDown = (event) => {
+    submitOnEnter(event, handleFormSubmit);
   };
 
   return (

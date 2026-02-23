@@ -1,58 +1,41 @@
-// React and Third-Party Libraries
-import React, { useState, useRef } from "react";
-import { LuCopy } from "react-icons/lu";
-import { LuCopyCheck } from "react-icons/lu";
+import { useState, useRef } from "react";
+import { LuCopy, LuCopyCheck } from "react-icons/lu";
 import { useTranslation } from "react-i18next";
 
-// Constants and Utils
-import { devLog } from "../../utils/errorUtils";
+import useErrorModalVisibility from "../../hooks/useErrorModalVisibility.jsx";
+import ErrorModal from "../ErrorModal/ErrorModal.jsx";
+import { LOG_LEVELS } from "../../../../shared/constants/debugConstants.js";
+import { debugLog } from "../../../../shared/utils/debug/debugLog.js";
 
-// Hooks
-import useErrorModalVisibility from "../../hooks/useErrorModalVisibility";
-
-// Components
-import ErrorModal from "../ErrorModal/ErrorModal";
-
-// Styles
 import styles from "./CopyToClipboard.module.css";
 
-type CopyToClipboardProps = {
-  // copy to be copied to clipboard
-  infoToCopy: string;
-  inputFieldWidth?: number;
-};
+const { INFO, ERROR } = LOG_LEVELS;
 
-/**
- * Component for rendering a copy and copying it to the clipboard with visual feedback
- */
-const CopyToClipboard = ({
-  infoToCopy,
-  inputFieldWidth = 16.5,
-}: CopyToClipboardProps) => {
+const CopyToClipboard = ({ infoToCopy, inputFieldWidth = 16.5 }) => {
   const [isCopied, setIsCopied] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const inputRef = useRef<HTMLInputElement | null>(null);
+  const [error, setError] = useState(null);
+  const inputRef = useRef(null);
   const { t } = useTranslation();
 
-  // Get error modal visibility logic
   const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
     useErrorModalVisibility();
 
   const handleCopyClick = async () => {
     try {
       if (inputRef.current) {
-        // Copy text to clipboard
         await navigator.clipboard.writeText(inputRef.current.value);
-        devLog("Copied to clipboard:", inputRef.current.value);
+
+        debugLog("Copied to clipboard:", inputRef.current.value, INFO);
+
         setIsCopied(true);
-        // remove text if selected
+
         const selection = window.getSelection();
         if (selection) {
           selection.removeAllRanges();
         }
       }
-    } catch (error) {
-      devLog("Error copying to clipboard:", error);
+    } catch (copyError) {
+      debugLog("Error copying to clipboard:", copyError, ERROR);
       setError(t("copy-to-clipboard-component-error-copy"));
       displayErrorModal();
       setIsCopied(false);

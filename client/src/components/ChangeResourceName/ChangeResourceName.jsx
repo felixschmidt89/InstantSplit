@@ -2,8 +2,8 @@ import React, { useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { devLog, handleApiErrors } from "../../utils/errorUtils";
-import { submitOnEnterClick } from "../../utils/formUtils";
+import { handleApiErrors } from "../../utils/errorUtils";
+import { submitOnEnter } from "../../utils/form/submitOnEnter";
 import { sendFormSubmitButtonStyles } from "../../constants/stylesConstants";
 import useErrorModalVisibility from "../../hooks/useErrorModalVisibility";
 import FormSubmitButton from "../FormSubmitButton/FormSubmitButton";
@@ -11,6 +11,8 @@ import ErrorModal from "../ErrorModal/ErrorModal";
 import { ROUTES } from "../../constants/routesConstants";
 import styles from "./ChangeResourceName.module.css";
 import { API_URL } from "../../constants/apiConstants";
+import { debugLog } from "../../../../shared/utils/debug/debugLog.js";
+import { LOG_LEVELS } from "../../../../shared/constants/debugConstants.js";
 
 const ChangeResourceName = ({
   resourceId,
@@ -50,7 +52,7 @@ const ChangeResourceName = ({
         payload,
       );
 
-      devLog(`${resourceType} name updated:`, response);
+      debugLog(`${resourceType} name updated:`, response, LOG_LEVELS.INFO);
 
       if (navigateToMain) {
         navigate(`/${ROUTES.INSTANT_SPLIT}`);
@@ -70,7 +72,11 @@ const ChangeResourceName = ({
         );
       } else {
         setError(t("generic-error-message"));
-        devLog(`Error updating ${resourceType} name:`, error);
+        debugLog(
+          `Error updating ${resourceType} name:`,
+          error,
+          LOG_LEVELS.ERROR,
+        );
         displayErrorModal();
       }
     }
@@ -78,10 +84,6 @@ const ChangeResourceName = ({
 
   const handleInputClick = () => {
     inputRef.current.classList.add(styles.active);
-  };
-
-  const handleKeyDown = (e) => {
-    submitOnEnterClick(e, handleFormSubmit);
   };
 
   return (
@@ -97,7 +99,7 @@ const ChangeResourceName = ({
           placeholder={storedResourceName}
           style={{ width: `${inputWidth}rem` }}
           ref={inputRef}
-          onKeyDown={handleKeyDown}
+          onKeyDown={submitOnEnter(handleFormSubmit)}
         />
         <FormSubmitButton {...sendFormSubmitButtonStyles} />
       </form>

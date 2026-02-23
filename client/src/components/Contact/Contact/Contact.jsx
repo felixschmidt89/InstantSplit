@@ -4,15 +4,20 @@ import axios from "axios";
 import { useTranslation } from "react-i18next";
 import { usePWAInstall } from "react-use-pwa-install";
 
-import styles from "./Contact.module.css";
+// CODECHANGE: Grouped internal project files together
 import useGetClientDeviceAndPwaInfo from "../../../hooks/useGetClientDeviceAndPwaInfo";
 import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
 import { API_URL } from "../../../constants/apiConstants";
-import { devLog } from "../../../utils/errorUtils";
 import { ROUTES } from "../../../constants/routesConstants";
 import ContactForm from "../ContactForm/ContactForm";
 import ErrorModal from "../../ErrorModal/ErrorModal";
 import SuccessFeedback from "../ContactForm/SuccessFeedback/SuccessFeedback";
+import { LOG_LEVELS } from "../../../../../shared/constants/debugConstants.js";
+import { debugLog } from "../../../../../shared/utils/debug/debugLog.js";
+
+import styles from "./Contact.module.css";
+
+const { INFO, ERROR } = LOG_LEVELS;
 
 const Contact = () => {
   const { t } = useTranslation();
@@ -34,20 +39,20 @@ const Contact = () => {
   const [showForm, setShowForm] = useState(true);
   const [error, setError] = useState(null);
 
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+  const handleFileChange = (event) => {
+    setFile(event.target.files[0]);
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
     setFormData({
       ...formData,
       [name]: value,
     });
   };
 
-  const handleFormSubmission = async (e) => {
-    e.preventDefault();
+  const handleFormSubmission = async (event) => {
+    event.preventDefault();
 
     if (formData.messageType !== "issue/bug") {
       setFile(null);
@@ -111,11 +116,11 @@ const Contact = () => {
           fileData.append("file", file);
 
           const responseFile = await axios.post(`${API_URL}/files`, fileData);
-          devLog("File sent:", responseFile);
+          debugLog("File sent:", responseFile, INFO);
 
           contactData.fileId = responseFile.data.savedFile._id;
-        } catch (error) {
-          devLog("Error uploading file:", error);
+        } catch (uploadError) {
+          debugLog("Error uploading file:", uploadError, ERROR);
           setError(t("contact-form-upload-file-error"));
           displayErrorModal();
           return;
@@ -123,14 +128,14 @@ const Contact = () => {
       }
 
       const response = await axios.post(`${API_URL}/feedbacks`, contactData);
-      devLog("Message sent:", response);
+      debugLog("Message sent:", response, INFO);
       setShowForm(false);
 
       setTimeout(() => {
         navigate(`/${ROUTES.INSTANT_SPLIT}`);
       }, 2500);
-    } catch (error) {
-      devLog("Error creating Feedback:", error);
+    } catch (submitError) {
+      debugLog("Error creating Feedback:", submitError, ERROR);
       setError(t("generic-error-message"));
     }
   };

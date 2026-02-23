@@ -10,11 +10,12 @@ import { findCurrencyLabel } from "../../../utils/currencyUtils";
 import useEditPenVisibility from "../../../hooks/useEditPenVisibility";
 import { API_URL } from "../../../constants/apiConstants";
 import { devLog } from "../../../utils/errorUtils";
-import { submitOnEnterClick } from "../../../utils/formUtils";
+
 import FormSubmitButton from "../../FormSubmitButton/FormSubmitButton";
 import { sendFormSubmitButtonStyles } from "../../../constants/stylesConstants";
 import EditPenButton from "../../EditPenButton/EditPenButton";
 import ErrorModal from "../../ErrorModal/ErrorModal";
+import { submitOnEnter } from "../../../utils/form/submitOnEnter.js";
 
 const ChangeGroupCurrency = ({ groupCurrency, groupCode }) => {
   const selectRef = useRef(null);
@@ -61,8 +62,8 @@ const ChangeGroupCurrency = ({ groupCurrency, groupCode }) => {
     }
   };
 
-  const handleKeyDown = (e) => {
-    submitOnEnterClick(e, handleFormSubmit);
+  const handleKeyDown = (event) => {
+    submitOnEnter(event, handleFormSubmit);
   };
 
   return (
