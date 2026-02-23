@@ -1,12 +1,11 @@
-import React from "react";
-
-// Components
 import RenderGroupMemberPayment from "../RenderGroupMemberPayment/RenderGroupMemberPayment";
 import RenderGroupMemberExpense from "../RenderGroupMemberExpense/RenderGroupMemberExpense";
 import NoUserTransactions from "../NoGroupMemberTransactions/NoGroupMemberTransactions";
+import { TRANSACTION_TYPES } from "../../../../../shared/constants/transactionConstants.js";
 
-// Styles
 import styles from "./GroupMemberTransactionsHistory.module.css";
+
+const { EXPENSE } = TRANSACTION_TYPES;
 
 const GroupMemberTransactionsHistory = ({
   transactions,
@@ -22,26 +21,30 @@ const GroupMemberTransactionsHistory = ({
   return (
     <div className={styles.container}>
       <ul>
-        {transactions.map((item) => (
-          <li className={styles.item} key={item._id || item.itemId}>
-            {item.itemType === "expense" ? (
-              <RenderGroupMemberExpense
-                item={item}
-                groupCode={groupCode}
-                onDeleteResource={onDeleteResource}
-                groupCurrency={groupCurrency}
-                groupMembers={groupMembers}
-              />
-            ) : (
-              <RenderGroupMemberPayment
-                item={item}
-                groupCode={groupCode}
-                onDeleteResource={onDeleteResource}
-                groupCurrency={groupCurrency}
-              />
-            )}
-          </li>
-        ))}
+        {transactions.map((item) => {
+          const isExpense = item.itemType === EXPENSE;
+
+          return (
+            <li className={styles.item} key={item._id || item.itemId}>
+              {isExpense ? (
+                <RenderGroupMemberExpense
+                  item={item}
+                  groupCode={groupCode}
+                  onDeleteResource={onDeleteResource}
+                  groupCurrency={groupCurrency}
+                  groupMembers={groupMembers}
+                />
+              ) : (
+                <RenderGroupMemberPayment
+                  item={item}
+                  groupCode={groupCode}
+                  onDeleteResource={onDeleteResource}
+                  groupCurrency={groupCurrency}
+                />
+              )}
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
