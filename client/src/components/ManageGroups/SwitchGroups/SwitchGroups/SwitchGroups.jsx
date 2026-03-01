@@ -1,9 +1,9 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import RenderGroupSelection from "../RenderGroupSelection/RenderGroupSelection";
 import ErrorDisplay from "../../../ErrorDisplay/ErrorDisplay";
 import styles from "./SwitchGroups.module.css";
 import useGetStoredGroupsNames from "../../../../hooks/useGetStoredGroupsNames";
+import GroupSelection from "../GroupSelection/GroupSelection.jsx";
 
 const SwitchGroups = ({ groupCode }) => {
   const { t } = useTranslation();
@@ -25,7 +25,7 @@ const SwitchGroups = ({ groupCode }) => {
               {t("switch-groups-no-additional-groups-copy")}
             </p>
           ) : (
-            <RenderGroupSelection
+            <GroupSelection
               groupCode={groupCode}
               groupNamesAndGroupCodes={storedGroups}
             />

@@ -1,16 +1,21 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { sendFormSubmitButtonStyles } from "../../../../constants/stylesConstants";
-import FormSubmitButton from "../../../FormSubmitButton/FormSubmitButton";
-import { ROUTES } from "../../../../constants/routesConstants";
-import styles from "./RenderGroupSelection.module.css";
-import { setActiveGroupCode } from "../../../../utils/localStorage";
-import { submitOnEnter } from "../../../../utils/form/submitOnEnter.js";
 
-const RenderGroupSelection = ({ groupCode, groupNamesAndGroupCodes }) => {
-  const navigate = useNavigate();
+import styles from "./GroupSelection.module.css";
+import { useGroupContext } from "../../../../context/GroupContext.jsx";
+import useAppNavigate from "../../../../hooks/useAppNavigate.jsx";
+import { sendFormSubmitButtonStyles } from "../../../../constants/stylesConstants.jsx";
+import { TO } from "../../../../constants/navigationConstants.js";
+import { setActiveGroupCode } from "../../../../utils/localStorage/index.js";
+import { submitOnEnter } from "../../../../utils/form/submitOnEnter.js";
+import FormSubmitButton from "../../../FormSubmitButton/FormSubmitButton.jsx";
+
+const { INSTANT_SPLIT } = TO;
+
+const GroupSelection = ({ groupNamesAndGroupCodes }) => {
+  const navigate = useAppNavigate();
   const { t } = useTranslation();
+  const { updateActiveGroup } = useGroupContext();
   const [selectedGroupCode, setSelectedGroupCode] = useState("");
 
   const handleSelectChange = (event) => {
@@ -21,7 +26,9 @@ const RenderGroupSelection = ({ groupCode, groupNamesAndGroupCodes }) => {
     event.preventDefault();
     if (selectedGroupCode) {
       setActiveGroupCode(selectedGroupCode);
-      navigate(`/${ROUTES.INSTANT_SPLIT}`);
+      updateActiveGroup(selectedGroupCode);
+
+      navigate(INSTANT_SPLIT);
     }
   };
 
@@ -52,4 +59,4 @@ const RenderGroupSelection = ({ groupCode, groupNamesAndGroupCodes }) => {
   );
 };
 
-export default RenderGroupSelection;
+export default GroupSelection;

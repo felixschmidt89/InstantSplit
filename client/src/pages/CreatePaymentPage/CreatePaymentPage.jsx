@@ -1,6 +1,5 @@
 import { useTranslation } from "react-i18next";
 
-// CODECHANGE: Removed GroupMembersContext import as it's now unified in GroupContext
 import { useGroupContext } from "../../context/GroupContext";
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";

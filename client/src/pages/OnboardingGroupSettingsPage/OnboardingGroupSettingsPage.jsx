@@ -1,22 +1,25 @@
 import { useTranslation } from "react-i18next";
 
 import styles from "./OnboardingGroupSettingsPage.module.css";
-import { getActiveGroupCode } from "../../utils/localStorage";
+import { useGroupContext } from "../../context/GroupContext";
 import useFetchGroupData from "../../hooks/useFetchGroupData";
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-import { ROUTES } from "../../constants/routesConstants";
+import { CLIENT_ROUTES } from "../../constants/clientRoutesConstants";
+import { TO } from "../../constants/navigationConstants";
 import Spinner from "../../components/Spinner/Spinner";
 import ChangeGroupCurrency from "../../components/GroupSettings/ChangeGroupCurrency/ChangeGroupCurrency";
 import ChangeDataPurgeSetting from "../../components/GroupSettings/ChangeDataPurgeSetting/ChangeDataPurgeSetting";
 import GroupCodeSecurity from "../../components/GroupSettings/GroupCodeSecurity/GroupCodeSecurity";
 
+const { MEMBERS } = CLIENT_ROUTES;
+const { INSTANT_SPLIT } = TO;
+
 const OnboardingGroupSettingsPage = () => {
   const { t } = useTranslation();
+  const { activeGroupCode } = useGroupContext();
 
-  const groupCode = getActiveGroupCode();
-
-  const { groupData, isFetched } = useFetchGroupData(groupCode);
+  const { groupData, isFetched } = useFetchGroupData(activeGroupCode);
 
   return (
     <main>
@@ -25,9 +28,9 @@ const OnboardingGroupSettingsPage = () => {
       />
       <InAppNavigationBar
         back
-        backRoute={ROUTES.MEMBERS.CREATE}
+        backTo={MEMBERS.CREATE}
         forward
-        forwardRoute={ROUTES.INSTANT_SPLIT}
+        forwardTo={INSTANT_SPLIT}
       />
 
       <div className={styles.container}>
@@ -40,17 +43,17 @@ const OnboardingGroupSettingsPage = () => {
         {isFetched && groupData && (
           <div className={styles.settings}>
             <ChangeGroupCurrency
-              groupCode={groupCode}
+              groupCode={activeGroupCode}
               groupCurrency={groupData.group.currency}
               isOnboarding
             />
 
             <ChangeDataPurgeSetting
-              groupCode={groupCode}
+              groupCode={activeGroupCode}
               inactiveDataPurge={groupData.group.inactiveDataPurge}
             />
 
-            <GroupCodeSecurity groupCode={groupCode} />
+            <GroupCodeSecurity groupCode={activeGroupCode} />
           </div>
         )}
       </div>

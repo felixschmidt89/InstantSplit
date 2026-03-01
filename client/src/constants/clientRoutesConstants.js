@@ -1,4 +1,4 @@
-export const ROUTES = {
+export const CLIENT_ROUTES = {
   HOME: "/",
   LEGAL_NOTICE: "legal-notice",
   TERMS_AND_CONDITIONS: "terms-and-conditions",

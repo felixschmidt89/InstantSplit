@@ -6,16 +6,17 @@ import useSettingsEmoji from "../../hooks/useSettingsEmoji";
 
 import GroupActionsEmojiButton from "../GroupActionsEmojiButton/GroupActionsEmojiButton";
 import emojiConstants from "../../constants/emojiConstants";
-// Ensure this path matches where you saved the ROUTES file
-import { ROUTES } from "../../constants/routesConstants";
 
 import styles from "./ActiveGroupBar.module.css";
+import { CLIENT_ROUTES } from "../../constants/clientRoutesConstants.js";
 
 const ActiveGroupBar = () => {
   const { t } = useTranslation();
   const settingsEmoji = useSettingsEmoji();
   const isSlimDevice = useIsSlimDevice();
   const { isLoaded, fontState } = useIsNotoEmojiFontLoaded();
+
+  const { GROUP_SETTINGS, MEMBERS, EXPENSE, SETTLE_EXPENSES } = CLIENT_ROUTES;
 
   if (!isLoaded) {
     return null;
@@ -28,7 +29,7 @@ const ActiveGroupBar = () => {
       aria-label='active group bar'
       data-font-state={fontState}>
       <GroupActionsEmojiButton
-        route={ROUTES.GROUP_SETTINGS}
+        route={GROUP_SETTINGS}
         emoji={settingsEmoji}
         translateX={0}
         explanationText={t("active-group-bar-settings-emoji-copy")}
@@ -36,7 +37,7 @@ const ActiveGroupBar = () => {
       />
 
       <GroupActionsEmojiButton
-        route={ROUTES.MEMBERS.CREATE}
+        route={MEMBERS.CREATE}
         emoji={emojiConstants.member}
         plusIcon={true}
         plusIconTranslateX={-0.8}
@@ -48,7 +49,7 @@ const ActiveGroupBar = () => {
       />
 
       <GroupActionsEmojiButton
-        route={ROUTES.EXPENSE.CREATE}
+        route={EXPENSE.CREATE}
         emoji={emojiConstants.expense}
         plusIcon={true}
         plusIconTranslateX={-0.6}
@@ -58,7 +59,7 @@ const ActiveGroupBar = () => {
       />
 
       <GroupActionsEmojiButton
-        route={ROUTES.SETTLE_EXPENSES}
+        route={SETTLE_EXPENSES}
         emoji={emojiConstants.settle}
         explanationText={t("active-group-bar-settle-emoji-copy")}
         ariaLabel='settle expenses emoji'

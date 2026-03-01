@@ -9,6 +9,7 @@ import {
 import {
   deleteGroupCode,
   getActiveGroupCode,
+  getStoredGroupCodes,
   setActiveGroupCode as setLocalStorageActiveGroup,
 } from "../utils/localStorage";
 import { LOCAL_STORAGE_KEYS } from "../constants/localStorageConstants";
@@ -21,6 +22,11 @@ export const GroupProvider = ({ children }) => {
     getActiveGroupCode(),
   );
 
+  const getFirstAvailableGroupCode = useCallback(() => {
+    const storedGroupCodes = getStoredGroupCodes();
+    return storedGroupCodes?.length ? storedGroupCodes[0] : null;
+  }, []);
+
   const setActiveGroupCode = useCallback((newCode) => {
     setLocalStorageActiveGroup(newCode);
     setActiveGroupCodeState(newCode);
@@ -29,12 +35,14 @@ export const GroupProvider = ({ children }) => {
   const removeGroup = useCallback(
     (groupCode) => {
       const success = deleteGroupCode(groupCode);
+
       if (success && activeGroupCode === groupCode) {
-        setActiveGroupCodeState(null);
+        const nextGroup = getFirstAvailableGroupCode();
+        setActiveGroupCode(nextGroup);
       }
       return success;
     },
-    [activeGroupCode],
+    [activeGroupCode, getFirstAvailableGroupCode, setActiveGroupCode],
   );
 
   const { groupMembers, isFetched, error, refetch } =
@@ -72,6 +80,7 @@ export const GroupProvider = ({ children }) => {
     activeGroupCode,
     setActiveGroupCode,
     removeGroup,
+    getFirstAvailableGroupCode,
     groupMembers: groupMembers || [],
     getMemberName,
     isFetched,

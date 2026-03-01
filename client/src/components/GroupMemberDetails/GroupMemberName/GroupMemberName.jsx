@@ -5,7 +5,11 @@ import useEditPenVisibility from "../../../hooks/useEditPenVisibility";
 import ChangeResourceName from "../../ChangeResourceName/ChangeResourceName";
 import EditPenButton from "../../EditPenButton/EditPenButton";
 
+import { RESOURCE_TYPES } from "../../../../../shared/constants/resourceConstants.js";
+
 import styles from "./GroupMemberName.module.css";
+
+const { USER } = RESOURCE_TYPES;
 
 const GroupMemberName = ({ userId }) => {
   const containerRef = useRef(null);
@@ -34,7 +38,7 @@ const GroupMemberName = ({ userId }) => {
         <div className={styles.changeName}>
           <ChangeResourceName
             resourceId={userId}
-            resourceType='user'
+            resourceType={USER}
             resourceName={displayName}
             groupCode={activeGroupCode}
             inputWidth={20}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react"; // Added useCallback
 import { StatusCodes } from "http-status-codes";
 import { useTranslation } from "react-i18next";
 
@@ -10,9 +10,15 @@ const useDeleteResource = (resourceType, resourceId, route, onSuccess) => {
   const { t } = useTranslation();
   const navigate = useAppNavigate();
   const [error, setError] = useState(null);
-  const resourceTypeSingular = resourceType.slice(0, -1);
 
-  const deleteResource = async () => {
+  const resourceTypeSingular = resourceType ? resourceType.slice(0, -1) : "";
+
+  const deleteResource = useCallback(async () => {
+    if (!resourceType || !resourceId) {
+      devLog("useDeleteResource: Missing resourceType or resourceId");
+      return;
+    }
+
     try {
       const response = await apiDeleteResource(resourceType, resourceId);
 
@@ -42,7 +48,7 @@ const useDeleteResource = (resourceType, resourceId, route, onSuccess) => {
       }
       throw error;
     }
-  };
+  }, [resourceType, resourceId, route, onSuccess, navigate]);
 
   return { deleteResource, resourceTypeSingular, error };
 };

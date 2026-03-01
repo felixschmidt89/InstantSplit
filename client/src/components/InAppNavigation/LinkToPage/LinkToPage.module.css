@@ -1,0 +1,16 @@
+.link {
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-block;
+  transition: color 0.2s ease-in-out;
+  color: var(--color-signal);
+}
+
+.link:hover {
+  color: var(--color-signal-dark);
+}
+
+.link:active {
+  transform: translateY(1px);
+  filter: brightness(0.9);
+}

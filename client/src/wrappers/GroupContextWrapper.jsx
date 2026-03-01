@@ -2,7 +2,10 @@ import { Outlet, useParams, Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useGroupContext } from "../context/GroupContext";
 import { getActiveGroupCode } from "../utils/localStorage/getActiveGroupCode";
-import { ROUTES } from "../constants/routesConstants";
+
+import { CLIENT_ROUTES } from "../constants/clientRoutesConstants";
+
+const { HOME } = CLIENT_ROUTES;
 
 const GroupContextWrapper = () => {
   const { groupCode } = useParams();
@@ -17,7 +20,7 @@ const GroupContextWrapper = () => {
   const currentCode = groupCode || activeGroupCode || getActiveGroupCode();
 
   if (!currentCode) {
-    return <Navigate to={ROUTES.HOME} replace />;
+    return <Navigate to={HOME} replace />;
   }
 
   return <Outlet />;

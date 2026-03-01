@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
-import { ROUTES } from "../../constants/routesConstants";
+import { TO } from "../../constants/navigationConstants";
 
 import styles from "./InstantSplitLogo.module.css";
 
-const { INSTANT_SPLIT } = ROUTES;
+const { INSTANT_SPLIT } = TO;
 const LOGO_PATH = "/logo_coloured.svg";
 
 const InstantSplitLogo = ({ isLink = true }) => {
@@ -24,7 +24,7 @@ const InstantSplitLogo = ({ isLink = true }) => {
       </Helmet>
 
       {isLink ? (
-        <Link to={`/${INSTANT_SPLIT}`} className={styles.logoLink}>
+        <Link to={INSTANT_SPLIT} className={styles.logoLink}>
           {logoImage}
         </Link>
       ) : (

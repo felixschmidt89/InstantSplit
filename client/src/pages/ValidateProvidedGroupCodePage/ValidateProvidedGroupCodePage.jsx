@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
   IoMdCheckmarkCircleOutline,
@@ -7,21 +7,26 @@ import {
 } from "react-icons/io";
 
 import styles from "./ValidateProvidedGroupCodePage.module.css";
+import useAppNavigate from "../../hooks/useAppNavigate";
 import useValidateGroupExistence from "../../hooks/useValidateGroupCodeExistence";
 import {
   getPreviousRoute,
   setActiveGroupCode,
   storeGroupCode,
 } from "../../utils/localStorage";
-import { ROUTES } from "../../constants/routesConstants";
+import { CLIENT_ROUTES } from "../../constants/clientRoutesConstants";
+import { TO } from "../../constants/navigationConstants";
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import ErrorDisplay from "../../components/ErrorDisplay/ErrorDisplay";
 import Spinner from "../../components/Spinner/Spinner";
 
-const ValidateProvideGroupCodePage = () => {
+const { ONBOARDING, MANAGE_GROUPS } = CLIENT_ROUTES;
+const { INSTANT_SPLIT, HOME } = TO;
+
+const ValidateProvidedGroupCodePage = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
+  const navigate = useAppNavigate();
   const { groupCode } = useParams();
   const [error, setError] = useState(null);
 
@@ -31,7 +36,7 @@ const ValidateProvideGroupCodePage = () => {
   );
 
   const previousRoute = getPreviousRoute();
-  const isInstantSplitUser = !!previousRoute?.includes(ROUTES.MANAGE_GROUPS);
+  const isInstantSplitUser = Boolean(previousRoute?.includes(MANAGE_GROUPS));
 
   useEffect(() => {
     if (groupExists) {
@@ -39,7 +44,7 @@ const ValidateProvideGroupCodePage = () => {
       setActiveGroupCode(groupCode);
 
       const timeoutId = setTimeout(() => {
-        navigate(`/${ROUTES.INSTANT_SPLIT}`);
+        navigate(INSTANT_SPLIT);
       }, 2500);
 
       return () => clearTimeout(timeoutId);
@@ -56,13 +61,9 @@ const ValidateProvideGroupCodePage = () => {
 
       <InAppNavigationBar
         back
-        backRoute={
-          isInstantSplitUser
-            ? ROUTES.MANAGE_GROUPS
-            : ROUTES.ONBOARDING.ENTER_GROUPCODE
-        }
+        backTo={isInstantSplitUser ? MANAGE_GROUPS : ONBOARDING.ENTER_GROUPCODE}
         home
-        homeRoute={isInstantSplitUser ? ROUTES.INSTANT_SPLIT : ROUTES.HOME}
+        homeTo={isInstantSplitUser ? INSTANT_SPLIT : HOME}
       />
 
       <div className={styles.container}>
@@ -92,4 +93,4 @@ const ValidateProvideGroupCodePage = () => {
   );
 };
 
-export default ValidateProvideGroupCodePage;
+export default ValidateProvidedGroupCodePage;

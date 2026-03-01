@@ -13,6 +13,7 @@ import {
   deleteAllSettlementsForGroup,
 } from './settlementController.js';
 import { touchGroupLastActive } from '../utils/group/touchGroupLastActive.js';
+import { resetGroupSettlements } from 'utils/group/resetGroupSettlements.js';
 
 export const createPayment = async (req, res) => {
   try {
@@ -69,6 +70,8 @@ export const createPayment = async (req, res) => {
 
     await paymentRecipient.updateTotalPaymentsReceived();
     await paymentMaker.updateTotalPaymentsMadeAmount();
+
+    await resetGroupSettlements(groupCode);
 
     return res.status(StatusCodes.CREATED).json({
       status: 'success',
@@ -147,8 +150,8 @@ export const updatePayment = async (req, res) => {
       updatedPaymentData,
       { new: true, runValidators: true },
     );
-    await deleteAllSettlementsForGroup(groupCode);
-    updateFixedDebitorCreditorOrderSetting(groupCode, false);
+    await resetGroupSettlements(groupCode);
+
     // Update payments totals
     await Promise.all([
       paymentRecipient.updateTotalPaymentsReceived(),
@@ -217,8 +220,7 @@ export const deletePayment = async (req, res) => {
     const { paymentRecipient, paymentMaker } = paymentToDelete;
 
     await Payment.deleteOne({ _id: paymentToDelete._id });
-    await deleteAllSettlementsForGroup(groupCode);
-    updateFixedDebitorCreditorOrderSetting(groupCode, false);
+    await resetGroupSettlements(groupCode);
 
     await paymentRecipient.updateTotalPaymentsReceived();
     await paymentMaker.updateTotalPaymentsMadeAmount();

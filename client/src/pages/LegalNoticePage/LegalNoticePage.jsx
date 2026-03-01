@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 
 import styles from "./LegalNoticePage.module.css";
 import { getPreviousRoute } from "../../utils/localStorage";
-import { ROUTES } from "../../constants/routesConstants";
+import { CLIENT_ROUTES } from "../../constants/clientRoutesConstants.js";
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import LegalNoticeAuthor from "../../components/LegalNotice/LegalNoticeAuthor/LegalNoticeAuthor";
@@ -10,14 +10,17 @@ import LegalNoticeSections from "../../components/LegalNotice/LegalNoticeSection
 import { debugLog } from "../../../../shared/utils/debug/debugLog.js";
 import { LOG_LEVELS } from "../../../../shared/constants/debugConstants.js";
 
+const { JOIN_GROUP } = CLIENT_ROUTES;
+const { DEBUG } = LOG_LEVELS;
+
 const LegalNoticePage = () => {
   const { t } = useTranslation();
 
   const previousRoute = getPreviousRoute();
 
   const isInvitedUser = Boolean(
-    previousRoute?.includes(ROUTES.JOIN_GROUP.DE) ||
-    previousRoute?.includes(ROUTES.JOIN_GROUP.EN),
+    previousRoute?.includes(JOIN_GROUP.DE) ||
+    previousRoute?.includes(JOIN_GROUP.EN),
   );
 
   debugLog(
@@ -26,7 +29,7 @@ const LegalNoticePage = () => {
       isInvitedUser,
       ...(isInvitedUser && { sourceRoute: previousRoute }),
     },
-    LOG_LEVELS.DEBUG,
+    DEBUG,
   );
 
   return (

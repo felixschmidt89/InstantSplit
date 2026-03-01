@@ -1,5 +1,5 @@
 import RenderGroupMemberPayment from "../RenderGroupMemberPayment/RenderGroupMemberPayment";
-import RenderGroupMemberExpense from "../RenderGroupMemberExpense/RenderGroupMemberExpense";
+import RenderGroupMemberExpense from "../GroupMemberExpense/GroupMemberExpense.jsx";
 import NoUserTransactions from "../NoGroupMemberTransactions/NoGroupMemberTransactions";
 import { TRANSACTION_TYPES } from "../../../../../shared/constants/transactionConstants.js";
 

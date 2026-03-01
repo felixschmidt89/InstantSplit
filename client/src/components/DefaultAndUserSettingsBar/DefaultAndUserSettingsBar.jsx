@@ -3,7 +3,6 @@ import { LuMenu } from "react-icons/lu";
 import {
   IoInformationCircleOutline,
   IoEnterOutline,
-  IoChatboxOutline,
   IoAddCircleOutline,
   IoArrowBackCircleOutline,
 } from "react-icons/io5";
@@ -11,13 +10,12 @@ import { PiUserSwitchLight } from "react-icons/pi";
 import { useTranslation } from "react-i18next";
 
 import styles from "./DefaultAndUserSettingsBar.module.css";
+import { useGroupContext } from "../../context/GroupContext";
 import useIsSlimDevice from "../../hooks/useIsSlimDevice";
-import { getActiveGroupCode } from "../../utils/localStorage";
 import { isWebShareSupported } from "../../utils/user";
 import useFetchGroupData from "../../hooks/useFetchGroupData";
-import { dynamicRoutes } from "../../utils/dynamicRoutes";
 import { addUserReactIconStyles } from "../../constants/stylesConstants";
-import { ROUTES } from "../../constants/routesConstants";
+import { TO, TO_GROUP_ACTIONS } from "../../constants/navigationConstants";
 import WebShareApiInvite from "../ShareGroupInvitation/WebShareApiInvite/WebShareApiInvite";
 import ReactIconNavigate from "../InAppNavigation/ReactIconNavigate/ReactIconNavigate";
 import InstantSplitLogo from "../InstantSplitLogo/InstantSplitLogo";
@@ -30,20 +28,24 @@ const DefaultAndUserSettingsBar = () => {
   const { isSlimDevice, isVerySlimDevice } = useIsSlimDevice();
   const [isDefaultBarShown, setIsDefaultBarShown] = useState(true);
 
-  const groupCode = getActiveGroupCode();
+  const { activeGroupCode } = useGroupContext();
   const canWebShare = isWebShareSupported();
-  const { groupData, isFetched } = useFetchGroupData(groupCode);
+
+  const { groupData, isFetched } = useFetchGroupData(activeGroupCode);
 
   const group = groupData?.group;
   const barClass = `${styles.userSettingsBar} ${
     isDefaultBarShown ? styles.showUserSettingsBar : styles.hideUserSettingsBar
   }`;
 
-  const invitationLink = dynamicRoutes.join(
-    encodeURIComponent(group?.initialGroupName || ""),
-    groupCode,
-    i18n.language,
-  );
+  const invitationLink =
+    i18n.language === "de"
+      ? TO_GROUP_ACTIONS.JOIN_DE(group?.initialGroupName || "", activeGroupCode)
+      : TO_GROUP_ACTIONS.JOIN_EN(
+          group?.initialGroupName || "",
+          activeGroupCode,
+        );
+
   const fullInvitationLink = `${baseUrl}${invitationLink}`;
 
   const showUserSettings = () => setIsDefaultBarShown(false);
@@ -77,7 +79,7 @@ const DefaultAndUserSettingsBar = () => {
       role='toolbar'
       aria-label='top bar'
       ref={containerRef}>
-      {!groupCode ? (
+      {!activeGroupCode ? (
         <span className={styles.spinner} />
       ) : (
         <div className={styles.topBarWrapper}>
@@ -104,9 +106,9 @@ const DefaultAndUserSettingsBar = () => {
                     translateX={isSlimDevice ? 0.5 : -0.3}
                     iconExplanationWidth={5}
                     iconExplanationTextAlignment='center'
-                    route={dynamicRoutes.shareGroup(
+                    route={TO_GROUP_ACTIONS.SHARE(
                       group.initialGroupName,
-                      groupCode,
+                      activeGroupCode,
                     )}
                     {...addUserReactIconStyles}
                   />
@@ -154,28 +156,15 @@ const DefaultAndUserSettingsBar = () => {
                 containerWidth={isVerySlimDevice ? "6" : "7"}
                 explanationText={t("main-bar-tutorial-icon-text")}
                 iconExplanationWidth='8'
-                route={dynamicRoutes.tutorial(
+                route={TO_GROUP_ACTIONS.TUTORIAL(
                   group?.initialGroupName,
-                  groupCode,
+                  activeGroupCode,
                 )}
                 iconSize={isVerySlimDevice ? 3 : 3.5}
                 iconScale={1.1}
                 translateY={0.1}
               />
             </span>
-            {/* TODO: Reactivate when Email function is fixed */}
-            {/* <span className={styles.icon}>
-              <ReactIconNavigate
-                icon={IoChatboxOutline}
-                containerHeight='8'
-                containerWidth={isVerySlimDevice ? "6" : "7"}
-                explanationText={t("main-bar-contact-icon-text")}
-                iconExplanationWidth='5'
-                route={dynamicRoutes.contact(groupCode)}
-                iconSize={isVerySlimDevice ? 3 : 3.5}
-                iconScale={0.95}
-              />
-            </span> */}
             <span className={styles.icon}>
               <ReactIconNavigate
                 icon={PiUserSwitchLight}
@@ -183,7 +172,7 @@ const DefaultAndUserSettingsBar = () => {
                 containerWidth={isVerySlimDevice ? "6" : "7"}
                 explanationText={t("main-bar-manage-groups-icon-text")}
                 iconExplanationWidth='7'
-                route={ROUTES.MANAGE_GROUPS}
+                route={TO.MANAGE_GROUPS}
                 iconSize={isVerySlimDevice ? 3 : 3.5}
                 iconScale={1}
                 translateY={0.1}
@@ -196,7 +185,10 @@ const DefaultAndUserSettingsBar = () => {
                 containerWidth={isVerySlimDevice ? "6" : "7"}
                 iconExplanationWidth='6'
                 explanationText={t("main-bar-leave-group-icon-text")}
-                route={dynamicRoutes.leaveGroup(group?.groupName, groupCode)}
+                route={TO_GROUP_ACTIONS.LEAVE(
+                  group?.groupName,
+                  activeGroupCode,
+                )}
                 iconSize={isVerySlimDevice ? 3 : 3.5}
                 iconScale={1.1}
                 translateX={isVerySlimDevice ? 0 : -0.3}

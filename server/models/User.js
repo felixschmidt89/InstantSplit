@@ -73,7 +73,6 @@ userSchema.methods.updateTotalExpensesPaid = async function () {
       },
     ]);
 
-    // CODECHANGE: Use this.constructor to avoid circular dependency/linter errors
     await this.constructor.findOneAndUpdate(
       { _id: userId },
       {

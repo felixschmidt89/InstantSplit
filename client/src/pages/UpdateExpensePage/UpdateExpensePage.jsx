@@ -8,9 +8,11 @@ import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/Helmet
 import Spinner from "../../components/Spinner/Spinner";
 import UpdateExpense from "../../components/Expenses/UpdateExpense/UpdateExpense";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-import { ROUTES } from "../../constants/routesConstants";
+import { TO } from "../../constants/navigationConstants";
 
 import styles from "./UpdateExpensePage.module.css";
+
+const { INSTANT_SPLIT } = TO;
 
 const UpdateExpensePage = () => {
   const { groupCode, expenseId } = useParams();
@@ -25,6 +27,7 @@ const UpdateExpensePage = () => {
 
   const isPageLoading = !isMembersFetched || isExpenseLoading;
   // TODO: Update semantic variable name
+
   const showGroupHistoryNavigation = isChecked && openedViaGroupHistory;
   const showUserHistoryNavigation =
     isChecked && openedViaUserTransactionsHistory;
@@ -47,7 +50,7 @@ const UpdateExpensePage = () => {
               groupCode={groupCode}
               expenseId={expenseId}
               expenseInfo={expenseInfo}
-              route={ROUTES.INSTANT_SPLIT}
+              navigateTo={INSTANT_SPLIT}
             />
           </div>
         </>

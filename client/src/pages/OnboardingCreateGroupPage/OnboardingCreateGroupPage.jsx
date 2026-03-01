@@ -1,14 +1,14 @@
-// React and Third-Party Libraries
-import React from "react";
 import { useTranslation } from "react-i18next";
 
-// Components
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import CreateGroupForm from "../../components/ManageGroups/CreateGroupForm/CreateGroupForm";
 
-// Styles
+import { TO } from "../../constants/navigationConstants";
+
 import styles from "./OnboardingCreateGroupPage.module.css";
+
+const { HOME } = TO;
 
 const OnboardingCreateGroupPage = () => {
   const { t } = useTranslation();
@@ -16,7 +16,7 @@ const OnboardingCreateGroupPage = () => {
   return (
     <main>
       <HelmetMetaTagsNetlify title={t("onboarding-create-group-page-title")} />
-      <InAppNavigationBar back={true} backRoute='/' />
+      <InAppNavigationBar back={true} backTo={HOME} />
       <div className={styles.container}>
         <CreateGroupForm isExistingUser={false} />
       </div>

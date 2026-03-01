@@ -8,7 +8,7 @@ import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
 import { updateExpense } from "../../../api/expenses/updateExpense";
 import { handleApiErrors } from "../../../utils/errorUtils";
 import { buttonStyles } from "../../../constants/stylesConstants";
-import { ROUTES } from "../../../constants/routesConstants";
+import { TO } from "../../../constants/navigationConstants";
 
 import ExpenseDescriptionInput from "../ExpenseDescriptionInput/ExpenseDescriptionInput";
 import ExpenseAmountInput from "../ExpenseAmountInput/ExpenseAmountInput";
@@ -19,11 +19,13 @@ import ErrorModal from "../../ErrorModal/ErrorModal";
 import styles from "./UpdateExpense.module.css";
 import { debugLog } from "../../../../../shared/utils/debug/debugLog.js";
 
+const { INSTANT_SPLIT } = TO;
+
 const UpdateExpense = ({
   expenseInfo,
   groupCode,
   expenseId,
-  route = ROUTES.INSTANT_SPLIT,
+  navigateTo = INSTANT_SPLIT,
 }) => {
   const navigate = useAppNavigate();
   const { t } = useTranslation();
@@ -70,7 +72,7 @@ const UpdateExpense = ({
 
       await updateExpense(expenseId, payload);
 
-      navigate(`/${route}`);
+      navigate(navigateTo);
     } catch (error) {
       if (error?.response) {
         handleApiErrors(error, setError, "expenses", displayErrorModal, t);

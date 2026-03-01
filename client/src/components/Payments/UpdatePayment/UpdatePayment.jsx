@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import { IoArrowDownOutline } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
 
 import styles from "./UpdatePayment.module.css";
-import { ROUTES } from "../../../constants/routesConstants";
+import { TO } from "../../../constants/navigationConstants";
+import { useGroupContext } from "../../../context/GroupContext";
+import useAppNavigate from "../../../hooks/useAppNavigate";
 import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
 import { MINIMUM_VALID_AMOUNT } from "../../../constants/dataConstants";
 import { API_URL } from "../../../constants/apiConstants";
@@ -20,14 +21,13 @@ import PaymentRecipientSelect from "../PaymentRecipientSelect/PaymentRecipientSe
 import { buttonStyles } from "../../../constants/stylesConstants";
 import ErrorModal from "../../ErrorModal/ErrorModal";
 
-const UpdatePayment = ({
-  groupMembers,
-  groupCode,
-  paymentDetails,
-  route = ROUTES.INSTANT_SPLIT,
-}) => {
+const { INSTANT_SPLIT } = TO;
+
+const UpdatePayment = ({ paymentDetails, navigateTo = INSTANT_SPLIT }) => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
+  const navigate = useAppNavigate();
+  const { activeGroupCode, groupMembers } = useGroupContext();
+
   const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
     useErrorModalVisibility();
 
@@ -60,7 +60,7 @@ const UpdatePayment = ({
 
     try {
       const response = await axios.put(`${API_URL}/payments/${paymentId}`, {
-        groupCode,
+        groupCode: activeGroupCode,
         paymentAmount,
         paymentMakerName,
         paymentRecipientName,
@@ -69,7 +69,7 @@ const UpdatePayment = ({
       });
 
       devLog("Payment updated:", response);
-      navigate(`/${route}`);
+      navigate(navigateTo);
     } catch (error) {
       if (error.response) {
         handleApiErrors(error, setError, "payments", displayErrorModal, t);

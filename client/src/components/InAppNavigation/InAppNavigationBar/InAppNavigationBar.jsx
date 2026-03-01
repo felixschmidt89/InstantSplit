@@ -7,7 +7,7 @@ import { GoHome } from "react-icons/go";
 import { useTranslation } from "react-i18next";
 
 import styles from "./InAppNavigationBar.module.css";
-import { ROUTES } from "../../../constants/routesConstants";
+import { TO } from "../../../constants/navigationConstants";
 import { debugLog } from "../../../../../shared/utils/debug/debugLog";
 import { LOCAL_STORAGE_KEYS } from "../../../constants/localStorageConstants";
 import {
@@ -18,17 +18,19 @@ import {
 import InstantSplitLogo from "../../InstantSplitLogo/InstantSplitLogo";
 import useAppNavigate from "../../../hooks/useAppNavigate";
 
+const { INSTANT_SPLIT } = TO;
+
 const InAppNavigationBar = ({
   back = false,
-  backRoute = ROUTES.INSTANT_SPLIT,
+  backTo = INSTANT_SPLIT,
   abort = false,
-  abortRoute = ROUTES.INSTANT_SPLIT,
+  abortTo = INSTANT_SPLIT,
   previousRoute = false,
   nestedPreviousRoute = false,
   home = false,
-  homeRoute = ROUTES.INSTANT_SPLIT,
+  homeTo = INSTANT_SPLIT,
   forward = false,
-  forwardRoute = ROUTES.INSTANT_SPLIT,
+  forwardTo = INSTANT_SPLIT,
   logoOnly = false,
 }) => {
   const { t } = useTranslation();
@@ -68,7 +70,7 @@ const InAppNavigationBar = ({
         {back && (
           <div
             className={styles.iconContainer}
-            onClick={() => handleNavigation(backRoute)}>
+            onClick={() => handleNavigation(backTo)}>
             <IoArrowBackCircleOutline
               className={`${styles.leftAlignedIcon} ${styles.icon}`}
             />
@@ -92,7 +94,7 @@ const InAppNavigationBar = ({
         {abort && (
           <div
             className={styles.iconContainer}
-            onClick={() => handleAbort(abortRoute)}>
+            onClick={() => handleAbort(abortTo)}>
             <IoCloseCircleOutline
               className={`${styles.leftAlignedIcon} ${styles.icon}`}
             />
@@ -112,7 +114,7 @@ const InAppNavigationBar = ({
         {home && (
           <div
             className={styles.iconContainer}
-            onClick={() => handleNavigation(homeRoute)}>
+            onClick={() => handleNavigation(homeTo)}>
             <GoHome className={`${styles.rightAlignedIcon} ${styles.icon}`} />
             <div className={styles.text}>
               {t("in-app-navigation-main-icon-text")}
@@ -122,7 +124,7 @@ const InAppNavigationBar = ({
         {forward && (
           <div
             className={styles.iconContainer}
-            onClick={() => handleNavigation(forwardRoute)}>
+            onClick={() => handleNavigation(forwardTo)}>
             <IoArrowForwardCircleOutline
               className={`${styles.rightAlignedIcon} ${styles.icon}`}
             />

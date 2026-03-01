@@ -1,29 +1,32 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 import styles from "./LeaveGroupPage.module.css";
+import { useGroupContext } from "../../context/GroupContext";
+import useAppNavigate from "../../hooks/useAppNavigate";
 import useConfirmationModalLogicAndActions from "../../hooks/useConfirmationModalLogicAndActions";
 import {
-  deleteGroupCode,
   deleteNestedPreviousRoute,
   deletePreviousRoute,
   deleteStoredView,
-  getFirstGroupCode,
-  setActiveGroupCode,
 } from "../../utils/localStorage";
-import { ROUTES } from "../../constants/routesConstants";
+import { TO } from "../../constants/navigationConstants";
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import CopyToClipboard from "../../components/CopyToClipboard/CopyToClipboard";
 import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
 import { buttonStyles } from "../../constants/stylesConstants";
 
+const { INSTANT_SPLIT } = TO;
+
 const LeaveGroupPage = () => {
   const { groupName, groupCode } = useParams();
-  const navigate = useNavigate();
+  const navigate = useAppNavigate();
   const { t } = useTranslation();
+
+  const { removeGroup } = useGroupContext();
 
   const {
     isConfirmationVisible,
@@ -34,14 +37,8 @@ const LeaveGroupPage = () => {
     () => deleteStoredView(),
     () => deletePreviousRoute(),
     () => deleteNestedPreviousRoute(),
-    () => deleteGroupCode(groupCode),
-    () => {
-      const newGroupCode = getFirstGroupCode();
-      if (newGroupCode) setActiveGroupCode(newGroupCode);
-    },
-    () => {
-      navigate(`/${ROUTES.INSTANT_SPLIT}`);
-    },
+    () => removeGroup(groupCode),
+    () => navigate(INSTANT_SPLIT),
   ]);
 
   return (

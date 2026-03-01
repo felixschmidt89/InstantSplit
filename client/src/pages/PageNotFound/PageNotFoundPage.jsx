@@ -1,20 +1,19 @@
-// React and Third-Party Libraries
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-// Constants and Utils
 import emojiConstants from "../../constants/emojiConstants";
+import { TO } from "../../constants/navigationConstants";
 
-// Components
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import Emoji from "../../components/Emoji/Emoji";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import RouteButton from "../../components/InAppNavigation/RouteButton/RouteButton";
 
-// Styles
 import styles from "./PageNotFoundPage.module.css";
 
-function PageNotFoundPage() {
+const { INSTANT_SPLIT } = TO;
+
+const PageNotFoundPage = () => {
   const { t } = useTranslation();
 
   return (
@@ -30,8 +29,8 @@ function PageNotFoundPage() {
           <p>{t("page-not-found-page-explanation")}</p>
           <span className={styles.goToMainButton}>
             <RouteButton
-              route={`instant-split`}
-              buttonText='go to main'
+              route={INSTANT_SPLIT}
+              buttonText={t("page-not-found-go-to-main-button-text")}
               margin='0px'
             />
           </span>
@@ -39,6 +38,6 @@ function PageNotFoundPage() {
       </div>
     </main>
   );
-}
+};
 
 export default PageNotFoundPage;

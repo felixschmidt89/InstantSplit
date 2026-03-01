@@ -1,13 +1,10 @@
-// React and Third-Party Libraries
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-// Components
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import Contact from "../../components/Contact/Contact/Contact";
 
-// Styles
 import styles from "./ContactPage.module.css";
 
 const ContactPage = () => {

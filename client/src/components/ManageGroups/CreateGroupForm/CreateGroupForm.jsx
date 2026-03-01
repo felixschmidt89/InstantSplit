@@ -13,7 +13,7 @@ import {
 import { handleApiErrors } from "../../../utils/errorUtils";
 import { replaceSlashesWithDashes } from "../../../utils/replaceSlashesWithDashes";
 
-import { ROUTES } from "../../../constants/routesConstants";
+import { CLIENT_ROUTES } from "../../../constants/clientRoutesConstants.js";
 import { plusFormSubmitButtonStyles } from "../../../constants/stylesConstants";
 import { createGroup } from "../../../api/groups/createGroup";
 
@@ -24,6 +24,7 @@ import { LOG_LEVELS } from "../../../../../shared/constants/debugConstants.js";
 import { debugLog } from "../../../../../shared/utils/debug/debugLog.js";
 
 const { LOG_ERROR } = LOG_LEVELS;
+const { MEMBERS } = CLIENT_ROUTES;
 
 const CreateGroupForm = ({ isExistingUser = false }) => {
   const navigate = useAppNavigate();
@@ -52,7 +53,7 @@ const CreateGroupForm = ({ isExistingUser = false }) => {
       storeGroupCode(groupCode);
       setActiveGroupCode(groupCode);
       setPreviousRoute(pathname);
-      navigate(ROUTES.MEMBERS.CREATE);
+      navigate(MEMBERS.CREATE);
     } catch (error) {
       if (error.response) {
         handleApiErrors(error, setError, "groups", displayErrorModal, t);

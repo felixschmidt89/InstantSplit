@@ -3,11 +3,11 @@ import { usePWAInstall } from "react-use-pwa-install";
 import { useTranslation } from "react-i18next";
 
 import styles from "./InstantSplitPage.module.css";
+import { useGroupContext } from "../../context/GroupContext";
 import {
   deleteGroupCode,
   deleteNestedPreviousRoute,
   deletePreviousRoute,
-  getActiveGroupCode,
   getStoredView,
   setStoredView,
 } from "../../utils/localStorage";
@@ -16,9 +16,9 @@ import useValidateGroupExistence from "../../hooks/useValidateGroupCodeExistence
 import useFetchGroupData from "../../hooks/useFetchGroupData";
 import useGetClientDeviceAndPwaInfo from "../../hooks/useGetClientDeviceAndPwaInfo";
 import { shouldShowPwaPrompt } from "../../utils/user";
-import { ROUTES } from "../../constants/routesConstants";
+import { TO } from "../../constants/navigationConstants";
 import { devLog } from "../../utils/errorUtils";
-import useAppNavigate from "../../hooks/useAppNavigate"; // Assuming this is the path
+import useAppNavigate from "../../hooks/useAppNavigate";
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import DefaultAndUserSettingsBar from "../../components/DefaultAndUserSettingsBar/DefaultAndUserSettingsBar";
 import SwitchViewButtonsBar from "../../components/GroupBalancesAndHistory/SwitchViewButtonsBar/SwitchViewButtonsBar";
@@ -27,12 +27,14 @@ import RenderGroupBalances from "../../components/GroupBalancesAndHistory/GroupB
 import ActiveGroupBar from "../../components/ActiveGroupBar/ActiveGroupBar";
 import PwaCtaModal from "../../components/PwaCtaModal/PwaCtaModal/PwaCtaModal";
 
+const { HOME } = TO;
+
 const InstantSplitPage = () => {
-  const navigate = useAppNavigate(); 
+  const navigate = useAppNavigate();
   const { t } = useTranslation();
   const isPWAInstallPromptAvailable = usePWAInstall();
 
-  const groupCode = getActiveGroupCode();
+  const { activeGroupCode } = useGroupContext();
 
   const [view, setView] = useState(
     () => getStoredView() || VIEW_TYPES.BALANCES,
@@ -41,10 +43,10 @@ const InstantSplitPage = () => {
   const [showPwaCtaModal, setShowPwaCtaModal] = useState(null);
 
   const { isValidated, groupExists } = useValidateGroupExistence(
-    groupCode,
+    activeGroupCode,
     "continuous",
   );
-  const { groupData, isFetched } = useFetchGroupData(groupCode);
+  const { groupData, isFetched } = useFetchGroupData(activeGroupCode);
   const { isPwa, isMobile, isMobileSafari, isAndroid, isIOS, browserName } =
     useGetClientDeviceAndPwaInfo();
 
@@ -62,17 +64,17 @@ const InstantSplitPage = () => {
   }, []);
 
   useEffect(() => {
-    if (!groupCode) {
-      navigate(ROUTES.HOME);
+    if (!activeGroupCode) {
+      navigate(HOME);
     }
-  }, [groupCode, navigate]);
+  }, [activeGroupCode, navigate]);
 
   useEffect(() => {
     if (isValidated && !groupExists) {
-      deleteGroupCode(groupCode);
-      navigate(ROUTES.HOME);
+      deleteGroupCode(activeGroupCode);
+      navigate(HOME);
     }
-  }, [navigate, groupCode, isValidated, groupExists]);
+  }, [navigate, activeGroupCode, isValidated, groupExists]);
 
   useEffect(() => {
     const lowercaseBrowserName = browserName?.toLowerCase() || "";
@@ -111,7 +113,7 @@ const InstantSplitPage = () => {
   ]);
 
   useEffect(() => {
-    setShowPwaCtaModal(!!(!isPwa && ctaToRender && canShowPwaPrompt));
+    setShowPwaCtaModal(Boolean(!isPwa && ctaToRender && canShowPwaPrompt));
   }, [isPwa, ctaToRender, canShowPwaPrompt]);
 
   return (
@@ -135,7 +137,7 @@ const InstantSplitPage = () => {
               {view === VIEW_TYPES.HISTORY ||
               view === LEGACY_VIEW_TYPES.VIEW_1 ? (
                 <RenderGroupHistory
-                  groupCode={groupCode}
+                  groupCode={activeGroupCode}
                   groupCurrency={groupData.group.currency}
                 />
               ) : (

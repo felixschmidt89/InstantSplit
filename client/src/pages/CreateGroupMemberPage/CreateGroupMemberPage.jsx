@@ -1,12 +1,17 @@
 import { useTranslation } from "react-i18next";
+
 import styles from "./CreateGroupMemberPage.module.css";
 import { getPreviousRoute } from "../../utils/localStorage";
-import { ROUTES } from "../../constants/routesConstants";
+import { CLIENT_ROUTES } from "../../constants/clientRoutesConstants.js";
+import { TO } from "../../constants/navigationConstants";
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import CreateGroupMemberForm from "../../components/CreateGroupMember/CreateGroupMemberForm/CreateGroupMemberForm";
 import RenderGroupMemberNames from "../../components/CreateGroupMember/GroupMemberNames/GroupMemberNames.jsx";
 import { debugLog } from "../../../../shared/utils/debug/debugLog.js";
+
+const { ONBOARDING, MANAGE_GROUPS } = CLIENT_ROUTES;
+const { HOME } = TO;
 
 const CreateGroupMemberPage = () => {
   const { t } = useTranslation();
@@ -14,8 +19,8 @@ const CreateGroupMemberPage = () => {
 
   debugLog("Current previousRoute in Page:", previousRoute);
 
-  const isNewUser = !!previousRoute?.includes(ROUTES.ONBOARDING.CREATE_GROUP);
-  const isInAppGroupCreation = !!previousRoute?.includes(ROUTES.MANAGE_GROUPS);
+  const isNewUser = Boolean(previousRoute?.includes(ONBOARDING.CREATE_GROUP));
+  const isInAppGroupCreation = Boolean(previousRoute?.includes(MANAGE_GROUPS));
   const isRegularUser = !previousRoute;
 
   return (
@@ -24,10 +29,10 @@ const CreateGroupMemberPage = () => {
 
       <InAppNavigationBar
         abort={isNewUser || isInAppGroupCreation}
-        abortRoute={isInAppGroupCreation ? ROUTES.MANAGE_GROUPS : ROUTES.HOME}
+        abortTo={isInAppGroupCreation ? MANAGE_GROUPS : HOME}
         back={isRegularUser}
         forward={isNewUser || isInAppGroupCreation}
-        forwardRoute={ROUTES.ONBOARDING.GROUP_SETTINGS}
+        forwardTo={ONBOARDING.GROUP_SETTINGS}
       />
 
       <div className={styles.addGroupMember}>

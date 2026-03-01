@@ -1,54 +1,46 @@
 // React and Third Party Libraries
-import React from "react";
 import { useTranslation } from "react-i18next";
 
-// Constants and Utils
+import { useGroupContext } from "../../../context/GroupContext";
 import emojiConstants from "../../../constants/emojiConstants";
+import { RESOURCE_TYPES } from "../../../../../shared/constants/resourceConstants";
 
-// Components
 import DeleteResource from "../../DeleteResource/DeleteResource";
 import RenderDataAttributeWithAriaLabel from "../../RenderDataAttributeWithAriaLabel/RenderDataAttributeWithAriaLabel";
 import LinkToPage from "../../InAppNavigation/LinkToPage/LinkToPage";
 import Emoji from "../../Emoji/Emoji";
 
-// Styles
-import styles from "./RenderGroupMemberExpense.module.css";
-/**
- * Renders a single group member expense component.
- * @param {object} props - The props object.
- * @param {object} props.item - The expense item to be displayed.
- * @param {string} props.groupCode - The groupCode of the group to which the expense belongs.
- * @param {Function} props.onDeleteResource - function to handle the deletion of the expense item to trigger a refresh in parent component.
- * @param {string} props.groupCurrency - The currency used within the group.
- * @param {Array} props.groupMembers - Array of group members.
- * @returns {JSX.Element} React Component.
- */
-const RenderGroupMemberExpense = ({
-  item,
-  groupCode,
-  onDeleteResource,
-  groupCurrency,
-  groupMembers,
-}) => {
+import styles from "./GroupMemberExpense.module.css";
+
+const { EXPENSES } = RESOURCE_TYPES;
+
+const GroupMemberExpense = ({ item, onDeleteResource, groupCurrency }) => {
   const { t } = useTranslation();
+  const { activeGroupCode, groupMembers } = useGroupContext();
+
+  const {
+    _id,
+    expenseDescription,
+    expensePayer,
+    expenseBeneficiaries,
+    expenseAmount,
+    expenseAmountPerBeneficiary,
+    createdAt,
+    updatedAt,
+  } = item;
 
   const allGroupMembersBenefitFromExpense =
-    groupMembers.length === item.expenseBeneficiaries.length;
+    groupMembers.length === expenseBeneficiaries.length;
 
   const beneficiaries = allGroupMembersBenefitFromExpense
     ? t("render-expense-beneficiaries-all-group-members")
-    : item.expenseBeneficiaries
-        .map((beneficiary) => beneficiary.userName)
-        .join(", ");
+    : expenseBeneficiaries.map((b) => b.userName).join(", ");
 
   return (
     <div className={styles.expenses}>
-      {/* Left Column */}
       <div className={styles.leftColumn}>
         <div className={styles.expenseEmoji}>
-          <Emoji
-            ariaLabel={"expense emoji"}
-            emoji={emojiConstants.expense}></Emoji>
+          <Emoji ariaLabel='expense emoji' emoji={emojiConstants.expense} />
         </div>
         <ul>
           <li>
@@ -56,8 +48,8 @@ const RenderGroupMemberExpense = ({
               {t("groupmember-transaction-history-description-key")}:{" "}
             </span>
             <RenderDataAttributeWithAriaLabel
-              attribute={item.expenseDescription}
-              ariaLabel={"expense description"}
+              attribute={expenseDescription}
+              ariaLabel='expense description'
             />
           </li>
           <li>
@@ -65,18 +57,17 @@ const RenderGroupMemberExpense = ({
               {t("groupmember-transaction-history-paid-by-key")}:{" "}
             </span>
             <RenderDataAttributeWithAriaLabel
-              attribute={item.expensePayer.userName}
-              ariaLabel={"name of the expense payer"}
+              attribute={expensePayer.userName}
+              ariaLabel='name of the expense payer'
             />
           </li>
-
           <li>
             <span className={styles.key}>
               {t("render-expense-beneficiaries-beneficiaries")}:{" "}
             </span>
             <RenderDataAttributeWithAriaLabel
               attribute={beneficiaries}
-              ariaLabel={"expense beneficiaries"}
+              ariaLabel='expense beneficiaries'
             />
           </li>
           <li>
@@ -84,43 +75,42 @@ const RenderGroupMemberExpense = ({
               {t("groupmember-transaction-history-amount-benefitted-key")}:{" "}
             </span>
             <RenderDataAttributeWithAriaLabel
-              attribute={item.expenseAmountPerBeneficiary.toFixed(2)}
-              ariaLabel={"amount each beneficiary has benefitted"}
+              attribute={expenseAmountPerBeneficiary.toFixed(2)}
+              ariaLabel='amount each beneficiary has benefitted'
             />
             <span>{groupCurrency}</span>
           </li>
-
           <li>
             <span className={styles.key}>
               {t("groupmember-transaction-history-created-key")}:{" "}
             </span>
             <RenderDataAttributeWithAriaLabel
-              attribute={new Date(item.createdAt).toLocaleString()}
-              ariaLabel={"expense creation date"}
+              attribute={new Date(createdAt).toLocaleString()}
+              ariaLabel='expense creation date'
             />
           </li>
 
-          {item.createdAt !== item.updatedAt && (
+          {createdAt !== updatedAt && (
             <li>
               <span className={styles.key}>
                 {t("groupmember-transaction-history-changed-key")}:{" "}
               </span>
               <RenderDataAttributeWithAriaLabel
-                attribute={new Date(item.updatedAt).toLocaleString()}
-                ariaLabel={"expense last update date"}
+                attribute={new Date(updatedAt).toLocaleString()}
+                ariaLabel='expense last update date'
               />
             </li>
           )}
         </ul>
       </div>
-      {/* Right Column */}{" "}
+
       <ul className={styles.rightColumn}>
         <li className={styles.amountLine}>
           <div className={styles.expenseAmount}>
             <div>
               <RenderDataAttributeWithAriaLabel
-                attribute={item.expenseAmount.toFixed(2)}
-                ariaLabel={"expense amount"}
+                attribute={expenseAmount.toFixed(2)}
+                ariaLabel='expense amount'
               />
               <span>{groupCurrency}</span>
             </div>
@@ -128,17 +118,15 @@ const RenderGroupMemberExpense = ({
         </li>
         <li className={styles.actionLine}>
           <LinkToPage
-            to={`/update-expense/${groupCode}/${item._id}`}
-            setNestedPreviousRoute={true}
-            color='var(--color-signal)'
-            hoverColor='var(--color-signal-dark'>
+            to={`/update-expense/${activeGroupCode}/${_id}`}
+            setNestedPreviousRoute>
             {t("groupmember-transaction-history-edit-link")}
           </LinkToPage>
         </li>
         <li className={styles.actionLine}>
           <DeleteResource
-            resourceId={item._id}
-            resourceType={"expenses"}
+            resourceId={_id}
+            resourceType={EXPENSES}
             onDeleteResource={onDeleteResource}
             isButton={false}
             navigateOnDelete={false}
@@ -150,4 +138,4 @@ const RenderGroupMemberExpense = ({
   );
 };
 
-export default RenderGroupMemberExpense;
+export default GroupMemberExpense;

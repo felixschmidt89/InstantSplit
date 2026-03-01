@@ -1,29 +1,35 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { devLog } from "../../../utils/errorUtils";
-import useConfirmationModalLogicAndActions from "../../../hooks/useConfirmationModalLogicAndActions";
-import ConfirmationModal from "../../ConfirmationModal/ConfirmationModal";
-import emojiConstants from "../../../constants/emojiConstants";
-import Emoji from "../../Emoji/Emoji";
-import { ROUTES } from "../../../constants/routesConstants";
+
 import styles from "./ConfirmSettlementPayment.module.css";
+import { useGroupContext } from "../../../context/GroupContext";
+import useAppNavigate from "../../../hooks/useAppNavigate";
+import useConfirmationModalLogicAndActions from "../../../hooks/useConfirmationModalLogicAndActions";
+
+import { devLog } from "../../../utils/errorUtils";
+import { setStoredView } from "../../../utils/localStorage";
 import { API_URL } from "../../../constants/apiConstants";
 import { VIEW_TYPES } from "../../../constants/viewConstants";
-import { setStoredView } from "../../../utils/localStorage";
+import { TO } from "../../../constants/navigationConstants";
+import emojiConstants from "../../../constants/emojiConstants";
+
+import ConfirmationModal from "../../ConfirmationModal/ConfirmationModal";
+import Emoji from "../../Emoji/Emoji";
+
+const { INSTANT_SPLIT } = TO;
 
 const ConfirmSettlementPayment = ({
   fixedDebitorCreditorOrder,
   paymentAmount,
   paymentMakerName,
   paymentRecipientName,
-  groupCode,
   groupCurrency,
   settlementPaymentSuggestions,
 }) => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
+  const navigate = useAppNavigate();
+  const { activeGroupCode } = useGroupContext();
   const [error, setError] = useState(null);
 
   devLog("fixedDebitorCreditorOrder:", fixedDebitorCreditorOrder);
@@ -38,17 +44,23 @@ const ConfirmSettlementPayment = ({
             from,
             to,
             amount: Number(amount),
-            groupCode,
+            groupCode: activeGroupCode,
           }),
         );
 
-        const isDataInvalid =
-          !cleanedSettlements?.length ||
-          !cleanedSettlements.every(
-            (s) => s.from && s.to && Number.isFinite(s.amount),
-          );
+        const hasNoSettlements = !cleanedSettlements?.length;
 
-        if (isDataInvalid) {
+        const hasInvalidSettlementDetails = !cleanedSettlements.every(
+          (settlement) => {
+            const hasSender = Boolean(settlement.from);
+            const hasRecipient = Boolean(settlement.to);
+            const hasValidAmount = Number.isFinite(settlement.amount);
+
+            return hasSender && hasRecipient && hasValidAmount;
+          },
+        );
+
+        if (hasNoSettlements || hasInvalidSettlementDetails) {
           throw new Error("Invalid settlement data");
         }
 
@@ -63,20 +75,20 @@ const ConfirmSettlementPayment = ({
           from: paymentMakerName,
           to: paymentRecipientName,
           amount: Number(paymentAmount),
-          groupCode,
+          groupCode: activeGroupCode,
         },
       });
 
       const response = await axios.post(`${API_URL}/payments`, {
         paymentMakerName,
-        groupCode,
+        groupCode: activeGroupCode,
         paymentAmount: Number(paymentAmount),
         paymentRecipientName,
       });
       devLog("Settlement payment created:", response.data);
 
       setStoredView(VIEW_TYPES.BALANCES);
-      navigate(`/${ROUTES.INSTANT_SPLIT}`);
+      navigate(INSTANT_SPLIT);
     } catch (error) {
       const errorMessage =
         error.response?.data?.message || t("generic-error-message");

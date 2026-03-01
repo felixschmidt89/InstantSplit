@@ -2,13 +2,14 @@ import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import styles from "./TermsAndConditionsSection.module.css";
-import { ROUTES } from "../../../constants/routesConstants";
+import { CLIENT_ROUTES } from "../../../constants/clientRoutesConstants";
 import { setPreviousRoute } from "../../../utils/localStorage";
+
+const { TERMS_AND_CONDITIONS } = CLIENT_ROUTES;
 
 const TermsAndConditionsSection = () => {
   const { t } = useTranslation();
   const { pathname } = useLocation();
-
   // TODO: Implement PiratePx alternative and drop PiratePx from terms and conditions
 
   return (
@@ -16,7 +17,7 @@ const TermsAndConditionsSection = () => {
       {t("terms-and-conditions-section-text")}{" "}
       <Link
         className={styles.tncLink}
-        to={ROUTES.TERMS_AND_CONDITIONS}
+        to={TERMS_AND_CONDITIONS}
         onClick={() => setPreviousRoute(pathname)}>
         {t("terms-and-conditions-section-tnc")}
       </Link>

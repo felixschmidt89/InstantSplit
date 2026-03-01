@@ -1,14 +1,14 @@
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 import { usePWAInstall } from "react-use-pwa-install";
 
-// CODECHANGE: Grouped internal project files together
+import useAppNavigate from "../../../hooks/useAppNavigate";
 import useGetClientDeviceAndPwaInfo from "../../../hooks/useGetClientDeviceAndPwaInfo";
 import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
 import { API_URL } from "../../../constants/apiConstants";
-import { ROUTES } from "../../../constants/routesConstants";
+import { TO } from "../../../constants/navigationConstants";
 import ContactForm from "../ContactForm/ContactForm";
 import ErrorModal from "../../ErrorModal/ErrorModal";
 import SuccessFeedback from "../ContactForm/SuccessFeedback/SuccessFeedback";
@@ -18,11 +18,12 @@ import { debugLog } from "../../../../../shared/utils/debug/debugLog.js";
 import styles from "./Contact.module.css";
 
 const { INFO, ERROR } = LOG_LEVELS;
+const { INSTANT_SPLIT } = TO;
 
 const Contact = () => {
   const { t } = useTranslation();
   const { groupCode } = useParams();
-  const navigate = useNavigate();
+  const navigate = useAppNavigate();
   const isPWAInstallPromptAvailable = usePWAInstall();
   const { isPwa, isMobile, isAndroid, isMobileSafari, isIOS, browserName } =
     useGetClientDeviceAndPwaInfo();
@@ -132,7 +133,7 @@ const Contact = () => {
       setShowForm(false);
 
       setTimeout(() => {
-        navigate(`/${ROUTES.INSTANT_SPLIT}`);
+        navigate(INSTANT_SPLIT);
       }, 2500);
     } catch (submitError) {
       debugLog("Error creating Feedback:", submitError, ERROR);

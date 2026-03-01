@@ -5,13 +5,13 @@ import useErrorModalVisibility from "../../hooks/useErrorModalVisibility";
 import useUpdateResource from "../../hooks/useUpdateResource";
 import { submitOnEnter } from "../../utils/form/submitOnEnter";
 import { sendFormSubmitButtonStyles } from "../../constants/stylesConstants";
-import { ROUTES } from "../../constants/routesConstants";
+import { TO } from "../../constants/navigationConstants";
 import FormSubmitButton from "../FormSubmitButton/FormSubmitButton";
 import ErrorModal from "../ErrorModal/ErrorModal";
 
 import styles from "./ChangeResourceName.module.css";
 
-const { INSTANT_SPLIT } = ROUTES;
+const { INSTANT_SPLIT } = TO;
 
 const ChangeResourceName = ({
   resourceId,

@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { buttonStyles } from "../../constants/stylesConstants";
 import useDeleteResource from "../../hooks/useDeleteResource";
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
-import { ROUTES } from "../../constants/routesConstants";
+import { TO } from "../../constants/navigationConstants";
 import styles from "./DeleteResource.module.css";
 
 const DeleteResource = ({
   resourceId,
   resourceType,
-  route = ROUTES.INSTANT_SPLIT,
+  route = TO.INSTANT_SPLIT,
   isButton = true,
   navigateOnDelete = true,
   onDeleteResource,
@@ -33,7 +33,7 @@ const DeleteResource = ({
       const transformedError = `delete-resource-error-${hookError
         .toLowerCase()
         .replace(/[^\w\s]|_/g, "")
-        .replaceAll(" ", "-")}`;
+        .replace(/\s+/g, "-")}`;
       setLocalError(transformedError);
     } else {
       setLocalError(null);
@@ -43,31 +43,22 @@ const DeleteResource = ({
   const handleDelete = async () => {
     try {
       await deleteResource();
-
       setIsConfirmationVisible(false);
-
-      if (onDeleteResource) {
-        await onDeleteResource();
-      }
+      if (onDeleteResource) await onDeleteResource();
     } catch (err) {
-      // Error handled by hook
+      /* Error handled by hook state */
     }
   };
 
-  const handleShowConfirmation = () => {
-    setIsConfirmationVisible(true);
-  };
-
-  const handleHideConfirmation = () => {
-    setIsConfirmationVisible(false);
-  };
+  const handleShowConfirmation = () => setIsConfirmationVisible(true);
+  const handleHideConfirmation = () => setIsConfirmationVisible(false);
 
   return (
     <div className={styles.container}>
       {isButton ? (
         <Button
           onClick={handleShowConfirmation}
-          style={buttonStyles}
+          sx={buttonStyles}
           color='error'
           variant='outlined'
           type='button'

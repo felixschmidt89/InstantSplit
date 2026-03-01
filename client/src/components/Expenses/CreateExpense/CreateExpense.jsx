@@ -1,13 +1,13 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 import styles from "./CreateExpense.module.css";
+import useAppNavigate from "../../../hooks/useAppNavigate.jsx";
 import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility.jsx";
 import { LOG_LEVELS } from "../../../../../shared/constants/debugConstants.js";
 import { debugLog } from "../../../../../shared/utils/debug/debugLog.js";
-import { ROUTES } from "../../../constants/routesConstants.js";
+import { TO } from "../../../constants/navigationConstants";
 import { buttonStyles } from "../../../constants/stylesConstants.jsx";
 import { useGroupContext } from "../../../context/GroupContext";
 
@@ -20,9 +20,10 @@ import ExpenseBeneficiariesInput from "../ExpenseBeneficiariesInput/ExpenseBenef
 import ErrorModal from "../../ErrorModal/ErrorModal.jsx";
 
 const { LOG_ERROR } = LOG_LEVELS;
+const { INSTANT_SPLIT } = TO;
 
 const CreateExpense = ({ groupCode }) => {
-  const navigate = useNavigate();
+  const navigate = useAppNavigate();
   const { t } = useTranslation();
   const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
     useErrorModalVisibility();
@@ -78,7 +79,7 @@ const CreateExpense = ({ groupCode }) => {
 
       await createExpense(payload);
 
-      navigate(`/${ROUTES.INSTANT_SPLIT}`);
+      navigate(INSTANT_SPLIT);
     } catch (error) {
       debugLog("Error creating expense", { error: error.message }, LOG_ERROR);
 

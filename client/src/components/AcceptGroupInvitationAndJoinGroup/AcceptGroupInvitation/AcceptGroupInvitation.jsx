@@ -5,7 +5,9 @@ import { useTranslation } from "react-i18next";
 import useAppNavigate from "../../../hooks/useAppNavigate";
 import TermsAndConditionsSection from "../../Home/TermsAndConditionsSection/TermsAndConditionsSection";
 import { buttonStyles } from "../../../constants/stylesConstants";
-import { ROUTES } from "../../../constants/routesConstants";
+
+import { TO } from "../../../constants/navigationConstants";
+
 import {
   isGroupCodeInStoredGroupCodes,
   setActiveGroupCode,
@@ -14,7 +16,7 @@ import {
 
 import styles from "./AcceptGroupInvitation.module.css";
 
-const { INSTANT_SPLIT } = ROUTES;
+const { INSTANT_SPLIT } = TO;
 
 const AcceptGroupInvitation = ({ groupName, groupCode }) => {
   const navigate = useAppNavigate();
@@ -23,6 +25,7 @@ const AcceptGroupInvitation = ({ groupName, groupCode }) => {
   const onInvitationAccept = () => {
     storeGroupCode(groupCode);
     setActiveGroupCode(groupCode);
+
     navigate(INSTANT_SPLIT);
   };
 

@@ -1,42 +1,37 @@
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
+import useAppNavigate from "../../../hooks/useAppNavigate";
 import {
-  setNestedPreviousRoute,
-  setPreviousRoute,
+  setNestedPreviousRoute as setNestedPreviousRouteInLocalStorage,
+  setPreviousRoute as setPreviousRouteInLocalStorage,
 } from "../../../utils/localStorage";
+
+import styles from "./LinkToPage.module.css";
+
 const LinkToPage = ({
   to,
   children,
-  setPreviousRoute: shouldSetPreviousRoute,
-  setNestedPreviousRoute: shouldSetNestedPreviousRoute,
-  color,
-  hoverColor,
+  setPreviousRoute,
+  setNestedPreviousRoute,
 }) => {
-  const navigate = useNavigate();
+  const navigate = useAppNavigate();
   const { pathname } = useLocation();
 
   const handleLinkClick = (event) => {
     event.preventDefault();
 
-    if (shouldSetPreviousRoute) {
-      setPreviousRoute(pathname);
-    } else if (shouldSetNestedPreviousRoute) {
-      setNestedPreviousRoute(pathname);
+    if (setPreviousRoute) {
+      setPreviousRouteInLocalStorage(pathname);
+    }
+
+    if (setNestedPreviousRoute) {
+      setNestedPreviousRouteInLocalStorage(pathname);
     }
 
     navigate(to);
   };
 
   return (
-    <Link
-      to={to}
-      onClick={handleLinkClick}
-      style={{ color }}
-      onMouseEnter={(e) => {
-        if (hoverColor) e.target.style.color = hoverColor;
-      }}
-      onMouseLeave={(e) => {
-        e.target.style.color = color;
-      }}>
+    <Link to={to} onClick={handleLinkClick} className={styles.link}>
       {children}
     </Link>
   );
