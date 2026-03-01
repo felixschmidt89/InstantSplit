@@ -1,52 +1,54 @@
-import React, { useState, useEffect, useRef } from "react";
-import styles from "./GroupMemberName.module.css";
-import ChangeResourceName from "../../ChangeResourceName/ChangeResourceName";
-import useFetchGroupMemberData from "../../../hooks/useFetchGroupMemberData";
-import EditPenButton from "../../EditPenButton/EditPenButton";
-import useEditPenVisibility from "../../../hooks/useEditPenVisibility";
+import { useRef, useState } from "react";
 
-const GroupMemberName = ({ userId, groupCode }) => {
-  const { groupMemberData, isFetched: groupMemberDataIsFetched } =
-    useFetchGroupMemberData(userId);
-  const [groupMemberName, setGroupMemberName] = useState(null);
+import { useGroupContext } from "../../../context/GroupContext";
+import useEditPenVisibility from "../../../hooks/useEditPenVisibility";
+import ChangeResourceName from "../../ChangeResourceName/ChangeResourceName";
+import EditPenButton from "../../EditPenButton/EditPenButton";
+
+import styles from "./GroupMemberName.module.css";
+
+const GroupMemberName = ({ userId }) => {
   const containerRef = useRef(null);
 
-  useEffect(() => {
-    if (groupMemberDataIsFetched) {
-      setGroupMemberName(groupMemberData?.userName || "");
-    }
-  }, [groupMemberDataIsFetched, groupMemberData]);
+  const { getMemberName, activeGroupCode, refreshGroupMembers } =
+    useGroupContext();
+
+  const [optimisticName, setOptimisticName] = useState(null);
 
   const { showEdit, handleIconClick, handleChange } = useEditPenVisibility(
     containerRef,
-    setGroupMemberName,
+    setOptimisticName,
   );
+
+  const handleNameUpdateSuccess = async (newName) => {
+    handleChange(newName);
+    await refreshGroupMembers();
+  };
+
+  const fetchedName = getMemberName(userId);
+  const displayName = optimisticName ?? fetchedName;
 
   return (
     <div className={styles.container} ref={containerRef}>
-      {groupMemberDataIsFetched && (
-        <>
-          {showEdit ? (
-            <div className={styles.changeName}>
-              <ChangeResourceName
-                resourceId={userId}
-                resourceType='user'
-                resourceName={groupMemberName}
-                groupCode={groupCode}
-                inputWidth={20}
-                navigateToMain={false}
-                callback={handleChange}
-              />
-            </div>
-          ) : (
-            <h1 className={styles.groupMemberName}>
-              {groupMemberName}{" "}
-              <span className={styles.icon}>
-                <EditPenButton handleIconClick={handleIconClick} scale={1.1} />
-              </span>
-            </h1>
-          )}
-        </>
+      {showEdit ? (
+        <div className={styles.changeName}>
+          <ChangeResourceName
+            resourceId={userId}
+            resourceType='user'
+            resourceName={displayName}
+            groupCode={activeGroupCode}
+            inputWidth={20}
+            enableRedirect={false}
+            callback={handleNameUpdateSuccess}
+          />
+        </div>
+      ) : (
+        <h1 className={styles.groupMemberName}>
+          {displayName}
+          <span className={styles.icon}>
+            <EditPenButton handleIconClick={handleIconClick} scale={1.1} />
+          </span>
+        </h1>
       )}
     </div>
   );

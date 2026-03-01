@@ -20,18 +20,19 @@ const ChangeResourceName = ({
   groupCode,
   headerText,
   inputWidth = 20,
-  navigateToMain = true,
+  enableRedirect = true,
+  redirectRoute = INSTANT_SPLIT,
   callback,
 }) => {
   const inputRef = useRef(null);
   const { t } = useTranslation();
+
   const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
     useErrorModalVisibility();
 
   const [newResourceName, setNewResourceName] = useState(resourceName);
 
   const pluralResourceType = `${resourceType}s`;
-  const navigationTarget = navigateToMain ? INSTANT_SPLIT : null;
 
   const updatePayload = {
     [resourceType]: resourceId,
@@ -42,11 +43,9 @@ const ChangeResourceName = ({
   const { updateResource, error: hookError } = useUpdateResource(
     pluralResourceType,
     resourceId,
-    navigationTarget,
+    enableRedirect ? redirectRoute : undefined,
     () => callback?.(newResourceName),
   );
-
-  const hasHookError = Boolean(hookError);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -54,17 +53,10 @@ const ChangeResourceName = ({
     try {
       await updateResource(updatePayload);
 
-      if (inputRef.current) {
-        inputRef.current.classList.remove(styles.active);
-        inputRef.current.blur();
-      }
+      inputRef.current?.blur();
     } catch (apiError) {
       displayErrorModal();
     }
-  };
-
-  const handleInputClick = () => {
-    inputRef.current.classList.add(styles.active);
   };
 
   const handleInputChange = (event) => {
@@ -77,10 +69,9 @@ const ChangeResourceName = ({
 
       <form onSubmit={handleFormSubmit}>
         <input
-          className={`${styles.inputField} ${styles.idleOnMount}`}
+          className={`${styles.inputField} ${styles.idleOnMount || ""}`.trim()}
           type='text'
           value={newResourceName}
-          onClick={handleInputClick}
           onChange={handleInputChange}
           placeholder={resourceName}
           style={{ width: `${inputWidth}rem` }}
@@ -91,7 +82,7 @@ const ChangeResourceName = ({
       </form>
 
       <ErrorModal
-        error={hasHookError && t(hookError)}
+        error={Boolean(hookError) && t(hookError)}
         onClose={handleCloseErrorModal}
         isVisible={isErrorModalVisible}
       />
