@@ -4,21 +4,23 @@ import styles from "./TermsAndConditionsPage.module.css";
 import TermsAndConditions from "../../components/TermsAndConditions/TermsAndConditions/TermsAndConditions";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import { getPreviousRoute } from "../../utils/localStorage";
+import useUserOrigin from "../../hooks/useUserOrigin"; // Import the new hook
 
 const TermsAndConditionsPage = () => {
   const { t } = useTranslation();
 
-  const previousRoute = getPreviousRoute();
-
-  // TODO: Do not hardcode route strings
-  const isInvitedUser = previousRoute?.includes("join-instantsplit-group/");
+  const { isInvitedUser, isOriginChecked } = useUserOrigin();
 
   return (
     <main>
       <HelmetMetaTagsNetlify title={t("terms-and-conditions-page-title")} />
 
-      <InAppNavigationBar previousRoute={isInvitedUser} back={!isInvitedUser} />
+      {isOriginChecked && (
+        <InAppNavigationBar
+          previousRoute={isInvitedUser}
+          back={!isInvitedUser}
+        />
+      )}
 
       <div className={styles.container}>
         <TermsAndConditions />

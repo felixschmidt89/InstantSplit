@@ -7,8 +7,8 @@ import { useGroupContext } from "../../../context/GroupContext";
 
 import {
   setActiveGroupCodeInLocalStorage,
-  setPreviousRoute,
-  storeGroupCode,
+  setPreviousRouteInLocalStorage,
+  storeGroupCodeInLocalStorage,
 } from "../../../utils/localStorage";
 import { handleApiErrors } from "../../../utils/errorUtils";
 import { replaceSlashesWithDashes } from "../../../utils/replaceSlashesWithDashes";
@@ -51,14 +51,15 @@ const CreateGroupForm = ({ isExistingUser = false }) => {
       const response = await createGroup(groupName);
       const { groupCode } = response.group;
 
-      storeGroupCode(groupCode);
-
+      storeGroupCodeInLocalStorage(groupCode);
       setActiveGroupCodeInLocalStorage(groupCode);
+      setPreviousRouteInLocalStorage(pathname);
 
       setActiveGroupCode(groupCode);
 
-      setPreviousRoute(pathname);
-
+      debugLog("Group created successfully, navigating to member creation", {
+        groupCode,
+      });
       navigate(TO_MEMBERS.CREATE);
     } catch (apiError) {
       if (apiError.response) {
@@ -93,7 +94,6 @@ const CreateGroupForm = ({ isExistingUser = false }) => {
         placeholder={t("create-group-group-name-placeholder")}
         ref={inputRef}
       />
-
       {/* TODO: Re-enable FriendlyCaptcha validation & ensure it's working on test deploy too */}
       <FormSubmitButton {...plusFormSubmitButtonStyles} />
 

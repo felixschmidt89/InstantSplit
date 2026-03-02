@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import styles from "./RenderGroupBalances.module.css";
-import { getActiveGroupCode } from "../../../../utils/localStorage";
+import { useGroupContext } from "../../../../context/GroupContext"; // Integrated context
 import { BALANCE_THRESHOLD } from "../../../../constants/dataConstants";
 import RenderGroupMemberBalance from "../RenderGroupMemberBalance/RenderGroupMemberBalance";
 import Spinner from "../../../Spinner/Spinner";
@@ -16,11 +16,12 @@ const RenderGroupBalances = ({ groupCurrency }) => {
   const { t } = useTranslation();
   const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
     useErrorModalVisibility();
+
+  const { activeGroupCode: groupCode } = useGroupContext();
+
   const [groupMemberDetails, setGroupMemberDetails] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  const groupCode = getActiveGroupCode();
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -67,7 +68,7 @@ const RenderGroupBalances = ({ groupCurrency }) => {
     if (groupCode) {
       fetchUserDetails();
     }
-  }, [groupCode, t]);
+  }, [groupCode, t, displayErrorModal]);
 
   if (isLoading) {
     return (

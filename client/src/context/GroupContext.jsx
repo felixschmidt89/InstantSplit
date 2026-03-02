@@ -8,22 +8,25 @@ import {
 } from "react";
 
 import {
-  deleteGroupCode,
-  getActiveGroupCode,
-  getStoredGroupCodes,
+  deleteGroupCodeFromLocalStorage,
+  getActiveGroupCodeFromLocalStorage,
+  getStoredGroupCodesFromLocalStorage,
   setActiveGroupCodeInLocalStorage,
 } from "../utils/localStorage";
 import { LOCAL_STORAGE_KEYS } from "../constants/localStorageConstants";
 import useFetchGroupMembers from "../hooks/useFetchGroupMembers";
 
-const { ACTIVE_GROUP_CODE } = LOCAL_STORAGE_KEYS;
+const { ACTIVE_GROUP_CODE, STORED_GROUP_CODES } = LOCAL_STORAGE_KEYS;
 
 const GroupContext = createContext();
 
 export const GroupProvider = ({ children }) => {
-  // CODECHANGE: Renamed to setInternalActiveGroupCode for a clean, professional distinction from the custom setter
+  const [storedGroupCodes, setStoredGroupCodes] = useState(() =>
+    getStoredGroupCodesFromLocalStorage(),
+  );
+
   const [activeGroupCode, setInternalActiveGroupCode] = useState(() =>
-    getActiveGroupCode(),
+    getActiveGroupCodeFromLocalStorage(),
   );
 
   const { groupMembers, isFetched, error, refetch } =
@@ -40,25 +43,35 @@ export const GroupProvider = ({ children }) => {
   }, [groupMembers]);
 
   const getFirstAvailableGroupCode = useCallback(() => {
-    const storedGroupCodes = getStoredGroupCodes();
     return storedGroupCodes?.length ? storedGroupCodes[0] : null;
-  }, []);
+  }, [storedGroupCodes]);
 
-  // Public setter that coordinates local storage and state
   const setActiveGroupCode = useCallback((newCode) => {
     setActiveGroupCodeInLocalStorage(newCode);
     setInternalActiveGroupCode(newCode);
   }, []);
 
+  const refreshStoredGroupCodes = useCallback(() => {
+    const updatedCodes = getStoredGroupCodesFromLocalStorage();
+    setStoredGroupCodes(updatedCodes);
+  }, []);
+
   const removeGroup = useCallback(
     (groupCode) => {
-      const success = deleteGroupCode(groupCode);
+      const isDeleted = deleteGroupCodeFromLocalStorage(groupCode);
 
-      if (success && activeGroupCode === groupCode) {
-        const nextGroup = getFirstAvailableGroupCode();
-        setActiveGroupCode(nextGroup);
+      if (isDeleted) {
+        setStoredGroupCodes((prev) =>
+          prev.filter((code) => code !== groupCode),
+        );
+
+        if (activeGroupCode === groupCode) {
+          const nextGroup = getFirstAvailableGroupCode();
+          setActiveGroupCode(nextGroup);
+        }
       }
-      return success;
+
+      return isDeleted;
     },
     [activeGroupCode, getFirstAvailableGroupCode, setActiveGroupCode],
   );
@@ -76,6 +89,9 @@ export const GroupProvider = ({ children }) => {
       if (event.key === ACTIVE_GROUP_CODE) {
         setInternalActiveGroupCode(event.newValue);
       }
+      if (event.key === STORED_GROUP_CODES) {
+        setStoredGroupCodes(getStoredGroupCodesFromLocalStorage());
+      }
     };
     window.addEventListener("storage", handleStorageChange);
     return () => window.removeEventListener("storage", handleStorageChange);
@@ -84,6 +100,9 @@ export const GroupProvider = ({ children }) => {
   const value = {
     activeGroupCode,
     setActiveGroupCode,
+    storedGroupCodes,
+    setStoredGroupCodes,
+    refreshStoredGroupCodes,
     removeGroup,
     getFirstAvailableGroupCode,
     groupMembers: groupMembers || [],

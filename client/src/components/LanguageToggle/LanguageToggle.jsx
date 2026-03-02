@@ -5,10 +5,8 @@ import deFlag from "../../assets/flags/de.svg";
 import enFlag from "../../assets/flags/gb.svg";
 
 import styles from "./LanguageToggle.module.css";
-import { setLanguage } from "../../utils/localStorage/index.js";
+import { setLanguageInLocalStorage } from "../../utils/localStorage";
 import { LANGUAGES } from "../../../../shared/constants/languageConstants.js";
-
-// TODO: do not use hardcoded alt texts
 
 const LanguageToggle = () => {
   const { i18n } = useTranslation();
@@ -18,13 +16,18 @@ const LanguageToggle = () => {
   const isGerman = currentLanguage === LANGUAGES.GERMAN;
   const nextLanguage = isGerman ? LANGUAGES.ENGLISH : LANGUAGES.GERMAN;
 
-  const flag = isGerman ? enFlag : deFlag;
-  const altText = isGerman ? "Switch to English" : "Auf Deutsch umstellen";
+  const targetFlag = isGerman ? enFlag : deFlag;
+  // TODO: add translations keys
+  const targetAltText = isGerman
+    ? "Switch to English"
+    : "Auf Deutsch umstellen";
 
   const handleToggle = () => {
     setCurrentLanguage(nextLanguage);
+
     i18n.changeLanguage(nextLanguage);
-    setLanguage(nextLanguage);
+
+    setLanguageInLocalStorage(nextLanguage);
   };
 
   return (
@@ -33,8 +36,8 @@ const LanguageToggle = () => {
         type='button'
         className={styles["language-flag"]}
         onClick={handleToggle}
-        aria-label={altText}>
-        <img src={flag} alt='' aria-hidden='true' />
+        aria-label={targetAltText}>
+        <img src={targetFlag} alt='' aria-hidden='true' />
       </button>
     </div>
   );

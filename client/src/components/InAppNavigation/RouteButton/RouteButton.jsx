@@ -5,8 +5,8 @@ import HistoryIcon from "@mui/icons-material/History";
 
 import styles from "./RouteButton.module.css";
 import {
-  setNestedPreviousRoute,
-  setPreviousRoute,
+  setNestedPreviousRouteInLocalStorage,
+  setPreviousRouteInLocalStorage,
 } from "../../../utils/localStorage";
 import { routeButtonStyles } from "../../../constants/stylesConstants";
 
@@ -27,15 +27,17 @@ const RouteButton = ({
 
   const handleClick = () => {
     if (shouldSetPrevious) {
-      setPreviousRoute(pathname);
+      setPreviousRouteInLocalStorage(pathname);
     } else if (shouldSetNested) {
-      setNestedPreviousRoute(pathname);
+      setNestedPreviousRouteInLocalStorage(pathname);
     }
 
-    navigate(`/${route}`);
+    navigate(route);
   };
 
-  const IconComponent = endIcon ? iconMap[endIcon] : null;
+  const SelectedIcon = iconMap[endIcon];
+
+  const renderEndIcon = endIcon && SelectedIcon ? <SelectedIcon /> : null;
 
   return (
     <div className={styles.container}>
@@ -44,7 +46,7 @@ const RouteButton = ({
         sx={routeButtonStyles}
         color='primary'
         variant='outlined'
-        endIcon={IconComponent ? <IconComponent /> : null}>
+        endIcon={renderEndIcon}>
         {buttonText}
       </Button>
     </div>

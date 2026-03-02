@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
 import usePaymentUpdate from "../../hooks/usePaymentUpdate";
-import useDetermineUpdateTransactionPageOpeningSource from "../../hooks/useCheckUpdateTransactionPageHasBeenOpenedViaUserTransactionsHistoryOrGroupHistory";
+import useDetermineUpdateTransactionPageOpeningSource from "../../hooks/useUserOrigin";
 import { useGroupContext } from "../../context/GroupContext";
 
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";

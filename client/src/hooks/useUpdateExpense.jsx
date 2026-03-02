@@ -1,20 +1,17 @@
 import { useEffect, useState } from "react";
-
 import useFetchExpenseInfo from "./useFetchExpenseInfo";
-import { getActiveGroupCode } from "../utils/localStorage";
 import { useGroupContext } from "../context/GroupContext.jsx";
 
 const useUpdateExpense = (expenseId) => {
-  const groupCode = getActiveGroupCode();
-
-  const { expenseInfo, error: fetchExpenseError } =
-    useFetchExpenseInfo(expenseId);
-
   const {
+    activeGroupCode: groupCode,
     groupMembers,
     error: groupMembersError,
     isFetched: isGroupMembersFetched,
   } = useGroupContext();
+
+  const { expenseInfo, error: fetchExpenseError } =
+    useFetchExpenseInfo(expenseId);
 
   const [isLoading, setIsLoading] = useState(true);
 

@@ -5,11 +5,11 @@ import { useTranslation } from "react-i18next";
 import styles from "./InstantSplitPage.module.css";
 import { useGroupContext } from "../../context/GroupContext";
 import {
-  deleteGroupCode,
-  deleteNestedPreviousRoute,
-  deletePreviousRoute,
-  getStoredView,
-  setStoredView,
+  deleteGroupCodeFromLocalStorage,
+  deleteNestedPreviousRouteFromLocalStorage,
+  deletePreviousRouteFromLocalStorage,
+  getStoredViewFromLocalStorage,
+  setStoredViewInLocalStorage,
 } from "../../utils/localStorage";
 import { LEGACY_VIEW_TYPES, VIEW_TYPES } from "../../constants/viewConstants";
 import useValidateGroupExistence from "../../hooks/useValidateGroupCodeExistence";
@@ -37,7 +37,7 @@ const InstantSplitPage = () => {
   const { activeGroupCode } = useGroupContext();
 
   const [view, setView] = useState(
-    () => getStoredView() || VIEW_TYPES.BALANCES,
+    () => getStoredViewFromLocalStorage() || VIEW_TYPES.BALANCES,
   );
   const [ctaToRender, setCtaToRender] = useState(null);
   const [showPwaCtaModal, setShowPwaCtaModal] = useState(null);
@@ -53,14 +53,14 @@ const InstantSplitPage = () => {
   const canShowPwaPrompt = shouldShowPwaPrompt();
 
   const updateView = (newView) => {
-    if (setStoredView(newView)) {
+    if (setStoredViewInLocalStorage(newView)) {
       setView(newView);
     }
   };
 
   useEffect(() => {
-    deletePreviousRoute();
-    deleteNestedPreviousRoute();
+    deletePreviousRouteFromLocalStorage();
+    deleteNestedPreviousRouteFromLocalStorage();
   }, []);
 
   useEffect(() => {
@@ -71,7 +71,7 @@ const InstantSplitPage = () => {
 
   useEffect(() => {
     if (isValidated && !groupExists) {
-      deleteGroupCode(activeGroupCode);
+      deleteGroupCodeFromLocalStorage(activeGroupCode);
       navigate(HOME);
     }
   }, [navigate, activeGroupCode, isValidated, groupExists]);

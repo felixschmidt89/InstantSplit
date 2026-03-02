@@ -39,3 +39,17 @@ export const CLIENT_ROUTES = {
   GROUP_SETTINGS: "group-settings",
   NOT_FOUND: "*",
 };
+
+/**
+ * ROUTE_IDENTIFIERS are used for logic checks (like .includes()).
+ * These represent the static "slugs" of the routes without the
+ * dynamic parameters (colons) that would break string matching.
+ */
+export const ROUTE_IDENTIFIERS = {
+  EXPENSE_DETAILS: "expense-details",
+  PAYMENT_DETAILS: "payment-details",
+  MEMBER_TRANSACTION_HISTORY: "groupmember-transaction-history",
+  JOIN_GROUP_DE: "join-instantsplit-group",
+  JOIN_GROUP_EN: "join-en-instantsplit-group",
+  MANAGE_GROUPS: "manage-groups",
+};

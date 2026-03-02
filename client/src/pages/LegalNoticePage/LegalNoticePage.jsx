@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 import styles from "./LegalNoticePage.module.css";
-import { getPreviousRoute } from "../../utils/localStorage";
+import { getPreviousRouteFromLocalStorage } from "../../utils/localStorage";
 import { CLIENT_ROUTES } from "../../constants/clientRoutesConstants.js";
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
@@ -16,7 +16,7 @@ const { DEBUG } = LOG_LEVELS;
 const LegalNoticePage = () => {
   const { t } = useTranslation();
 
-  const previousRoute = getPreviousRoute();
+  const previousRoute = getPreviousRouteFromLocalStorage();
 
   const isInvitedUser = Boolean(
     previousRoute?.includes(JOIN_GROUP.DE) ||

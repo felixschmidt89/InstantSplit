@@ -5,18 +5,17 @@ import {
 } from "react-icons/io5";
 import { GoHome } from "react-icons/go";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 import styles from "./InAppNavigationBar.module.css";
 import { TO } from "../../../constants/navigationConstants";
 import { debugLog } from "../../../../../shared/utils/debug/debugLog";
-import { LOCAL_STORAGE_KEYS } from "../../../constants/localStorageConstants";
+import { useGroupContext } from "../../../context/GroupContext"; // Added Context
 import {
-  deleteGroupCode,
-  getActiveGroupCode,
-  getLocalStorageKey,
+  getPreviousRouteFromLocalStorage,
+  getNestedPreviousRouteFromLocalStorage,
 } from "../../../utils/localStorage";
 import InstantSplitLogo from "../../InstantSplitLogo/InstantSplitLogo";
-import { useNavigate } from "react-router-dom";
 
 const { INSTANT_SPLIT } = TO;
 
@@ -36,31 +35,31 @@ const InAppNavigationBar = ({
   const { t } = useTranslation();
   const navigate = useNavigate();
 
+  const { activeGroupCode, removeGroup } = useGroupContext();
+
   const handleNavigation = (route) => {
     debugLog("Navigating to:", route);
     navigate(route);
   };
 
   const handleNestedNavigation = () => {
-    const localStorageKey = nestedPreviousRoute
-      ? LOCAL_STORAGE_KEYS.NESTED_PREVIOUS_ROUTE
-      : LOCAL_STORAGE_KEYS.PREVIOUS_ROUTE;
-
-    const retrievedRoute = getLocalStorageKey(localStorageKey);
+    const retrievedRoute = nestedPreviousRoute
+      ? getNestedPreviousRouteFromLocalStorage()
+      : getPreviousRouteFromLocalStorage();
 
     if (!retrievedRoute) {
-      debugLog(`Navigation aborted: No route found for key ${localStorageKey}`);
+      debugLog("Navigation aborted: No stored route found.");
       return;
     }
 
-    debugLog("Navigating to:", retrievedRoute);
+    debugLog("Navigating to stored route:", retrievedRoute);
     navigate(retrievedRoute);
   };
 
   const handleAbort = (route) => {
-    const groupCode = getActiveGroupCode();
-    deleteGroupCode(groupCode);
-    debugLog("Navigating to main application");
+    removeGroup(activeGroupCode);
+    debugLog("Aborted and navigating to:", route);
+
     navigate(route);
   };
 
@@ -104,12 +103,14 @@ const InAppNavigationBar = ({
           </div>
         )}
       </div>
+
       <div className={styles.middleLogo}>
         <InstantSplitLogo
           className={styles.instantSplitLogo}
           isLink={!logoOnly && !forward}
         />
       </div>
+
       <div className={styles.rightIcon}>
         {home && (
           <div

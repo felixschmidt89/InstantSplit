@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { useGroupContext } from "../context/GroupContext";
-import { getFirstGroupCode } from "../utils/localStorage";
-import { TO } from "../constants/navigationConstants.js";
 import { useNavigate } from "react-router-dom";
+import { useGroupContext } from "../context/GroupContext";
+import { getFirstGroupCodeFromLocalStorage } from "../utils/localStorage";
+import { TO } from "../constants/navigationConstants.js";
 
 const { INSTANT_SPLIT } = TO;
 
@@ -11,18 +11,18 @@ const useAutoActiveGroupCodeRedirect = () => {
   const { activeGroupCode, updateActiveGroup } = useGroupContext();
 
   useEffect(() => {
-    let currentCode = activeGroupCode;
+    let effectiveCode = activeGroupCode;
 
-    if (!currentCode) {
-      const storedCode = getFirstGroupCode();
+    if (!effectiveCode) {
+      const persistedCode = getFirstGroupCodeFromLocalStorage();
 
-      if (storedCode) {
-        updateActiveGroup(storedCode);
-        currentCode = storedCode;
+      if (persistedCode) {
+        updateActiveGroup(persistedCode);
+        effectiveCode = persistedCode;
       }
     }
 
-    if (currentCode) {
+    if (effectiveCode) {
       navigate(INSTANT_SPLIT);
     }
   }, [activeGroupCode, updateActiveGroup, navigate]);

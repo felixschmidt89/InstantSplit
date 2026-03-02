@@ -9,9 +9,9 @@ import {
 import styles from "./ValidateProvidedGroupCodePage.module.css";
 import useValidateGroupExistence from "../../hooks/useValidateGroupCodeExistence";
 import {
-  getPreviousRoute,
+  getPreviousRouteFromLocalStorage,
   setActiveGroupCodeInLocalStorage,
-  storeGroupCode,
+  storeGroupCodeInLocalStorage,
 } from "../../utils/localStorage";
 import { useGroupContext } from "../../context/GroupContext";
 import { CLIENT_ROUTES } from "../../constants/clientRoutesConstants";
@@ -37,14 +37,17 @@ const ValidateProvidedGroupCodePage = () => {
     "limited",
   );
 
-  const previousRoute = getPreviousRoute();
-  const isInstantSplitUser = Boolean(previousRoute?.includes(MANAGE_GROUPS));
+  const previousRoute = getPreviousRouteFromLocalStorage();
+
+  const isExistingInstantSplitUser = Boolean(
+    previousRoute?.includes(MANAGE_GROUPS),
+  );
 
   useEffect(() => {
     if (groupExists) {
-      storeGroupCode(groupCode);
-
+      storeGroupCodeInLocalStorage(groupCode);
       setActiveGroupCodeInLocalStorage(groupCode);
+
       setActiveGroupCode(groupCode);
 
       const timeoutId = setTimeout(() => {
@@ -65,9 +68,13 @@ const ValidateProvidedGroupCodePage = () => {
 
       <InAppNavigationBar
         back
-        backTo={isInstantSplitUser ? MANAGE_GROUPS : ONBOARDING.ENTER_GROUPCODE}
+        backTo={
+          isExistingInstantSplitUser
+            ? MANAGE_GROUPS
+            : ONBOARDING.ENTER_GROUPCODE
+        }
         home
-        homeTo={isInstantSplitUser ? INSTANT_SPLIT : HOME}
+        homeTo={isExistingInstantSplitUser ? INSTANT_SPLIT : HOME}
       />
 
       <div className={styles.container}>

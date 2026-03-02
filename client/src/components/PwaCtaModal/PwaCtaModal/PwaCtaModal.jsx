@@ -7,13 +7,13 @@ import { smallButtonStyles } from "../../../constants/stylesConstants";
 import RenderInstallPwaCta from "../RenderInstallPwaCta/RenderInstallPwaCta";
 
 import styles from "./PwaCtaModal.module.css";
-import { setPwaCtaClosed } from "../../../utils/localStorage";
+import { setPwaCtaClosedInLocalStorage } from "../../../utils/localStorage";
 
 const PwaCtaModal = ({ ctaToRender, setShowPwaCtaModal }) => {
   const { t } = useTranslation();
 
   const closeModal = () => {
-    setPwaCtaClosed();
+    setPwaCtaClosedInLocalStorage();
     setShowPwaCtaModal(false);
   };
 

@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import { useGroupContext } from "../../context/GroupContext";
 import useExpenseUpdate from "../../hooks/useUpdateExpense";
-import useDetermineUpdateTransactionPageOpeningSource from "../../hooks/useCheckUpdateTransactionPageHasBeenOpenedViaUserTransactionsHistoryOrGroupHistory";
+import useDetermineUpdateTransactionPageOpeningSource from "../../hooks/useUserOrigin";
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import Spinner from "../../components/Spinner/Spinner";
 import UpdateExpense from "../../components/Expenses/UpdateExpense/UpdateExpense";
