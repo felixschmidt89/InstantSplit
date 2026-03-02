@@ -16,34 +16,39 @@ const useSyncStoredGroupCodes = () => {
 
   useEffect(() => {
     const syncWithServer = async () => {
-      const storedGroupCodes = getStoredGroupCodesFromLocalStorage();
-      if (!storedGroupCodes?.length) return;
+      const storedGroupCodesInLocalStorage =
+        getStoredGroupCodesFromLocalStorage();
+      const hasStoredGroupCodesToSync =
+        storedGroupCodesInLocalStorage?.length > 0;
 
-      let isUpdated = false;
+      if (!hasStoredGroupCodesToSync) return;
+
+      let wereStoredGroupCodesInLocalStorageModified = false;
 
       await Promise.all(
-        storedGroupCodes.map(async (groupCode) => {
+        storedGroupCodesInLocalStorage.map(async (groupCode) => {
           try {
-            const { data } = await axios.get(
-              API_ENDPOINTS.GROUPS.VALIDATE_EXISTENCE_CONTINUOUS(groupCode),
-            );
+            const endpoint =
+              API_ENDPOINTS.GROUPS.VALIDATE_EXISTENCE_CONTINUOUS(groupCode);
+            const { data } = await axios.get(endpoint);
 
-            if (!data?.exists) {
-              debugLog(
-                `Sync: Group ${groupCode} not found on server. Purging locally.`,
-              );
+            const groupExists = data?.exists;
+            const shouldPurgeGroup = groupExists === false;
+
+            if (shouldPurgeGroup) {
+              debugLog(`Sync: Group ${groupCode} not found. Purging locally.`);
               deleteGroupCodeFromLocalStorage(groupCode);
-              isUpdated = true;
+              wereStoredGroupCodesInLocalStorageModified = true;
             }
           } catch (error) {
-            debugLog(`Sync: Request failed for ${groupCode}:`, error, ERROR);
+            debugLog(`Sync: Connection failed for ${groupCode}:`, error, ERROR);
           }
         }),
       );
 
-      if (isUpdated) {
-        const updatedCodes = getStoredGroupCodesFromLocalStorage();
-        setStoredGroupCodes(updatedCodes);
+      if (wereStoredGroupCodesInLocalStorageModified) {
+        const synchronizedGroupCodes = getStoredGroupCodesFromLocalStorage();
+        setStoredGroupCodes(synchronizedGroupCodes);
       }
     };
 
