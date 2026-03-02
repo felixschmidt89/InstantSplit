@@ -23,6 +23,11 @@ const CreateGroupMemberForm = () => {
   const [userName, setUserName] = useState("");
   const [error, setError] = useState(null);
 
+  const handleModalClose = () => {
+    handleCloseErrorModal();
+    setError(null);
+  };
+
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
@@ -44,12 +49,12 @@ const CreateGroupMemberForm = () => {
       if (refreshGroupMembers) {
         await refreshGroupMembers();
       }
-    } catch (error) {
-      if (error.response) {
-        handleApiErrors(error, setError, "users", displayErrorModal, t);
+    } catch (apiError) {
+      if (apiError.response) {
+        handleApiErrors(apiError, setError, "users", displayErrorModal, t);
       } else {
         setError(t("generic-error-message"));
-        debugLog("Error creating user", { error: error.message });
+        debugLog("Error creating user", { error: apiError.message });
         displayErrorModal();
       }
     }
@@ -58,8 +63,6 @@ const CreateGroupMemberForm = () => {
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
-
-  const shouldShowErrorModal = Boolean(isErrorModalVisible || error);
 
   return (
     <div className={styles.container}>
@@ -78,8 +81,8 @@ const CreateGroupMemberForm = () => {
 
       <ErrorModal
         error={error}
-        onClose={handleCloseErrorModal}
-        isVisible={shouldShowErrorModal}
+        onClose={handleModalClose}
+        isVisible={isErrorModalVisible}
       />
     </div>
   );
