@@ -1,19 +1,13 @@
+import { StatusCodes } from 'http-status-codes';
 import Payment from '../models/Payment.js';
 import User from '../models/User.js';
-import Expense from '../models/Expense.js';
 import {
   errorLog,
   sendInternalError,
   sendValidationError,
 } from '../utils/errorUtils.js';
-import { StatusCodes } from 'http-status-codes';
-import { updateFixedDebitorCreditorOrderSetting } from '../utils/databaseUtils.js';
-import {
-  deleteAllGroupSettlements,
-  deleteAllSettlementsForGroup,
-} from './settlementController.js';
 import { touchGroupLastActive } from '../utils/group/touchGroupLastActive.js';
-import { resetGroupSettlements } from 'utils/group/resetGroupSettlements.js';
+import { resetGroupSettlements } from '../utils/group/resetGroupSettlements.js';
 
 export const createPayment = async (req, res) => {
   try {
@@ -22,7 +16,6 @@ export const createPayment = async (req, res) => {
 
     touchGroupLastActive(groupCode);
 
-    // Validate if paymentMakerName is provided
     if (!paymentMakerName) {
       return res.status(StatusCodes.BAD_REQUEST).json({
         status: 'fail',
@@ -30,7 +23,6 @@ export const createPayment = async (req, res) => {
       });
     }
 
-    // Validate if paymentRecipientName is provided
     if (!paymentRecipientName) {
       return res.status(StatusCodes.BAD_REQUEST).json({
         status: 'fail',
@@ -61,7 +53,7 @@ export const createPayment = async (req, res) => {
 
     const newPayment = new Payment({
       paymentMaker: paymentMaker._id,
-      paymentRecipient: paymentRecipient.id,
+      paymentRecipient: paymentRecipient._id,
       groupCode,
       paymentAmount,
     });
@@ -84,8 +76,8 @@ export const createPayment = async (req, res) => {
     } else {
       errorLog(
         error,
-        'Error creating expense:',
-        'Failed to create expense. Please try again later.',
+        'Error creating payment:',
+        'Failed to create payment. Please try again later.',
       );
       sendInternalError();
     }
@@ -152,7 +144,6 @@ export const updatePayment = async (req, res) => {
     );
     await resetGroupSettlements(groupCode);
 
-    // Update payments totals
     await Promise.all([
       paymentRecipient.updateTotalPaymentsReceived(),
       storedPaymentRecipient.updateTotalPaymentsReceived(),
@@ -186,8 +177,14 @@ export const getPaymentInfo = async (req, res) => {
       .populate('paymentMaker', 'userName')
       .populate('paymentRecipient', 'userName');
 
-    // Set the lastActive property of the group to now
-    const groupCode = payment.groupCode;
+    if (!payment) {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        status: 'fail',
+        message: 'Payment not found',
+      });
+    }
+
+    const { groupCode } = payment;
     touchGroupLastActive(groupCode);
 
     res.status(StatusCodes.OK).json({
@@ -213,17 +210,22 @@ export const deletePayment = async (req, res) => {
       .populate('paymentRecipient')
       .populate('paymentMaker');
 
-    // Set the lastActive property of the group to now
-    const groupCode = paymentToDelete.groupCode;
-    touchGroupLastActive(groupCode);
+    if (!paymentToDelete) {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        status: 'fail',
+        message: 'Payment not found',
+      });
+    }
 
-    const { paymentRecipient, paymentMaker } = paymentToDelete;
+    const { groupCode, paymentRecipient, paymentMaker } = paymentToDelete;
+    touchGroupLastActive(groupCode);
 
     await Payment.deleteOne({ _id: paymentToDelete._id });
     await resetGroupSettlements(groupCode);
 
     await paymentRecipient.updateTotalPaymentsReceived();
     await paymentMaker.updateTotalPaymentsMadeAmount();
+
     res.status(StatusCodes.NO_CONTENT).json({
       status: 'success',
       data: null,
@@ -237,7 +239,6 @@ export const deletePayment = async (req, res) => {
     sendInternalError();
   }
 };
-
 // FOR DEVELOPMENT/DEBUGGING PURPOSES ONLY
 
 export const listAllPayments = async (req, res) => {

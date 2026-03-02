@@ -1,8 +1,23 @@
 import { Schema, model } from 'mongoose';
+
 import Expense from './Expense.js';
 import Payment from './Payment.js';
 import { debugLog } from '../../shared/utils/debug/debugLog.js';
 import { LOG_LEVELS } from '../../shared/constants/debugConstants.js';
+
+const { LOG_ERROR, LOG_DEBUG } = LOG_LEVELS;
+
+const extractAggregateTotal = (aggregateResult, operationName) => {
+  const total = aggregateResult.length ? aggregateResult[0].total : 0;
+
+  debugLog(
+    `Aggregate total extracted for ${operationName}`,
+    { total, rawResultLength: aggregateResult.length },
+    LOG_DEBUG,
+  );
+
+  return total;
+};
 
 const userSchema = new Schema(
   {
@@ -56,7 +71,6 @@ userSchema.virtual('expensesSettled').get(function () {
 });
 
 // METHODS
-
 userSchema.methods.updateTotalExpensesPaid = async function () {
   const userId = this._id;
 
@@ -73,11 +87,16 @@ userSchema.methods.updateTotalExpensesPaid = async function () {
       },
     ]);
 
+    const updatedTotalExpensesPaidAmount = extractAggregateTotal(
+      totalExpensesPaid,
+      'updateTotalExpensesPaid',
+    );
+
     await this.constructor.findOneAndUpdate(
       { _id: userId },
       {
         $set: {
-          totalExpensesPaidAmount: totalExpensesPaid[0]?.total || 0,
+          totalExpensesPaidAmount: updatedTotalExpensesPaidAmount,
         },
       },
     );
@@ -85,7 +104,7 @@ userSchema.methods.updateTotalExpensesPaid = async function () {
     debugLog(
       'Error calculating totalExpensesPaidAmount',
       { error: error.message, userId },
-      LOG_LEVELS.LOG_ERROR,
+      LOG_ERROR,
     );
     throw error;
   }
@@ -109,11 +128,16 @@ userSchema.methods.updateTotalExpenseBenefitted = async function () {
       },
     ]);
 
+    const updatedTotalExpenseBenefittedAmount = extractAggregateTotal(
+      totalExpenseBenefitted,
+      'updateTotalExpenseBenefitted',
+    );
+
     await this.constructor.findOneAndUpdate(
       { _id: userId },
       {
         $set: {
-          totalExpenseBenefittedAmount: totalExpenseBenefitted[0]?.total || 0,
+          totalExpenseBenefittedAmount: updatedTotalExpenseBenefittedAmount,
         },
       },
     );
@@ -121,16 +145,16 @@ userSchema.methods.updateTotalExpenseBenefitted = async function () {
     debugLog(
       'Error calculating totalExpenseBenefittedAmount',
       { error: error.message, userId },
-      LOG_LEVELS.LOG_ERROR,
+      LOG_ERROR,
     );
     throw error;
   }
 };
 
 userSchema.methods.updateTotalPaymentsReceived = async function () {
-  try {
-    const userId = this._id;
+  const userId = this._id;
 
+  try {
     const totalPaymentsReceived = await Payment.aggregate([
       {
         $match: { paymentRecipient: userId },
@@ -143,11 +167,16 @@ userSchema.methods.updateTotalPaymentsReceived = async function () {
       },
     ]);
 
+    const updatedTotalPaymentsReceivedAmount = extractAggregateTotal(
+      totalPaymentsReceived,
+      'updateTotalPaymentsReceived',
+    );
+
     await this.constructor.findOneAndUpdate(
       { _id: userId },
       {
         $set: {
-          totalPaymentsReceivedAmount: totalPaymentsReceived[0]?.total || 0,
+          totalPaymentsReceivedAmount: updatedTotalPaymentsReceivedAmount,
         },
       },
     );
@@ -155,16 +184,16 @@ userSchema.methods.updateTotalPaymentsReceived = async function () {
     debugLog(
       'Error calculating totalPaymentsReceivedAmount',
       { error: error.message, userId },
-      LOG_LEVELS.LOG_ERROR,
+      LOG_ERROR,
     );
     throw error;
   }
 };
 
 userSchema.methods.updateTotalPaymentsMadeAmount = async function () {
-  try {
-    const userId = this._id;
+  const userId = this._id;
 
+  try {
     const totalPaymentsMade = await Payment.aggregate([
       {
         $match: { paymentMaker: userId },
@@ -177,11 +206,16 @@ userSchema.methods.updateTotalPaymentsMadeAmount = async function () {
       },
     ]);
 
+    const updatedTotalPaymentsMadeAmount = extractAggregateTotal(
+      totalPaymentsMade,
+      'updateTotalPaymentsMadeAmount',
+    );
+
     await this.constructor.findOneAndUpdate(
       { _id: userId },
       {
         $set: {
-          totalPaymentsMadeAmount: totalPaymentsMade[0]?.total || 0,
+          totalPaymentsMadeAmount: updatedTotalPaymentsMadeAmount,
         },
       },
     );
@@ -189,7 +223,7 @@ userSchema.methods.updateTotalPaymentsMadeAmount = async function () {
     debugLog(
       'Error updating totalPaymentsMadeAmount',
       { error: error.message, userId },
-      LOG_LEVELS.LOG_ERROR,
+      LOG_ERROR,
     );
     throw error;
   }
