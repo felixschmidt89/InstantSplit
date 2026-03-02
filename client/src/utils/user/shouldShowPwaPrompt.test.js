@@ -3,7 +3,7 @@ import {
   MOCK_DATA,
   MOCK_TIME,
 } from "../../../../shared/constants/testConstants";
-import { getPwaCtaClosed } from "../localStorage";
+import { getPwaCtaClosedFromLocalStorage } from "../localStorage";
 import { shouldShowPwaPrompt } from "./shouldShowPwaPrompt";
 
 jest.mock("../localStorage");
@@ -20,33 +20,39 @@ describe("shouldShowPwaPrompt", () => {
   });
 
   it("should return true if no closure record exists (fresh user)", () => {
-    getPwaCtaClosed.mockReturnValue(null);
+    getPwaCtaClosedFromLocalStorage.mockReturnValue(null);
 
     expect(shouldShowPwaPrompt()).toBe(true);
   });
 
   it("should return true if the stored timestamp is corrupt", () => {
-    getPwaCtaClosed.mockReturnValue(MOCK_DATA.STRING);
+    getPwaCtaClosedFromLocalStorage.mockReturnValue(MOCK_DATA.STRING);
 
     expect(shouldShowPwaPrompt()).toBe(true);
   });
 
   it("should return false if the time elapsed is under the threshold", () => {
-    getPwaCtaClosed.mockReturnValue(MOCK_TIME.ONE_HOUR_AGO.toString());
+    getPwaCtaClosedFromLocalStorage.mockReturnValue(
+      MOCK_TIME.ONE_HOUR_AGO.toString(),
+    );
 
     expect(shouldShowPwaPrompt()).toBe(false);
   });
 
   it("should return true if the time elapsed meets the exact threshold", () => {
     const exactlyThresholdAgo = MOCK_TIME.NOW - PWA_PROMPT_RESHOW_THRESHOLD_MS;
-    getPwaCtaClosed.mockReturnValue(exactlyThresholdAgo.toString());
+    getPwaCtaClosedFromLocalStorage.mockReturnValue(
+      exactlyThresholdAgo.toString(),
+    );
 
     expect(shouldShowPwaPrompt()).toBe(true);
   });
 
   it("should return true if the time elapsed exceeds the threshold", () => {
     const wayPastThreshold = MOCK_TIME.NOW - PWA_PROMPT_RESHOW_THRESHOLD_MS * 2;
-    getPwaCtaClosed.mockReturnValue(wayPastThreshold.toString());
+    getPwaCtaClosedFromLocalStorage.mockReturnValue(
+      wayPastThreshold.toString(),
+    );
 
     expect(shouldShowPwaPrompt()).toBe(true);
   });

@@ -1,8 +1,11 @@
 import { getStoredGroupCodesFromLocalStorage } from "./getStoredGroupCodesFromLocalStorage";
 import { getLocalStorageKey } from "./getLocalStorageKey";
 import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
-import { MOCK_DATA } from "../../../../shared/constants/testConstants";
 import { debugLog } from "../../../../shared/utils/debug";
+import {
+  MOCK_DATA,
+  MOCK_LOCALSTORAGE_VALUES,
+} from "../../../../shared/constants/testConstants";
 import { LOG_LEVELS } from "../../../../shared/constants/debugConstants";
 
 const { LOG_ERROR } = LOG_LEVELS;
@@ -27,11 +30,12 @@ describe("getStoredGroupCodesFromLocalStorage", () => {
   });
 
   it("should parse and return an array when valid JSON is stored", () => {
-    getLocalStorageKey.mockReturnValue(JSON.stringify(MOCK_DATA.ARRAY));
+    const mockCodes = MOCK_LOCALSTORAGE_VALUES.STORED_GROUP_CODES;
+    getLocalStorageKey.mockReturnValue(JSON.stringify(mockCodes));
 
     const result = getStoredGroupCodesFromLocalStorage();
 
-    expect(result).toEqual(MOCK_DATA.ARRAY);
+    expect(result).toEqual(mockCodes);
   });
 
   it("should return an empty array and log an error if JSON parsing fails", () => {

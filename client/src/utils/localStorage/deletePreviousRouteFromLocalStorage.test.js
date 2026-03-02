@@ -1,18 +1,18 @@
 import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
-import { deleteNestedPreviousRouteFromLocalStorage } from "./deleteNestedPreviousRouteFromLocalStorage";
+import { deletePreviousRouteFromLocalStorage } from "./deletePreviousRouteFromLocalStorage";
 import { deleteLocalStorageKey } from "./deleteLocalStorageKey";
 
 jest.mock("./deleteLocalStorageKey");
 
-describe("deleteNestedPreviousRouteFromLocalStorage", () => {
-  const mockKey = LOCAL_STORAGE_KEYS.NESTED_PREVIOUS_ROUTE;
+describe("deletePreviousRouteFromLocalStorage", () => {
+  const mockKey = LOCAL_STORAGE_KEYS.PREVIOUS_ROUTE;
 
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it("should call deleteLocalStorageKey with the correct NESTED_PREVIOUS_ROUTE key", () => {
-    deleteNestedPreviousRouteFromLocalStorage();
+  it("should call deleteLocalStorageKey with the correct PREVIOUS_ROUTE key", () => {
+    deletePreviousRouteFromLocalStorage();
 
     expect(deleteLocalStorageKey).toHaveBeenCalledWith(mockKey);
     expect(deleteLocalStorageKey).toHaveBeenCalledTimes(1);
@@ -21,7 +21,7 @@ describe("deleteNestedPreviousRouteFromLocalStorage", () => {
   it("should return the result of the deletion operation", () => {
     deleteLocalStorageKey.mockReturnValue(true);
 
-    const result = deleteNestedPreviousRouteFromLocalStorage();
+    const result = deletePreviousRouteFromLocalStorage();
 
     expect(result).toBe(true);
   });

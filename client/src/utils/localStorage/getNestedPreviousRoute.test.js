@@ -1,11 +1,11 @@
-import { getNestedPreviousRoute } from "./getNestedPreviousRoute";
+import { getNestedPreviousRouteFromLocalStorage } from "./getNestedPreviousRouteFromLocalStorage";
 import { getLocalStorageKey } from "./getLocalStorageKey";
 import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
 import { MOCK_LOCALSTORAGE_VALUES } from "../../../../shared/constants/testConstants";
 
 jest.mock("./getLocalStorageKey");
 
-describe("getNestedPreviousRoute", () => {
+describe("getNestedPreviousRouteFromLocalStorage", () => {
   const mockKey = LOCAL_STORAGE_KEYS.NESTED_PREVIOUS_ROUTE;
 
   beforeEach(() => {
@@ -13,7 +13,7 @@ describe("getNestedPreviousRoute", () => {
   });
 
   it("should call getLocalStorageKey with the correct NESTED_PREVIOUS_ROUTE key", () => {
-    getNestedPreviousRoute();
+    getNestedPreviousRouteFromLocalStorage();
 
     expect(getLocalStorageKey).toHaveBeenCalledWith(mockKey);
   });
@@ -23,7 +23,7 @@ describe("getNestedPreviousRoute", () => {
       MOCK_LOCALSTORAGE_VALUES.NESTED_PREVIOUS_ROUTE,
     );
 
-    const result = getNestedPreviousRoute();
+    const result = getNestedPreviousRouteFromLocalStorage();
 
     expect(result).toBe(MOCK_LOCALSTORAGE_VALUES.NESTED_PREVIOUS_ROUTE);
   });
@@ -31,7 +31,7 @@ describe("getNestedPreviousRoute", () => {
   it("should return null if no nested route is stored", () => {
     getLocalStorageKey.mockReturnValue(null);
 
-    const result = getNestedPreviousRoute();
+    const result = getNestedPreviousRouteFromLocalStorage();
 
     expect(result).toBeNull();
   });

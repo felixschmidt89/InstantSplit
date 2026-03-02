@@ -2,28 +2,28 @@ export * from "./getLocalStorageKey";
 export * from "./setLocalStorageKey";
 export * from "./deleteLocalStorageKey";
 
-export * from "./getLanguage";
-export * from "./setLanguage";
+export * from "./getLanguageFromLocalStorage";
+export * from "./setLanguageInLocalStorage";
 
-export * from "./getActiveGroupCode";
+export * from "./getActiveGroupCodeFromLocalStorage";
 export * from "./setActiveGroupCodeInLocalStorage";
-export * from "./deleteActiveGroupCode";
-export * from "./getStoredGroupCodes";
-export * from "./getFirstGroupCode";
-export * from "./storeGroupCode";
-export * from "./deleteGroupCode";
-export * from "./isGroupCodeInStoredGroupCodes";
+export * from "./deleteActiveGroupCodeFromLocalStorage";
+export * from "./getStoredGroupCodesFromLocalStorage";
+export * from "./getFirstGroupCodeFromLocalStorage";
+export * from "./storeGroupCodeInLocalStorage";
+export * from "./deleteGroupCodeFromLocalStorage";
+export * from "./isGroupCodeInLocalStorageStoredGroupCodes";
 
-export * from "./getPreviousRoute";
-export * from "./deletePreviousRoute";
-export * from "./setPreviousRoute";
-export * from "./getNestedPreviousRoute";
-export * from "./deleteNestedPreviousRoute";
-export * from "./setNestedPreviousRoute";
+export * from "./getPreviousRouteFromLocalStorage";
+export * from "./deletePreviousRouteFromLocalStorage";
+export * from "./setPreviousRouteInLocalStorage";
+export * from "./getNestedPreviousRouteFromLocalStorage";
+export * from "./deleteNestedPreviousRouteFromLocalStorage";
+export * from "./setNestedPreviousRouteInLocalStorage";
 
-export * from "./getPwaCtaClosed";
-export * from "./setPwaCtaClosed";
+export * from "./getPwaCtaClosedFromLocalStorage";
+export * from "./setPwaCtaClosedInLocalStorage";
 
-export * from "./getStoredView";
-export * from "./setStoredView";
-export * from "./deleteStoredView";
+export * from "./getStoredViewFromLocalStorage";
+export * from "./setStoredViewInLocalStorage";
+export * from "./deleteStoredViewFromLocalStorage";

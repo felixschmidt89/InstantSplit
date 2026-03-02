@@ -21,6 +21,12 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["client/src", "server", "docs", "shared"],
+  "include": [
+    "client/src",
+    "server",
+    "docs",
+    "shared",
+    "client/src/utils/localStorage/.test.js"
+  ],
   "exclude": ["node_modules", "client/dist", "server/dist"]
 }
