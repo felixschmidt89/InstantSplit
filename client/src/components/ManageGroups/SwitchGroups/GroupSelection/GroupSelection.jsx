@@ -3,17 +3,17 @@ import { useTranslation } from "react-i18next";
 
 import styles from "./GroupSelection.module.css";
 import { useGroupContext } from "../../../../context/GroupContext.jsx";
-import useAppNavigate from "../../../../hooks/useAppNavigate.jsx";
 import { sendFormSubmitButtonStyles } from "../../../../constants/stylesConstants.jsx";
 import { TO } from "../../../../constants/navigationConstants.js";
 import { setActiveGroupCode } from "../../../../utils/localStorage/index.js";
 import { submitOnEnter } from "../../../../utils/form/submitOnEnter.js";
 import FormSubmitButton from "../../../FormSubmitButton/FormSubmitButton.jsx";
+import { useNavigate } from "react-router-dom";
 
 const { INSTANT_SPLIT } = TO;
 
 const GroupSelection = ({ groupNamesAndGroupCodes }) => {
-  const navigate = useAppNavigate();
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const { updateActiveGroup } = useGroupContext();
   const [selectedGroupCode, setSelectedGroupCode] = useState("");

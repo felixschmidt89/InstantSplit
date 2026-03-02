@@ -4,7 +4,6 @@ import { useTranslation } from "react-i18next";
 
 import styles from "./ConfirmSettlementPayment.module.css";
 import { useGroupContext } from "../../../context/GroupContext";
-import useAppNavigate from "../../../hooks/useAppNavigate";
 import useConfirmationModalLogicAndActions from "../../../hooks/useConfirmationModalLogicAndActions";
 
 import { devLog } from "../../../utils/errorUtils";
@@ -16,6 +15,7 @@ import emojiConstants from "../../../constants/emojiConstants";
 
 import ConfirmationModal from "../../ConfirmationModal/ConfirmationModal";
 import Emoji from "../../Emoji/Emoji";
+import { useNavigate } from "react-router-dom";
 
 const { INSTANT_SPLIT } = TO;
 
@@ -28,7 +28,7 @@ const ConfirmSettlementPayment = ({
   settlementPaymentSuggestions,
 }) => {
   const { t } = useTranslation();
-  const navigate = useAppNavigate();
+  const navigate = useNavigate();
   const { activeGroupCode } = useGroupContext();
   const [error, setError] = useState(null);
 

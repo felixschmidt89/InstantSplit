@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import { Button } from "@mui/material";
 
 import { useGroupContext } from "../../../context/GroupContext";
-import useAppNavigate from "../../../hooks/useAppNavigate";
 import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
 import { updateExpense } from "../../../api/expenses/updateExpense";
 import { handleApiErrors } from "../../../utils/errorUtils";
@@ -18,6 +17,7 @@ import ErrorModal from "../../ErrorModal/ErrorModal";
 
 import styles from "./UpdateExpense.module.css";
 import { debugLog } from "../../../../../shared/utils/debug/debugLog.js";
+import { useNavigate } from "react-router-dom";
 
 const { INSTANT_SPLIT } = TO;
 
@@ -27,7 +27,7 @@ const UpdateExpense = ({
   expenseId,
   navigateTo = INSTANT_SPLIT,
 }) => {
-  const navigate = useAppNavigate();
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
     useErrorModalVisibility();

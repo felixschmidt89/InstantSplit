@@ -3,7 +3,6 @@ import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 import styles from "./CreateExpense.module.css";
-import useAppNavigate from "../../../hooks/useAppNavigate.jsx";
 import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility.jsx";
 import { LOG_LEVELS } from "../../../../../shared/constants/debugConstants.js";
 import { debugLog } from "../../../../../shared/utils/debug/debugLog.js";
@@ -18,12 +17,13 @@ import ExpenseAmountInput from "../ExpenseAmountInput/ExpenseAmountInput.jsx";
 import ExpensePayerSelect from "../ExpensePayerSelect/ExpensePayerSelect.jsx";
 import ExpenseBeneficiariesInput from "../ExpenseBeneficiariesInput/ExpenseBeneficiariesInput.jsx";
 import ErrorModal from "../../ErrorModal/ErrorModal.jsx";
+import { useNavigate } from "react-router-dom";
 
 const { LOG_ERROR } = LOG_LEVELS;
 const { INSTANT_SPLIT } = TO;
 
 const CreateExpense = ({ groupCode }) => {
-  const navigate = useAppNavigate();
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
     useErrorModalVisibility();

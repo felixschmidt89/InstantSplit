@@ -1,10 +1,9 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 import { usePWAInstall } from "react-use-pwa-install";
 
-import useAppNavigate from "../../../hooks/useAppNavigate";
 import useGetClientDeviceAndPwaInfo from "../../../hooks/useGetClientDeviceAndPwaInfo";
 import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
 import { API_URL } from "../../../constants/apiConstants";
@@ -23,7 +22,7 @@ const { INSTANT_SPLIT } = TO;
 const Contact = () => {
   const { t } = useTranslation();
   const { groupCode } = useParams();
-  const navigate = useAppNavigate();
+  const navigate = useNavigate();
   const isPWAInstallPromptAvailable = usePWAInstall();
   const { isPwa, isMobile, isAndroid, isMobileSafari, isIOS, browserName } =
     useGetClientDeviceAndPwaInfo();

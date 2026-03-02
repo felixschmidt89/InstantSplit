@@ -1,5 +1,4 @@
-import { useLocation, Link } from "react-router-dom";
-import useAppNavigate from "../../../hooks/useAppNavigate";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import {
   setNestedPreviousRoute as setNestedPreviousRouteInLocalStorage,
   setPreviousRoute as setPreviousRouteInLocalStorage,
@@ -13,7 +12,7 @@ const LinkToPage = ({
   setPreviousRoute,
   setNestedPreviousRoute,
 }) => {
-  const navigate = useAppNavigate();
+  const navigate = useNavigate();
   const { pathname } = useLocation();
 
   const handleLinkClick = (event) => {

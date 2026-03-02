@@ -18,7 +18,6 @@ import useGetClientDeviceAndPwaInfo from "../../hooks/useGetClientDeviceAndPwaIn
 import { shouldShowPwaPrompt } from "../../utils/user";
 import { TO } from "../../constants/navigationConstants";
 import { devLog } from "../../utils/errorUtils";
-import useAppNavigate from "../../hooks/useAppNavigate";
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import DefaultAndUserSettingsBar from "../../components/DefaultAndUserSettingsBar/DefaultAndUserSettingsBar";
 import SwitchViewButtonsBar from "../../components/GroupBalancesAndHistory/SwitchViewButtonsBar/SwitchViewButtonsBar";
@@ -26,11 +25,12 @@ import RenderGroupHistory from "../../components/GroupBalancesAndHistory/GroupHi
 import RenderGroupBalances from "../../components/GroupBalancesAndHistory/GroupBalances/RenderGroupBalances/RenderGroupBalances";
 import ActiveGroupBar from "../../components/ActiveGroupBar/ActiveGroupBar";
 import PwaCtaModal from "../../components/PwaCtaModal/PwaCtaModal/PwaCtaModal";
+import { useNavigate } from "react-router-dom";
 
 const { HOME } = TO;
 
 const InstantSplitPage = () => {
-  const navigate = useAppNavigate();
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const isPWAInstallPromptAvailable = usePWAInstall();
 

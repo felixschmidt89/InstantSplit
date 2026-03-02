@@ -16,7 +16,7 @@ import {
   getLocalStorageKey,
 } from "../../../utils/localStorage";
 import InstantSplitLogo from "../../InstantSplitLogo/InstantSplitLogo";
-import useAppNavigate from "../../../hooks/useAppNavigate";
+import { useNavigate } from "react-router-dom";
 
 const { INSTANT_SPLIT } = TO;
 
@@ -34,7 +34,7 @@ const InAppNavigationBar = ({
   logoOnly = false,
 }) => {
   const { t } = useTranslation();
-  const navigate = useAppNavigate();
+  const navigate = useNavigate();
 
   const handleNavigation = (route) => {
     debugLog("Navigating to:", route);

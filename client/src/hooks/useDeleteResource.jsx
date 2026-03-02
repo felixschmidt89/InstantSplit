@@ -1,14 +1,14 @@
-import { useState, useCallback } from "react"; // Added useCallback
+import { useState, useCallback } from "react";
 import { StatusCodes } from "http-status-codes";
 import { useTranslation } from "react-i18next";
 
-import useAppNavigate from "./useAppNavigate";
 import { deleteResource as apiDeleteResource } from "../api/common/deleteResource";
 import { devLog } from "../utils/errorUtils";
+import { useNavigate } from "react-router-dom";
 
 const useDeleteResource = (resourceType, resourceId, route, onSuccess) => {
   const { t } = useTranslation();
-  const navigate = useAppNavigate();
+  const navigate = useNavigate();
   const [error, setError] = useState(null);
 
   const resourceTypeSingular = resourceType ? resourceType.slice(0, -1) : "";

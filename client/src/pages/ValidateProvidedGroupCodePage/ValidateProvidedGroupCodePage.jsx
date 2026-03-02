@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
   IoMdCheckmarkCircleOutline,
@@ -7,7 +7,6 @@ import {
 } from "react-icons/io";
 
 import styles from "./ValidateProvidedGroupCodePage.module.css";
-import useAppNavigate from "../../hooks/useAppNavigate";
 import useValidateGroupExistence from "../../hooks/useValidateGroupCodeExistence";
 import {
   getPreviousRoute,
@@ -26,7 +25,7 @@ const { INSTANT_SPLIT, HOME } = TO;
 
 const ValidateProvidedGroupCodePage = () => {
   const { t } = useTranslation();
-  const navigate = useAppNavigate();
+  const navigate = useNavigate();
   const { groupCode } = useParams();
   const [error, setError] = useState(null);
 

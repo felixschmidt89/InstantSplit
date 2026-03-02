@@ -6,7 +6,6 @@ import { IoArrowDownOutline } from "react-icons/io5";
 
 import styles from "./CreatePayment.module.css";
 import { useGroupContext } from "../../../context/GroupContext";
-import useAppNavigate from "../../../hooks/useAppNavigate";
 import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
 import { API_URL } from "../../../constants/apiConstants";
 import { devLog, handleApiErrors } from "../../../utils/errorUtils";
@@ -19,11 +18,12 @@ import emojiConstants from "../../../constants/emojiConstants";
 import PaymentRecipientSelect from "../PaymentRecipientSelect/PaymentRecipientSelect";
 import { buttonStyles } from "../../../constants/stylesConstants";
 import ErrorModal from "../../ErrorModal/ErrorModal";
+import { useNavigate } from "react-router-dom";
 
 const { INSTANT_SPLIT } = TO;
 
 const CreatePayment = () => {
-  const navigate = useAppNavigate();
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const { activeGroupCode, groupMembers } = useGroupContext();
 

@@ -1,8 +1,7 @@
 import { useState, useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-import useAppNavigate from "../../../hooks/useAppNavigate";
 import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
 
 import {
@@ -27,7 +26,7 @@ const { LOG_ERROR } = LOG_LEVELS;
 const { MEMBERS } = CLIENT_ROUTES;
 
 const CreateGroupForm = ({ isExistingUser = false }) => {
-  const navigate = useAppNavigate();
+  const navigate = useNavigate();
   const { pathname } = useLocation();
   const { t } = useTranslation();
   const inputRef = useRef(null);

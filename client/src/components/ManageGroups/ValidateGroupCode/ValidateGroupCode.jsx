@@ -2,17 +2,17 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
-import useAppNavigate from "../../../hooks/useAppNavigate.jsx";
 import { submitOnEnter } from "../../../utils/form/submitOnEnter";
 import FormSubmitButton from "../../FormSubmitButton/FormSubmitButton";
 import ErrorModal from "../../ErrorModal/ErrorModal";
 import { sendFormSubmitButtonStyles } from "../../../constants/stylesConstants";
 
 import styles from "./ValidateGroupCode.module.css";
+import { useNavigate } from "react-router-dom";
 
 const ValidateGroupCode = ({ isExistingUser = false }) => {
   const { t } = useTranslation();
-  const navigate = useAppNavigate();
+  const navigate = useNavigate();
   const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
     useErrorModalVisibility();
 

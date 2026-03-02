@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
-import useAppNavigate from "../../../hooks/useAppNavigate";
 import TermsAndConditionsSection from "../../Home/TermsAndConditionsSection/TermsAndConditionsSection";
 import { buttonStyles } from "../../../constants/stylesConstants";
 
@@ -15,11 +14,12 @@ import {
 } from "../../../utils/localStorage";
 
 import styles from "./AcceptGroupInvitation.module.css";
+import { useNavigate } from "react-router-dom";
 
 const { INSTANT_SPLIT } = TO;
 
 const AcceptGroupInvitation = ({ groupName, groupCode }) => {
-  const navigate = useAppNavigate();
+  const navigate = useNavigate();
   const { t } = useTranslation();
 
   const onInvitationAccept = () => {

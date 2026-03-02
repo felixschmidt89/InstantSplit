@@ -7,7 +7,6 @@ import axios from "axios";
 import styles from "./UpdatePayment.module.css";
 import { TO } from "../../../constants/navigationConstants";
 import { useGroupContext } from "../../../context/GroupContext";
-import useAppNavigate from "../../../hooks/useAppNavigate";
 import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
 import { MINIMUM_VALID_AMOUNT } from "../../../constants/dataConstants";
 import { API_URL } from "../../../constants/apiConstants";
@@ -20,12 +19,13 @@ import RenderReactIcon from "../../RenderReactIcon/RenderReactIcon";
 import PaymentRecipientSelect from "../PaymentRecipientSelect/PaymentRecipientSelect";
 import { buttonStyles } from "../../../constants/stylesConstants";
 import ErrorModal from "../../ErrorModal/ErrorModal";
+import { useNavigate } from "react-router-dom";
 
 const { INSTANT_SPLIT } = TO;
 
 const UpdatePayment = ({ paymentDetails, navigateTo = INSTANT_SPLIT }) => {
   const { t } = useTranslation();
-  const navigate = useAppNavigate();
+  const navigate = useNavigate();
   const { activeGroupCode, groupMembers } = useGroupContext();
 
   const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =

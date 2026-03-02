@@ -2,16 +2,16 @@ import { useState } from "react";
 import { StatusCodes } from "http-status-codes";
 import { useTranslation } from "react-i18next";
 
-import useAppNavigate from "./useAppNavigate";
 import { updateResource as apiUpdateResource } from "../api/common/updateResource.js";
 import { LOG_LEVELS } from "../../../shared/constants/debugConstants.js";
 import { debugLog } from "../../../shared/utils/debug/debugLog.js";
+import { useNavigate } from "react-router-dom";
 
 const { INFO, ERROR } = LOG_LEVELS;
 
 const useUpdateResource = (resourceType, resourceId, route, onSuccess) => {
   const { t } = useTranslation();
-  const navigate = useAppNavigate();
+  const navigate = useNavigate();
   const [error, setError] = useState(null);
   const resourceTypeSingular = resourceType.slice(0, -1);
 
