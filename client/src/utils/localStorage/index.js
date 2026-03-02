@@ -6,7 +6,7 @@ export * from "./getLanguage";
 export * from "./setLanguage";
 
 export * from "./getActiveGroupCode";
-export * from "./setActiveGroupCode";
+export * from "./setActiveGroupCodeInLocalStorage";
 export * from "./deleteActiveGroupCode";
 export * from "./getStoredGroupCodes";
 export * from "./getFirstGroupCode";

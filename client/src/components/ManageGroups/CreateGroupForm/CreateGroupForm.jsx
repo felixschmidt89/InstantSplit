@@ -3,16 +3,17 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
+import { useGroupContext } from "../../../context/GroupContext";
 
 import {
-  setActiveGroupCode,
+  setActiveGroupCodeInLocalStorage,
   setPreviousRoute,
   storeGroupCode,
 } from "../../../utils/localStorage";
 import { handleApiErrors } from "../../../utils/errorUtils";
 import { replaceSlashesWithDashes } from "../../../utils/replaceSlashesWithDashes";
 
-import { CLIENT_ROUTES } from "../../../constants/clientRoutesConstants.js";
+import { TO_MEMBERS } from "../../../constants/navigationConstants.js";
 import { plusFormSubmitButtonStyles } from "../../../constants/stylesConstants";
 import { createGroup } from "../../../api/groups/createGroup";
 
@@ -23,7 +24,6 @@ import { LOG_LEVELS } from "../../../../../shared/constants/debugConstants.js";
 import { debugLog } from "../../../../../shared/utils/debug/debugLog.js";
 
 const { LOG_ERROR } = LOG_LEVELS;
-const { MEMBERS } = CLIENT_ROUTES;
 
 const CreateGroupForm = ({ isExistingUser = false }) => {
   const navigate = useNavigate();
@@ -34,15 +34,17 @@ const CreateGroupForm = ({ isExistingUser = false }) => {
   const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
     useErrorModalVisibility();
 
+  const { setActiveGroupCode } = useGroupContext();
+
   const [groupName, setGroupName] = useState("");
   const [error, setError] = useState(null);
 
-  const handleInputChange = (e) => {
-    setGroupName(replaceSlashesWithDashes(e.target.value));
+  const handleInputChange = (event) => {
+    setGroupName(replaceSlashesWithDashes(event.target.value));
   };
 
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
     setError(null);
 
     try {
@@ -50,15 +52,24 @@ const CreateGroupForm = ({ isExistingUser = false }) => {
       const { groupCode } = response.group;
 
       storeGroupCode(groupCode);
+
+      setActiveGroupCodeInLocalStorage(groupCode);
+
       setActiveGroupCode(groupCode);
+
       setPreviousRoute(pathname);
-      navigate(MEMBERS.CREATE);
-    } catch (error) {
-      if (error.response) {
-        handleApiErrors(error, setError, "groups", displayErrorModal, t);
+
+      navigate(TO_MEMBERS.CREATE);
+    } catch (apiError) {
+      if (apiError.response) {
+        handleApiErrors(apiError, setError, "groups", displayErrorModal, t);
       } else {
         setError(t("generic-error-message"));
-        debugLog("Error creating group", { error: error.message }, LOG_ERROR);
+        debugLog(
+          "Error creating group",
+          { error: apiError.message },
+          LOG_ERROR,
+        );
         displayErrorModal();
       }
     }

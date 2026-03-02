@@ -10,9 +10,10 @@ import styles from "./ValidateProvidedGroupCodePage.module.css";
 import useValidateGroupExistence from "../../hooks/useValidateGroupCodeExistence";
 import {
   getPreviousRoute,
-  setActiveGroupCode,
+  setActiveGroupCodeInLocalStorage,
   storeGroupCode,
 } from "../../utils/localStorage";
+import { useGroupContext } from "../../context/GroupContext";
 import { CLIENT_ROUTES } from "../../constants/clientRoutesConstants";
 import { TO } from "../../constants/navigationConstants";
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
@@ -29,6 +30,8 @@ const ValidateProvidedGroupCodePage = () => {
   const { groupCode } = useParams();
   const [error, setError] = useState(null);
 
+  const { setActiveGroupCode } = useGroupContext();
+
   const { groupExists, error: validationError } = useValidateGroupExistence(
     groupCode,
     "limited",
@@ -40,6 +43,8 @@ const ValidateProvidedGroupCodePage = () => {
   useEffect(() => {
     if (groupExists) {
       storeGroupCode(groupCode);
+
+      setActiveGroupCodeInLocalStorage(groupCode);
       setActiveGroupCode(groupCode);
 
       const timeoutId = setTimeout(() => {
@@ -52,7 +57,7 @@ const ValidateProvidedGroupCodePage = () => {
     if (validationError) {
       setError(validationError);
     }
-  }, [groupExists, groupCode, navigate, validationError]);
+  }, [groupExists, groupCode, navigate, validationError, setActiveGroupCode]);
 
   return (
     <main>

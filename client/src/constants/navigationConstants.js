@@ -14,7 +14,6 @@ const {
   SETTLE_EXPENSES,
   MANAGE_GROUPS,
   GROUP_SETTINGS,
-  HOME,
 } = CLIENT_ROUTES;
 
 export const TO_EXPENSE = {
@@ -47,7 +46,7 @@ export const TO_GROUP_ACTIONS = {
 };
 
 export const TO = {
-  HOME: `/${HOME}`,
+  HOME: `/`,
   CONTACT: createRoute(CONTACT, ["groupCode"]),
   INSTANT_SPLIT: `/${INSTANT_SPLIT}`,
   SETTLE_EXPENSES: `/${SETTLE_EXPENSES}`,

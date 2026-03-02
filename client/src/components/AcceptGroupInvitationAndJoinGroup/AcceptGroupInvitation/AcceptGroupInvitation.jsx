@@ -1,20 +1,19 @@
 import { useEffect } from "react";
 import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 import TermsAndConditionsSection from "../../Home/TermsAndConditionsSection/TermsAndConditionsSection";
 import { buttonStyles } from "../../../constants/stylesConstants";
-
 import { TO } from "../../../constants/navigationConstants";
-
 import {
   isGroupCodeInStoredGroupCodes,
-  setActiveGroupCode,
+  setActiveGroupCodeInLocalStorage,
   storeGroupCode,
 } from "../../../utils/localStorage";
+import { useGroupContext } from "../../../context/GroupContext";
 
 import styles from "./AcceptGroupInvitation.module.css";
-import { useNavigate } from "react-router-dom";
 
 const { INSTANT_SPLIT } = TO;
 
@@ -22,8 +21,12 @@ const AcceptGroupInvitation = ({ groupName, groupCode }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
+  const { setActiveGroupCode } = useGroupContext();
+
   const onInvitationAccept = () => {
     storeGroupCode(groupCode);
+
+    setActiveGroupCodeInLocalStorage(groupCode);
     setActiveGroupCode(groupCode);
 
     navigate(INSTANT_SPLIT);
@@ -31,10 +34,12 @@ const AcceptGroupInvitation = ({ groupName, groupCode }) => {
 
   useEffect(() => {
     if (isGroupCodeInStoredGroupCodes(groupCode)) {
+      setActiveGroupCodeInLocalStorage(groupCode);
       setActiveGroupCode(groupCode);
+
       navigate(INSTANT_SPLIT);
     }
-  }, [groupCode, navigate]);
+  }, [groupCode, navigate, setActiveGroupCode]);
 
   return (
     <div className={styles.container}>

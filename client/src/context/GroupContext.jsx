@@ -6,43 +6,24 @@ import {
   useCallback,
   useMemo,
 } from "react";
+
 import {
   deleteGroupCode,
   getActiveGroupCode,
   getStoredGroupCodes,
-  setActiveGroupCode as setLocalStorageActiveGroup,
+  setActiveGroupCodeInLocalStorage,
 } from "../utils/localStorage";
 import { LOCAL_STORAGE_KEYS } from "../constants/localStorageConstants";
 import useFetchGroupMembers from "../hooks/useFetchGroupMembers";
 
+const { ACTIVE_GROUP_CODE } = LOCAL_STORAGE_KEYS;
+
 const GroupContext = createContext();
 
 export const GroupProvider = ({ children }) => {
-  const [activeGroupCode, setActiveGroupCodeState] = useState(() =>
+  // CODECHANGE: Renamed to setInternalActiveGroupCode for a clean, professional distinction from the custom setter
+  const [activeGroupCode, setInternalActiveGroupCode] = useState(() =>
     getActiveGroupCode(),
-  );
-
-  const getFirstAvailableGroupCode = useCallback(() => {
-    const storedGroupCodes = getStoredGroupCodes();
-    return storedGroupCodes?.length ? storedGroupCodes[0] : null;
-  }, []);
-
-  const setActiveGroupCode = useCallback((newCode) => {
-    setLocalStorageActiveGroup(newCode);
-    setActiveGroupCodeState(newCode);
-  }, []);
-
-  const removeGroup = useCallback(
-    (groupCode) => {
-      const success = deleteGroupCode(groupCode);
-
-      if (success && activeGroupCode === groupCode) {
-        const nextGroup = getFirstAvailableGroupCode();
-        setActiveGroupCode(nextGroup);
-      }
-      return success;
-    },
-    [activeGroupCode, getFirstAvailableGroupCode, setActiveGroupCode],
   );
 
   const { groupMembers, isFetched, error, refetch } =
@@ -58,6 +39,30 @@ export const GroupProvider = ({ children }) => {
     return map;
   }, [groupMembers]);
 
+  const getFirstAvailableGroupCode = useCallback(() => {
+    const storedGroupCodes = getStoredGroupCodes();
+    return storedGroupCodes?.length ? storedGroupCodes[0] : null;
+  }, []);
+
+  // Public setter that coordinates local storage and state
+  const setActiveGroupCode = useCallback((newCode) => {
+    setActiveGroupCodeInLocalStorage(newCode);
+    setInternalActiveGroupCode(newCode);
+  }, []);
+
+  const removeGroup = useCallback(
+    (groupCode) => {
+      const success = deleteGroupCode(groupCode);
+
+      if (success && activeGroupCode === groupCode) {
+        const nextGroup = getFirstAvailableGroupCode();
+        setActiveGroupCode(nextGroup);
+      }
+      return success;
+    },
+    [activeGroupCode, getFirstAvailableGroupCode, setActiveGroupCode],
+  );
+
   const getMemberName = useCallback(
     (id) => {
       if (!id) return "Unknown";
@@ -67,9 +72,9 @@ export const GroupProvider = ({ children }) => {
   );
 
   useEffect(() => {
-    const handleStorageChange = (e) => {
-      if (e.key === LOCAL_STORAGE_KEYS.ACTIVE_GROUP_CODE) {
-        setActiveGroupCodeState(e.newValue);
+    const handleStorageChange = (event) => {
+      if (event.key === ACTIVE_GROUP_CODE) {
+        setInternalActiveGroupCode(event.newValue);
       }
     };
     window.addEventListener("storage", handleStorageChange);

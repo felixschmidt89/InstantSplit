@@ -1,21 +1,22 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 import styles from "./GroupSelection.module.css";
 import { useGroupContext } from "../../../../context/GroupContext.jsx";
 import { sendFormSubmitButtonStyles } from "../../../../constants/stylesConstants.jsx";
 import { TO } from "../../../../constants/navigationConstants.js";
-import { setActiveGroupCode } from "../../../../utils/localStorage/index.js";
+import { setActiveGroupCodeInLocalStorage } from "../../../../utils/localStorage/index.js";
 import { submitOnEnter } from "../../../../utils/form/submitOnEnter.js";
 import FormSubmitButton from "../../../FormSubmitButton/FormSubmitButton.jsx";
-import { useNavigate } from "react-router-dom";
 
 const { INSTANT_SPLIT } = TO;
 
 const GroupSelection = ({ groupNamesAndGroupCodes }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { updateActiveGroup } = useGroupContext();
+
+  const { setActiveGroupCode } = useGroupContext();
   const [selectedGroupCode, setSelectedGroupCode] = useState("");
 
   const handleSelectChange = (event) => {
@@ -25,8 +26,9 @@ const GroupSelection = ({ groupNamesAndGroupCodes }) => {
   const handleFormSubmit = (event) => {
     event.preventDefault();
     if (selectedGroupCode) {
+      setActiveGroupCodeInLocalStorage(selectedGroupCode);
+
       setActiveGroupCode(selectedGroupCode);
-      updateActiveGroup(selectedGroupCode);
 
       navigate(INSTANT_SPLIT);
     }
