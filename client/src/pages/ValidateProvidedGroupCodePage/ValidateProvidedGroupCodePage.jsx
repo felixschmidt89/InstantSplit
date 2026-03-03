@@ -7,22 +7,21 @@ import {
 } from "react-icons/io";
 
 import styles from "./ValidateProvidedGroupCodePage.module.css";
-import useValidateGroupExistence from "../../hooks/useValidateGroupCodeExistence";
+import useValidateGroupExistence from "../../hooks/useValidateGroupCodeExistence.jsx";
 import {
   getPreviousRouteFromLocalStorage,
   setActiveGroupCodeInLocalStorage,
   storeGroupCodeInLocalStorage,
-} from "../../utils/localStorage";
-import { useGroupContext } from "../../context/GroupContext";
-import { CLIENT_ROUTES } from "../../constants/clientRoutesConstants";
-import { TO } from "../../constants/navigationConstants";
-import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-import ErrorDisplay from "../../components/ErrorDisplay/ErrorDisplay";
-import Spinner from "../../components/Spinner/Spinner";
+} from "../../utils/localStorage/index.js";
+import { useGroupContext } from "../../context/GroupContext.jsx";
+import { CLIENT_STATIC_ROUTES } from "../../constants/clientStaticRoutesConstants.js";
+import { TO } from "../../constants/navigationConstants.js";
+import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify.jsx";
+import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar.jsx";
+import ErrorDisplay from "../../components/ErrorDisplay/ErrorDisplay.jsx";
+import Spinner from "../../components/Spinner/Spinner.jsx";
 
-const { ONBOARDING, MANAGE_GROUPS } = CLIENT_ROUTES;
-const { INSTANT_SPLIT, HOME } = TO;
+const { MANAGE_GROUPS, ONBOARDING_ENTER_GROUPCODE } = CLIENT_STATIC_ROUTES;
 
 const ValidateProvidedGroupCodePage = () => {
   const { t } = useTranslation();
@@ -43,15 +42,22 @@ const ValidateProvidedGroupCodePage = () => {
     previousRoute?.includes(MANAGE_GROUPS),
   );
 
+  const backDestination = isExistingInstantSplitUser
+    ? MANAGE_GROUPS
+    : ONBOARDING_ENTER_GROUPCODE;
+
+  const homeDestination = isExistingInstantSplitUser
+    ? TO.INSTANT_SPLIT
+    : TO.HOME;
+
   useEffect(() => {
     if (groupExists) {
       storeGroupCodeInLocalStorage(groupCode);
       setActiveGroupCodeInLocalStorage(groupCode);
-
       setActiveGroupCode(groupCode);
 
       const timeoutId = setTimeout(() => {
-        navigate(INSTANT_SPLIT);
+        navigate(TO.INSTANT_SPLIT);
       }, 2500);
 
       return () => clearTimeout(timeoutId);
@@ -68,13 +74,9 @@ const ValidateProvidedGroupCodePage = () => {
 
       <InAppNavigationBar
         back
-        backTo={
-          isExistingInstantSplitUser
-            ? MANAGE_GROUPS
-            : ONBOARDING.ENTER_GROUPCODE
-        }
+        backTo={backDestination}
         home
-        homeTo={isExistingInstantSplitUser ? INSTANT_SPLIT : HOME}
+        homeTo={homeDestination}
       />
 
       <div className={styles.container}>

@@ -1,36 +1,19 @@
 import { useTranslation } from "react-i18next";
 
 import styles from "./LegalNoticePage.module.css";
-import { getPreviousRouteFromLocalStorage } from "../../utils/localStorage";
-import { CLIENT_ROUTES } from "../../constants/clientRoutesConstants.js";
-import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-import LegalNoticeAuthor from "../../components/LegalNotice/LegalNoticeAuthor/LegalNoticeAuthor";
-import LegalNoticeSections from "../../components/LegalNotice/LegalNoticeSections/LegalNoticeSections";
-import { debugLog } from "../../../../shared/utils/debug/debugLog.js";
-import { LOG_LEVELS } from "../../../../shared/constants/debugConstants.js";
-
-const { JOIN_GROUP } = CLIENT_ROUTES;
-const { DEBUG } = LOG_LEVELS;
+import useUserOrigin from "../../hooks/useUserOrigin.jsx";
+import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify.jsx";
+import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar.jsx";
+import LegalNoticeAuthor from "../../components/LegalNotice/LegalNoticeAuthor/LegalNoticeAuthor.jsx";
+import LegalNoticeSections from "../../components/LegalNotice/LegalNoticeSections/LegalNoticeSections.jsx";
 
 const LegalNoticePage = () => {
   const { t } = useTranslation();
 
-  const previousRoute = getPreviousRouteFromLocalStorage();
+  const { isFromInvitation } = useUserOrigin();
 
-  const isInvitedUser = Boolean(
-    previousRoute?.includes(JOIN_GROUP.DE) ||
-    previousRoute?.includes(JOIN_GROUP.EN),
-  );
-
-  debugLog(
-    "LegalNoticePage: user check",
-    {
-      isInvitedUser,
-      ...(isInvitedUser && { sourceRoute: previousRoute }),
-    },
-    DEBUG,
-  );
+  const shouldShowPreviousRoute = isFromInvitation;
+  const shouldShowBackButton = !isFromInvitation;
 
   return (
     <main>
@@ -39,7 +22,10 @@ const LegalNoticePage = () => {
         description={t("legal-notice-page-description")}
       />
 
-      <InAppNavigationBar previousRoute={isInvitedUser} back={!isInvitedUser} />
+      <InAppNavigationBar
+        previousRoute={shouldShowPreviousRoute}
+        back={shouldShowBackButton}
+      />
 
       <div className={styles.container}>
         <h1>{t("legal-notice-page-header")}</h1>

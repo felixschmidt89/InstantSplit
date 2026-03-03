@@ -1,18 +1,18 @@
 import { useTranslation } from "react-i18next";
 
 import styles from "./OnboardingGroupSettingsPage.module.css";
-import { useGroupContext } from "../../context/GroupContext";
-import useFetchGroupData from "../../hooks/useFetchGroupData";
-import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-import { CLIENT_ROUTES } from "../../constants/clientRoutesConstants";
-import { TO } from "../../constants/navigationConstants";
-import Spinner from "../../components/Spinner/Spinner";
-import ChangeGroupCurrency from "../../components/GroupSettings/ChangeGroupCurrency/ChangeGroupCurrency";
-import ChangeDataPurgeSetting from "../../components/GroupSettings/ChangeDataPurgeSetting/ChangeDataPurgeSetting";
-import GroupCodeSecurity from "../../components/GroupSettings/GroupCodeSecurity/GroupCodeSecurity";
+import { useGroupContext } from "../../context/GroupContext.jsx";
+import useFetchGroupData from "../../hooks/useFetchGroupData.jsx";
+import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify.jsx";
+import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar.jsx";
+import { CLIENT_STATIC_ROUTES } from "../../constants/clientStaticRoutesConstants.js";
+import { TO } from "../../constants/navigationConstants.js";
+import Spinner from "../../components/Spinner/Spinner.jsx";
+import ChangeGroupCurrency from "../../components/GroupSettings/ChangeGroupCurrency/ChangeGroupCurrency.jsx";
+import ChangeDataPurgeSetting from "../../components/GroupSettings/ChangeDataPurgeSetting/ChangeDataPurgeSetting.jsx";
+import GroupCodeSecurity from "../../components/GroupSettings/GroupCodeSecurity/GroupCodeSecurity.jsx";
 
-const { MEMBERS } = CLIENT_ROUTES;
+const { CREATE_MEMBERS } = CLIENT_STATIC_ROUTES;
 const { INSTANT_SPLIT } = TO;
 
 const OnboardingGroupSettingsPage = () => {
@@ -28,7 +28,7 @@ const OnboardingGroupSettingsPage = () => {
       />
       <InAppNavigationBar
         back
-        backTo={MEMBERS.CREATE}
+        backTo={CREATE_MEMBERS}
         forward
         forwardTo={INSTANT_SPLIT}
       />

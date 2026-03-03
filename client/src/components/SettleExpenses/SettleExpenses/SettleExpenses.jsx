@@ -1,29 +1,29 @@
 import { useEffect, useState } from "react";
 
-import useFetchGroupCurrency from "../../../hooks/useFetchGroupCurrency";
-import useHasGroupPersistedSettlements from "../../../hooks/useHasGroupPersistedSettlements";
+import useFetchGroupCurrency from "../../../hooks/useFetchGroupCurrency.jsx";
+import useHasGroupPersistedSettlements from "../../../hooks/useHasGroupPersistedSettlements.jsx";
 import useFetchUnsettledGroupMembers from "../../../hooks/useUnsettledGroupMembers.jsx";
-import useUpdateGroupHasPersistedSettlements from "../../../hooks/useUpdateGroupHasPersistedSettlements";
+import useUpdateGroupHasPersistedSettlements from "../../../hooks/useUpdateGroupHasPersistedSettlements.jsx";
 
-import { fetchSettlements } from "../../../api/settlements/fetchSettlements";
+import { fetchSettlements } from "../../../api/settlements/fetchSettlements.js";
 
-import { getActiveGroupCode } from "../../../utils/localStorage";
-import { groupUsersPerPositiveOrNegativeUserBalance } from "../../../utils/settlementUtils";
+import { useGroupContext } from "../../../context/GroupContext.jsx";
 
 import { LOG_LEVELS } from "../../../../../shared/constants/debugConstants.js";
 import { debugLog } from "../../../../../shared/utils/debug/debugLog.js";
 
-import RenderSettlementPaymentSuggestions from "../RenderSettlementPaymentSuggestions/RenderSettlementPaymentSuggestions";
-import Spinner from "../../Spinner/Spinner";
-import ExpensesSettled from "../ExpensesSettled/ExpensesSettled";
-import ErrorDisplay from "../../ErrorDisplay/ErrorDisplay";
+import RenderSettlementPaymentSuggestions from "../RenderSettlementPaymentSuggestions/RenderSettlementPaymentSuggestions.jsx";
+import Spinner from "../../Spinner/Spinner.jsx";
+import ExpensesSettled from "../ExpensesSettled/ExpensesSettled.jsx";
+import ErrorDisplay from "../../ErrorDisplay/ErrorDisplay.jsx";
 
 import styles from "./SettleExpenses.module.css";
+import { groupUsersPerPositiveOrNegativeUserBalance } from "../../../utils/settlementUtils.jsx";
 
-const { LOG_ERROR, INFO } = LOG_LEVELS;
+const { ERROR, INFO } = LOG_LEVELS;
 
 const SettleExpenses = () => {
-  const groupCode = getActiveGroupCode();
+  const { activeGroupCode: groupCode } = useGroupContext();
 
   const { groupCurrency, isFetched: groupCurrencyIsFetched } =
     useFetchGroupCurrency(groupCode);
@@ -91,7 +91,7 @@ const SettleExpenses = () => {
           debugLog(
             "Error fetching persisted settlements",
             { error: error.message },
-            LOG_ERROR,
+            ERROR,
           );
 
           if (
@@ -117,8 +117,6 @@ const SettleExpenses = () => {
       getPersistedSettlements();
     }
   }, [fixedDebitorCreditorOrder, groupCode, updatePersistedStatus]);
-
-  // --- Render ---
 
   if (isUnsettledUsersLoading || isUpdatingStatus) {
     return (

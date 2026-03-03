@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { getStoredGroupCodes } from "../utils/localStorage";
+import { getStoredGroupCodesFromLocalStorage } from "../utils/localStorage";
 import { debugLog } from "../../../shared/utils/debug";
 import { fetchStoredGroupNames } from "../api/groups/fetchStoredGroupNames";
 
@@ -18,7 +18,7 @@ const useGetStoredGroupsNames = (activeGroupCode) => {
       setError(null);
 
       try {
-        const groupCodesArray = getStoredGroupCodes();
+        const groupCodesArray = getStoredGroupCodesFromLocalStorage();
 
         if (!groupCodesArray?.length) {
           setStoredGroups([]);

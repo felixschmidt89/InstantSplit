@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./InAppNavigationBar.module.css";
 import { TO } from "../../../constants/navigationConstants";
 import { debugLog } from "../../../../../shared/utils/debug/debugLog";
-import { useGroupContext } from "../../../context/GroupContext"; // Added Context
+import { useGroupContext } from "../../../context/GroupContext";
 import {
   getPreviousRouteFromLocalStorage,
   getNestedPreviousRouteFromLocalStorage,

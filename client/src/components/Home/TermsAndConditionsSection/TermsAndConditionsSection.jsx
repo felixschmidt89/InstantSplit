@@ -2,10 +2,10 @@ import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import styles from "./TermsAndConditionsSection.module.css";
-import { CLIENT_ROUTES } from "../../../constants/clientRoutesConstants";
-import { setPreviousRouteInLocalStorage } from "../../../utils/localStorage";
+import { CLIENT_STATIC_ROUTES } from "../../../constants/clientStaticRoutesConstants.js";
+import { setPreviousRouteInLocalStorage } from "../../../utils/localStorage/index.js";
 
-const { TERMS_AND_CONDITIONS } = CLIENT_ROUTES;
+const { TERMS_AND_CONDITIONS } = CLIENT_STATIC_ROUTES;
 
 const TermsAndConditionsSection = () => {
   const { t } = useTranslation();

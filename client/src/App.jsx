@@ -1,62 +1,73 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { ThemeProvider } from "@mui/material/styles";
-import muiTheme from "./themes/muiTheme";
 
-import GroupContextWrapper from "./wrappers/GroupContextWrapper";
+import GroupContextWrapper from "./wrappers/GroupContextWrapper.jsx";
 
-import Footer from "./components/Footer/Footer";
-import PageNotFoundPage from "./pages/PageNotFound/PageNotFoundPage";
-import HomePage from "./pages/HomePage/HomePage";
-import OnboardingCreateGroupPage from "./pages/OnboardingCreateGroupPage/OnboardingCreateGroupPage";
-import InstantSplitPage from "./pages/InstantSplitPage/InstantSplitPage";
-import CreateExpensePage from "./pages/CreateExpensePage/CreateExpensePage";
-import CreatePaymentPage from "./pages/CreatePaymentPage/CreatePaymentPage";
-import ExpenseDetailsPage from "./pages/ExpenseDetailsPage/ExpenseDetailsPage";
-import PaymentDetailsPage from "./pages/PaymentDetailsPage/PaymentDetailsPage";
-import OnboardingGroupSettingsPage from "./pages/OnboardingGroupSettingsPage/OnboardingGroupSettingsPage";
-import ValidateProvidedGroupCodePage from "./pages/ValidateProvidedGroupCodePage/ValidateProvidedGroupCodePage";
-import LegalNoticePage from "./pages/LegalNoticePage/LegalNoticePage";
-import TutorialPage from "./pages/TutorialPage/TutorialPage";
-import UpdateExpensePage from "./pages/UpdateExpensePage/UpdateExpensePage";
-import UpdatePaymentPage from "./pages/UpdatePaymentPage/UpdatePaymentPage";
-import TermsAndConditionsPage from "./pages/TermsAndConditionsPage/TermsAndConditionsPage";
-import EnterGroupCodePage from "./pages/EnterGroupCodePage/EnterGroupCodePage";
-import ManageGroupsPage from "./pages/ManageGroupsPage/ManageGroupsPage";
-import GroupSettingsPage from "./pages/GroupSettingsPage/GroupSettingsPage";
-import ContactPage from "./pages/ContactPage/ContactPage";
-import ShareGroupInvitationPage from "./pages/ShareGroupInvitationPage/ShareGroupInvitationPage";
-import LeaveGroupPage from "./pages/LeaveGroupPage/LeaveGroupPage";
-import JoinGroupDEPage from "./pages/JoinGroupDEPage/JoinGroupDEPage";
-import JoinGroupENPage from "./pages/JoinGroupENPage/JoinGroupENPage";
-import CreateGroupMemberPage from "./pages/CreateGroupMemberPage/CreateGroupMemberPage";
-import SettleExpensesPage from "./pages/SettleExpensesPage/SettleExpensesPage";
-import GroupMemberDetailsPage from "./pages/GroupMemberDetailsPage/GroupMemberDetailsPage";
-import GroupMemberTransactionHistoryPage from "./pages/GroupMemberTransactionHistoryPage/GroupMemberTransactionHistoryPage";
+import Footer from "./components/Footer/Footer.jsx";
+import PageNotFoundPage from "./pages/PageNotFound/PageNotFoundPage.jsx";
+import HomePage from "./pages/HomePage/HomePage.jsx";
+import OnboardingCreateGroupPage from "./pages/OnboardingCreateGroupPage/OnboardingCreateGroupPage.jsx";
+import InstantSplitPage from "./pages/InstantSplitPage/InstantSplitPage.jsx";
+import CreateExpensePage from "./pages/CreateExpensePage/CreateExpensePage.jsx";
+import CreatePaymentPage from "./pages/CreatePaymentPage/CreatePaymentPage.jsx";
+import ExpenseDetailsPage from "./pages/ExpenseDetailsPage/ExpenseDetailsPage.jsx";
+import PaymentDetailsPage from "./pages/PaymentDetailsPage/PaymentDetailsPage.jsx";
+import OnboardingGroupSettingsPage from "./pages/OnboardingGroupSettingsPage/OnboardingGroupSettingsPage.jsx";
+import ValidateProvidedGroupCodePage from "./pages/ValidateProvidedGroupCodePage/ValidateProvidedGroupCodePage.jsx";
+import LegalNoticePage from "./pages/LegalNoticePage/LegalNoticePage.jsx";
+import TutorialPage from "./pages/TutorialPage/TutorialPage.jsx";
+import UpdateExpensePage from "./pages/UpdateExpensePage/UpdateExpensePage.jsx";
+import UpdatePaymentPage from "./pages/UpdatePaymentPage/UpdatePaymentPage.jsx";
+import TermsAndConditionsPage from "./pages/TermsAndConditionsPage/TermsAndConditionsPage.jsx";
+import EnterGroupCodePage from "./pages/EnterGroupCodePage/EnterGroupCodePage.jsx";
+import ManageGroupsPage from "./pages/ManageGroupsPage/ManageGroupsPage.jsx";
+import GroupSettingsPage from "./pages/GroupSettingsPage/GroupSettingsPage.jsx";
+import ContactPage from "./pages/ContactPage/ContactPage.jsx";
+import ShareGroupInvitationPage from "./pages/ShareGroupInvitationPage/ShareGroupInvitationPage.jsx";
+import LeaveGroupPage from "./pages/LeaveGroupPage/LeaveGroupPage.jsx";
+import JoinGroupDEPage from "./pages/JoinGroupDEPage/JoinGroupDEPage.jsx";
+import JoinGroupENPage from "./pages/JoinGroupENPage/JoinGroupENPage.jsx";
+import CreateGroupMemberPage from "./pages/CreateGroupMemberPage/CreateGroupMemberPage.jsx";
+import SettleExpensesPage from "./pages/SettleExpensesPage/SettleExpensesPage.jsx";
+import GroupMemberDetailsPage from "./pages/GroupMemberDetailsPage/GroupMemberDetailsPage.jsx";
+import GroupMemberTransactionHistoryPage from "./pages/GroupMemberTransactionHistoryPage/GroupMemberTransactionHistoryPage.jsx";
 
-import { CLIENT_ROUTES } from "./constants/clientRoutesConstants.js";
+import { CLIENT_STATIC_ROUTES } from "./constants/clientStaticRoutesConstants.js";
+import { CLIENT_DYNAMIC_ROUTES } from "./constants/clientDynamicRoutesConstants.js";
 import { GroupProvider } from "./context/GroupContext.jsx";
 import "./App.css";
+import muiTheme from "./themes/muiTheme.jsx";
 
 const {
   LEGAL_NOTICE,
-  ONBOARDING,
-  VALIDATORS,
-  JOIN_GROUP,
-  TUTORIAL,
+  ONBOARDING_GROUP_SETTINGS,
+  ONBOARDING_CREATE_GROUP,
+  ONBOARDING_ENTER_GROUPCODE,
+  VALIDATORS_GROUPCODE,
   INSTANT_SPLIT,
   MANAGE_GROUPS,
-  CONTACT,
   TERMS_AND_CONDITIONS,
-  MEMBERS,
-  EXPENSE,
-  PAYMENT,
+  MEMBERS_CREATE,
   SETTLE_EXPENSES,
-  LEAVE_GROUP,
-  SHARE_GROUP,
   GROUP_SETTINGS,
+} = CLIENT_STATIC_ROUTES;
+
+const {
+  JOIN_GROUP_DE,
+  JOIN_GROUP_EN,
+  TUTORIAL,
+  SHARE_GROUP,
+  LEAVE_GROUP,
+  EXPENSE_DETAILS,
+  PAYMENT_DETAILS,
+  MEMBER_DETAILS,
+  MEMBER_TRANSACTION_HISTORY,
+  UPDATE_EXPENSE,
+  UPDATE_PAYMENT,
+  CONTACT,
   NOT_FOUND,
-} = CLIENT_ROUTES;
+} = CLIENT_DYNAMIC_ROUTES;
 
 const App = () => {
   return (
@@ -68,23 +79,24 @@ const App = () => {
               <Route index element={<HomePage />} />
               <Route path={LEGAL_NOTICE} element={<LegalNoticePage />} />
               <Route
-                path={ONBOARDING.GROUP_SETTINGS}
+                path={ONBOARDING_GROUP_SETTINGS}
                 element={<OnboardingGroupSettingsPage />}
               />
               <Route
-                path={ONBOARDING.CREATE_GROUP}
+                path={ONBOARDING_CREATE_GROUP}
                 element={<OnboardingCreateGroupPage />}
               />
               <Route
-                path={ONBOARDING.ENTER_GROUPCODE}
+                path={ONBOARDING_ENTER_GROUPCODE}
                 element={<EnterGroupCodePage />}
               />
               <Route
-                path={VALIDATORS.GROUPCODE}
+                path={VALIDATORS_GROUPCODE}
                 element={<ValidateProvidedGroupCodePage />}
               />
-              <Route path={JOIN_GROUP.DE} element={<JoinGroupDEPage />} />
-              <Route path={JOIN_GROUP.EN} element={<JoinGroupENPage />} />
+
+              <Route path={JOIN_GROUP_DE} element={<JoinGroupDEPage />} />
+              <Route path={JOIN_GROUP_EN} element={<JoinGroupENPage />} />
               <Route path={TUTORIAL} element={<TutorialPage />} />
               <Route path={INSTANT_SPLIT} element={<InstantSplitPage />} />
               <Route path={MANAGE_GROUPS} element={<ManageGroupsPage />} />
@@ -97,19 +109,28 @@ const App = () => {
               {/* Protected / Context Routes */}
               <Route element={<GroupContextWrapper />}>
                 <Route
-                  path={MEMBERS.TRANSACTION_HISTORY}
+                  path={MEMBER_TRANSACTION_HISTORY}
                   element={<GroupMemberTransactionHistoryPage />}
                 />
                 <Route
-                  path={MEMBERS.DETAILS}
+                  path={MEMBER_DETAILS}
                   element={<GroupMemberDetailsPage />}
                 />
-                <Route path={EXPENSE.CREATE} element={<CreateExpensePage />} />
-                <Route path={EXPENSE.UPDATE} element={<UpdateExpensePage />} />
-                <Route path={PAYMENT.CREATE} element={<CreatePaymentPage />} />
-                <Route path={PAYMENT.UPDATE} element={<UpdatePaymentPage />} />
+
                 <Route
-                  path={MEMBERS.CREATE}
+                  path={CLIENT_STATIC_ROUTES.CREATE_EXPENSE}
+                  element={<CreateExpensePage />}
+                />
+                <Route
+                  path={CLIENT_STATIC_ROUTES.CREATE_PAYMENT}
+                  element={<CreatePaymentPage />}
+                />
+
+                <Route path={UPDATE_EXPENSE} element={<UpdateExpensePage />} />
+                <Route path={UPDATE_PAYMENT} element={<UpdatePaymentPage />} />
+
+                <Route
+                  path={MEMBERS_CREATE}
                   element={<CreateGroupMemberPage />}
                 />
                 <Route
@@ -117,11 +138,11 @@ const App = () => {
                   element={<SettleExpensesPage />}
                 />
                 <Route
-                  path={PAYMENT.DETAILS}
+                  path={PAYMENT_DETAILS}
                   element={<PaymentDetailsPage />}
                 />
                 <Route
-                  path={EXPENSE.DETAILS}
+                  path={EXPENSE_DETAILS}
                   element={<ExpenseDetailsPage />}
                 />
                 <Route path={LEAVE_GROUP} element={<LeaveGroupPage />} />

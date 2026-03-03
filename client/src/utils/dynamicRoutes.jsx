@@ -1,4 +1,4 @@
-import { ROUTES } from "../constants/clientRoutesConstants";
+import { ROUTES } from "../constants/clientStaticRoutesConstants";
 import { createRoute, buildDynamicRoute } from "./routeBuilders";
 
 export const dynamicRoutes = {

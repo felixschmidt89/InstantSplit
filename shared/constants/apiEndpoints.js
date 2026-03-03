@@ -1,4 +1,4 @@
-import { API_URL } from "./apiConstants";
+import { API_URL } from "../../client/src/constants/apiConstants.js";
 import { API_ROUTES } from "./apiRoutesConstants";
 
 const { GROUPS } = API_ROUTES;

@@ -1,8 +1,9 @@
 import { useLocation, Link, useNavigate } from "react-router-dom";
+
 import {
-  setNestedPreviousRoute as setNestedPreviousRouteInLocalStorage,
-  setPreviousRoute as setPreviousRouteInLocalStorage,
-} from "../../../utils/localStorage";
+  setNestedPreviousRouteInLocalStorage,
+  setPreviousRouteInLocalStorage,
+} from "../../../utils/localStorage/index.js";
 
 import styles from "./LinkToPage.module.css";
 

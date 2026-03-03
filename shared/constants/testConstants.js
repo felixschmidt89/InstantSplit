@@ -48,6 +48,9 @@ export const MOCK_STRINGS = {
       DASHED: "no_slashes_here",
     },
   ],
+  ROUTES: {
+    BASE_PATH: "/test-route",
+  },
 };
 
 export const MOCK_LOG_METHODS = {

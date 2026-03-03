@@ -8,15 +8,16 @@ import GroupActionsEmojiButton from "../GroupActionsEmojiButton/GroupActionsEmoj
 import emojiConstants from "../../constants/emojiConstants";
 
 import styles from "./ActiveGroupBar.module.css";
-import { CLIENT_ROUTES } from "../../constants/clientRoutesConstants.js";
+import { CLIENT_STATIC_ROUTES } from "../../constants/clientStaticRoutesConstants.js";
+
+const { GROUP_SETTINGS, CREATE_MEMBERS, CREATE_EXPENSE, SETTLE_EXPENSES } =
+  CLIENT_STATIC_ROUTES;
 
 const ActiveGroupBar = () => {
   const { t } = useTranslation();
   const settingsEmoji = useSettingsEmoji();
   const isSlimDevice = useIsSlimDevice();
   const { isLoaded, fontState } = useIsNotoEmojiFontLoaded();
-
-  const { GROUP_SETTINGS, MEMBERS, EXPENSE, SETTLE_EXPENSES } = CLIENT_ROUTES;
 
   if (!isLoaded) {
     return null;
@@ -37,7 +38,7 @@ const ActiveGroupBar = () => {
       />
 
       <GroupActionsEmojiButton
-        route={MEMBERS.CREATE}
+        route={CREATE_MEMBERS}
         emoji={emojiConstants.member}
         plusIcon={true}
         plusIconTranslateX={-0.8}
@@ -49,7 +50,7 @@ const ActiveGroupBar = () => {
       />
 
       <GroupActionsEmojiButton
-        route={EXPENSE.CREATE}
+        route={CREATE_EXPENSE}
         emoji={emojiConstants.expense}
         plusIcon={true}
         plusIconTranslateX={-0.6}

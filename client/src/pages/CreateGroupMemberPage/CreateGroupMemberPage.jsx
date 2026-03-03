@@ -1,49 +1,50 @@
 import { useTranslation } from "react-i18next";
 
 import styles from "./CreateGroupMemberPage.module.css";
-import { getPreviousRoute } from "../../utils/localStorage";
-import { CLIENT_ROUTES } from "../../constants/clientRoutesConstants.js";
-import { TO } from "../../constants/navigationConstants";
-import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
-import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-import CreateGroupMemberForm from "../../components/CreateGroupMember/CreateGroupMemberForm/CreateGroupMemberForm";
+import useUserOrigin from "../../hooks/useUserOrigin.jsx";
+import { CLIENT_STATIC_ROUTES } from "../../constants/clientStaticRoutesConstants.js";
+import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify.jsx";
+import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar.jsx";
+import CreateGroupMemberForm from "../../components/CreateGroupMember/CreateGroupMemberForm/CreateGroupMemberForm.jsx";
 import RenderGroupMemberNames from "../../components/CreateGroupMember/GroupMemberNames/GroupMemberNames.jsx";
-import { debugLog } from "../../../../shared/utils/debug/debugLog.js";
 
-const { ONBOARDING, MANAGE_GROUPS } = CLIENT_ROUTES;
-const { HOME } = TO;
+const { ONBOARDING_GROUP_SETTINGS, MANAGE_GROUPS, HOME } = CLIENT_STATIC_ROUTES;
 
 const CreateGroupMemberPage = () => {
   const { t } = useTranslation();
-  const previousRoute = getPreviousRoute();
 
-  debugLog("Current previousRoute in Page:", previousRoute);
+  const { isNewUser, isFromGroupManagement, isFromInstantSplit } =
+    useUserOrigin();
 
-  const isNewUser = Boolean(previousRoute?.includes(ONBOARDING.CREATE_GROUP));
-  const isInAppGroupCreation = Boolean(previousRoute?.includes(MANAGE_GROUPS));
-  const isRegularUser = !previousRoute;
+  const isAbortEnabled = Boolean(isNewUser || isFromGroupManagement);
+  const isBackEnabled = isFromInstantSplit;
+  const isForwardEnabled = Boolean(isNewUser || isFromInstantSplit);
+  const isHeaderVisible = !isNewUser;
+
+  const abortDestination = isFromGroupManagement ? MANAGE_GROUPS : HOME;
+  const forwardDestination = ONBOARDING_GROUP_SETTINGS;
 
   return (
     <main>
       <HelmetMetaTagsNetlify title={t("create-group-members-page-title")} />
 
       <InAppNavigationBar
-        abort={isNewUser || isInAppGroupCreation}
-        abortTo={isInAppGroupCreation ? MANAGE_GROUPS : HOME}
-        back={isRegularUser}
-        forward={isNewUser || isInAppGroupCreation}
-        forwardTo={ONBOARDING.GROUP_SETTINGS}
+        abort={isAbortEnabled}
+        abortTo={abortDestination}
+        back={isBackEnabled}
+        forward={isForwardEnabled}
+        forwardTo={forwardDestination}
       />
 
       <div className={styles.addGroupMember}>
-        {!isNewUser && <h1>{t("create-group-members-page-header")}</h1>}
+        {isHeaderVisible && <h1>{t("create-group-members-page-header")}</h1>}
         <h2>{t("create-group-members-form-header")}</h2>
 
         <CreateGroupMemberForm />
       </div>
 
       <div className={styles.container}>
-        <RenderGroupMemberNames isInAppGroupCreation={isInAppGroupCreation} />
+        <RenderGroupMemberNames isInAppGroupCreation={isFromGroupManagement} />
       </div>
     </main>
   );

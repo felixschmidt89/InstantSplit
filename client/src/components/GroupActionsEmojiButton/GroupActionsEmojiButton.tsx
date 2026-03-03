@@ -1,5 +1,3 @@
-// React and Third-Party Libraries
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
 
@@ -19,9 +17,6 @@ type GroupActionsEmojiButtonProps = {
   scale?: number;
 };
 
-/**
- * Renders a button component with an emoji, action explanationText, and navigates to a specified route on click. Can be amended using translateX, translateY, and scale props.
- */
 const GroupActionsEmojiButton = ({
   route,
   emoji,
@@ -37,7 +32,7 @@ const GroupActionsEmojiButton = ({
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/${route}`);
+    navigate(route);
   };
 
   return (

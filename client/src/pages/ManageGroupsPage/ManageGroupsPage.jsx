@@ -3,7 +3,8 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 
 import styles from "./ManageGroupsPage.module.css";
-import { setPreviousRoute } from "../../utils/localStorage";
+// Fixed: Using the specific LocalStorage helper name
+import { setPreviousRouteInLocalStorage } from "../../utils/localStorage";
 import useSyncStoredGroupCodes from "../../hooks/useSyncStoredGroupCodes";
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
@@ -21,7 +22,7 @@ const ManageGroupsPage = () => {
   useSyncStoredGroupCodes();
 
   useEffect(() => {
-    setPreviousRoute(pathname);
+    setPreviousRouteInLocalStorage(pathname);
   }, [pathname]);
 
   return (

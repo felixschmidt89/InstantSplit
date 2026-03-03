@@ -24,6 +24,7 @@ import RenderReactIcon from "../../RenderReactIcon/RenderReactIcon";
  * @returns {JSX.Element} React component.
  */
 const RenderSettlementPaymentSuggestions = ({
+  //TODO: Drop Render in Component names
   fixedDebitorCreditorOrder,
   positiveBalanceUsers,
   negativeBalanceUsers,

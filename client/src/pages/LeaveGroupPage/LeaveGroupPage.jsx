@@ -7,9 +7,9 @@ import styles from "./LeaveGroupPage.module.css";
 import { useGroupContext } from "../../context/GroupContext";
 import useConfirmationModalLogicAndActions from "../../hooks/useConfirmationModalLogicAndActions";
 import {
-  deleteNestedPreviousRoute,
-  deletePreviousRoute,
-  deleteStoredView,
+  deleteNestedPreviousRouteFromLocalStorage,
+  deletePreviousRouteFromLocalStorage,
+  deleteStoredViewFromLocalStorage,
 } from "../../utils/localStorage";
 import { TO } from "../../constants/navigationConstants";
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
@@ -33,9 +33,9 @@ const LeaveGroupPage = () => {
     handleShowConfirmation,
     handleHideConfirmation,
   } = useConfirmationModalLogicAndActions([
-    () => deleteStoredView(),
-    () => deletePreviousRoute(),
-    () => deleteNestedPreviousRoute(),
+    () => deleteStoredViewFromLocalStorage(),
+    () => deletePreviousRouteFromLocalStorage(),
+    () => deleteNestedPreviousRouteFromLocalStorage(),
     () => removeGroup(groupCode),
     () => navigate(INSTANT_SPLIT),
   ]);

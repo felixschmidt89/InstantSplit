@@ -75,9 +75,11 @@
   - **Explicit Imports**: Do **NOT** use `index.js` files. Imports must explicitly reference the component file (e.g., `import Footer from "@components/Footer/Footer";`).
   - **Styles**: Component-specific styles must use the CSS Module naming convention matching the component (e.g., `Footer.module.css`).
 
-- **API Logging**:
-  - **Redundancy**: Do **NOT** manually log API requests or responses (e.g., "Fetching data...", "Data fetched successfully") within API functions or components.
-  - **Automation**: Rely exclusively on the `axiosInstance` interceptors, which automatically log all requests and responses via `debugLog`.
+- **API & Logic Logging**:
+  - **Origin-First Principle**: Always implement `debugLog` within the logic owner (e.g., inside a utility function or a custom hook).
+  - **Consumer Cleanliness**: Do **NOT** duplicate logs in the consuming component for information already captured by the hook or utility.
+  - **Component-Specific Logging**: Only use `debugLog` within a component for logic that is strictly local to that component's lifecycle or unique state transitions.
+  - **Automation**: Rely exclusively on the `axiosInstance` interceptors, which automatically log all requests and responses via `debugLog`. Do **NOT** manually log API requests or responses within API functions or components.
 
 - **Syntax & Functions**:
   - Use ES6 modules and `async/await`.
@@ -145,16 +147,19 @@ tbd
 
 This is a legacy codebase. When we work on existing files, we always want to refactor for better readability and maintainability, while ensuring minimal side effects. Follow these guidelines:
 
-- **ALWAYS** use `debugLog` utility for all development-time logging. Replace devLog with debugLog whenever shared code uses devLog
-- Drop JSDoc wherever used.
-- Drop import comments
-- Drop comments unless they add significant value.
-- Reevaluate variable and function names for clarity; rename only with confirmation.
-- Reorganize code structure for logical flow; seek confirmation before major changes.
+- **Telemetry Migration**:
+  - **Standard**: When refactoring, identify the "source of truth" for a logic block (Utility or Hook) and move all `debugLog` calls there.
+  - **Cleanup**: Remove redundant logs from components that now consume refactored hooks or utilities.
+  - **Logging Utility**: Always use `debugLog` utility for all development-time logging. Replace legacy `devLog` with `debugLog` whenever shared code uses `devLog`.
+- **Logic Cleanup**:
+  - Drop JSDoc wherever used.
+  - Drop import comments and existing comments unless they add significant value.
+  - Reevaluate variable and function names for clarity; rename only with confirmation.
+  - Reorganize code structure for logical flow; seek confirmation before major changes.
 - **Minimal Side Effects:** Avoid changes that could introduce bugs.
 - **Preserve Functionality:** Ensure existing features remain intact.
-- **Incremental Changes:** Make small, manageable changes rather than large overhauls. Wait for confirmation before proceeding with significant refactors.
-- **Testing:** After refactoring, ensure all existing tests pass. If no tests exist, recommend adding them. Use jest and react-testing-library for testing.
+- **Incremental Changes**: Make small, manageable changes rather than large overhauls. Wait for confirmation before proceeding with significant refactors.
+- **Testing**: After refactoring, ensure all existing tests pass. If no tests exist, recommend adding them. Use jest and react-testing-library for testing.
 
 ### 8. Technical Debt Management
 
@@ -175,7 +180,7 @@ This is a legacy codebase. When we work on existing files, we always want to ref
   - **Summary Text**: Provide a concise, bulleted list of changes using technical terminology (e.g., "module resolution," "path aliasing").
   - **Exclusions**: Do not include "PR Title" or "Description" headers within the code block; provide only the raw text.
 
-<!-- ### 10. Atomic Utility Architecture
+### 10. Atomic Utility Architecture
 
 - **Standard**: Follow a strictly atomic, folder-per-function pattern for all utilities within `shared/utils/`, `server/utils/` and `client/src/utils/`.
 - **Structure**:
@@ -185,7 +190,7 @@ This is a legacy codebase. When we work on existing files, we always want to ref
   - Each category folder must contain an `index.js` file.
   - The `index.js` serves as a "barrel" that exports all functions from that folder (e.g., `export * from "./replaceSlashesWithDashes";`).
 - **Imports**:
-  - Do **NOT** import directly from the individual function file. -->
+  - Do **NOT** import directly from the individual function file.
 
 ### 11. Utility Validation & Migration
 
@@ -215,3 +220,20 @@ This is a legacy codebase. When we work on existing files, we always want to ref
 
   **Test Data Management**:
   - **Standard**: Generic mock data used across multiple test suites (e.g., mock IDs, generic strings, dummy objects) must be used in tests and stored in `@shared-constants/testConstants`.
+
+### 13. Client Route & Navigation Architecture
+
+- **Constants Organization**:
+  - **`clientStaticRoutesConstants.js`**: Stores a flat object of base path strings.
+  - **`clientDynamicRoutesConstants.js`**: Composes full route definitions for the router using template literals and dynamic segments.
+  - **`navigationConstants.js`**: Stores the `TO` object containing functional route builders created via the `createRoute` utility.
+- **Import & Destructuring**:
+  - **Route Constants**: Always destructure required paths from `CLIENT_STATIC_ROUTES` or `CLIENT_DYNAMIC_ROUTES` at the top level of the file for route matching, configuration, or comparison logic.
+  - **Navigation Helpers (`TO`)**: Always import the `TO` object in full. Do **NOT** destructure properties from it at the top level.
+- **Usage Restrictions**:
+  - **`TO` Object**: Strictly reserved for use within `useNavigate()` calls (e.g., `Maps(TO.HOME)`). Never pass `TO` constants into component props.
+  - **Static Props**: For any component prop requiring a path string (e.g., `abortTo`, `backTo`, `forwardTo`), **MANDATORY** use of destructured strings from `CLIENT_STATIC_ROUTES` (e.g., `HOME`).
+  - **Import Priority**: Always prioritize `CLIENT_STATIC_ROUTES` for path references if technically possible, particularly when other static constants are already present in the import block, to avoid redundant `TO` imports.
+- **Component Implementation**:
+  - **Semantic Variables**: Extract ternary logic or complex destination selection into well-named variables within the functional body (e.g., `const homeDestination = isGuest ? HOME : INSTANT_SPLIT;`).
+  - **JSX Declarativeness**: Pass these semantic variables directly to component props (e.g., `homeTo={homeDestination}`) to ensure the presentation layer remains readable and logically thin.

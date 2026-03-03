@@ -18,10 +18,11 @@ import { useState } from "react";
  *   handleHideConfirmation: () => void - Function to hide the confirmation dialog.
  * }}
  */
+// TODO: Rename and refactor
 const useConfirmationModalLogicAndActions = (
   onConfirmationCallbacks,
   onShowCallbacks,
-  onHideCallbacks
+  onHideCallbacks,
 ) => {
   const [isConfirmationVisible, setIsConfirmationVisible] = useState(false);
 

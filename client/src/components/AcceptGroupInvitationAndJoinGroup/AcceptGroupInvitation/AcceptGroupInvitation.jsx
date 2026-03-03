@@ -7,9 +7,9 @@ import TermsAndConditionsSection from "../../Home/TermsAndConditionsSection/Term
 import { buttonStyles } from "../../../constants/stylesConstants";
 import { TO } from "../../../constants/navigationConstants";
 import {
-  isGroupCodeInStoredGroupCodes,
+  isGroupCodeInLocalStorageStoredGroupCodes,
   setActiveGroupCodeInLocalStorage,
-  storeGroupCode,
+  storeGroupCodeInLocalStorage,
 } from "../../../utils/localStorage";
 import { useGroupContext } from "../../../context/GroupContext";
 
@@ -20,12 +20,10 @@ const { INSTANT_SPLIT } = TO;
 const AcceptGroupInvitation = ({ groupName, groupCode }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-
   const { setActiveGroupCode } = useGroupContext();
 
   const onInvitationAccept = () => {
-    storeGroupCode(groupCode);
-
+    storeGroupCodeInLocalStorage(groupCode);
     setActiveGroupCodeInLocalStorage(groupCode);
     setActiveGroupCode(groupCode);
 
@@ -33,10 +31,13 @@ const AcceptGroupInvitation = ({ groupName, groupCode }) => {
   };
 
   useEffect(() => {
-    if (isGroupCodeInStoredGroupCodes(groupCode)) {
+    const isAlreadyGroupMember = Boolean(
+      isGroupCodeInLocalStorageStoredGroupCodes(groupCode),
+    );
+
+    if (isAlreadyGroupMember) {
       setActiveGroupCodeInLocalStorage(groupCode);
       setActiveGroupCode(groupCode);
-
       navigate(INSTANT_SPLIT);
     }
   }, [groupCode, navigate, setActiveGroupCode]);
