@@ -48,7 +48,7 @@ const {
   INSTANT_SPLIT,
   MANAGE_GROUPS,
   TERMS_AND_CONDITIONS,
-  MEMBERS_CREATE,
+  CREATE_MEMBERS,
   SETTLE_EXPENSES,
   GROUP_SETTINGS,
 } = CLIENT_STATIC_ROUTES;
@@ -130,7 +130,7 @@ const App = () => {
                 <Route path={UPDATE_PAYMENT} element={<UpdatePaymentPage />} />
 
                 <Route
-                  path={MEMBERS_CREATE}
+                  path={CREATE_MEMBERS}
                   element={<CreateGroupMemberPage />}
                 />
                 <Route
