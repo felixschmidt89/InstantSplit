@@ -12,11 +12,16 @@ import {
   getActiveGroupCodeFromLocalStorage,
   getStoredGroupCodesFromLocalStorage,
   setActiveGroupCodeInLocalStorage,
-} from "../utils/localStorage";
-import { LOCAL_STORAGE_KEYS } from "../constants/localStorageConstants";
-import useFetchGroupMembers from "../hooks/useFetchGroupMembers";
+  deleteActiveGroupCodeFromLocalStorage,
+} from "../utils/localStorage/index.js";
+
+import { LOCAL_STORAGE_KEYS } from "../constants/localStorageConstants.js";
+import useFetchGroupMembers from "../hooks/useFetchGroupMembers.jsx";
+import { debugLog } from "../../../shared/utils/debug/debugLog.js";
+import { LOG_LEVELS } from "../../../shared/constants/debugConstants.js";
 
 const { ACTIVE_GROUP_CODE, STORED_GROUP_CODES } = LOCAL_STORAGE_KEYS;
+const { INFO, DEBUG } = LOG_LEVELS;
 
 const GroupContext = createContext();
 
@@ -47,7 +52,12 @@ export const GroupProvider = ({ children }) => {
   }, [storedGroupCodes]);
 
   const setActiveGroupCode = useCallback((newCode) => {
-    setActiveGroupCodeInLocalStorage(newCode);
+    debugLog("Setting active group code", { newCode }, DEBUG);
+    if (newCode) {
+      setActiveGroupCodeInLocalStorage(newCode);
+    } else {
+      deleteActiveGroupCodeFromLocalStorage();
+    }
     setInternalActiveGroupCode(newCode);
   }, []);
 
@@ -57,23 +67,35 @@ export const GroupProvider = ({ children }) => {
   }, []);
 
   const removeGroup = useCallback(
-    (groupCode) => {
+    (groupCode, shouldAutoSwitch = true) => {
+      debugLog(
+        "GroupContext: Removing group",
+        { groupCode, shouldAutoSwitch },
+        INFO,
+      );
+
       const isDeleted = deleteGroupCodeFromLocalStorage(groupCode);
 
       if (isDeleted) {
-        setStoredGroupCodes((prev) =>
-          prev.filter((code) => code !== groupCode),
-        );
+        setStoredGroupCodes((prev) => {
+          const updatedList = prev.filter((code) => code !== groupCode);
 
-        if (activeGroupCode === groupCode) {
-          const nextGroup = getFirstAvailableGroupCode();
-          setActiveGroupCode(nextGroup);
-        }
+          if (activeGroupCode === groupCode) {
+            if (shouldAutoSwitch && updatedList.length > 0) {
+              const nextGroup = updatedList[0];
+              setActiveGroupCode(nextGroup);
+            } else {
+              setActiveGroupCode(null);
+            }
+          }
+
+          return updatedList;
+        });
       }
 
       return isDeleted;
     },
-    [activeGroupCode, getFirstAvailableGroupCode, setActiveGroupCode],
+    [activeGroupCode, setActiveGroupCode],
   );
 
   const getMemberName = useCallback(

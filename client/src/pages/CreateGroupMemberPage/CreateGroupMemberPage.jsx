@@ -18,7 +18,7 @@ const CreateGroupMemberPage = () => {
 
   const isAbortEnabled = Boolean(isNewUser || isFromGroupManagement);
   const isBackEnabled = isFromInstantSplit;
-  const isForwardEnabled = Boolean(isNewUser);
+  const isForwardEnabled = Boolean(isNewUser || isFromGroupManagement);
   const isHeaderVisible = !isNewUser;
 
   const abortDestination = isFromGroupManagement ? MANAGE_GROUPS : HOME;

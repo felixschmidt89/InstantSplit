@@ -6,10 +6,11 @@ import GetStartedSection from "../../components/Home/GetStartedSection/GetStarte
 import TermsAndConditionsSection from "../../components/Home/TermsAndConditionsSection/TermsAndConditionsSection";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import styles from "./HomePage.module.css";
-import useAutoActiveGroupCodeRedirect from "../../hooks/useAutoActiveGroupCodeRedirect";
+// import useAutoActiveGroupCodeRedirect from "../../hooks/useAutoActiveGroupCodeRedirect";
 
 const HomePage = () => {
-  useAutoActiveGroupCodeRedirect();
+  //TODO: Fix hook
+  // useAutoActiveGroupCodeRedirect();
   const { t } = useTranslation();
 
   return (
