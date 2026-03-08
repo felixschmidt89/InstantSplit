@@ -1,74 +1,58 @@
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useMemo } from "react";
 
 import styles from "./RenderGroupBalances.module.css";
-import { useGroupContext } from "../../../../context/GroupContext"; // Integrated context
+import { useGroupContext } from "../../../../context/GroupContext";
 import { BALANCE_THRESHOLD } from "../../../../constants/dataConstants";
 import RenderGroupMemberBalance from "../RenderGroupMemberBalance/RenderGroupMemberBalance";
 import Spinner from "../../../Spinner/Spinner";
 import NotEnoughGroupMembers from "../../NotEnoughGroupMembers/NotEnoughGroupMembers";
 import ErrorModal from "../../../ErrorModal/ErrorModal";
-import { fetchGroupMembers } from "../../../../api/users/fetchGroupMembers.js";
 import useErrorModalVisibility from "../../../../hooks/useErrorModalVisibility.jsx";
-import { devLog } from "../../../../utils/errorUtils.jsx";
+import { LOG_LEVELS } from "../../../../../../shared/constants/debugConstants.js";
+import { debugLog } from "../../../../../../shared/utils/debug/debugLog.js";
+
+const { DEBUG } = LOG_LEVELS;
 
 const RenderGroupBalances = ({ groupCurrency }) => {
-  const { t } = useTranslation();
-  const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
+  const { isErrorModalVisible, handleCloseErrorModal } =
     useErrorModalVisibility();
 
-  const { activeGroupCode: groupCode } = useGroupContext();
+  const {
+    activeGroupCode: groupCode,
+    groupMembers,
+    isLoading,
+    error,
+  } = useGroupContext();
 
-  const [groupMemberDetails, setGroupMemberDetails] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const groupMemberDetails = useMemo(() => {
+    if (!groupMembers || groupMembers.length === 0) return [];
 
-  useEffect(() => {
-    const fetchUserDetails = async () => {
-      try {
-        const { users } = await fetchGroupMembers(groupCode);
-        devLog("User details fetched:", users);
+    return groupMembers.map((user) => {
+      // TODO: Refactor and move this calculation to the backend or a utility helper
+      const isNoEdgeCase =
+        groupMembers.length > 1 &&
+        groupMembers.every(
+          (member) => Math.abs(member.userBalance) <= BALANCE_THRESHOLD,
+        ) &&
+        Math.abs(user.userBalance) <=
+          (groupMembers.length - 1) * BALANCE_THRESHOLD;
 
-        if (users?.length > 0) {
-          const formattedDetails = users.map((user) => {
-            const isNoEdgeCase =
-              users.length > 1 &&
-              users.every(
-                (u) => Math.abs(u.userBalance) <= BALANCE_THRESHOLD,
-              ) &&
-              Math.abs(user.userBalance) <=
-                (users.length - 1) * BALANCE_THRESHOLD;
+      debugLog(
+        "Balance Edge Case Check",
+        { userName: user.userName, isNoEdgeCase },
+        DEBUG,
+      );
 
-            devLog("isNoEdgeCase:", isNoEdgeCase);
-
-            return {
-              userId: user._id,
-              userName: user.userName,
-              userBalance:
-                Math.abs(user.userBalance) <= BALANCE_THRESHOLD && isNoEdgeCase
-                  ? 0
-                  : +parseFloat(user.userBalance).toFixed(2),
-            };
-          });
-
-          setGroupMemberDetails(formattedDetails);
-          devLog("Group details formatted:", formattedDetails);
-        }
-
-        setError("");
-        setIsLoading(false);
-      } catch (error) {
-        devLog("Error fetching user details:", error);
-        setError(t("generic-error-message"));
-        displayErrorModal();
-        setIsLoading(false);
-      }
-    };
-
-    if (groupCode) {
-      fetchUserDetails();
-    }
-  }, [groupCode, t, displayErrorModal]);
+      return {
+        userId: user._id,
+        userName: user.userName,
+        userBalance:
+          Math.abs(user.userBalance) <= BALANCE_THRESHOLD && isNoEdgeCase
+            ? 0
+            : +parseFloat(user.userBalance).toFixed(2),
+      };
+    });
+  }, [groupMembers]);
 
   if (isLoading) {
     return (
@@ -80,7 +64,7 @@ const RenderGroupBalances = ({ groupCurrency }) => {
 
   return (
     <div className={styles.container}>
-      {groupMemberDetails?.length > 0 ? (
+      {groupMemberDetails.length > 0 ? (
         <RenderGroupMemberBalance
           groupMemberDetails={groupMemberDetails}
           groupCode={groupCode}
@@ -95,7 +79,7 @@ const RenderGroupBalances = ({ groupCurrency }) => {
       <ErrorModal
         error={error}
         onClose={handleCloseErrorModal}
-        isVisible={isErrorModalVisible}
+        isVisible={isErrorModalVisible || !!error}
       />
     </div>
   );

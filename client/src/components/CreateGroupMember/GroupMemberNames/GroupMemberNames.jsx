@@ -2,15 +2,18 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-import { useGroupContext } from "../../../context/GroupContext";
-import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
-import emojiConstants from "../../../constants/emojiConstants";
-import DeleteGroupMemberBin from "../DeleteGroupMemberBin/DeleteGroupMemberBin";
-import Spinner from "../../Spinner/Spinner";
-import Emoji from "../../Emoji/Emoji";
-import ErrorModal from "../../ErrorModal/ErrorModal";
+import { useGroupContext } from "../../../context/GroupContext.jsx";
+import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility.jsx";
+import DeleteGroupMemberBin from "../DeleteGroupMemberBin/DeleteGroupMemberBin.jsx";
+import Spinner from "../../Spinner/Spinner.jsx";
+import Emoji from "../../Emoji/Emoji.jsx";
+import ErrorModal from "../../ErrorModal/ErrorModal.jsx";
 
 import styles from "./GroupMemberNames.module.css";
+import emojiConstants from "../../../constants/emojiConstants.jsx";
+import { CLIENT_LINKS } from "../../../constants/clientDynamicRoutesConstants.js";
+
+const { MEMBER_DETAILS } = CLIENT_LINKS;
 
 const GroupMemberNames = ({ isInAppGroupCreation }) => {
   const { t } = useTranslation();
@@ -18,6 +21,7 @@ const GroupMemberNames = ({ isInAppGroupCreation }) => {
   const {
     groupMembers,
     activeGroupCode: groupCode,
+    isFetched,
     isLoading,
     error,
     refreshGroupMembers,
@@ -26,16 +30,23 @@ const GroupMemberNames = ({ isInAppGroupCreation }) => {
   const { isErrorModalVisible, handleCloseErrorModal } =
     useErrorModalVisibility();
 
+  const showSpinner = isLoading || (!isFetched && groupCode);
+
+  // TODO: Move to backend
   const sortedMembers = useMemo(() => {
-    return [...groupMembers].sort(
-      (userA, userB) => new Date(userB.createdAt) - new Date(userA.createdAt),
-    );
+    return groupMembers
+      ? [...groupMembers].sort(
+          (userA, userB) =>
+            new Date(userB.createdAt) - new Date(userA.createdAt),
+        )
+      : [];
   }, [groupMembers]);
 
+  // TODO: Move to backend
   const hasNoMembers = sortedMembers.length === 0;
   const shouldShowErrorModal = Boolean(isErrorModalVisible || error);
 
-  if (isLoading) {
+  if (showSpinner) {
     return (
       <div className={styles.spinner}>
         <Spinner />
@@ -62,7 +73,7 @@ const GroupMemberNames = ({ isInAppGroupCreation }) => {
                   {!isInAppGroupCreation ? (
                     <>
                       <Link
-                        to={`/groupmember-details/${groupCode}/${_id}`}
+                        to={MEMBER_DETAILS(groupCode, _id)}
                         className={`${styles.groupMemberListItemLink} ${styles.linkWrapper}`}>
                         <span className={styles.emoji}>
                           <Emoji

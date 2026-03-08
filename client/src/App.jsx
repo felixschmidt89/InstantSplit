@@ -34,7 +34,7 @@ import GroupMemberDetailsPage from "./pages/GroupMemberDetailsPage/GroupMemberDe
 import GroupMemberTransactionHistoryPage from "./pages/GroupMemberTransactionHistoryPage/GroupMemberTransactionHistoryPage.jsx";
 
 import { CLIENT_STATIC_ROUTES } from "./constants/clientStaticRoutesConstants.js";
-import { CLIENT_DYNAMIC_ROUTES } from "./constants/clientDynamicRoutesConstants.js";
+import { CLIENT_ROUTE_PATTERNS } from "./constants/clientDynamicRoutesConstants.js";
 import { GroupProvider } from "./context/GroupContext.jsx";
 import "./App.css";
 import muiTheme from "./themes/muiTheme.jsx";
@@ -44,16 +44,18 @@ const {
   ONBOARDING_GROUP_SETTINGS,
   ONBOARDING_CREATE_GROUP,
   ONBOARDING_ENTER_GROUPCODE,
-  VALIDATORS_GROUPCODE,
   INSTANT_SPLIT,
   MANAGE_GROUPS,
   TERMS_AND_CONDITIONS,
   CREATE_MEMBERS,
   SETTLE_EXPENSES,
   GROUP_SETTINGS,
+  CREATE_EXPENSE,
+  CREATE_PAYMENT,
 } = CLIENT_STATIC_ROUTES;
 
 const {
+  GROUPCODE_VALIDATOR,
   JOIN_GROUP_DE,
   JOIN_GROUP_EN,
   TUTORIAL,
@@ -67,7 +69,7 @@ const {
   UPDATE_PAYMENT,
   CONTACT,
   NOT_FOUND,
-} = CLIENT_DYNAMIC_ROUTES;
+} = CLIENT_ROUTE_PATTERNS;
 
 const App = () => {
   return (
@@ -90,23 +92,22 @@ const App = () => {
                 path={ONBOARDING_ENTER_GROUPCODE}
                 element={<EnterGroupCodePage />}
               />
-              <Route
-                path={VALIDATORS_GROUPCODE}
-                element={<ValidateProvidedGroupCodePage />}
-              />
-
-              <Route path={JOIN_GROUP_DE} element={<JoinGroupDEPage />} />
-              <Route path={JOIN_GROUP_EN} element={<JoinGroupENPage />} />
-              <Route path={TUTORIAL} element={<TutorialPage />} />
               <Route path={INSTANT_SPLIT} element={<InstantSplitPage />} />
               <Route path={MANAGE_GROUPS} element={<ManageGroupsPage />} />
-              <Route path={CONTACT} element={<ContactPage />} />
               <Route
                 path={TERMS_AND_CONDITIONS}
                 element={<TermsAndConditionsPage />}
               />
 
-              {/* Protected / Context Routes */}
+              <Route
+                path={GROUPCODE_VALIDATOR}
+                element={<ValidateProvidedGroupCodePage />}
+              />
+              <Route path={JOIN_GROUP_DE} element={<JoinGroupDEPage />} />
+              <Route path={JOIN_GROUP_EN} element={<JoinGroupENPage />} />
+              <Route path={TUTORIAL} element={<TutorialPage />} />
+              <Route path={CONTACT} element={<ContactPage />} />
+
               <Route element={<GroupContextWrapper />}>
                 <Route
                   path={MEMBER_TRANSACTION_HISTORY}
@@ -116,27 +117,8 @@ const App = () => {
                   path={MEMBER_DETAILS}
                   element={<GroupMemberDetailsPage />}
                 />
-
-                <Route
-                  path={CLIENT_STATIC_ROUTES.CREATE_EXPENSE}
-                  element={<CreateExpensePage />}
-                />
-                <Route
-                  path={CLIENT_STATIC_ROUTES.CREATE_PAYMENT}
-                  element={<CreatePaymentPage />}
-                />
-
                 <Route path={UPDATE_EXPENSE} element={<UpdateExpensePage />} />
                 <Route path={UPDATE_PAYMENT} element={<UpdatePaymentPage />} />
-
-                <Route
-                  path={CREATE_MEMBERS}
-                  element={<CreateGroupMemberPage />}
-                />
-                <Route
-                  path={SETTLE_EXPENSES}
-                  element={<SettleExpensesPage />}
-                />
                 <Route
                   path={PAYMENT_DETAILS}
                   element={<PaymentDetailsPage />}
@@ -149,6 +131,17 @@ const App = () => {
                 <Route
                   path={SHARE_GROUP}
                   element={<ShareGroupInvitationPage />}
+                />
+
+                <Route path={CREATE_EXPENSE} element={<CreateExpensePage />} />
+                <Route path={CREATE_PAYMENT} element={<CreatePaymentPage />} />
+                <Route
+                  path={CREATE_MEMBERS}
+                  element={<CreateGroupMemberPage />}
+                />
+                <Route
+                  path={SETTLE_EXPENSES}
+                  element={<SettleExpensesPage />}
                 />
                 <Route path={GROUP_SETTINGS} element={<GroupSettingsPage />} />
               </Route>

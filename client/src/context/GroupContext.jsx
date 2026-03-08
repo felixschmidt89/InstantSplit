@@ -34,7 +34,7 @@ export const GroupProvider = ({ children }) => {
     getActiveGroupCodeFromLocalStorage(),
   );
 
-  const { groupMembers, isFetched, error, refetch } =
+  const { groupMembers, isFetched, isLoading, error, refetch } =
     useFetchGroupMembers(activeGroupCode);
 
   const membersMap = useMemo(() => {
@@ -119,20 +119,37 @@ export const GroupProvider = ({ children }) => {
     return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
-  const value = {
-    activeGroupCode,
-    setActiveGroupCode,
-    storedGroupCodes,
-    setStoredGroupCodes,
-    refreshStoredGroupCodes,
-    removeGroup,
-    getFirstAvailableGroupCode,
-    groupMembers: groupMembers || [],
-    getMemberName,
-    isFetched,
-    error,
-    refreshGroupMembers: refetch,
-  };
+  const value = useMemo(
+    () => ({
+      activeGroupCode,
+      setActiveGroupCode,
+      storedGroupCodes,
+      setStoredGroupCodes,
+      refreshStoredGroupCodes,
+      removeGroup,
+      getFirstAvailableGroupCode,
+      groupMembers: groupMembers || [],
+      getMemberName,
+      isFetched,
+      isLoading,
+      error,
+      refreshGroupMembers: refetch,
+    }),
+    [
+      activeGroupCode,
+      setActiveGroupCode,
+      storedGroupCodes,
+      refreshStoredGroupCodes,
+      removeGroup,
+      getFirstAvailableGroupCode,
+      groupMembers,
+      getMemberName,
+      isFetched,
+      isLoading,
+      error,
+      refetch,
+    ],
+  );
 
   return (
     <GroupContext.Provider value={value}>{children}</GroupContext.Provider>
