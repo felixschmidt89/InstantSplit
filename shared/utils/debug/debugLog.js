@@ -12,7 +12,11 @@ export const debugLog = (message = "debug", data, level = LOG_LEVELS.INFO) => {
     const debugMessage = `${level}: ${message}`;
 
     if (data !== undefined) {
-      if (data instanceof Error || level === LOG_LEVELS.ERROR) {
+      if (
+        data instanceof Error ||
+        level === LOG_LEVELS.ERROR ||
+        level === LOG_LEVELS.LOG_ERROR
+      ) {
         console.error(debugMessage, data);
       } else {
         console.log(debugMessage, data);
@@ -22,3 +26,9 @@ export const debugLog = (message = "debug", data, level = LOG_LEVELS.INFO) => {
     }
   }
 };
+
+// Exporting clean aliases
+export const INFO = LOG_LEVELS.INFO;
+export const DEBUG = LOG_LEVELS.DEBUG;
+export const WARN = LOG_LEVELS.WARN;
+export const ERROR = LOG_LEVELS.LOG_ERROR;

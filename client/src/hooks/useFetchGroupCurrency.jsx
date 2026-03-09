@@ -1,41 +1,47 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-import { devLog } from "../utils/errorUtils";
 import { fetchGroupCurrency } from "../api/groups/fetchGroupCurrency";
+
+import { debugLog, INFO, ERROR } from "../../../shared/utils/debug/debugLog.js";
+import { useApi } from "./api/useApi.jsx";
 
 const useFetchGroupCurrency = (groupCode) => {
   const { t } = useTranslation();
-  const [groupCurrency, setGroupCurrency] = useState(null);
-  const [isFetched, setIsFetched] = useState(false);
-  const [error, setError] = useState(null);
+
+  const { data, isFetched, isLoading, error, trigger } =
+    useApi(fetchGroupCurrency);
 
   useEffect(() => {
-    const getCurrency = async () => {
-      try {
-        const { currency } = await fetchGroupCurrency(groupCode);
-
-        if (!currency) {
-          devLog("No group found for groupCode:", groupCode);
-          setIsFetched(true);
-          return;
-        }
-
-        devLog("Group currency fetched:", currency);
-        setGroupCurrency(currency);
-        setIsFetched(true);
-      } catch (error) {
-        devLog("Error fetching group currency:", error);
-        setError(t("generic-error-message"));
-      }
-    };
-
-    if (groupCode) {
-      getCurrency();
+    if (groupCode && !isFetched) {
+      trigger(groupCode)
+        .then((result) => {
+          if (!result?.currency) {
+            debugLog("No group found for groupCode:", { groupCode }, INFO);
+          } else {
+            debugLog(
+              "Group currency fetched:",
+              { currency: result.currency },
+              INFO,
+            );
+          }
+        })
+        .catch((requestError) => {
+          debugLog(
+            "Error fetching group currency:",
+            { error: requestError.message, groupCode },
+            ERROR,
+          );
+        });
     }
-  }, [groupCode, t]);
+  }, [groupCode, isFetched, trigger]);
 
-  return { groupCurrency, isFetched, error };
+  return {
+    groupCurrency: data?.currency || null,
+    isFetched,
+    isLoading,
+    error: error ? t("generic-error-message") : null,
+  };
 };
 
 export default useFetchGroupCurrency;
