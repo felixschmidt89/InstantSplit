@@ -2,22 +2,21 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 import { fetchGroupCurrency } from "../api/groups/fetchGroupCurrency";
-
 import { debugLog, INFO, ERROR } from "../../../shared/utils/debug/debugLog.js";
-import { useApi } from "./api/useApi.jsx";
+import { useGroupApi } from "./api/useGroupApi.jsx";
 
-const useFetchGroupCurrency = (groupCode) => {
+const useFetchGroupCurrency = () => {
   const { t } = useTranslation();
 
   const { data, isFetched, isLoading, error, trigger } =
-    useApi(fetchGroupCurrency);
+    useGroupApi(fetchGroupCurrency);
 
   useEffect(() => {
-    if (groupCode && !isFetched) {
-      trigger(groupCode)
+    if (!isFetched) {
+      trigger()
         .then((result) => {
           if (!result?.currency) {
-            debugLog("No group found for groupCode:", { groupCode }, INFO);
+            debugLog("No currency found for group", null, INFO);
           } else {
             debugLog(
               "Group currency fetched:",
@@ -29,12 +28,12 @@ const useFetchGroupCurrency = (groupCode) => {
         .catch((requestError) => {
           debugLog(
             "Error fetching group currency:",
-            { error: requestError.message, groupCode },
+            { error: requestError.message },
             ERROR,
           );
         });
     }
-  }, [groupCode, isFetched, trigger]);
+  }, [isFetched, trigger]);
 
   return {
     groupCurrency: data?.currency || null,

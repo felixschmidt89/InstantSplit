@@ -1,48 +1,29 @@
-import { StatusCodes } from 'http-status-codes';
-
-import { API_MESSAGES } from '../../../shared/constants/apiMessageConstants.js';
-import { API_RESPONSE_STATUS } from '../../../shared/constants/apiStatusConstants.js';
-import { LOG_LEVELS } from '../../../shared/constants/debugConstants.js';
-import { debugLog } from '../../../shared/utils/debug/debugLog.js';
 import { getGroupTransactionsService } from '../../services/group/getGroupTransactionsService.js';
-import { touchGroupLastActive } from '../../utils/group/touchGroupLastActive.js';
+import { API_HEADERS } from '../../../shared/constants/api/apiHeaderConstants.js';
 
-const { OK, INTERNAL_SERVER_ERROR } = StatusCodes;
-const { SUCCESS, STATUS_ERROR } = API_RESPONSE_STATUS;
-const { INFO, LOG_ERROR } = LOG_LEVELS;
+const { GROUPCODE } = API_HEADERS;
 
 export const getGroupTransactions = async (req, res) => {
-  const { groupCode } = req.params;
-
-  debugLog('Fetching group transactions', { groupCode }, INFO);
-
   try {
-    await touchGroupLastActive(groupCode);
+    // 1. Log this to see what is actually arriving
+    console.log('Incoming Headers:', req.headers);
+
+    // 2. Access the header.
+    // If GROUPCODE is 'x-group-code', Express will have it as 'x-group-code'
+    const groupCode = req.headers[GROUPCODE.toLowerCase()];
+
+    if (!groupCode) {
+      console.error('GroupCode missing from headers!');
+      return res.status(400).json({ error: 'Missing group code' });
+    }
 
     const transactions = await getGroupTransactionsService(groupCode);
 
-    debugLog(
-      'Group transactions fetched successfully',
-      { count: transactions.length },
-      INFO,
-    );
-
-    res.status(OK).json({
-      status: SUCCESS,
-      transactions,
-      count: transactions.length,
-      message: API_MESSAGES.TRANSACTIONS_FETCHED,
-    });
+    // 3. Always return an object with a key named 'transactions'
+    // to match your frontend destructuring: const { transactions } = await ...
+    return res.status(200).json({ transactions: transactions || [] });
   } catch (error) {
-    debugLog(
-      'Failed to fetch group transactions',
-      { error: error.message, groupCode },
-      LOG_ERROR,
-    );
-
-    res.status(INTERNAL_SERVER_ERROR).json({
-      status: STATUS_ERROR,
-      message: API_MESSAGES.INTERNAL_SERVER_ERROR,
-    });
+    console.error('Controller Error:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
   }
 };

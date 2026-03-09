@@ -4,7 +4,7 @@ import {
   deleteGroupCodeFromLocalStorage,
   getStoredGroupCodesFromLocalStorage,
 } from "../utils/localStorage";
-import { API_ENDPOINTS } from "../../../shared/constants/apiEndpoints";
+import { API_ENDPOINTS } from "../../../shared/constants/apiEndpointsConstants";
 import { debugLog } from "../../../shared/utils/debug";
 import { LOG_LEVELS } from "../../../shared/constants/debugConstants";
 import { useGroupContext } from "../context/GroupContext";

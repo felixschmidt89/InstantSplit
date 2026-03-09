@@ -1,11 +1,20 @@
 import { LOG_LEVELS } from '../../../shared/constants/debugConstants.js';
 import { TRANSACTION_TYPES } from '../../../shared/constants/transactionConstants.js';
+import { COMMON_FIELDS } from '../../../shared/constants/models/commonConstants.js';
+import { EXPENSE_FIELDS } from '../../../shared/constants/models/expenseConstants.js';
+import { PAYMENT_FIELDS } from '../../../shared/constants/models/paymentConstants.js';
+
 import { debugLog } from '../../../shared/utils/debug/debugLog.js';
+import sortByDateDescending from '../../../shared/utils/dates/sortByDateDescending.js';
+
 import Expense from '../../models/Expense.js';
 import Payment from '../../models/Payment.js';
 
 const { INFO } = LOG_LEVELS;
 const { EXPENSE, PAYMENT, UNKNOWN } = TRANSACTION_TYPES;
+const { ID, CREATED_AT } = COMMON_FIELDS;
+const { EXPENSE_DESCRIPTION } = EXPENSE_FIELDS;
+const { PAYMENT_AMOUNT } = PAYMENT_FIELDS;
 
 export const getGroupTransactionsService = async (groupCode) => {
   debugLog('Querying database for transactions', { groupCode }, INFO);
@@ -18,33 +27,40 @@ export const getGroupTransactionsService = async (groupCode) => {
   debugLog(
     'Raw results retrieved from DB',
     {
-      expensesFound: expenses.length,
-      paymentsFound: payments.length,
+      expensesCount: expenses.length,
+      paymentsCount: payments.length,
     },
     INFO,
   );
 
   const rawTransactions = [...expenses, ...payments];
 
-  const transactions = rawTransactions.map((item) => {
-    const itemObject = item;
-
+  const processedTransactions = rawTransactions.map((item) => {
     let itemType = UNKNOWN;
 
-    if (itemObject.expenseDescription) {
+    if (item[EXPENSE_DESCRIPTION]) {
       itemType = EXPENSE;
-    } else if (itemObject.paymentAmount) {
+    } else if (item[PAYMENT_AMOUNT]) {
       itemType = PAYMENT;
     }
 
     return {
-      ...itemObject,
-      itemId: itemObject._id,
+      ...item,
+      itemId: item[ID],
       itemType,
     };
   });
 
-  transactions.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  const sortedTransactions = sortByDateDescending(
+    processedTransactions,
+    CREATED_AT,
+  );
 
-  return transactions;
+  debugLog(
+    'Transactions processed and sorted',
+    { total: sortedTransactions.length },
+    INFO,
+  );
+
+  return sortedTransactions;
 };

@@ -1,5 +1,7 @@
 import express from 'express';
-// TODO: Legacy imports (to be refactored into atomic controllers individually)
+
+import { getGroupTransactions } from '../controllers/group/getGroupTransactionsController.js';
+
 import {
   createGroup,
   changeGroupName,
@@ -14,8 +16,6 @@ import {
   groupHasPersistedDebitorCreditorOrder,
 } from '../controllers/groupController.js';
 
-import { getGroupTransactions } from '../controllers/group/getGroupTransactionsController.js';
-
 import developmentOnlyMiddleware from '../middleware/developmentOnlyMiddleware.js';
 import {
   strictLimiter,
@@ -28,38 +28,53 @@ import {
 import { API_ROUTES } from '../../shared/constants/apiRoutesConstants.js';
 
 const router = express.Router();
-const { GROUPS, URL_PARAMS } = API_ROUTES;
+
+const {
+  GROUPS: {
+    STORED_GROUP_NAMES,
+    CURRENCY,
+    DATA_PURGE,
+    PERSISTED_ORDER,
+    HAS_PERSISTED_ORDER,
+    VALIDATE_GROUP_EXISTENCE_CONTINUOUS,
+    VALIDATE_GROUP_EXISTENCE_LIMITED,
+    TRANSACTIONS,
+  },
+  // TODO: Refactor to avoid exposing groupCode as URL param
+  URL_PARAMS: { GROUP_ID, GROUP_CODE },
+} = API_ROUTES;
 
 /**
  * Group Management Routes
  */
 router.post('/', createGroup);
 
-router.patch(`/${URL_PARAMS.GROUP_ID}`, changeGroupName);
+router.patch(`/${GROUP_ID}`, changeGroupName);
 
-router.get(`/${GROUPS.STORED_GROUP_NAMES}`, listGroupNamesByStoredGroupCodes);
+router.get(`/${STORED_GROUP_NAMES}`, listGroupNamesByStoredGroupCodes);
 
-router.get(`/${URL_PARAMS.GROUP_CODE}`, getGroupInfo);
+/**
+ * Updated Static Routes
+ */
+router.get(`/${CURRENCY}`, getGroupCurrency);
+router.get(`/${TRANSACTIONS}`, getGroupTransactions);
 
-router.get(`/${GROUPS.CURRENCY}/${URL_PARAMS.GROUP_CODE}`, getGroupCurrency);
+/**
+ * Dynamic Parameter Routes
+ */
+router.get(`/${GROUP_CODE}`, getGroupInfo);
+
+router.patch(`/${CURRENCY}/${GROUP_CODE}`, changeGroupCurrency);
+
+router.patch(`/${DATA_PURGE}/${GROUP_CODE}`, changeGroupDataPurgeSetting);
 
 router.patch(
-  `/${GROUPS.CURRENCY}/${URL_PARAMS.GROUP_CODE}`,
-  changeGroupCurrency,
-);
-
-router.patch(
-  `/${GROUPS.DATA_PURGE}/${URL_PARAMS.GROUP_CODE}`,
-  changeGroupDataPurgeSetting,
-);
-
-router.patch(
-  `/${GROUPS.PERSISTED_ORDER}/${URL_PARAMS.GROUP_CODE}`,
+  `/${PERSISTED_ORDER}/${GROUP_CODE}`,
   changeFixedDebitorCreditorOrderSetting,
 );
 
 router.get(
-  `/${GROUPS.HAS_PERSISTED_ORDER}/${URL_PARAMS.GROUP_CODE}`,
+  `/${HAS_PERSISTED_ORDER}/${GROUP_CODE}`,
   groupHasPersistedDebitorCreditorOrder,
 );
 
@@ -67,31 +82,21 @@ router.get(
  * Validation Routes (Rate Limited)
  */
 router.get(
-  `/${URL_PARAMS.GROUP_CODE}/${GROUPS.VALIDATE_GROUP_EXISTENCE_CONTINUOUS}`,
+  `/${GROUP_CODE}/${VALIDATE_GROUP_EXISTENCE_CONTINUOUS}`,
   laxLimiter,
   laxLimitRequestsPerIpMiddleware,
   validateGroupExistence,
 );
 
 router.get(
-  `/${URL_PARAMS.GROUP_CODE}/${GROUPS.VALIDATE_GROUP_EXISTENCE_LIMITED}`,
+  `/${GROUP_CODE}/${VALIDATE_GROUP_EXISTENCE_LIMITED}`,
   strictLimiter,
   strictlyLimitRequestsPerIpMiddleware,
   validateGroupExistence,
 );
 
 /**
- * Transaction Routes
- * Refactored to Atomic Utility Architecture
- */
-router.get(
-  `/${URL_PARAMS.GROUP_CODE}/${GROUPS.TRANSACTIONS}`,
-  getGroupTransactions,
-);
-
-/**
  * Development and Debugging Routes
- * Restricted to development environment via middleware
  */
 router.get('/debug/all', developmentOnlyMiddleware, listAllGroups);
 

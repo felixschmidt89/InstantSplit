@@ -1,4 +1,5 @@
 export const API_ROUTES = {
+  // TODO: Delete if not really needed, else rename GROUP_CODE
   URL_PARAMS: {
     GROUP_CODE: ":groupCode",
     GROUP_ID: ":groupId",
@@ -8,7 +9,7 @@ export const API_ROUTES = {
 
   GROUPS: {
     BASE: "groups",
-    TRANSACTIONS: "expenses-and-payments",
+    TRANSACTIONS: "transactions",
     VALIDATE_GROUP_EXISTENCE_CONTINUOUS: "continuous-validate-existence",
     VALIDATE_GROUP_EXISTENCE_LIMITED: "limited-validate-existence",
     STORED_GROUP_NAMES: "stored-group-names",

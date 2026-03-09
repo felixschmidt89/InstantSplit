@@ -17,11 +17,9 @@ export const useApi = (apiService) => {
 
       try {
         const result = await apiService(...argumentList);
-
         setData(result);
         setIsFetched(true);
         setError(null);
-
         return result;
       } catch (requestError) {
         setError(requestError);
@@ -35,12 +33,5 @@ export const useApi = (apiService) => {
     [apiService],
   );
 
-  return {
-    data,
-    isFetched,
-    isLoading,
-    error,
-    trigger,
-    setData,
-  };
+  return { data, isFetched, isLoading, error, trigger, setData };
 };
