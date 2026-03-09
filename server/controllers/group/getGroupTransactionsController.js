@@ -5,11 +5,6 @@ const { GROUPCODE } = API_HEADERS;
 
 export const getGroupTransactions = async (req, res) => {
   try {
-    // 1. Log this to see what is actually arriving
-    console.log('Incoming Headers:', req.headers);
-
-    // 2. Access the header.
-    // If GROUPCODE is 'x-group-code', Express will have it as 'x-group-code'
     const groupCode = req.headers[GROUPCODE.toLowerCase()];
 
     if (!groupCode) {

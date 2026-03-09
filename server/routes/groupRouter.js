@@ -1,4 +1,5 @@
 import express from 'express';
+import { logRequestDetailsMiddleware } from '../middleware/common/logRequestDetailsMiddleware.js';
 
 import { getGroupTransactions } from '../controllers/group/getGroupTransactionsController.js';
 
@@ -26,8 +27,13 @@ import {
   laxLimiter,
 } from '../middleware/laxLimitRequestsPerIpMiddleware.js';
 import { API_ROUTES } from '../../shared/constants/apiRoutesConstants.js';
+import { CONFIG } from '../config/index.js';
 
 const router = express.Router();
+
+if (CONFIG.LOG_API_REQUESTS) {
+  router.use(logRequestDetailsMiddleware);
+}
 
 const {
   GROUPS: {
