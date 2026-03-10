@@ -29,7 +29,6 @@
 ## 4. General Formatting & Output
 
 - **Style:** Bullet points. Concise.
-- **Code Changes:** Highlight your changes to code provided as inline comments using prefix "CODECHANGE:"
 - **Code Blocks:** Print in **ONE single block**. Do not split imports/logic.
 - **Instruction File Format**:
   - When generating new or updated rules for instruction files, encapsulate the content in a separate Markdown code block.

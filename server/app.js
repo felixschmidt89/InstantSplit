@@ -3,10 +3,10 @@ import compression from 'compression';
 import cors from 'cors';
 import multer from 'multer';
 
-// 1. Import your new centralized config
 import { CONFIG } from './config/index.js';
 
-// Route Imports
+import extractGroupCodeMiddleware from './middleware/context/extractGroupCodeMiddleware.js';
+
 import groupRouter from './routes/groupRouter.js';
 import userRouter from './routes/userRouter.js';
 import expenseRouter from './routes/expenseRouter.js';
@@ -37,11 +37,12 @@ app.set('trust proxy', 1);
 
 const { API_BASEURL } = CONFIG;
 
-// MIDDLEWARES
 app.use(express.json());
 app.use(cors());
 const upload = multer({ dest: 'uploads/' });
 app.use(compression());
+
+app.use(extractGroupCodeMiddleware);
 
 // ROUTES
 app.use(`${API_BASEURL}/${GROUPS.BASE}`, groupRouter);
