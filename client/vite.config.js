@@ -8,6 +8,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export default defineConfig({
+  envDir: path.resolve(__dirname, "src/config/env"),
+  root: __dirname,
+
   plugins: [
     react(),
     VitePWA({
@@ -40,6 +43,7 @@ export default defineConfig({
   resolve: {
     alias: {
       "@instant-split/shared": path.resolve(__dirname, "../shared"),
+      "@": path.resolve(__dirname, "./src"),
     },
   },
   build: {

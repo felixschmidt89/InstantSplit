@@ -1,15 +1,19 @@
-# Project variables
-config.dev.env
-config.prod.env
-.env.development
-.env.production
-.env.test
+.env
+.env.*
+config.*.env
 
-# Dependencies, build & dist folders
+server/config/env/*.env*
+client/src/config/env/*.env*
+
 node_modules/
 build/
 dist/
+server/uploads/
 
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-
-
+# --- EXCEPTIONS ---
+!**/env/*.env.example
+!**/.env.example

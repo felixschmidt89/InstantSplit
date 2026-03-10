@@ -1,0 +1,9 @@
+export const VITE_MODES = {
+  DEVELOPMENT: "development",
+  PRODUCTION: "production",
+};
+
+export const APP_MODES = {
+  [VITE_MODES.DEVELOPMENT]: VITE_MODES.DEVELOPMENT,
+  [VITE_MODES.PRODUCTION]: VITE_MODES.PRODUCTION,
+};

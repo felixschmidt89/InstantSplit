@@ -1,6 +1,9 @@
 import { LOG_LEVELS } from "../../constants/debugConstants.js";
 
+// TODO: add to trace script
+
 export const debugLog = (message = "debug", data, level = LOG_LEVELS.INFO) => {
+  // TODO: move elsewhere
   const isDevelopment =
     (typeof process !== "undefined" &&
       process.env.NODE_ENV === "development") ||
@@ -27,7 +30,6 @@ export const debugLog = (message = "debug", data, level = LOG_LEVELS.INFO) => {
   }
 };
 
-// Exporting clean aliases
 export const INFO = LOG_LEVELS.INFO;
 export const DEBUG = LOG_LEVELS.DEBUG;
 export const WARN = LOG_LEVELS.WARN;
