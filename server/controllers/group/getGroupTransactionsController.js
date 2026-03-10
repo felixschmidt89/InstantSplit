@@ -1,28 +1,23 @@
 import { StatusCodes } from 'http-status-codes';
 import { getGroupTransactionsService } from '../../services/group/getGroupTransactionsService.js';
-import { debugLog, ERROR } from '../../../shared/utils/debug/debugLog.js';
+import { MISSING_GROUPCODE_ERROR } from '../../constants/errorConstants.js';
 
-const { OK, BAD_REQUEST, INTERNAL_SERVER_ERROR } = StatusCodes;
+const { OK, BAD_REQUEST } = StatusCodes;
 
-export const getGroupTransactions = async (req, res) => {
+export const getGroupTransactions = async (req, res, next) => {
   try {
     const { groupCode } = req;
 
     if (!groupCode) {
-      debugLog('Controller Error: Missing groupCode context', null, ERROR);
-
-      return res
-        .status(BAD_REQUEST)
-        .json({ error: 'Missing groupCode context' });
+      const error = new Error(MISSING_GROUPCODE_ERROR);
+      error.statusCode = BAD_REQUEST;
+      throw error;
     }
 
     const transactions = await getGroupTransactionsService(groupCode);
 
     return res.status(OK).json({ transactions: transactions || [] });
   } catch (error) {
-    debugLog('Controller Error: getGroupTransactions failed', error, ERROR);
-    return res
-      .status(INTERNAL_SERVER_ERROR)
-      .json({ error: 'Internal Server Error' });
+    next(error);
   }
 };
