@@ -1,24 +1,20 @@
 import { getGroupTransactionsService } from '../../services/group/getGroupTransactionsService.js';
-import { API_HEADERS } from '../../../shared/constants/api/apiHeaderConstants.js';
-
-const { GROUPCODE } = API_HEADERS;
+import { debugLog, ERROR } from '../../../shared/utils/debug/debugLog.js';
 
 export const getGroupTransactions = async (req, res) => {
   try {
-    const groupCode = req.headers[GROUPCODE.toLowerCase()];
+    const { groupCode } = req;
 
     if (!groupCode) {
-      console.error('GroupCode missing from headers!');
-      return res.status(400).json({ error: 'Missing group code' });
+      debugLog('Controller Error: Missing groupCode context', null, ERROR);
+      return res.status(400).json({ error: 'Missing groupCode context' });
     }
 
     const transactions = await getGroupTransactionsService(groupCode);
 
-    // 3. Always return an object with a key named 'transactions'
-    // to match your frontend destructuring: const { transactions } = await ...
     return res.status(200).json({ transactions: transactions || [] });
   } catch (error) {
-    console.error('Controller Error:', error);
+    debugLog('Controller Error: getGroupTransactions failed', error, ERROR);
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 };
