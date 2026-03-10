@@ -237,3 +237,12 @@ This is a legacy codebase. When we work on existing files, we always want to ref
 - **Component Implementation**:
   - **Semantic Variables**: Extract ternary logic or complex destination selection into well-named variables within the functional body (e.g., `const homeDestination = isGuest ? HOME : INSTANT_SPLIT;`).
   - **JSX Declarativeness**: Pass these semantic variables directly to component props (e.g., `homeTo={homeDestination}`) to ensure the presentation layer remains readable and logically thin.
+
+### 14. Server
+
+- **Middleware Architecture**:
+  - **Standard**: Folder-per-domain pattern inside `server/middleware/`.
+  - **Naming**: Folder names must be lowercase and descriptive of the functional domain (e.g., `server/middleware/context/`).
+  - **Suffix**: Every middleware file and its primary function must include the "Middleware" suffix (e.g., `extractGroupCodeMiddleware.js`).
+  - **Structure**: Avoid a flat structure; group middleware by their responsibility (e.g., `auth/`, `context/`, `validation/`).
+  - **Exports**: Use named exports for the function and `export default` for the middleware itself.
