@@ -1,28 +1,48 @@
 import axios from "axios";
 
-import { API_URL } from "../constants/apiConstants";
+import { CONFIG } from "../config/index.js";
+
 import { LOG_LEVELS } from "../../../shared/constants/debugConstants.js";
 import { debugLog } from "../../../shared/utils/debug/debugLog.js";
+import { getActiveGroupCodeFromLocalStorage } from "../utils/localStorage/getActiveGroupCodeFromLocalStorage.js";
+import {
+  API_CONTENT_TYPES,
+  API_HEADERS,
+} from "../../../shared/constants/api/apiHeaderConstants.js";
+
+// TODO: Improve, use constants etc
 
 const { INFO, LOG_ERROR } = LOG_LEVELS;
+const { CONTENT_TYPE, GROUPCODE } = API_HEADERS;
+const { JSON } = API_CONTENT_TYPES;
 
 const apiClient = axios.create({
-  baseURL: API_URL,
+  baseURL: CONFIG.API_URL,
   timeout: 30000,
   headers: {
-    "Content-Type": "application/json",
+    [CONTENT_TYPE]: JSON,
   },
 });
 
 apiClient.interceptors.request.use(
   (config) => {
-    const hasPayload = config.data !== undefined && config.data !== null;
+    const groupCode = getActiveGroupCodeFromLocalStorage();
+
+    if (groupCode) {
+      config.headers[GROUPCODE] = groupCode;
+    }
+
+    const hasPayload = Boolean(config.data);
 
     debugLog(
       `API Request: ${config.method.toUpperCase()} ${config.url}`,
-      hasPayload ? { payload: config.data } : null,
+      {
+        payload: hasPayload ? config.data : null,
+        headerAttached: Boolean(groupCode),
+      },
       INFO,
     );
+
     return config;
   },
   (error) => {
