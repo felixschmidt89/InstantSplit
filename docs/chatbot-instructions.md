@@ -138,6 +138,11 @@
   - Prioritize CSS for styles; use JavaScript only if absolutely necessary.
   - **NEVER** use `px` units; use `rem`, `em`, `%`, `vh`, or `vw`.
 
+  - **Project-Wide String Management**:
+  - **Prohibition**: Writing raw strings ("Magic Strings") for user-facing messages, error messages, identifiers, or configuration values is strictly prohibited across the entire project (Client, Server, Shared).
+  - **Protocol**: **MANDATORY**: Before implementing a string, you must search the related constant files (e.g., `errorConstants.js`, `apiRoutesConstants.js`, `clientStaticRoutesConstants.js`) for an existing match.
+  - **Implementation**: If no match exists, you must create a new descriptive constant in the appropriate constant file before using it in the logic layer.
+
 ### 6. Labeling & Translation Rules
 
 tbd
@@ -237,7 +242,7 @@ This is a legacy codebase. When we work on existing files, we always want to ref
   - **Semantic Variables**: Extract ternary logic or complex destination selection into well-named variables within the functional body (e.g., `const homeDestination = isGuest ? HOME : INSTANT_SPLIT;`).
   - **JSX Declarativeness**: Pass these semantic variables directly to component props (e.g., `homeTo={homeDestination}`) to ensure the presentation layer remains readable and logically thin.
 
-### 14. Server
+### 14. Server Architecture
 
 - **Middleware Architecture**:
   - **Standard**: Folder-per-domain pattern inside `server/middleware/`.
@@ -245,3 +250,14 @@ This is a legacy codebase. When we work on existing files, we always want to ref
   - **Suffix**: Every middleware file and its primary function must include the "Middleware" suffix (e.g., `extractGroupCodeMiddleware.js`).
   - **Structure**: Avoid a flat structure; group middleware by their responsibility (e.g., `auth/`, `context/`, `validation/`).
   - **Exports**: Use named exports for the function and `export default` for the middleware itself.
+
+- **HTTP Response Standards**:
+  - **Status Codes**: Use the `http-status-codes` package for all response statuses. Raw integers (e.g., `200`, `404`, `500`) are strictly prohibited.
+  - **Destructuring**: Always destructure the required constants from `StatusCodes` at the top of the file (e.g., `const { OK, NOT_FOUND } = StatusCodes;`).
+
+- **Error Handling Architecture**:
+  - **Global Handler**: All controllers must use a `try/catch` block that forwards errors to a centralized middleware using `next(error)`.
+  - **Prohibition**: Do **NOT** send error responses (e.g., `res.status(500).json(...)`) directly from the controller.
+  - **Telemetry**: Centralize all error-level `debugLog` calls within the global error middleware to ensure consistent logging across the API.
+  - **Constants**: Use the `DEFAULT_ERROR_MESSAGE` constant for fallback error messages.
+  - **String Management**: **MANDATORY**: When a specific error message is required, add a new constant to `server/constants/errorConstants.js` instead of writing a raw string inline.
