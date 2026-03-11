@@ -276,3 +276,11 @@ This is a legacy codebase. When we work on existing files, we always want to ref
   - **Telemetry**: Centralize all error-level `debugLog` calls within the global error middleware to ensure consistent logging across the API.
   - **Constants**: Use the `DEFAULT_ERROR_MESSAGE` constant for fallback error messages.
   - **String Management**: **MANDATORY**: When a specific error message is required, add a new constant to `server/constants/errorConstants.js` instead of writing a raw string inline.
+
+  - **Response JSON Standard**:
+  - **Object Wrapper**: All successful API responses must return a JSON object. Root-level arrays are strictly prohibited.
+  - **Entity Naming**: Use descriptive, semantic keys for the primary data payload.
+    - **Single Entities**: Use the singular name of the resource (e.g., `{ transaction: { ... } }`).
+    - **Collections**: Use the plural name of the resource (e.g., `{ members: [ ... ] }`).
+  - **Empty States**: For collection requests that yield no results, return an empty array `[]` assigned to the plural key. **NEVER** return `null` or omit the key, as this ensures the Client can safely call array methods (e.g., `.map()`, `.length`) without additional null-checks.
+  - **Payload Flatness**: Avoid deep nesting (e.g., `{ data: { result: { items: [] } } }`). Keep the primary entity key at the root of the response object.
