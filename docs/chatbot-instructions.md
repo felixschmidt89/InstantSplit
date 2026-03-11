@@ -42,6 +42,7 @@
   - **Prohibition**: NEVER modify the existing content within the instruction file unless explicitly and specifically commanded to deduct a rule and add it to the file where it makes logical sense.
   - **Improvement Protocol**: If a rule can be improved, clarified, or optimized, you must first suggest the change and provide a technical explanation for the reasoning.
   - **Approval**: Wait for explicit confirmation before generating an updated version of the instructions.
+  - **Prohibition**: Do NOT include a "Technical Reasoning" or "Reasoning" section when presenting new or updated rules.
 - **Instruction File Format**:
   - When generating new or updated rules for instruction files, encapsulate the content in a separate Markdown code block.
   - Adhere strictly to the established visual style used in `### 4. Coding Standards: React & JS`, utilizing a structured hierarchy of bolded categories followed by bulleted requirements. Do not reprint `### 4. Coding Standards: React & JS`.
@@ -266,9 +267,10 @@ This is a legacy codebase. When we work on existing files, we always want to ref
 
 ### 14. Server Architecture
 
-- **Context Initialization**:
-  - **Standard**: Every request must have a guaranteed `req.context` object.
-  - **Implementation**: The first middleware in the lifecycle responsible for request enrichment must initialize `req.context` (e.g., `req.context = req.context || {};`) before attempting to spread or assign properties.
+- **Mandatory Context Initialization**:
+  - **Standard**: Every inbound request must be initialized with a guaranteed `req.context` object at the earliest possible stage of the middleware lifecycle.
+  - **Implementation**: The lead middleware (typically `extractGroupCodeMiddleware`) must explicitly initialize the object using `req.context = { ...req.context };` before any property assignment.
+  - **Fail-Safe Pattern**: Use the Nullish Coalescing or Spread pattern to ensure that existing context data is preserved while guaranteeing the object's existence: `req.context = req.context ?? {};`.
 
 - **Middleware Architecture**:
   - **Standard**: Folder-per-domain pattern inside `server/middleware/`.
