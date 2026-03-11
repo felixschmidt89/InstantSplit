@@ -250,6 +250,11 @@ This is a legacy codebase. When we work on existing files, we always want to ref
   - **Suffix**: Every middleware file and its primary function must include the "Middleware" suffix (e.g., `extractGroupCodeMiddleware.js`).
   - **Structure**: Avoid a flat structure; group middleware by their responsibility (e.g., `auth/`, `context/`, `validation/`).
   - **Exports**: Use named exports for the function and `export default` for the middleware itself.
+- **Middleware Application Strategy**:
+  - **Selective Injection**: For logic that is not globally required (e.g., `groupCode` validation), apply middleware directly within the route definition as a preceding argument to the controller.
+  - **Router-Level Middleware**: For routes sharing a common requirement, use `router.use(middlewareName)` within a specific router file to ensure all subsequent routes in that stack are protected or validated.
+  - **Controller Cleanliness**: Controllers must NEVER manually validate request prerequisites that can be handled by the middleware layer.
+  - **Execution Flow**: Middleware must always conclude with `next()` or `next(error)` to ensure the request lifecycle continues correctly or is caught by the global error handler.
 
 - **HTTP Response Standards**:
   - **Status Codes**: Use the `http-status-codes` package for all response statuses. Raw integers (e.g., `200`, `404`, `500`) are strictly prohibited.

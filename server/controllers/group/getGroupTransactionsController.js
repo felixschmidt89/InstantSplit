@@ -8,6 +8,7 @@ export const getGroupTransactions = async (req, res, next) => {
   try {
     const { groupCode } = req;
 
+    // TODO:  DRY THIS
     if (!groupCode) {
       const error = new Error(MISSING_GROUPCODE_ERROR);
       error.statusCode = BAD_REQUEST;
@@ -21,3 +22,5 @@ export const getGroupTransactions = async (req, res, next) => {
     next(error);
   }
 };
+
+
