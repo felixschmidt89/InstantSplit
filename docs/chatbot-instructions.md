@@ -25,6 +25,11 @@
 - **Missing Code:** If code appears missing, **ask for it**; do not hypothesize.
 - **Improvements:** Suggest improvements only after answering the specific request. Ask for individual confirmation before applying.
 - **Correction:** Recognize and correct mistakes immediately.
+- **Code Flagging & Evolution**:
+  - **Prohibition**: NEVER ignore "odd," legacy, or non-standard code patterns when encountered during analysis.
+  - **Protocol**: You must explicitly flag technical debt or sub-optimal patterns (e.g., redundant logic, complex nesting, or naming inconsistencies).
+  - **Rule Induction**: When a pattern is corrected or improved, you must suggest a corresponding permanent rule for the instructions file to prevent recurrence.
+  - **Technical Reasoning**: Every flag or suggested rule must be accompanied by a brief "Technical Reasoning" explanation focusing on maintainability, performance, or readability.
 
 ## 4. General Formatting & Output
 
@@ -100,6 +105,13 @@
 - **Avoid Regex**:
   - **Priority**: Always prioritize standard string/array methods (e.g., `.includes()`, `.startsWith()`, `.split()`) over Regular Expressions.
   - **Usage**: Use Regex **only** when complex pattern matching is strictly required and cannot be achieved cleanly with native methods.
+
+- **Comparison Standards**:
+  - **Strict Equality**: Always use strict equality (`===` and `!==`) for all comparisons. Loose equality (`==` and `!=`) is strictly prohibited to prevent unexpected type coercion.
+
+- **Testing Selectors**:
+  - **MANDATORY**: Use `data-testid` attributes for selecting DOM elements in unit and integration tests.
+  - **Prohibition**: Do NOT select elements by CSS classes, IDs, or HTML tags, as these are volatile and prone to breaking during refactors.
 
 - **Group Imports by Type**:
   1. **Third-party libraries**: Standard npm packages (e.g., `react`, `axios`, `express`).
@@ -260,6 +272,11 @@ This is a legacy codebase. When we work on existing files, we always want to ref
   - **Suffix**: Every middleware file and its primary function must include the "Middleware" suffix (e.g., `extractGroupCodeMiddleware.js`).
   - **Structure**: Avoid a flat structure; group middleware by their responsibility (e.g., `auth/`, `context/`, `validation/`).
   - **Exports**: Use named exports for the function and `export default` for the middleware itself.
+
+  - **Middleware Error Standards**:
+  - **Property Consistency**: When a validation middleware terminates a request, it must attach the HTTP status code strictly to the `statusCode` property of the `Error` object.
+  - **Constant Usage**: The `Error` message must be an imported constant from a `shared/constants/` or `server/constants/` error file.
+
 - **Middleware Application Strategy**:
   - **Selective Injection**: For logic that is not globally required (e.g., `groupCode` validation), apply middleware directly within the route definition as a preceding argument to the controller.
   - **Router-Level Middleware**: For routes sharing a common requirement, use `router.use(middlewareName)` within a specific router file to ensure all subsequent routes in that stack are protected or validated.
@@ -277,7 +294,7 @@ This is a legacy codebase. When we work on existing files, we always want to ref
   - **Constants**: Use the `DEFAULT_ERROR_MESSAGE` constant for fallback error messages.
   - **String Management**: **MANDATORY**: When a specific error message is required, add a new constant to `server/constants/errorConstants.js` instead of writing a raw string inline.
 
-  - **Response JSON Standard**:
+- **Response JSON Standard**:
   - **Object Wrapper**: All successful API responses must return a JSON object. Root-level arrays are strictly prohibited.
   - **Entity Naming**: Use descriptive, semantic keys for the primary data payload.
     - **Single Entities**: Use the singular name of the resource (e.g., `{ transaction: { ... } }`).
@@ -285,8 +302,12 @@ This is a legacy codebase. When we work on existing files, we always want to ref
   - **Empty States**: For collection requests that yield no results, return an empty array `[]` assigned to the plural key. **NEVER** return `null` or omit the key, as this ensures the Client can safely call array methods (e.g., `.map()`, `.length`) without additional null-checks.
   - **Payload Flatness**: Avoid deep nesting (e.g., `{ data: { result: { items: [] } } }`). Keep the primary entity key at the root of the response object.
 
-  - **Domain Validation Standards**:
-    - **Atomic Gatekeepers**: Create specific middleware for frequent domain-level requirements (e.g., `validateGroupCodeMiddleware.js`, `validateTransactionIdMiddleware.js`).
-    - **Positioning**: Place validation middleware in the route stack immediately after authentication but before the controller.
-    - **Request Enrichment**: Upon successful validation, the middleware should ensure the validated value is accessible on the `req` object in a predictable location (e.g., `req.groupCode`).
-    - **Fail-Fast Principle**: Middleware must immediately terminate the request lifecycle and invoke the global error handler with a specific `StatusCodes` and a shared error constant if validation fails.
+- **Domain Validation Standards**:
+  - **Atomic Gatekeepers**: Create specific middleware for frequent domain-level requirements (e.g., `validateGroupCodeMiddleware.js`, `validateTransactionIdMiddleware.js`).
+  - **Positioning**: Place validation middleware in the route stack immediately after authentication but before the controller.
+  - **Request Enrichment**: Upon successful validation, the middleware should ensure the validated value is accessible on the `req` object in a predictable location.
+  - **Fail-Fast Principle**: Middleware must immediately terminate the request lifecycle and invoke the global error handler with a specific `StatusCodes` and a shared error constant if validation fails.
+
+- **Request Context Standard**:
+  - **Namespace**: When middleware enriches the request object (Request Enrichment), attach domain-specific data to a `context` property (e.g., `req.context.groupCode`).
+  - **Purpose**: This clearly distinguishes middleware-validated data from standard Express request properties (`req.params`, `req.query`, `req.body`), making the source of truth explicit within the controller.
