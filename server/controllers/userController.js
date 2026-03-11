@@ -8,14 +8,11 @@ import {
   sendInternalError,
   sendValidationError,
 } from '../utils/errorUtils.js';
-import { touchGroupLastActive } from '../utils/group/touchGroupLastActive.js';
 
 export const createUser = async (req, res) => {
   try {
     const { userName, groupCode } = req.body;
-    touchGroupLastActive(groupCode);
 
-    // Check if a user with the same name and group code already exists
     const existingUser = await User.findOne({ userName, groupCode });
 
     if (existingUser) {
@@ -51,8 +48,6 @@ export const getUserInfo = async (req, res) => {
     const user = await User.findById(userId);
     const groupCode = user.groupCode;
 
-    touchGroupLastActive(groupCode);
-
     res.status(StatusCodes.OK).json({
       status: 'success',
       user,
@@ -78,8 +73,6 @@ export const changeUserName = async (req, res) => {
       userName,
       groupCode,
     });
-
-    touchGroupLastActive(groupCode);
 
     // Check if a user with the same name and group code already exists
     const existingUser = await User.findOne({ userName, groupCode });
@@ -199,8 +192,6 @@ export const deleteUser = async (req, res) => {
 
     const groupCode = userToDelete.groupCode;
 
-    touchGroupLastActive(groupCode);
-
     await User.deleteOne({ _id: userToDelete._id });
 
     res.status(StatusCodes.NO_CONTENT).json({
@@ -220,8 +211,6 @@ export const deleteUser = async (req, res) => {
 export const listAllUsersByGroupCode = async (req, res) => {
   try {
     const { groupCode } = req.params;
-
-    touchGroupLastActive(groupCode);
 
     // Find users by group code
     let users = await User.find({ groupCode });

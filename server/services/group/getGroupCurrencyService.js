@@ -26,3 +26,5 @@ export const getGroupCurrencyService = async (groupCode) => {
 
   return currency;
 };
+
+export default getGroupCurrencyService;

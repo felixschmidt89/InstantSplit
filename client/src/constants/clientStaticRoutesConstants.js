@@ -27,6 +27,5 @@ export const CLIENT_STATIC_ROUTES = {
   UPDATE_PAYMENT: "/update-payment",
   CREATE_EXPENSE: "/create-expense",
   CREATE_PAYMENT: "/create-payment",
-  CONTACT: "/contact",
   GROUPCODE_VALIDATOR: "/groupCode-validator",
 };

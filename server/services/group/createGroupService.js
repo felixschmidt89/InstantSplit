@@ -12,10 +12,6 @@ const createGroupService = async (groupName) => {
     initialGroupName: groupName,
   });
 
-  //TODO: replace current email notification with a more reliable tool
-  //   const mailOptions = generateGroupCreationEmailOptions(groupName);
-  //   sendAdminEmailNotification(mailOptions);
-
   return group;
 };
 

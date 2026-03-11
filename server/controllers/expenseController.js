@@ -13,7 +13,6 @@ import { LOG_LEVELS } from '../../shared/constants/debugConstants.js';
 
 // Domain Utils
 import { verifyExpensePayerAndBeneficiaries } from '../utils/expense/verifyExpensePayerAndBeneficiaries.js';
-import { touchGroupLastActive } from '../utils/group/touchGroupLastActive.js';
 import { resetGroupSettlements } from '../utils/group/resetGroupSettlements.js';
 
 const { LOG_ERROR, INFO } = LOG_LEVELS;
@@ -192,9 +191,6 @@ export const getExpenseInfo = async (req, res) => {
       .populate('expensePayer', 'userName')
       .populate('expenseBeneficiaries', 'userName');
 
-    if (expense) {
-      touchGroupLastActive(expense.groupCode);
-    }
     res.status(StatusCodes.OK).json({
       status: 'success',
       expense,
@@ -261,8 +257,6 @@ export const listAllExpensesByGroupCode = async (req, res) => {
   try {
     const { groupCode } = req.params;
 
-    touchGroupLastActive(groupCode);
-
     const expenses = await Expense.find({ groupCode });
     res.status(StatusCodes.OK).json({
       status: 'success',
@@ -283,8 +277,6 @@ export const listAllExpensesByGroupCode = async (req, res) => {
 export const getExpensesTotalByGroupCode = async (req, res) => {
   try {
     const { groupCode } = req.params;
-
-    touchGroupLastActive(groupCode);
 
     const totalExpenses = await Expense.aggregate([
       { $match: { groupCode } },

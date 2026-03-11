@@ -38,10 +38,6 @@ export const API_ROUTES = {
   SETTLEMENTS: {
     BASE: "settlements",
   },
-
-  FEEDBACKS: {
-    BASE: "feedbacks",
-  },
   HEALTH: {
     BASE: "health",
   },

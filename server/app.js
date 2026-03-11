@@ -4,13 +4,12 @@ import cors from 'cors';
 
 import { CONFIG } from './config/index.js';
 
-import extractGroupCodeMiddleware from './middleware/context/extractGroupCodeMiddleware.js';
+import { extractGroupCodeMiddleware } from './middleware/context/extractGroupCodeMiddleware.js';
 
 import groupRouter from './routes/groupRouter.js';
 import userRouter from './routes/userRouter.js';
 import expenseRouter from './routes/expenseRouter.js';
 import paymentRouter from './routes/paymentRouter.js';
-import feedbackRouter from './routes/feedbackRouter.js';
 import healthRouter from './routes/healthRouter.js';
 import fileRouter from './routes/fileRouter.js';
 import captchaRouter from './routes/captchaRouter.js';
@@ -24,7 +23,6 @@ const {
   USERS,
   EXPENSES,
   PAYMENTS,
-  FEEDBACKS,
   HEALTH,
   FILES,
   CAPTCHAS,
@@ -47,7 +45,6 @@ app.use(`${API_BASEURL}/${GROUPS.BASE}`, groupRouter);
 app.use(`${API_BASEURL}/${USERS.BASE}`, userRouter);
 app.use(`${API_BASEURL}/${EXPENSES.BASE}`, expenseRouter);
 app.use(`${API_BASEURL}/${PAYMENTS.BASE}`, paymentRouter);
-app.use(`${API_BASEURL}/${FEEDBACKS.BASE}`, feedbackRouter);
 app.use(`${API_BASEURL}/${HEALTH.BASE}`, healthRouter);
 app.use(`${API_BASEURL}/${FILES.BASE}`, fileRouter);
 app.use(`${API_BASEURL}/${CAPTCHAS.BASE}`, captchaRouter);

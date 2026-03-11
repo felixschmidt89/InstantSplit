@@ -1,9 +1,10 @@
 import { StatusCodes } from 'http-status-codes';
-import { getGroupCurrencyService } from '../../services/group/getGroupCurrencyService.js';
+
+import getGroupCurrencyService from '../../services/group/getGroupCurrencyService.js';
 
 const { OK } = StatusCodes;
 
-export const getGroupCurrencyController = async (req, res, next) => {
+const getGroupCurrencyController = async (req, res, next) => {
   try {
     const { groupCode } = req.context;
 
@@ -14,3 +15,5 @@ export const getGroupCurrencyController = async (req, res, next) => {
     next(error);
   }
 };
+
+export default getGroupCurrencyController;

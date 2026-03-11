@@ -6,15 +6,12 @@ import {
   sendInternalError,
   sendValidationError,
 } from '../utils/errorUtils.js';
-import { touchGroupLastActive } from '../utils/group/touchGroupLastActive.js';
 import { resetGroupSettlements } from '../utils/group/resetGroupSettlements.js';
 
 export const createPayment = async (req, res) => {
   try {
     const { paymentMakerName, groupCode, paymentAmount, paymentRecipientName } =
       req.body;
-
-    touchGroupLastActive(groupCode);
 
     if (!paymentMakerName) {
       return res.status(StatusCodes.BAD_REQUEST).json({
@@ -96,8 +93,6 @@ export const updatePayment = async (req, res) => {
       paymentMakerName,
       paymentRecipientName,
     } = req.body;
-
-    touchGroupLastActive(groupCode);
 
     const storedPaymentMaker = await User.findOne({
       userName: { $eq: storedPaymentMakerName },
@@ -185,7 +180,6 @@ export const getPaymentInfo = async (req, res) => {
     }
 
     const { groupCode } = payment;
-    touchGroupLastActive(groupCode);
 
     res.status(StatusCodes.OK).json({
       status: 'success',
@@ -218,7 +212,6 @@ export const deletePayment = async (req, res) => {
     }
 
     const { groupCode, paymentRecipient, paymentMaker } = paymentToDelete;
-    touchGroupLastActive(groupCode);
 
     await Payment.deleteOne({ _id: paymentToDelete._id });
     await resetGroupSettlements(groupCode);

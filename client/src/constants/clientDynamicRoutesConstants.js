@@ -17,7 +17,6 @@ const {
   MEMBER_TRANSACTION_HISTORY,
   UPDATE_EXPENSE,
   UPDATE_PAYMENT,
-  CONTACT,
 } = CLIENT_STATIC_ROUTES;
 
 const {
@@ -43,7 +42,6 @@ export const CLIENT_ROUTE_PATTERNS = {
   MEMBER_TRANSACTION_HISTORY: `${MEMBER_TRANSACTION_HISTORY}/${GROUP_CODE}/${USER_ID}`,
   UPDATE_EXPENSE: `${UPDATE_EXPENSE}/${GROUP_CODE}/${EXPENSE_ID}`,
   UPDATE_PAYMENT: `${UPDATE_PAYMENT}/${GROUP_CODE}/${PAYMENT_ID}`,
-  CONTACT: `${CONTACT}/${GROUP_CODE}`,
   NOT_FOUND: "*",
 };
 
@@ -68,8 +66,6 @@ export const CLIENT_LINKS = {
 
   LEAVE_GROUP: (groupName, groupCode) =>
     `${LEAVE_GROUP}/${groupName}/${groupCode}`,
-
-  CONTACT: (groupCode) => `${CONTACT}/${groupCode}`,
 
   TUTORIAL: (initialGroupName, groupCode) =>
     `${TUTORIAL}/${initialGroupName}/${groupCode}`,

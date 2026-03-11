@@ -1,2 +1,3 @@
-export const DEFAULT_ERROR_MESSAGE = 'Internal Server Error';
-export const MISSING_GROUPCODE_ERROR = 'Missing groupCode Error';
+export const MISSING_GROUP_CODE_ERROR = 'Group code is required.';
+export const GROUP_NOT_FOUND_ERROR = 'Group not found.';
+export const DEFAULT_ERROR_MESSAGE = 'An unexpected error occurred.';

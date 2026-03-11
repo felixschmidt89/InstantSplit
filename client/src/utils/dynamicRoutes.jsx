@@ -9,7 +9,6 @@ export const dynamicRoutes = {
   },
 
   tutorial: createRoute(ROUTES.TUTORIAL, ["initialGroupName", "groupCode"]),
-  contact: createRoute(ROUTES.CONTACT, ["groupCode"]),
   leaveGroup: createRoute(ROUTES.LEAVE_GROUP, ["groupName", "groupCode"]),
   shareGroup: createRoute(ROUTES.SHARE_GROUP, [
     "initialGroupName",

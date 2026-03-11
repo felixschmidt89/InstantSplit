@@ -23,7 +23,6 @@ import TermsAndConditionsPage from "./pages/TermsAndConditionsPage/TermsAndCondi
 import EnterGroupCodePage from "./pages/EnterGroupCodePage/EnterGroupCodePage.jsx";
 import ManageGroupsPage from "./pages/ManageGroupsPage/ManageGroupsPage.jsx";
 import GroupSettingsPage from "./pages/GroupSettingsPage/GroupSettingsPage.jsx";
-import ContactPage from "./pages/ContactPage/ContactPage.jsx";
 import ShareGroupInvitationPage from "./pages/ShareGroupInvitationPage/ShareGroupInvitationPage.jsx";
 import LeaveGroupPage from "./pages/LeaveGroupPage/LeaveGroupPage.jsx";
 import JoinGroupDEPage from "./pages/JoinGroupDEPage/JoinGroupDEPage.jsx";
@@ -67,7 +66,6 @@ const {
   MEMBER_TRANSACTION_HISTORY,
   UPDATE_EXPENSE,
   UPDATE_PAYMENT,
-  CONTACT,
   NOT_FOUND,
 } = CLIENT_ROUTE_PATTERNS;
 
@@ -106,7 +104,6 @@ const App = () => {
               <Route path={JOIN_GROUP_DE} element={<JoinGroupDEPage />} />
               <Route path={JOIN_GROUP_EN} element={<JoinGroupENPage />} />
               <Route path={TUTORIAL} element={<TutorialPage />} />
-              <Route path={CONTACT} element={<ContactPage />} />
 
               <Route element={<GroupContextWrapper />}>
                 <Route

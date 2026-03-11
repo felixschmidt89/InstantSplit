@@ -9,10 +9,8 @@ import {
   sendValidationError,
 } from '../utils/errorUtils.js';
 import { generateUniqueGroupCode } from '../utils/groupCodeUtils.js';
-import { generateGroupCreationEmailOptions } from '../utils/adminNotificationEmailTemplates.js';
 import { LOG_LEVELS } from '../../shared/constants/debugConstants.js';
 import { debugLog } from '../../shared/utils/debug/debugLog.js';
-import { touchGroupLastActive } from '../utils/group/touchGroupLastActive.js';
 
 export const changeGroupDataPurgeSetting = async (req, res) => {
   try {
@@ -149,42 +147,9 @@ export const changeGroupCurrency = async (req, res) => {
   }
 };
 
-// TODO: DELETE
-export const listExpensesAndPaymentsByGroup = async (req, res) => {
-  try {
-    const { groupCode } = req.params;
-    touchGroupLastActive(groupCode);
-    const [expenses, payments] = await Promise.all([
-      Expense.find({ groupCode }).populate('expensePayer', 'userName'),
-      Payment.find({ groupCode })
-        .populate('paymentMaker', 'userName')
-        .populate('paymentRecipient', 'userName'),
-    ]);
-
-    const groupExpensesAndPayments = [...expenses, ...payments];
-
-    groupExpensesAndPayments.sort((a, b) => a.createdAt - b.createdAt);
-
-    res.status(StatusCodes.OK).json({
-      status: 'success',
-      groupExpensesAndPayments,
-      message: 'All group expenses and payments retrieved successfully',
-    });
-  } catch (error) {
-    errorLog(
-      error,
-      'Error listing expenses and payments:',
-      'Failed to list expenses and payments. Please try again later.',
-    );
-    sendInternalError(res, error);
-  }
-};
-
 export const getGroupInfo = async (req, res) => {
   try {
     const { groupCode } = req.params;
-
-    touchGroupLastActive(groupCode);
 
     const group = await Group.findOne({ groupCode });
 
@@ -265,8 +230,6 @@ export const groupHasPersistedDebitorCreditorOrder = async (req, res) => {
         message: 'Group not found',
       });
     }
-
-    await touchGroupLastActive(groupCode);
 
     const hasPersistedOrder = !!group.fixedDebitorCreditorOrder;
 
