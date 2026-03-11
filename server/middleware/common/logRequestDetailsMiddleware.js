@@ -4,22 +4,23 @@ import { API_HEADERS } from '../../../shared/constants/api/apiHeaderConstants.js
 const { GROUPCODE } = API_HEADERS;
 
 export const logRequestDetailsMiddleware = (req, res, next) => {
+  req.context = req.context ?? {};
+
   const { method, originalUrl, params, query, headers } = req;
 
-  const headerKey = GROUPCODE.toLowerCase();
   const hasParams = Object.keys(params).length > 0;
   const hasQuery = Object.keys(query).length > 0;
-  const hasGroupHeader = Boolean(headers[headerKey]);
+  const hasGroupHeader = Boolean(headers[GROUPCODE]);
 
-  const context = {
+  const loggingContext = {
     method,
     path: originalUrl,
     ...(hasParams && { params }),
     ...(hasQuery && { query }),
-    ...(hasGroupHeader && { [headerKey]: headers[headerKey] }),
+    ...(hasGroupHeader && { [GROUPCODE]: headers[GROUPCODE] }),
   };
 
-  debugLog(`[API-INBOUND]`, context, INFO);
+  debugLog('[API-INBOUND]', loggingContext, INFO);
 
   next();
 };

@@ -1,50 +1,36 @@
 {
-  // Indicates that this ESLint configuration is the root configuration for the project
   "root": true,
-
-  // Specifies the environments in which the code will run
   "env": {
-    "browser": true, // Allows browser-specific global variables
-    "es2020": true // Enables ES2020 global variables and features
+    "browser": true,
+    "es2020": true,
+    "node": true
   },
-
-  // Extends various ESLint configurations to inherit their rules
   "extends": [
-    "eslint:recommended", // ESLint's recommended rules
-    "plugin:react/recommended", // Recommended rules for React
-    "plugin:react/jsx-runtime", // Provides JSX runtime rules
-    "plugin:react-hooks/recommended", // Recommended rules for React Hooks
-    "react-app" // Configuration used by Create React App
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
+    "plugin:react-hooks/recommended"
   ],
-
-  // Ignores specific files and directories from linting
   "ignorePatterns": ["dist", ".eslintrc.json"],
-
-  // Specifies the ECMAScript version and module system
   "parserOptions": {
-    "ecmaVersion": "latest", // Uses the latest ECMAScript version
-    "sourceType": "module" // Assumes the use of ES6 modules
-  },
-
-  // Configuration settings for specific tools
-  "settings": {
-    "react": {
-      "version": "18.2" // Specifies the React version for better linting
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
     }
   },
-
-  // Specifies the ESLint plugins to use
+  "settings": {
+    "react": {
+      "version": "18.2"
+    }
+  },
   "plugins": ["react-refresh"],
-
-  // Configures specific linting rules
   "rules": {
-    // Allows constant exports for React components when using React Refresh
     "react-refresh/only-export-components": [
       "warn",
       { "allowConstantExport": true }
     ],
-
-    // Disable prop-type validation
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    "no-unused-vars": "warn"
   }
 }

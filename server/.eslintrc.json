@@ -1,7 +1,12 @@
 {
   "env": {
     "node": true,
-    "jest": true
+    "jest": true,
+    "es2020": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module"
   },
   "extends": ["airbnb", "prettier", "plugin:node/recommended"],
   "plugins": ["prettier"],
