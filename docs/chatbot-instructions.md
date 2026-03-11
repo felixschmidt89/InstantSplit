@@ -284,3 +284,9 @@ This is a legacy codebase. When we work on existing files, we always want to ref
     - **Collections**: Use the plural name of the resource (e.g., `{ members: [ ... ] }`).
   - **Empty States**: For collection requests that yield no results, return an empty array `[]` assigned to the plural key. **NEVER** return `null` or omit the key, as this ensures the Client can safely call array methods (e.g., `.map()`, `.length`) without additional null-checks.
   - **Payload Flatness**: Avoid deep nesting (e.g., `{ data: { result: { items: [] } } }`). Keep the primary entity key at the root of the response object.
+
+  - **Domain Validation Standards**:
+    - **Atomic Gatekeepers**: Create specific middleware for frequent domain-level requirements (e.g., `validateGroupCodeMiddleware.js`, `validateTransactionIdMiddleware.js`).
+    - **Positioning**: Place validation middleware in the route stack immediately after authentication but before the controller.
+    - **Request Enrichment**: Upon successful validation, the middleware should ensure the validated value is accessible on the `req` object in a predictable location (e.g., `req.groupCode`).
+    - **Fail-Fast Principle**: Middleware must immediately terminate the request lifecycle and invoke the global error handler with a specific `StatusCodes` and a shared error constant if validation fails.
