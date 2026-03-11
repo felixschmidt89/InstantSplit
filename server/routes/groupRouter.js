@@ -1,16 +1,19 @@
 import express from 'express';
 
+import getGroupTransactionsController from '../controllers/group/getGroupTransactionsController.js';
+import getGroupCurrencyController from '../controllers/group/getGroupCurrencyController.js';
+import createGroupController from '../controllers/group/createGroupController.js';
+import changeGroupNameController from '../controllers/group/changeGroupNameController.js';
+
 import { logRequestDetailsMiddleware } from '../middleware/common/logRequestDetailsMiddleware.js';
 import { validateGroupCodeMiddleware } from '../middleware/validation/validateGroupCodeMiddleware.js';
-import { getGroupTransactions } from '../controllers/group/getGroupTransactionsController.js';
+import touchGroupLastActiveMiddleware from '../middleware/group/touchGroupLastActiveMiddleware.js';
+
 import {
-  createGroup,
-  changeGroupName,
   listAllGroups,
   listGroupNamesByStoredGroupCodes,
   getGroupInfo,
   validateGroupExistence,
-  getGroupCurrency,
   changeGroupCurrency,
   changeGroupDataPurgeSetting,
   changeFixedDebitorCreditorOrderSetting,
@@ -53,7 +56,7 @@ if (CONFIG.LOG_API_REQUESTS) {
 /**
  * Public / Non-Group Context Routes
  */
-router.post('/', createGroup);
+router.post('/', createGroupController);
 
 router.get(`/${STORED_GROUP_NAMES}`, listGroupNamesByStoredGroupCodes);
 
@@ -63,12 +66,13 @@ router.get('/debug/all', developmentOnlyMiddleware, listAllGroups);
  * Group Context Protected Routes
  */
 router.use(validateGroupCodeMiddleware);
+router.use(touchGroupLastActiveMiddleware);
 
-router.patch(`/${GROUP_ID}`, changeGroupName);
+router.patch(`/${GROUP_ID}`, changeGroupNameController);
 
-router.get(`/${CURRENCY}`, getGroupCurrency);
+router.get(`/${CURRENCY}`, getGroupCurrencyController);
 
-router.get(`/${TRANSACTIONS}`, getGroupTransactions);
+router.get(`/${TRANSACTIONS}`, getGroupTransactionsController);
 
 router.get(`/${GROUP_CODE}`, getGroupInfo);
 

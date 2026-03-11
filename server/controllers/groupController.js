@@ -10,83 +10,9 @@ import {
 } from '../utils/errorUtils.js';
 import { generateUniqueGroupCode } from '../utils/groupCodeUtils.js';
 import { generateGroupCreationEmailOptions } from '../utils/adminNotificationEmailTemplates.js';
-import { sendAdminEmailNotification } from '../config/adminNotificationEmailConfig.js';
 import { LOG_LEVELS } from '../../shared/constants/debugConstants.js';
 import { debugLog } from '../../shared/utils/debug/debugLog.js';
 import { touchGroupLastActive } from '../utils/group/touchGroupLastActive.js';
-
-export const createGroup = async (req, res) => {
-  try {
-    const { groupName } = req.body;
-
-    const groupCode = await generateUniqueGroupCode();
-    const group = await Group.create({
-      groupName,
-      groupCode,
-      initialGroupName: groupName,
-    });
-
-    const mailOptions = generateGroupCreationEmailOptions(groupName);
-
-    sendAdminEmailNotification(mailOptions);
-
-    touchGroupLastActive(groupCode);
-
-    res.status(StatusCodes.CREATED).json({
-      status: 'success',
-      group,
-      message: 'Group created',
-    });
-  } catch (error) {
-    devLog('error:', error);
-    devLog('error.name:', error.name);
-    if (error.name === 'ValidationError') {
-      return sendValidationError(res, error);
-    } else {
-      errorLog(
-        error,
-        'Error creating group:',
-        'Failed to create the group. Please try again later.',
-      );
-      sendInternalError(res, error);
-    }
-  }
-};
-
-export const changeGroupName = async (req, res) => {
-  try {
-    const { groupId } = req.params;
-    const { groupName } = req.body;
-
-    devLog('Updating group name. Received data:', {
-      groupId,
-      groupName,
-    });
-
-    const updatedGroup = await Group.findByIdAndUpdate(
-      groupId,
-      { $set: { lastActive: new Date(), groupName } },
-      { new: true, runValidators: true },
-    );
-
-    res.status(StatusCodes.OK).json({
-      status: 'success',
-      updatedGroup,
-      message: 'Group name updated successfully.',
-    });
-  } catch (error) {
-    if (error.name === 'ValidationError') {
-      sendValidationError(res, error);
-    } else {
-      errorLog(
-        error,
-        'Error updating group name:',
-        'Failed to update group name. Please try again later.',
-      );
-      sendInternalError(res, error);
-    }
-  }
-};
 
 export const changeGroupDataPurgeSetting = async (req, res) => {
   try {
@@ -186,34 +112,6 @@ export const listGroupNamesByStoredGroupCodes = async (req, res) => {
       error,
       'Error listing group names:',
       'Failed to list group names. Please try again later.',
-    );
-    sendInternalError(res, error);
-  }
-};
-
-export const getGroupCurrency = async (req, res) => {
-  try {
-    const { groupCode } = req.params;
-
-    const group = await Group.findOne({ groupCode });
-
-    if (!group) {
-      return res.status(StatusCodes.NO_CONTENT).json({
-        status: 'success',
-        message: 'No group found',
-      });
-    }
-
-    res.status(StatusCodes.OK).json({
-      status: 'success',
-      currency: group.currency,
-      message: 'Group currency retrieved successfully',
-    });
-  } catch (error) {
-    errorLog(
-      error,
-      'Error fetching group currency:',
-      'Failed to fetch group information. Please try again later.',
     );
     sendInternalError(res, error);
   }

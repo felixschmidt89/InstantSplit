@@ -31,13 +31,14 @@
   - **Rule Induction**: When a pattern is corrected or improved, you must suggest a corresponding permanent rule for the instructions file to prevent recurrence.
   - **Technical Reasoning**: Every flag or suggested rule must be accompanied by a brief "Technical Reasoning" explanation focusing on maintainability, performance, or readability.
 
-## 4. General Formatting & Output
+### 4. General Formatting & Output
 
 - **Style:** Bullet points. Concise.
 - **Code Blocks:** Print in **ONE single block**. Do not split imports/logic.
 - **File Header Standard**:
   - **MANDATORY**: Every code block must be preceded by a clear, bolded filename and extension only (e.g., ### `filename.js`).
-  - **Prohibition**: Do NOT include directory paths in the header to ensure focus remains on the immediate file content.
+  - **MANDATORY**: Immediately following the filename header, provide the full repository path on a separate line (e.g., `path: /client/src/components/Footer/Footer.js`).
+  - **Prohibition**: Do NOT include directory paths within the `###` header itself to ensure focus remains on the immediate file content.
 - **Instruction Maintenance**:
   - **Prohibition**: NEVER modify the existing content within the instruction file unless explicitly and specifically commanded to deduct a rule and add it to the file where it makes logical sense.
   - **Improvement Protocol**: If a rule can be improved, clarified, or optimized, you must first suggest the change and provide a technical explanation for the reasoning.
@@ -187,6 +188,11 @@ This is a legacy codebase. When we work on existing files, we always want to ref
 - **Preserve Functionality:** Ensure existing features remain intact.
 - **Incremental Changes**: Make small, manageable changes rather than large overhauls. Wait for confirmation before proceeding with significant refactors.
 - **Testing**: After refactoring, ensure all existing tests pass. If no tests exist, recommend adding them. Use jest and react-testing-library for testing.
+  **Identifier Privacy & Param Usage**
+
+* Sensitive domain identifiers (e.g., `groupCode`) must NEVER be used as URL parameters or appear in the URI path.
+* Use non-sensitive database identifiers (e.g., `groupId` / `_id`) for RESTful resource mapping in URL parameters.
+* When a sensitive identifier is required for validation, it must be transmitted via the Request Body or a secure Header.
 
 ### 8. Technical Debt Management
 
@@ -320,3 +326,17 @@ This is a legacy codebase. When we work on existing files, we always want to ref
 
   - **API Header Constants**:
   - **Normalization**: All header keys defined in `apiHeaderConstants.js` must be strictly lowercase.
+
+- **Controller Architecture**:
+  - **Suffix**: Every controller file must include the "Controller" suffix (e.g., `getGroupCurrencyController.js`).
+  - **Function Naming**: The primary exported function should also include the "Controller" suffix to prevent namespace collisions during service/utility imports.
+
+- **Service Architecture**:
+  - **Suffix**: Every service file must include the "Service" suffix (e.g., `getGroupCurrencyService.js`).
+  - **Function Naming**: The primary exported function must also include the "Service" suffix (e.g., `getGroupCurrencyService`).
+  - **Logic Ownership**: Services must own all database interactions and associated `debugLog` calls, keeping the controller layer thin and focused on the HTTP lifecycle.
+
+**Automated Metadata Maintenance**
+
+- Lifecycle timestamps (e.g., `lastActive`) must be handled via centralized middleware or database hooks rather than manual service-layer calls.
+- Use atomic update operations (`updateOne`, `findOneAndUpdate`) for non-business side effects to minimize database overhead.

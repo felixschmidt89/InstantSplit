@@ -1,18 +1,20 @@
 import Group from '../../models/Group.js';
-import { debugLog } from '../../../shared/utils/debug/debugLog.js';
+
 import { LOG_LEVELS } from '../../../shared/constants/debugConstants.js';
+import { debugLog } from '../../../shared/utils/debug/debugLog.js';
 
 const { LOG_ERROR } = LOG_LEVELS;
 
-export const touchGroupLastActive = async (groupCode) => {
+const touchGroupLastActive = async (groupCode) => {
   if (!groupCode) return;
 
   try {
-    const group = await Group.findOne({ groupCode });
+    const result = await Group.updateOne(
+      { groupCode },
+      { $set: { lastActive: new Date() } },
+    );
 
-    if (group) {
-      await group.touchLastActive();
-    } else {
+    if (result.matchedCount === 0) {
       debugLog(
         'Cannot touch group lastActive: Group not found',
         { groupCode },
@@ -20,7 +22,12 @@ export const touchGroupLastActive = async (groupCode) => {
       );
     }
   } catch (error) {
-    // Errors inside touchLastActive() are already logged by the Model.
-    // Errors finding the group are non-critical side effects and shouldn't crash the request.
+    debugLog(
+      'Error updating group lastActive',
+      { groupCode, error: error.message },
+      LOG_ERROR,
+    );
   }
 };
+
+export default touchGroupLastActive;
