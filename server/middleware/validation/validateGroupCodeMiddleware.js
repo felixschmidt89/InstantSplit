@@ -12,6 +12,11 @@ export const validateGroupCodeMiddleware = (req, res, next) => {
     return next(error);
   }
 
+  req.context = {
+    ...req.context,
+    groupCode,
+  };
+
   next();
 };
 
