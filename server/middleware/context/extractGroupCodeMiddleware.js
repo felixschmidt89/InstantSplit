@@ -3,12 +3,15 @@ import { API_HEADERS } from '../../../shared/constants/api/apiHeaderConstants.js
 
 const { GROUPCODE } = API_HEADERS;
 
-const extractGroupCodeMiddleware = (req, res, next) => {
+export const extractGroupCodeMiddleware = (req, res, next) => {
   const groupCode = req.headers[GROUPCODE];
 
-  if (groupCode) {
-    req.groupCode = groupCode;
+  req.context = {
+    ...req.context,
+    ...(groupCode && { groupCode }),
+  };
 
+  if (groupCode) {
     debugLog('Middleware: Group Code Extracted', { groupCode }, INFO);
   }
 

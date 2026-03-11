@@ -266,6 +266,10 @@ This is a legacy codebase. When we work on existing files, we always want to ref
 
 ### 14. Server Architecture
 
+- **Context Initialization**:
+  - **Standard**: Every request must have a guaranteed `req.context` object.
+  - **Implementation**: The first middleware in the lifecycle responsible for request enrichment must initialize `req.context` (e.g., `req.context = req.context || {};`) before attempting to spread or assign properties.
+
 - **Middleware Architecture**:
   - **Standard**: Folder-per-domain pattern inside `server/middleware/`.
   - **Naming**: Folder names must be lowercase and descriptive of the functional domain (e.g., `server/middleware/context/`).
@@ -311,3 +315,6 @@ This is a legacy codebase. When we work on existing files, we always want to ref
 - **Request Context Standard**:
   - **Namespace**: When middleware enriches the request object (Request Enrichment), attach domain-specific data to a `context` property (e.g., `req.context.groupCode`).
   - **Purpose**: This clearly distinguishes middleware-validated data from standard Express request properties (`req.params`, `req.query`, `req.body`), making the source of truth explicit within the controller.
+
+  - **API Header Constants**:
+  - **Normalization**: All header keys defined in `apiHeaderConstants.js` must be strictly lowercase.

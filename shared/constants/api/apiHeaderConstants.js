@@ -1,6 +1,6 @@
 export const API_HEADERS = {
   GROUPCODE: "x-group-code",
-  CONTENT_TYPE: "Content-Type",
+  CONTENT_TYPE: "content-type",
 };
 
 export const API_CONTENT_TYPES = {
