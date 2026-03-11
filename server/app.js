@@ -1,7 +1,6 @@
 import express from 'express';
 import compression from 'compression';
 import cors from 'cors';
-import multer from 'multer';
 
 import { CONFIG } from './config/index.js';
 
@@ -18,6 +17,7 @@ import captchaRouter from './routes/captchaRouter.js';
 import settlementRouter from './routes/settlementRouter.js';
 
 import { API_ROUTES } from '../shared/constants/apiRoutesConstants.js';
+import { apiErrorMiddleware } from './middleware/errors/apiErrorMiddleware.js';
 
 const {
   GROUPS,
@@ -39,12 +39,10 @@ const { API_BASEURL } = CONFIG;
 
 app.use(express.json());
 app.use(cors());
-const upload = multer({ dest: 'uploads/' });
 app.use(compression());
 
 app.use(extractGroupCodeMiddleware);
 
-// ROUTES
 app.use(`${API_BASEURL}/${GROUPS.BASE}`, groupRouter);
 app.use(`${API_BASEURL}/${USERS.BASE}`, userRouter);
 app.use(`${API_BASEURL}/${EXPENSES.BASE}`, expenseRouter);
@@ -54,5 +52,7 @@ app.use(`${API_BASEURL}/${HEALTH.BASE}`, healthRouter);
 app.use(`${API_BASEURL}/${FILES.BASE}`, fileRouter);
 app.use(`${API_BASEURL}/${CAPTCHAS.BASE}`, captchaRouter);
 app.use(`${API_BASEURL}/${SETTLEMENTS.BASE}`, settlementRouter);
+
+app.use(apiErrorMiddleware);
 
 export default app;

@@ -7,16 +7,21 @@ export const logRequestDetailsMiddleware = (req, res, next) => {
   const { method, originalUrl, params, query, headers } = req;
 
   const headerKey = GROUPCODE.toLowerCase();
+  const hasParams = Object.keys(params).length > 0;
+  const hasQuery = Object.keys(query).length > 0;
+  const hasGroupHeader = Boolean(headers[headerKey]);
 
   const context = {
     method,
     path: originalUrl,
-    ...(Object.keys(params).length > 0 && { params }),
-    ...(Object.keys(query).length > 0 && { query }),
-    ...(headers[headerKey] && { [headerKey]: headers[headerKey] }),
+    ...(hasParams && { params }),
+    ...(hasQuery && { query }),
+    ...(hasGroupHeader && { [headerKey]: headers[headerKey] }),
   };
 
   debugLog(`[API-INBOUND]`, context, INFO);
 
   next();
 };
+
+export default logRequestDetailsMiddleware;
