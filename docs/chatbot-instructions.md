@@ -30,21 +30,25 @@
 
 - **Style:** Bullet points. Concise.
 - **Code Blocks:** Print in **ONE single block**. Do not split imports/logic.
+- **File Header Standard**:
+  - **MANDATORY**: Every code block must be preceded by a clear, bolded filename and extension only (e.g., ### `filename.js`).
+  - **Prohibition**: Do NOT include directory paths in the header to ensure focus remains on the immediate file content.
+- **Instruction Maintenance**:
+  - **Prohibition**: NEVER modify the existing content within the instruction file unless explicitly and specifically commanded to deduct a rule and add it to the file where it makes logical sense.
+  - **Improvement Protocol**: If a rule can be improved, clarified, or optimized, you must first suggest the change and provide a technical explanation for the reasoning.
+  - **Approval**: Wait for explicit confirmation before generating an updated version of the instructions.
 - **Instruction File Format**:
   - When generating new or updated rules for instruction files, encapsulate the content in a separate Markdown code block.
-  - Adhere strictly to the established visual style used in `### 4. Coding Standards: React & JS`, utilizing a structured hierarchy of bolded categories followed by bulleted requirements. Do not reprint `### 4. Coding Standards: React & JS`
+  - Adhere strictly to the established visual style used in `### 4. Coding Standards: React & JS`, utilizing a structured hierarchy of bolded categories followed by bulleted requirements. Do not reprint `### 4. Coding Standards: React & JS`.
   - Ensure the output is modular and ready for direct copy-pasting into the main instruction document.
 - **Inline Code:** Present code inline.
 - **Comments:**
   - **NEVER:** Add extra comments unless requested.
-  - **NEVER:** Use JSDoc comments
-  - **NEVER:** Change comments that include "TODO:"
-
-  <!-- - **ALWAYS:** Keep existing comments as-is. -->
-
+  - **NEVER:** Use JSDoc comments.
+  - **NEVER:** Change comments that include "TODO:".
 - **Naming:**
-  - **NEVER** use abbreviations, always use full descriptive names
-  - **NEVER** Change existing names. Highlight incorrect names for review though
+  - **NEVER** use abbreviations, always use full descriptive names.
+  - **NEVER** Change existing names. Highlight incorrect names for review though.
   - **When introducing new names and functions** Always use descriptive names and ask for confirmation prior to implementation.
   - **When told to implement name with typo** Always ask if that was intentional prior to implementation.
   - **Event Props:** Use the on[Subject][Action] format (e.g., onButtonToggle) when specificity is required. NEVER name the prop after the component itself (e.g., onToggleButton).
@@ -55,7 +59,7 @@
 - **Commit Messages (Angular Style):**
   - Format: `type: subject` (e.g., `feat: apply primary attribute`).
   - No brackets, no body/footer.
-  - **Only** provide when you have provided new code below the code block in a new line
+  - **Only** provide when you have provided new code below the code block in a new line.
 
 ### 5. Coding Standards: React & JS
 
@@ -66,7 +70,7 @@
   - **Standard**: Folder-per-page pattern inside `src/pages/`.
   - **Structure**: Every page resides in its own named folder (e.g., `src/pages/ContactPage/`).
   - **Naming**: Folder and Primary File must include the "Page" suffix (e.g., `ContactPage.jsx`).
-  - **Explicit Imports**: Do **NOT** use `index.js` files. Imports must explicitly reference the page file .
+  - **Explicit Imports**: Do **NOT** use `index.js` files. Imports must explicitly reference the page file.
 - **Component Architecture & Naming**:
   - **Flat Structure**: All component folders must reside directly under `src/components/`. Sub-categorization folders such as `common/` or `features/` are strictly prohibited.
   - **Folder-per-Component Pattern**: Every component resides in its own named folder (e.g., `src/components/Footer/`).
@@ -93,55 +97,61 @@
   - **MANDATORY**: Always destructure properties from imported objects at the top of the file, immediately following the import block.
   - **Prohibition**: Do **NOT** use member expressions (e.g., `LOG_LEVELS.INFO`) within the functional logic.
 
-* **Avoid Regex**:
+- **Avoid Regex**:
   - **Priority**: Always prioritize standard string/array methods (e.g., `.includes()`, `.startsWith()`, `.split()`) over Regular Expressions.
   - **Usage**: Use Regex **only** when complex pattern matching is strictly required and cannot be achieved cleanly with native methods.
 
-**Group Imports by Type:**
+- **Group Imports by Type**:
+  1. **Third-party libraries**: Standard npm packages (e.g., `react`, `axios`, `express`).
+  2. **Internal Project Files**: All project-specific files (controllers, services, models, utils, constants) using **Relative Paths** (e.g., `../`, `../../`).
+  3. **Local Assets and CSS**: Images, styles, and local assets.
 
-1. **Third-party libraries**: Standard npm packages (e.g., `react`, `axios`, `express`).
-2. **Internal Project Files**: All project-specific files (controllers, services, models, utils, constants) using **Relative Paths** (e.g., `../`, `../../`).
-3. **Local Assets and CSS**: Images, styles, and local assets.
+- **Path Requirements**:
+  - **ALWAYS** use relative paths for all internal imports.
+  - **NEVER** use path aliases (e.g., `@shared`, `@client`, `@server`).
+  - **MANDATORY Extensions**: In the backend, always include the `.js` extension for imports to comply with ES Modules.
 
-**Path Requirements:**
+- **Formatting**:
+  - Keep a single empty line between import groups to maintain visual separation.
 
-- **ALWAYS** use relative paths for all internal imports.
-- **NEVER** use path aliases (e.g., `@shared`, `@client`, `@server`).
-- **MANDATORY Extensions**: In the backend, always include the `.js` extension for imports to comply with ES Modules.
-
-**Formatting:**
-
-- Keep a single empty line between import groups to maintain visual separation.
-
-* **Logic Simplification**:
-  - **Explicit Booleans**: Do **NOT** use double negation (`!!`) for truthiness casting. Use the native JavaScript `Boolean()` function (e.g., `Boolean(transactions?.length)`) to enforce strict boolean types
+- **Logic Simplification**:
+  - **Explicit Booleans**: Do **NOT** use double negation (`!!`) for truthiness casting. Use the native JavaScript `Boolean()` function (e.g., `Boolean(transactions?.length)`) to enforce strict boolean types.
   - **No Redundant Wrappers**: Do **NOT** use `Boolean()` to wrap expressions that natively evaluate to a boolean (e.g., relational operators like `array.length > 1` or logical operators between booleans like `isReady && hasMembers`). Only use `Boolean()` when explicitly casting truthy/falsy values.
   - **Semantic Variables**: Extract inline conditionals and evaluations out of JSX into well-named, descriptive boolean variables at the top of the component (e.g., `const hasTransactions = Boolean(transactions?.length);`). This strictly separates business logic from presentation and ensures the JSX reads semantically.
   - **Boolean Assignments**: Do **NOT** use ternary operators for boolean assignments. Directly assign the logical evaluation or truthiness cast to the variable.
   - **Short-Circuiting**: Use logical AND (`&&`) for conditional rendering only when evaluated against strict semantic boolean variables.
 
-* **Logic Block Grouping**:
-  - **Standard**: Organize logic into clearly defined blocks based on functional domains to ensure high scannability and logical flow, do **NOT** add grouping comments
+- **Logic Block Grouping**:
+  - **Standard**: Organize logic into clearly defined blocks based on functional domains to ensure high scannability and logical flow, do **NOT** add grouping comments.
   - **Ordering**:
     1. **Initialization**: Primary hooks, state declarations, and reference initializations.
     2. **Refinement**: Derived data, memoized values, and internal constants.
-    3. **Functional Handlers**: Domain-specific logic blocks (e.g., "Navigation Logic", "Data Transformation", "Event Handlers"). Group all functions belonging to the same domain together
+    3. **Functional Handlers**: Domain-specific logic blocks (e.g., "Navigation Logic", "Data Transformation", "Event Handlers"). Group all functions belonging to the same domain together.
     4. **Lifecycle/Side Effects**: Execution of side effects (e.g., `useEffect`, observers).
   - **Visual Separation**: Insert a single empty line between each domain-specific block.
 
-* **Props & Objects**:
+- **Props & Objects**:
   - **Destructuring**: Always destructure props and objects.
   - **PropTypes**: Do **NOT** use `propTypes`.
 
-* **Styles**:
+- **Styles**:
   - Use the `classnames` package for conditional classes.
   - Prioritize CSS for styles; use JavaScript only if absolutely necessary.
   - **NEVER** use `px` units; use `rem`, `em`, `%`, `vh`, or `vw`.
 
-  - **Project-Wide String Management**:
+- **Project-Wide String Management**:
   - **Prohibition**: Writing raw strings ("Magic Strings") for user-facing messages, error messages, identifiers, or configuration values is strictly prohibited across the entire project (Client, Server, Shared).
   - **Protocol**: **MANDATORY**: Before implementing a string, you must search the related constant files (e.g., `errorConstants.js`, `apiRoutesConstants.js`, `clientStaticRoutesConstants.js`) for an existing match.
   - **Implementation**: If no match exists, you must create a new descriptive constant in the appropriate constant file before using it in the logic layer.
+
+- **Constant Management**:
+  - **Constant Location Strategy**:
+    - **Shared Scope**: **MANDATORY**: Any constant consumed by both Client and Server (e.g., `errorConstants.js`, `validationConstants.js`, `transactionTypes.js`) must reside in `shared/constants/`.
+    - **Client-Specific**: UI-only constants, such as route paths for navigation or component labels, must reside in `client/src/constants/`.
+    - **Server-Specific**: Logic-only constants, such as database collection names or environment configurations, must reside in `server/constants/`.
+  - **Validation**:
+    - Before creating a new constant, search the `shared/` directory first to ensure a global definition does not already exist.
+    - **Prohibition**: Do NOT duplicate constants across environments. If a Client constant is needed by the Server, migrate it to `shared/` immediately.
 
 ### 6. Labeling & Translation Rules
 
