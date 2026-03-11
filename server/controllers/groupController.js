@@ -147,34 +147,6 @@ export const changeGroupCurrency = async (req, res) => {
   }
 };
 
-export const getGroupInfo = async (req, res) => {
-  try {
-    const { groupCode } = req.params;
-
-    const group = await Group.findOne({ groupCode });
-
-    if (!group) {
-      return res.status(StatusCodes.NO_CONTENT).json({
-        status: 'success',
-        message: 'No group found',
-      });
-    }
-
-    res.status(StatusCodes.OK).json({
-      status: 'success',
-      group,
-      message: 'Group info retrieved successfully',
-    });
-  } catch (error) {
-    errorLog(
-      error,
-      'Error fetching group info:',
-      'Failed to fetch group information. Please try again later.',
-    );
-    sendInternalError(res, error);
-  }
-};
-
 export const validateGroupExistence = async (req, res) => {
   try {
     const { groupCode } = req.params;

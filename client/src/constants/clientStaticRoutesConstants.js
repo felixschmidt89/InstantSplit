@@ -9,7 +9,6 @@ export const CLIENT_STATIC_ROUTES = {
 
   ONBOARDING_GROUP_SETTINGS: "/onboarding-group-settings",
   ONBOARDING_CREATE_GROUP: "/onboarding-create-group",
-  ONBOARDING_ENTER_GROUPCODE: "/onboarding-enter-groupcode",
 
   CREATE_MEMBERS: "/create-group-members",
   MEMBER_DETAILS: "/groupmember-details",

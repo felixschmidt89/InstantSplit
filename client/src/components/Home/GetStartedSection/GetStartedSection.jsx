@@ -19,10 +19,6 @@ const GetStartedSection = () => {
           route={`onboarding-create-group`}
           buttonText={t("get-started-create-group-button")}
         />
-        <RouteButton
-          route={`onboarding-enter-groupcode`}
-          buttonText={t("get-started-join-group-button")}
-        />
       </div>
     </>
   );

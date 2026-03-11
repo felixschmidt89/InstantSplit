@@ -1,10 +1,8 @@
 export const API_ROUTES = {
-  // TODO: Delete if not really needed, else rename GROUP_CODE
   URL_PARAMS: {
-    GROUP_CODE: ":groupCode",
-    GROUP_ID: ":groupId",
-    EXPENSE_ID: ":expenseId",
-    USER_ID: ":userId",
+    GROUP_ID: "groupId",
+    EXPENSE_ID: "expenseId",
+    USER_ID: "userId",
   },
 
   GROUPS: {
@@ -21,14 +19,14 @@ export const API_ROUTES = {
 
   USERS: {
     BASE: "users",
-    BY_GROUP_CODE: "by-groupcode",
+    BY_GROUP: "by-group",
     TRANSACTIONS: "expenses-and-payments",
   },
 
   EXPENSES: {
     BASE: "expenses",
     TOTAL: "total-expenses",
-    BY_GROUP_CODE: "by-groupcode",
+    BY_GROUP: "by-group",
   },
 
   PAYMENTS: {

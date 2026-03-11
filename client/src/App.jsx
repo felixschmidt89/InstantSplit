@@ -14,13 +14,11 @@ import CreatePaymentPage from "./pages/CreatePaymentPage/CreatePaymentPage.jsx";
 import ExpenseDetailsPage from "./pages/ExpenseDetailsPage/ExpenseDetailsPage.jsx";
 import PaymentDetailsPage from "./pages/PaymentDetailsPage/PaymentDetailsPage.jsx";
 import OnboardingGroupSettingsPage from "./pages/OnboardingGroupSettingsPage/OnboardingGroupSettingsPage.jsx";
-import ValidateProvidedGroupCodePage from "./pages/ValidateProvidedGroupCodePage/ValidateProvidedGroupCodePage.jsx";
 import LegalNoticePage from "./pages/LegalNoticePage/LegalNoticePage.jsx";
 import TutorialPage from "./pages/TutorialPage/TutorialPage.jsx";
 import UpdateExpensePage from "./pages/UpdateExpensePage/UpdateExpensePage.jsx";
 import UpdatePaymentPage from "./pages/UpdatePaymentPage/UpdatePaymentPage.jsx";
 import TermsAndConditionsPage from "./pages/TermsAndConditionsPage/TermsAndConditionsPage.jsx";
-import EnterGroupCodePage from "./pages/EnterGroupCodePage/EnterGroupCodePage.jsx";
 import ManageGroupsPage from "./pages/ManageGroupsPage/ManageGroupsPage.jsx";
 import GroupSettingsPage from "./pages/GroupSettingsPage/GroupSettingsPage.jsx";
 import ShareGroupInvitationPage from "./pages/ShareGroupInvitationPage/ShareGroupInvitationPage.jsx";
@@ -42,7 +40,6 @@ const {
   LEGAL_NOTICE,
   ONBOARDING_GROUP_SETTINGS,
   ONBOARDING_CREATE_GROUP,
-  ONBOARDING_ENTER_GROUPCODE,
   INSTANT_SPLIT,
   MANAGE_GROUPS,
   TERMS_AND_CONDITIONS,
@@ -86,20 +83,11 @@ const App = () => {
                 path={ONBOARDING_CREATE_GROUP}
                 element={<OnboardingCreateGroupPage />}
               />
-              <Route
-                path={ONBOARDING_ENTER_GROUPCODE}
-                element={<EnterGroupCodePage />}
-              />
               <Route path={INSTANT_SPLIT} element={<InstantSplitPage />} />
               <Route path={MANAGE_GROUPS} element={<ManageGroupsPage />} />
               <Route
                 path={TERMS_AND_CONDITIONS}
                 element={<TermsAndConditionsPage />}
-              />
-
-              <Route
-                path={GROUPCODE_VALIDATOR}
-                element={<ValidateProvidedGroupCodePage />}
               />
               <Route path={JOIN_GROUP_DE} element={<JoinGroupDEPage />} />
               <Route path={JOIN_GROUP_EN} element={<JoinGroupENPage />} />
@@ -142,7 +130,6 @@ const App = () => {
                 />
                 <Route path={GROUP_SETTINGS} element={<GroupSettingsPage />} />
               </Route>
-
               <Route path={NOT_FOUND} element={<PageNotFoundPage />} />
             </Routes>
             <Footer />

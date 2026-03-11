@@ -4,15 +4,16 @@ import getGroupTransactionsController from '../controllers/group/getGroupTransac
 import getGroupCurrencyController from '../controllers/group/getGroupCurrencyController.js';
 import createGroupController from '../controllers/group/createGroupController.js';
 import changeGroupNameController from '../controllers/group/changeGroupNameController.js';
+import getGroupInfoController from '../controllers/group/getGroupInfoController.js';
 
 import { logRequestDetailsMiddleware } from '../middleware/common/logRequestDetailsMiddleware.js';
+import { extractGroupCodeMiddleware } from '../middleware/context/extractGroupCodeMiddleware.js';
 import { validateGroupCodeMiddleware } from '../middleware/validation/validateGroupCodeMiddleware.js';
 import touchGroupLastActiveMiddleware from '../middleware/group/touchGroupLastActiveMiddleware.js';
 
 import {
   listAllGroups,
   listGroupNamesByStoredGroupCodes,
-  getGroupInfo,
   validateGroupExistence,
   changeGroupCurrency,
   changeGroupDataPurgeSetting,
@@ -46,7 +47,7 @@ const {
     VALIDATE_GROUP_EXISTENCE_LIMITED,
     TRANSACTIONS,
   },
-  URL_PARAMS: { GROUP_ID, GROUP_CODE },
+  URL_PARAMS: { GROUP_ID },
 } = API_ROUTES;
 
 if (CONFIG.LOG_API_REQUESTS) {
@@ -57,48 +58,48 @@ if (CONFIG.LOG_API_REQUESTS) {
  * Public / Non-Group Context Routes
  */
 router.post('/', createGroupController);
-
 router.get(`/${STORED_GROUP_NAMES}`, listGroupNamesByStoredGroupCodes);
-
 router.get('/debug/all', developmentOnlyMiddleware, listAllGroups);
 
 /**
  * Group Context Protected Routes
+ * These routes identify the group via GROUP_ID in the URL
+ * and validate the secret groupCode from the Request Body/Headers.
  */
+router.use(extractGroupCodeMiddleware);
 router.use(validateGroupCodeMiddleware);
 router.use(touchGroupLastActiveMiddleware);
 
+// Get group details via ID (secure)
+router.get(`/${GROUP_ID}`, getGroupInfoController);
+
+// Update group name via ID
 router.patch(`/${GROUP_ID}`, changeGroupNameController);
 
 router.get(`/${CURRENCY}`, getGroupCurrencyController);
-
 router.get(`/${TRANSACTIONS}`, getGroupTransactionsController);
 
-router.get(`/${GROUP_CODE}`, getGroupInfo);
-
-router.patch(`/${CURRENCY}/${GROUP_CODE}`, changeGroupCurrency);
-
-router.patch(`/${DATA_PURGE}/${GROUP_CODE}`, changeGroupDataPurgeSetting);
-
+// Legacy routes still pending atomic refactor - now using GROUP_ID for URI
+router.patch(`/${CURRENCY}/${GROUP_ID}`, changeGroupCurrency);
+router.patch(`/${DATA_PURGE}/${GROUP_ID}`, changeGroupDataPurgeSetting);
 router.patch(
-  `/${PERSISTED_ORDER}/${GROUP_CODE}`,
+  `/${PERSISTED_ORDER}/${GROUP_ID}`,
   changeFixedDebitorCreditorOrderSetting,
 );
-
 router.get(
-  `/${HAS_PERSISTED_ORDER}/${GROUP_CODE}`,
+  `/${HAS_PERSISTED_ORDER}/${GROUP_ID}`,
   groupHasPersistedDebitorCreditorOrder,
 );
 
+// Existence checks (Still grouped under protected context for now)
 router.get(
-  `/${GROUP_CODE}/${VALIDATE_GROUP_EXISTENCE_CONTINUOUS}`,
+  `/${GROUP_ID}/${VALIDATE_GROUP_EXISTENCE_CONTINUOUS}`,
   laxLimiter,
   laxLimitRequestsPerIpMiddleware,
   validateGroupExistence,
 );
-
 router.get(
-  `/${GROUP_CODE}/${VALIDATE_GROUP_EXISTENCE_LIMITED}`,
+  `/${GROUP_ID}/${VALIDATE_GROUP_EXISTENCE_LIMITED}`,
   strictLimiter,
   strictlyLimitRequestsPerIpMiddleware,
   validateGroupExistence,
