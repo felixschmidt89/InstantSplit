@@ -1,8 +1,8 @@
 import express from 'express';
+
 import { logRequestDetailsMiddleware } from '../middleware/common/logRequestDetailsMiddleware.js';
-
+import { validateGroupCodeMiddleware } from '../middleware/validation/validateGroupCodeMiddleware.js';
 import { getGroupTransactions } from '../controllers/group/getGroupTransactionsController.js';
-
 import {
   createGroup,
   changeGroupName,
@@ -26,14 +26,11 @@ import {
   laxLimitRequestsPerIpMiddleware,
   laxLimiter,
 } from '../middleware/laxLimitRequestsPerIpMiddleware.js';
+
 import { API_ROUTES } from '../../shared/constants/apiRoutesConstants.js';
 import { CONFIG } from '../config/index.js';
 
 const router = express.Router();
-
-if (CONFIG.LOG_API_REQUESTS) {
-  router.use(logRequestDetailsMiddleware);
-}
 
 const {
   GROUPS: {
@@ -46,28 +43,33 @@ const {
     VALIDATE_GROUP_EXISTENCE_LIMITED,
     TRANSACTIONS,
   },
-  // TODO: Refactor to avoid exposing groupCode as URL param
   URL_PARAMS: { GROUP_ID, GROUP_CODE },
 } = API_ROUTES;
 
+if (CONFIG.LOG_API_REQUESTS) {
+  router.use(logRequestDetailsMiddleware);
+}
+
 /**
- * Group Management Routes
+ * Public / Non-Group Context Routes
  */
 router.post('/', createGroup);
 
-router.patch(`/${GROUP_ID}`, changeGroupName);
-
 router.get(`/${STORED_GROUP_NAMES}`, listGroupNamesByStoredGroupCodes);
 
-/**
- * Updated Static Routes
- */
-router.get(`/${CURRENCY}`, getGroupCurrency);
-router.get(`/${TRANSACTIONS}`, getGroupTransactions);
+router.get('/debug/all', developmentOnlyMiddleware, listAllGroups);
 
 /**
- * Dynamic Parameter Routes
+ * Group Context Protected Routes
  */
+router.use(validateGroupCodeMiddleware);
+
+router.patch(`/${GROUP_ID}`, changeGroupName);
+
+router.get(`/${CURRENCY}`, getGroupCurrency);
+
+router.get(`/${TRANSACTIONS}`, getGroupTransactions);
+
 router.get(`/${GROUP_CODE}`, getGroupInfo);
 
 router.patch(`/${CURRENCY}/${GROUP_CODE}`, changeGroupCurrency);
@@ -84,9 +86,6 @@ router.get(
   groupHasPersistedDebitorCreditorOrder,
 );
 
-/**
- * Validation Routes (Rate Limited)
- */
 router.get(
   `/${GROUP_CODE}/${VALIDATE_GROUP_EXISTENCE_CONTINUOUS}`,
   laxLimiter,
@@ -100,10 +99,5 @@ router.get(
   strictlyLimitRequestsPerIpMiddleware,
   validateGroupExistence,
 );
-
-/**
- * Development and Debugging Routes
- */
-router.get('/debug/all', developmentOnlyMiddleware, listAllGroups);
 
 export default router;
