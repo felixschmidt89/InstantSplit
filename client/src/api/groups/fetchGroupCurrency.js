@@ -1,7 +1,7 @@
 import apiClient from "../axiosInstance.js";
 
 import { API_HEADERS } from "../../../../shared/constants/api/apiHeaderConstants.js";
-import { API_ROUTES } from "../../../../shared/constants/apiRoutesConstants.js";
+import { API_ROUTES } from "../../../../shared/constants/api/apiRoutesConstants.js";
 import debugLog from "../../../../shared/utils/debug/debugLog.js";
 
 const { BASE, CURRENCY } = API_ROUTES.GROUPS;

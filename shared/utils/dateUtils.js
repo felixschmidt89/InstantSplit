@@ -1,7 +1,7 @@
 import {
   LANGUAGE_LOCALES,
   DEFAULT_LANGUAGE,
-} from "../constants/languageConstants";
+} from "../constants/system/languageConstants";
 
 export const getLocalizedDateString = (date, language = DEFAULT_LANGUAGE) => {
   const locale =

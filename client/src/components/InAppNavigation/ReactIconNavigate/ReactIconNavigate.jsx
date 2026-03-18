@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./ReactIconNavigate.module.css";
 
 import { useGroupContext } from "../../../context/GroupContext.jsx";
-import { LOG_LEVELS } from "../../../../../shared/constants/debugConstants.js";
+import { LOG_LEVELS } from "../../../../../shared/constants/system/loggerConstants.js";
 import debugLog from "../../../../../shared/utils/debug/debugLog.js";
 
 const { DEBUG } = LOG_LEVELS;

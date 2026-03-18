@@ -16,7 +16,7 @@ import InAppNavigation from "../../components/InAppNavigation/InAppNavigationBar
 import Emoji from "../../components/Emoji/Emoji";
 
 import emojiConstants from "../../constants/emojiConstants";
-import { LOG_LEVELS } from "../../../../shared/constants/debugConstants";
+import { LOG_LEVELS } from "../../../../shared/constants/system/loggerConstants";
 import debugLog from "../../../../shared/utils/debug/debugLog";
 
 import styles from "./ExpenseDetailsPage.module.css";

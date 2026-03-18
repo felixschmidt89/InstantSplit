@@ -5,7 +5,7 @@ import useEditPenVisibility from "../../../hooks/useEditPenVisibility";
 import ChangeResourceName from "../../ChangeResourceName/ChangeResourceName";
 import EditPenButton from "../../EditPenButton/EditPenButton";
 
-import { RESOURCE_TYPES } from "../../../../../shared/constants/resourceConstants.js";
+import { RESOURCE_TYPES } from "../../../../../shared/constants/domain/resourceConstants.js";
 
 import styles from "./GroupMemberName.module.css";
 

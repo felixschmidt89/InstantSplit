@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { LAST_UPDATE_DATE } from "../termsAndConditionsConstants";
 
 import styles from "./Disclaimer.module.css";
-import { DEFAULT_LANGUAGE } from "../../../../../shared/constants/languageConstants";
+import { DEFAULT_LANGUAGE } from "../../../../../shared/constants/system/languageConstants";
 import { getLanguageFromLocalStorage } from "../../../utils/localStorage";
 import { getLocalizedDateString } from "../../../../../shared/utils/dateUtils";
 

@@ -1,7 +1,7 @@
 import { debugLog } from "../../../../shared/utils/debug/debugLog.js";
 
 import { getStoredGroupCodesFromLocalStorage } from "./getStoredGroupCodesFromLocalStorage";
-import { LOG_LEVELS } from "../../../../shared/constants/debugConstants";
+import { LOG_LEVELS } from "../../../../shared/constants/system/loggerConstants.js";
 
 const { LOG_ERROR } = LOG_LEVELS;
 

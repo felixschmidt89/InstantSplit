@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { fetchGroupData } from "../api/groups/fetchGroupData";
 
 import { debugLog } from "../../../shared/utils/debug/debugLog.js";
-import { LOG_LEVELS } from "../../../shared/constants/debugConstants.js";
+import { LOG_LEVELS } from "../../../shared/constants/system/loggerConstants.js";
 import { useApi } from "./api/useApi.jsx";
 
 const { INFO, LOG_ERROR } = LOG_LEVELS;

@@ -1,7 +1,7 @@
 import {
   MOCK_DATA,
   MOCK_LOCALSTORAGE_VALUES,
-} from "../../../../shared/constants/testConstants.js";
+} from "../../../../shared/constants/test/testConstants.js";
 import generateDynamicRoute from "./generateDynamicRoute";
 
 describe("generateDynamicRoute", () => {

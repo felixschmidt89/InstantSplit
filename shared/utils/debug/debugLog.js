@@ -1,5 +1,5 @@
 import IS_DEVELOPMENT from "../../constants/system/environmentConstants.js";
-import { LOG_LEVELS } from "../../constants/debugConstants.js";
+import { LOG_LEVELS } from "../../constants/system/loggerConstants.js/index.js";
 
 const { INFO, ERROR, LOG_ERROR } = LOG_LEVELS;
 

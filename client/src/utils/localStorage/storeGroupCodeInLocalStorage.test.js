@@ -2,7 +2,7 @@ import { storeGroupCodeInLocalStorage } from "./storeGroupCodeInLocalStorage";
 import { getStoredGroupCodesFromLocalStorage } from "./getStoredGroupCodesFromLocalStorage";
 import { setLocalStorageKey } from "./setLocalStorageKey";
 import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
-import { MOCK_LOCALSTORAGE_VALUES } from "../../../../shared/constants/testConstants";
+import { MOCK_LOCALSTORAGE_VALUES } from "../../../../shared/constants/test/testConstants";
 
 jest.mock("./getStoredGroupCodesFromLocalStorage");
 jest.mock("./setLocalStorageKey");

@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import useErrorModalVisibility from "../../hooks/useErrorModalVisibility.jsx";
 import ErrorModal from "../ErrorModal/ErrorModal.jsx";
-import { LOG_LEVELS } from "../../../../shared/constants/debugConstants.js";
+import { LOG_LEVELS } from "../../../../shared/constants/system/loggerConstants.js";
 import debugLog from "../../../../shared/utils/debug/debugLog.js";
 
 import styles from "./CopyToClipboard.module.css";

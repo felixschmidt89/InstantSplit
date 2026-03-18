@@ -1,4 +1,4 @@
-import { MOCK_LOCALSTORAGE_VALUES } from "../../../../shared/constants/testConstants";
+import { MOCK_LOCALSTORAGE_VALUES } from "../../../../shared/constants/test/testConstants";
 import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
 import { getLanguageFromLocalStorage } from "./getLanguageFromLocalStorage";
 import { getLocalStorageKey } from "./getLocalStorageKey";

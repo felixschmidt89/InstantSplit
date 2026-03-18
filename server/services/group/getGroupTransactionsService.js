@@ -1,5 +1,5 @@
-import { LOG_LEVELS } from '../../../shared/constants/debugConstants.js';
-import { TRANSACTION_TYPES } from '../../../shared/constants/transactionConstants.js';
+import { LOG_LEVELS } from '../../../shared/constants/system/loggerConstants.js/index.js';
+import { TRANSACTION_TYPES } from '../../../shared/constants/domain/transactionConstants.js/index.js';
 import { COMMON_FIELDS } from '../../../shared/constants/models/commonConstants.js';
 import { EXPENSE_FIELDS } from '../../../shared/constants/models/expenseConstants.js';
 import { PAYMENT_FIELDS } from '../../../shared/constants/models/paymentConstants.js';

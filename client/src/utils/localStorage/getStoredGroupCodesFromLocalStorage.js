@@ -2,7 +2,7 @@ import { debugLog } from "../../../../shared/utils/debug/debugLog.js";
 
 import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
 import { getLocalStorageKey } from "./getLocalStorageKey";
-import { LOG_LEVELS } from "../../../../shared/constants/debugConstants";
+import { LOG_LEVELS } from "../../../../shared/constants/system/loggerConstants.js";
 
 const { LOG_ERROR } = LOG_LEVELS;
 

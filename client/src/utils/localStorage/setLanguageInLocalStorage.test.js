@@ -1,5 +1,5 @@
-import { LANGUAGES } from "../../../../shared/constants/languageConstants";
-import { MOCK_DATA } from "../../../../shared/constants/testConstants";
+import { LANGUAGES } from "../../../../shared/constants/system/languageConstants";
+import { MOCK_DATA } from "../../../../shared/constants/test/testConstants";
 import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
 import { setLanguageInLocalStorage } from "./setLanguageInLocalStorage";
 import { setLocalStorageKey } from "./setLocalStorageKey";

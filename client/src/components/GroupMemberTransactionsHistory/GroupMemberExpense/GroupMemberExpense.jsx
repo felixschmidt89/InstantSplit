@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import { useGroupContext } from "../../../context/GroupContext";
 import emojiConstants from "../../../constants/emojiConstants";
-import { RESOURCE_TYPES } from "../../../../../shared/constants/resourceConstants";
+import { RESOURCE_TYPES } from "../../../../../shared/constants/domain/resourceConstants";
 
 import DeleteResource from "../../DeleteResource/DeleteResource";
 import RenderDataAttributeWithAriaLabel from "../../RenderDataAttributeWithAriaLabel/RenderDataAttributeWithAriaLabel";

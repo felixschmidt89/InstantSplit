@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { POLLING_INTERVAL_MS } from "../../../shared/constants/applicationConstants.js";
+import { POLLING_INTERVAL_MS } from "../../../shared/constants/system/systemConstants.js";
 
 export const usePolling = (callback, intervalMs = POLLING_INTERVAL_MS) => {
   const savedCallback = useRef(callback);

@@ -1,5 +1,5 @@
 import { API_URL } from "../../client/src/constants/apiConstants.js";
-import { API_ROUTES } from "./apiRoutesConstants.js";
+import { API_ROUTES } from "./api/apiRoutesConstants.js";
 
 const { BASE, VALIDATE_GROUP_EXISTENCE_CONTINUOUS, CURRENCY } =
   API_ROUTES.GROUPS;

@@ -1,9 +1,9 @@
 export const ROUTE_PARAMS = {
   GROUP_CODE: "groupCode",
-  ITEM_ID: "itemId",
-  USER_ID: "userId",
+  MEMBER_ID: "memberId",
+  MEMBER_NAME: "memberName",
   EXPENSE_ID: "expenseId",
   PAYMENT_ID: "paymentId",
+  ITEM_ID: "itemId",
   GROUP_NAME: "groupName",
-  INITIAL_GROUP_NAME: "initialGroupName",
 };

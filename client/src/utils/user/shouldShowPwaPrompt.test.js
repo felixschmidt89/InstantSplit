@@ -1,8 +1,8 @@
-import { PWA_PROMPT_RESHOW_THRESHOLD_MS } from "../../../../shared/constants/applicationConstants";
+import { PWA_PROMPT_RESHOW_THRESHOLD_MS } from "../../../../shared/constants/system/systemConstants";
 import {
   MOCK_DATA,
   MOCK_TIME,
-} from "../../../../shared/constants/testConstants";
+} from "../../../../shared/constants/test/testConstants";
 import { getPwaCtaClosedFromLocalStorage } from "../localStorage";
 import { shouldShowPwaPrompt } from "./shouldShowPwaPrompt";
 

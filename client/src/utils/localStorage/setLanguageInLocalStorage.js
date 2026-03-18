@@ -1,4 +1,4 @@
-import { LANGUAGES } from "../../../../shared/constants/languageConstants";
+import { LANGUAGES } from "../../../../shared/constants/system/languageConstants";
 import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
 import { setLocalStorageKey } from "./setLocalStorageKey";
 

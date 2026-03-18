@@ -1,4 +1,4 @@
-import { API_ROUTES } from "./apiRoutesConstants";
+import { API_ROUTES } from "../api/apiRoutesConstants";
 
 export const MOCK_DATA = {
   STRING: "test_string_value",

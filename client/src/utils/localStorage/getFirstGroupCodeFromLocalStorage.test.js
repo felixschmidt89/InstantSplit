@@ -1,11 +1,11 @@
 import {
   MOCK_ERROR_MESSAGES,
   MOCK_LOCALSTORAGE_VALUES,
-} from "../../../../shared/constants/testConstants.js";
+} from "../../../../shared/constants/test/testConstants.js";
 import debugLog from "../../../../shared/utils/debug/debugLog.js";
 import { getFirstGroupCodeFromLocalStorage } from "./getFirstGroupCodeFromLocalStorage.js";
 import { getStoredGroupCodesFromLocalStorage } from "./getStoredGroupCodesFromLocalStorage.js";
-import { LOG_LEVELS } from "../../../../shared/constants/debugConstants";
+import { LOG_LEVELS } from "../../../../shared/constants/system/loggerConstants.js";
 
 const { LOG_ERROR } = LOG_LEVELS;
 

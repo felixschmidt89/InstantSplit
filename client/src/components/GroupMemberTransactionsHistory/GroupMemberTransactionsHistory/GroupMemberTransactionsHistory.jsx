@@ -1,7 +1,7 @@
 import RenderGroupMemberPayment from "../RenderGroupMemberPayment/RenderGroupMemberPayment";
 import RenderGroupMemberExpense from "../GroupMemberExpense/GroupMemberExpense.jsx";
 import NoUserTransactions from "../NoGroupMemberTransactions/NoGroupMemberTransactions";
-import { TRANSACTION_TYPES } from "../../../../../shared/constants/transactionConstants.js";
+import { TRANSACTION_TYPES } from "../../../../../shared/constants/domain/transactionConstants.js";
 
 import styles from "./GroupMemberTransactionsHistory.module.css";
 

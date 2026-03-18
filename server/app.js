@@ -13,7 +13,7 @@ import healthRouter from './routes/healthRouter.js';
 import fileRouter from './routes/fileRouter.js';
 import captchaRouter from './routes/captchaRouter.js';
 import settlementRouter from './routes/settlementRouter.js';
-import API_ROUTES from '../shared/constants/apiRoutesConstants.js';
+import API_ROUTES from '../shared/constants/api/apiRoutesConstants.js/index.js';
 
 const {
   GROUPS,

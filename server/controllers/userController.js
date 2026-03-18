@@ -163,51 +163,6 @@ export const listExpensesAndPaymentsByUser = async (req, res) => {
   }
 };
 
-export const deleteUser = async (req, res) => {
-  try {
-    const { userId } = req.params;
-
-    // Check if the user has associated transactions
-    const [expenses, payments] = await Promise.all([
-      Expense.find({
-        $or: [{ expensePayer: userId }, { expenseBeneficiaries: userId }],
-      }),
-      Payment.find({
-        $or: [{ paymentMaker: userId }, { paymentRecipient: userId }],
-      }),
-    ]);
-
-    // Disallow deleting the user if there are associated transactions
-    if (expenses.length > 0 || payments.length > 0) {
-      return res.status(StatusCodes.BAD_REQUEST).json({
-        status: 'fail',
-        message:
-          'User has associated transactions. Please remove the user from all transactions.',
-      });
-    }
-
-    const userToDelete = await User.findOne({
-      _id: userId,
-    });
-
-    const groupCode = userToDelete.groupCode;
-
-    await User.deleteOne({ _id: userToDelete._id });
-
-    res.status(StatusCodes.NO_CONTENT).json({
-      status: 'success',
-      data: null,
-    });
-  } catch (error) {
-    errorLog(
-      error,
-      'Error deleting user:',
-      'Failed to delete user. Please try again later.',
-    );
-    sendInternalError();
-  }
-};
-
 export const listAllUsersByGroupCode = async (req, res) => {
   try {
     const { groupCode } = req.params;

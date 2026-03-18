@@ -31,7 +31,7 @@ import {
 } from '../middleware/laxLimitRequestsPerIpMiddleware.js';
 
 // Constants & Config
-import { API_ROUTES } from '../../shared/constants/apiRoutesConstants.js';
+import { API_ROUTES } from '../../shared/constants/api/apiRoutesConstants.js/index.js';
 import { CONFIG } from '../config/serverConfig.js';
 
 const router = express.Router();

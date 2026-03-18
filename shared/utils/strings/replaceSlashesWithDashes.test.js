@@ -1,4 +1,4 @@
-import { MOCK_DATA, MOCK_STRINGS } from "../../constants/testConstants";
+import { MOCK_DATA, MOCK_STRINGS } from "../../constants/test/testConstants";
 import { replaceSlashesWithDashes } from "./replaceSlashesWithDashes";
 
 describe("replaceSlashesWithDashes", () => {

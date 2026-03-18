@@ -1,8 +1,8 @@
 import { Schema, model } from 'mongoose';
 
-import { DEFAULT_CURRENCY } from '../../shared/constants/currencyConstants.js';
+import { DEFAULT_CURRENCY } from '../../shared/constants/domain/currencyConstants.js/index.js';
 import { debugLog } from '../../shared/utils/debug/debugLog.js';
-import { LOG_LEVELS } from '../../shared/constants/debugConstants.js';
+import { LOG_LEVELS } from '../../shared/constants/system/loggerConstants.js/index.js';
 
 const groupSchema = new Schema(
   {

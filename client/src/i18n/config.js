@@ -7,7 +7,7 @@ import { getLanguageFromLocalStorage } from "../utils/localStorage/index.js";
 import {
   DEFAULT_LANGUAGE,
   LANGUAGES,
-} from "../../../shared/constants/languageConstants.js";
+} from "../../../shared/constants/system/languageConstants.js";
 
 i18n
   .use(HttpApi)

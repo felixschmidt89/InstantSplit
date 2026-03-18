@@ -1,5 +1,5 @@
 import apiClient from "../axiosInstance.js";
-import { LOG_LEVELS } from "../../../../shared/constants/debugConstants.js";
+import { LOG_LEVELS } from "../../../../shared/constants/system/loggerConstants.js";
 import debugLog from "../../../../shared/utils/debug/debugLog.js";
 
 const { LOG_ERROR } = LOG_LEVELS;

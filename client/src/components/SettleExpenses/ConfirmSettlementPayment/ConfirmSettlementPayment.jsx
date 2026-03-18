@@ -11,7 +11,7 @@ import { API_URL } from "../../../constants/apiConstants.js";
 import { VIEW_TYPES } from "../../../constants/viewConstants.js";
 import { CLIENT_STATIC_ROUTES } from "../../../constants/clientStaticRoutesConstants.js";
 import debugLog from "../../../../../shared/utils/debug/debugLog.js";
-import { LOG_LEVELS } from "../../../../../shared/constants/debugConstants.js";
+import { LOG_LEVELS } from "../../../../../shared/constants/system/loggerConstants.js";
 import emojiConstants from "../../../constants/emojiConstants.jsx";
 import ConfirmationModal from "../../ConfirmationModal/ConfirmationModal.jsx";
 import Emoji from "../../Emoji/Emoji.js";

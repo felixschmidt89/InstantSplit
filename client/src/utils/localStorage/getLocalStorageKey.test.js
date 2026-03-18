@@ -1,7 +1,7 @@
 import {
   MOCK_DATA,
   MOCK_ERROR_MESSAGES,
-} from "../../../../shared/constants/testConstants";
+} from "../../../../shared/constants/test/testConstants.js";
 import { debugLog } from "../../../../shared/utils/debug/debugLog.js";
 
 import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";

@@ -1,7 +1,7 @@
 import { getPreviousRouteFromLocalStorage } from "./getPreviousRouteFromLocalStorage";
 import { getLocalStorageKey } from "./getLocalStorageKey";
 import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
-import { MOCK_LOCALSTORAGE_VALUES } from "../../../../shared/constants/testConstants";
+import { MOCK_LOCALSTORAGE_VALUES } from "../../../../shared/constants/test/testConstants";
 
 jest.mock("./getLocalStorageKey");
 

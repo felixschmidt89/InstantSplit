@@ -2,7 +2,7 @@ import { Schema, model } from 'mongoose';
 
 import Expense from './Expense.js';
 import Payment from './Payment.js';
-import { LOG_LEVELS } from '../../shared/constants/debugConstants.js';
+import { LOG_LEVELS } from '../../shared/constants/system/loggerConstants.js/index.js';
 import debugLog from '../../shared/utils/debug/debugLog.js';
 
 const { LOG_ERROR, LOG_DEBUG } = LOG_LEVELS;

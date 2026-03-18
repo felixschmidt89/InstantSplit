@@ -1,7 +1,7 @@
 import { deleteAllSettlementsForGroup } from '../../controllers/settlementController.js';
 import { updateFixedDebitorCreditorOrderSetting } from '../databaseUtils.js';
 import { debugLog } from '../../../shared/utils/debug/debugLog.js';
-import { LOG_LEVELS } from '../../../shared/constants/debugConstants.js';
+import { LOG_LEVELS } from '../../../shared/constants/system/loggerConstants.js/index.js';
 
 const { INFO } = LOG_LEVELS;
 

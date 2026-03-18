@@ -1,4 +1,4 @@
-import { ROUTE_PARAMS } from "../../../shared/constants/routeParams.js";
+import { ROUTE_PARAMS } from "../../../shared/constants/api/routeParamConstants.js";
 import prefixParamsWithColon from "../utils/route/prefixParamsWithColon.js";
 import { CLIENT_STATIC_ROUTES } from "./clientStaticRoutesConstants.js";
 

@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { LOG_LEVELS } from "../../../shared/constants/debugConstants.js";
+import { LOG_LEVELS } from "../../../shared/constants/system/loggerConstants.js";
 import { fetchGroupMembers } from "../api/users/fetchGroupMembers.js";
 import { debugLog } from "../../../shared/utils/debug/debugLog.js";
 import { usePolling } from "./usePolling.jsx";

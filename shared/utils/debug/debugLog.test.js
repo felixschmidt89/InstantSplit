@@ -1,9 +1,9 @@
-import { LOG_LEVELS, LOG_SOURCES } from "../../constants/debugConstants.js";
+import { LOG_LEVELS, LOG_SOURCES } from "../../constants/system/loggerConstants.js";
 import {
   MOCK_LOGS,
   MOCK_LOG_METHODS,
   MOCK_DATA,
-} from "../../constants/testConstants.js";
+} from "../../constants/test/testConstants.js";
 import { debugLog } from "./debugLog.js";
 
 describe("debugLog", () => {

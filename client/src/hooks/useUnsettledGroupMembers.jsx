@@ -7,7 +7,7 @@ import {
   filterUnsettledUsers,
 } from "../utils/settlementUtils";
 import { debugLog } from "../../../shared/utils/debug/debugLog";
-import { LOG_LEVELS } from "../../../shared/constants/debugConstants";
+import { LOG_LEVELS } from "../../../shared/constants/system/loggerConstants";
 
 const { LOG_ERROR } = LOG_LEVELS;
 

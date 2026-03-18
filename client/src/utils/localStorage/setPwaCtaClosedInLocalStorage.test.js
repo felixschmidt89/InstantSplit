@@ -1,6 +1,6 @@
 import { setPwaCtaClosedInLocalStorage } from "./setPwaCtaClosedInLocalStorage";
 import { setLocalStorageKey } from "./setLocalStorageKey";
-import { MOCK_TIME } from "../../../../shared/constants/testConstants";
+import { MOCK_TIME } from "../../../../shared/constants/test/testConstants";
 import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
 
 jest.mock("./setLocalStorageKey");

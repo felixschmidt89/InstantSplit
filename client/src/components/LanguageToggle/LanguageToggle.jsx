@@ -6,7 +6,7 @@ import enFlag from "../../assets/flags/gb.svg";
 
 import styles from "./LanguageToggle.module.css";
 import { setLanguageInLocalStorage } from "../../utils/localStorage";
-import { LANGUAGES } from "../../../../shared/constants/languageConstants.js";
+import { LANGUAGES } from "../../../../shared/constants/system/languageConstants.js";
 
 const LanguageToggle = () => {
   const { i18n } = useTranslation();
