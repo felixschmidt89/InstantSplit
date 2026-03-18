@@ -1,16 +1,11 @@
 import express from 'express';
 
+// Controllers
 import getGroupTransactionsController from '../controllers/group/getGroupTransactionsController.js';
 import getGroupCurrencyController from '../controllers/group/getGroupCurrencyController.js';
 import createGroupController from '../controllers/group/createGroupController.js';
 import changeGroupNameController from '../controllers/group/changeGroupNameController.js';
 import getGroupInfoController from '../controllers/group/getGroupInfoController.js';
-
-import { logRequestDetailsMiddleware } from '../middleware/common/logRequestDetailsMiddleware.js';
-import { extractGroupCodeMiddleware } from '../middleware/context/extractGroupCodeMiddleware.js';
-import { validateGroupCodeMiddleware } from '../middleware/validation/validateGroupCodeMiddleware.js';
-import touchGroupLastActiveMiddleware from '../middleware/group/touchGroupLastActiveMiddleware.js';
-
 import {
   listAllGroups,
   listGroupNamesByStoredGroupCodes,
@@ -21,6 +16,11 @@ import {
   groupHasPersistedDebitorCreditorOrder,
 } from '../controllers/groupController.js';
 
+// Middleware
+import logRequestDetailsMiddleware from '../middleware/common/logRequestDetailsMiddleware.js';
+import extractGroupCodeMiddleware from '../middleware/context/extractGroupCodeMiddleware.js';
+import validateGroupCodeMiddleware from '../middleware/validation/validateGroupCodeMiddleware.js';
+import touchGroupLastActiveMiddleware from '../middleware/group/touchGroupLastActiveMiddleware.js';
 import developmentOnlyMiddleware from '../middleware/developmentOnlyMiddleware.js';
 import {
   strictLimiter,
@@ -31,6 +31,7 @@ import {
   laxLimiter,
 } from '../middleware/laxLimitRequestsPerIpMiddleware.js';
 
+// Constants & Config
 import { API_ROUTES } from '../../shared/constants/apiRoutesConstants.js';
 import { CONFIG } from '../config/index.js';
 

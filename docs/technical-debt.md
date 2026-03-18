@@ -12,7 +12,7 @@
   - **Impact**: Risk of stale data in long-running sessions and inconsistent naming conventions that violate the `.js` extension rule for logic-only files.
   - **Remediation**: Rename file to `timeConstants.js`, update variables to use the `SESSION_START_` prefix to clarify their snapshot nature, and audit usage to ensure they are excluded from real-time business logic.
 
-  - **Global-Configuration-Misplacement**:
+- **Global-Configuration-Misplacement**:
   - **Issue**: System-wide configuration data, such as `currenciesContent`, is currently stored in `src/contents/`.
   - **Impact**: Creates semantic ambiguity; data used for logic and validation is treated as static prose, leading to module resolution confusion and Vite bundling failures.
   - **Remediation**: Relocate configuration arrays to `src/constants/currencyConstants.js` and update all consumer imports to use the `@constants` alias.
@@ -27,10 +27,15 @@
   - **Impact**: Wastes client bandwidth, drains mobile device battery, causes unnecessary server load with redundant requests, and creates artificial latency for multi-device synchronization.
   - **Remediation**: Replace interval-based polling with WebSocket listeners (e.g., Socket.IO client) integrated into the `GroupContext` to reactively trigger data refetches only when the server pushes a mutation event.
 
-  - **Missing-Dedicated-UI-Context**:
+- **Missing-Dedicated-UI-Context**:
   - **Issue**: Global UI preferences (e.g., language, view toggles) are currently managed via direct `localStorage` reads within individual components rather than through a centralized, reactive state manager.
   - **Impact**: Inconsistent UI reactivity. When a user updates a preference, sibling or parent components do not instantly re-render, forcing reliance on hard page reloads or redundant `localStorage` polling. It also violates the established "RAM vs. Disk" state pattern used by `GroupContext`.
   - **Remediation**: Implement a dedicated `UIContext` (and `UIProvider`) to serve as the reactive "RAM" for visual and localization preferences. Route all reads/writes for `LOCAL_STORAGE_KEYS.LANGUAGE` and `LOCAL_STORAGE_KEYS.VIEW` through this context to ensure bi-directional synchronization and instant UI updates.
+
+- **Insecure-Group-Code-URL-Exposure**:
+  - **Issue**: Client API requests (e.g., `fetchGroupMembers.js`) are improperly embedding the sensitive `groupCode` in the URL path, while the required `groupId` is resolving to `undefined`.
+  - **Impact**: Exposes the secret `groupCode` in browser history, server logs, and network proxies. It also breaks API routing by generating 404 errors when the URL is malformed.
+  - **Remediation**: Refactor all client API calls to strictly inject `groupId` into the URL path for resource identification. Transmit `groupCode` securely and exclusively via HTTP headers (using the established `axiosInstance` interceptor) or request payload.
 
 ## Server
 
@@ -55,3 +60,8 @@
   - **Issue**: The server handles HTTP mutation requests (POST/PUT/DELETE) but does not actively push state changes to connected clients viewing the same resource.
   - **Impact**: Forces client applications to rely on inefficient polling mechanisms, resulting in delayed state synchronization across multiple devices interacting with the same group.
   - **Remediation**: Integrate a WebSocket server (e.g., Socket.IO) alongside the Express app. Configure controllers/services to emit scoped broadcast events (e.g., `members_changed`) to specific "rooms" (`activeGroupCode`) whenever a relevant database mutation succeeds.
+
+- **Path-Parameter-Secret-Exposure**:
+  - **Issue**: Legacy backend routes (e.g., `userRouter.js`) may still be configured to expect `groupCode` as a URL parameter instead of relying exclusively on the global `extractGroupCodeMiddleware`.
+  - **Impact**: Creates redundant validation paths, bypasses centralized context extraction, and forces the frontend to construct insecure URLs.
+  - **Remediation**: Audit and update all backend routers to strictly use `/:groupId` for resource identification. Rely entirely on `req.groupCode` (extracted globally from headers/body) for authorization logic in controllers.

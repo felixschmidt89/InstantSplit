@@ -1,20 +1,18 @@
 import { StatusCodes } from 'http-status-codes';
+import createGroupService from '../../services/group/createGroupService.js';
 
-import changeGroupNameService from '../../services/group/changeGroupNameService.js';
+const { CREATED } = StatusCodes;
 
-const { OK } = StatusCodes;
-
-const changeGroupNameController = async (req, res, next) => {
+const createGroupController = async (req, res, next) => {
   try {
-    const { groupId } = req.params;
     const { groupName } = req.body;
 
-    const group = await changeGroupNameService(groupId, groupName);
+    const group = await createGroupService(groupName);
 
-    return res.status(OK).json({ group });
+    return res.status(CREATED).json({ group });
   } catch (error) {
     next(error);
   }
 };
 
-export default changeGroupNameController;
+export default createGroupController;

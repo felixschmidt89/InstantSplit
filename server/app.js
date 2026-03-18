@@ -1,11 +1,10 @@
 import express from 'express';
-import compression from 'compression';
 import cors from 'cors';
+import compression from 'compression';
 
 import { CONFIG } from './config/index.js';
-
-import { extractGroupCodeMiddleware } from './middleware/context/extractGroupCodeMiddleware.js';
-
+import extractGroupCodeMiddleware from './middleware/context/extractGroupCodeMiddleware.js';
+import apiErrorMiddleware from './middleware/errors/apiErrorMiddleware.js';
 import groupRouter from './routes/groupRouter.js';
 import userRouter from './routes/userRouter.js';
 import expenseRouter from './routes/expenseRouter.js';
@@ -16,7 +15,6 @@ import captchaRouter from './routes/captchaRouter.js';
 import settlementRouter from './routes/settlementRouter.js';
 
 import { API_ROUTES } from '../shared/constants/apiRoutesConstants.js';
-import { apiErrorMiddleware } from './middleware/errors/apiErrorMiddleware.js';
 
 const {
   GROUPS,

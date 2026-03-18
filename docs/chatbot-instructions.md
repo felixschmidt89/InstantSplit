@@ -166,6 +166,9 @@
   - **Validation**:
     - Before creating a new constant, search the `shared/` directory first to ensure a global definition does not already exist.
     - **Prohibition**: Do NOT duplicate constants across environments. If a Client constant is needed by the Server, migrate it to `shared/` immediately.
+- **Export Standards**:
+  - **Single Export Rule**: If a file contains only a single export, it must use a `default export`.
+  - **Placement**: The `export default` statement must be placed at the very bottom of the file.
 
 ### 6. Labeling & Translation Rules
 

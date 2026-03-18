@@ -1,15 +1,16 @@
 import { StatusCodes } from 'http-status-codes';
-import { MISSING_GROUP_CODE_ERROR } from '../../constants/errorConstants.js';
+import { ApiError } from '../../utils/errors/index.js';
+import { MISSING_GROUPCODE_ERROR } from '../../constants/errorConstants.js';
 
 const { BAD_REQUEST } = StatusCodes;
 
-export const validateGroupCodeMiddleware = (req, res, next) => {
-  const groupCode = req.context?.groupCode;
+const validateGroupCodeMiddleware = (req, res, next) => {
+  const { groupCode } = req;
 
-  if (!groupCode) {
-    const error = new Error(MISSING_GROUP_CODE_ERROR);
-    error.statusCode = BAD_REQUEST;
-    return next(error);
+  const hasGroupCode = Boolean(groupCode);
+
+  if (!hasGroupCode) {
+    return next(new ApiError(BAD_REQUEST, MISSING_GROUPCODE_ERROR));
   }
 
   next();

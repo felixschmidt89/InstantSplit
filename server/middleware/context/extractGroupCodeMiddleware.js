@@ -8,10 +8,14 @@ const extractGroupCodeMiddleware = (req, res, next) => {
     req.body?.groupCode ||
     req.params?.groupCode;
 
-  if (groupCode) {
+  const hasGroupCode = Boolean(groupCode);
+
+  if (hasGroupCode) {
+    req.groupCode = groupCode.toUpperCase();
+
     req.context = {
       ...req.context,
-      groupCode: groupCode.toUpperCase(),
+      groupCode: req.groupCode,
     };
   }
 
