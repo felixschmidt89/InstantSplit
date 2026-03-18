@@ -32,7 +32,7 @@ import {
 
 // Constants & Config
 import { API_ROUTES } from '../../shared/constants/apiRoutesConstants.js';
-import { CONFIG } from '../config/index.js';
+import { CONFIG } from '../config/serverConfig.js';
 
 const router = express.Router();
 

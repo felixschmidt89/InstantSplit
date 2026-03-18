@@ -14,5 +14,5 @@ export const BOOLEAN_STRINGS = {
 
 export const DEFAULTS = {
   PORT: 3000,
-  API_BASEURL: '/api/v1',
+  API_BASEURL: '/api/v2',
 };

@@ -13,7 +13,7 @@ import healthRouter from './routes/healthRouter.js';
 import fileRouter from './routes/fileRouter.js';
 import captchaRouter from './routes/captchaRouter.js';
 import settlementRouter from './routes/settlementRouter.js';
-import { API_ROUTES } from '../shared/constants/apiRoutesConstants.js';
+import API_ROUTES from '../shared/constants/apiRoutesConstants.js';
 
 const {
   GROUPS,
@@ -26,11 +26,13 @@ const {
   SETTLEMENTS,
 } = API_ROUTES;
 
-const { API_BASEURL } = serverConfig;
+const { API_BASEURL, TRUST_PROXY } = serverConfig;
 
 const app = express();
 
-app.set('trust proxy', 1);
+if (TRUST_PROXY) {
+  app.set('trust proxy', 1);
+}
 
 app.use(express.json());
 app.use(cors());
