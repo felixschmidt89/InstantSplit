@@ -1,5 +1,10 @@
 # Technical Debt
 
+- **Domain-Terminology-User-vs-Member**:
+  - **Issue**: The codebase currently overloads the term "User" (e.g., `User` model, `userController.js`, `/users` routes) to actually represent group members within a specific group.
+  - **Impact**: Creates severe semantic ambiguity and pollutes the namespace. This will cause a critical architectural conflict when true system-level users (authenticated accounts with UUIDs) are introduced, as the "User" entity name is currently squandered on group members.
+  - **Remediation**: Execute a project-wide domain language refactor. Rename all current "User" models, controllers, services, routes, and frontend states to "Member" (e.g., `Member.js`, `memberRouter.js`, `groupMembers`). Reserve "User" strictly for the upcoming authenticated account layer.
+
 ## Client
 
 - **Incorrect File Extensions in Constants**:
