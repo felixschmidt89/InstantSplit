@@ -21,7 +21,7 @@ import FormSubmitButton from "../../FormSubmitButton/FormSubmitButton";
 import ErrorModal from "../../ErrorModal/ErrorModal";
 import styles from "./CreateGroupForm.module.css";
 import { LOG_LEVELS } from "../../../../../shared/constants/debugConstants.js";
-import { debugLog } from "../../../../../shared/utils/debug/debugLog.js";
+import debugLog from "../../../../../shared/utils/debug/debugLog.js";
 
 const { LOG_ERROR } = LOG_LEVELS;
 

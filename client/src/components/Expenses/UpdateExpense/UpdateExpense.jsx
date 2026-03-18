@@ -16,7 +16,7 @@ import ExpenseBeneficiariesInput from "../ExpenseBeneficiariesInput/ExpenseBenef
 import ErrorModal from "../../ErrorModal/ErrorModal";
 
 import styles from "./UpdateExpense.module.css";
-import { debugLog } from "../../../../../shared/utils/debug/debugLog.js";
+import debugLog from "../../../../../shared/utils/debug/debugLog.js";
 import { useNavigate } from "react-router-dom";
 
 const { INSTANT_SPLIT } = TO;

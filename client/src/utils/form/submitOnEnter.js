@@ -1,5 +1,5 @@
 import { LOG_LEVELS } from "../../../../shared/constants/debugConstants.js";
-import { debugLog } from "../../../../shared/utils/debug/debugLog.js";
+import debugLog from "../../../../shared/utils/debug/debugLog.js";
 
 export const submitOnEnter = (event, handleFormSubmit) => {
   if (event.key === "Enter" && !event.shiftKey) {

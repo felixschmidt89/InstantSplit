@@ -1,36 +1,25 @@
+import IS_DEVELOPMENT from "../../constants/system/environmentConstants.js";
 import { LOG_LEVELS } from "../../constants/debugConstants.js";
 
-// TODO: add to trace script
+const { INFO, ERROR, LOG_ERROR } = LOG_LEVELS;
 
-export const debugLog = (message = "debug", data, level = LOG_LEVELS.INFO) => {
-  // TODO: move elsewhere
-  const isDevelopment =
-    (typeof process !== "undefined" &&
-      process.env.NODE_ENV === "development") ||
-    (typeof window !== "undefined" &&
-      (window.location?.hostname === "localhost" ||
-        window.location?.hostname === "127.0.0.1"));
+const debugLog = (message = "debug", data, level = INFO) => {
+  if (!IS_DEVELOPMENT) return;
 
-  if (isDevelopment) {
-    const debugMessage = `${level}: ${message}`;
+  const debugMessage = `${level}: ${message}`;
 
-    if (data !== undefined) {
-      if (
-        data instanceof Error ||
-        level === LOG_LEVELS.ERROR ||
-        level === LOG_LEVELS.LOG_ERROR
-      ) {
-        console.error(debugMessage, data);
-      } else {
-        console.log(debugMessage, data);
-      }
+  if (data !== undefined) {
+    const isErrorState =
+      data instanceof Error || level === ERROR || level === LOG_ERROR;
+
+    if (isErrorState) {
+      console.error(debugMessage, data);
     } else {
-      console.log(debugMessage);
+      console.log(debugMessage, data);
     }
+  } else {
+    console.log(debugMessage);
   }
 };
 
-export const INFO = LOG_LEVELS.INFO;
-export const DEBUG = LOG_LEVELS.DEBUG;
-export const WARN = LOG_LEVELS.WARN;
-export const ERROR = LOG_LEVELS.LOG_ERROR;
+export default debugLog;

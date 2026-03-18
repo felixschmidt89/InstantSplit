@@ -1,6 +1,6 @@
 import { isGroupCodeInLocalStorageStoredGroupCodes } from "./isGroupCodeInLocalStorageStoredGroupCodes.js";
 import { getStoredGroupCodesFromLocalStorage } from "./getStoredGroupCodesFromLocalStorage.js";
-import { debugLog } from "../../../../shared/utils/debug/debugLog.js";
+import debugLog from "../../../../shared/utils/debug/debugLog.js";
 import { MOCK_LOCALSTORAGE_VALUES } from "../../../../shared/constants/testConstants.js";
 import { LOG_LEVELS } from "../../../../shared/constants/debugConstants.js";
 

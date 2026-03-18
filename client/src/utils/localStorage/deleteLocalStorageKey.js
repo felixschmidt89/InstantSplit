@@ -1,4 +1,5 @@
-import { debugLog } from "../../../../shared/utils/debug";
+import { debugLog } from "../../../../shared/utils/debug/debugLog.js";
+
 import { getLocalStorageKey } from "./getLocalStorageKey";
 
 export const deleteLocalStorageKey = (key) => {

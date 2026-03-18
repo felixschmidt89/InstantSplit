@@ -2,7 +2,7 @@ import apiClient from "../axiosInstance";
 
 import { API_ROUTES } from "../../../../shared/constants/apiRoutesConstants";
 import { LOG_LEVELS } from "../../../../shared/constants/debugConstants";
-import { debugLog } from "../../../../shared/utils/debug/debugLog";
+import debugLog from "../../../../shared/utils/debug/debugLog";
 
 const { LOG_ERROR } = LOG_LEVELS;
 const { BASE } = API_ROUTES.SETTLEMENTS;

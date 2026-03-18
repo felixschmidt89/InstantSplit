@@ -3,7 +3,7 @@ import apiClient from "../axiosInstance.js";
 import { API_ROUTES } from "../../../../shared/constants/apiRoutesConstants.js";
 import { API_HEADERS } from "../../../../shared/constants/api/apiHeaderConstants.js";
 import { LOG_LEVELS } from "../../../../shared/constants/debugConstants.js";
-import { debugLog } from "../../../../shared/utils/debug/debugLog.js";
+import debugLog from "../../../../shared/utils/debug/debugLog.js";
 
 const { LOG_ERROR } = LOG_LEVELS;
 const { BASE, TRANSACTIONS } = API_ROUTES.GROUPS;

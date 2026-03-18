@@ -2,7 +2,7 @@ import { INACTIVE_DAYS } from '../../constants/dataConstants.js';
 import Expense from '../../models/Expense.js';
 import Group from '../../models/Group.js';
 import Payment from '../../models/Payment.js';
-import User from '../../models/User.js';
+import User from '../../models/Member.js';
 
 const purgeInactiveGroups = async () => {
   // Set cutoffDate

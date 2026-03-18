@@ -1,20 +1,28 @@
 import mongoose from 'mongoose';
-import app from './app.js';
 import cron from 'node-cron';
+
+import app from './app.js';
 import purgeInactiveGroups from './scripts/dataPurge/purgeInactiveGroups.js';
+import IS_DEVELOPMENT from '../shared/constants/system/environmentConstants.js';
+// TODO: Make this a script
 // import seedDemoData from './scripts/DataSeeder/seedDemoData.js';
 
-const { DB_USER, DB_PASS, DB_HOST, DB_NAME, PORT, NODE_ENV } = process.env;
+const { DB_USER, DB_PASS, DB_HOST, DB_NAME, PORT } = process.env;
 
 const db = `mongodb+srv://${DB_USER}:${DB_PASS}@${DB_HOST}/${DB_NAME}`;
 
-const mongooseOptions = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+// TODO: Improve and make it a util if working
+const getDevCronSchedule = () => {
+  const now = new Date();
+  const nextMinuteDate = new Date(now.getTime() + 60000);
+  const minutes = nextMinuteDate.getMinutes();
+  const hours = nextMinuteDate.getHours();
+
+  return `${minutes} ${hours} * * *`;
 };
 
 mongoose
-  .connect(db, mongooseOptions)
+  .connect(db)
   .then(() => {
     console.log('Database connected! 😃');
   })
@@ -23,29 +31,26 @@ mongoose
     console.log('🤨');
   });
 
-// Active scripts
-// Schedule the inactive group data purge based on the environment
-const cronSchedule = NODE_ENV === 'development' ? '0 10 * * *' : '0 3 * * *';
+const cronSchedule = IS_DEVELOPMENT ? getDevCronSchedule() : '0 3 * * *';
+
+const cronLogTime = IS_DEVELOPMENT ? '60 seconds after startup' : '3 am';
+
 cron.schedule(
   cronSchedule,
   () => {
-    console.log(
-      `Running purgeInactiveGroups at ${
-        NODE_ENV === 'development' ? '10 am' : '3 am'
-      }...`,
-    );
+    console.log(`Running purgeInactiveGroups at ${cronLogTime}...`);
     purgeInactiveGroups();
   },
   {
     timezone: 'Europe/Paris',
   },
 );
-
-// Inactive scripts
+// TODO: Make this a script and run it manually when needed
 // seedDemoData('GT3A4WYSWYDD');
 
 const port = PORT || 3000;
 
-app.listen(port, () =>
-  console.log(`App is running on port ${port} in ${NODE_ENV} environment`),
-);
+app.listen(port, () => {
+  const mode = IS_DEVELOPMENT ? 'development' : 'production';
+  console.log(`App is running on port ${port} in ${mode} environment`);
+});

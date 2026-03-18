@@ -1,7 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 
 import Expense from '../models/Expense.js';
-import User from '../models/User.js';
+import User from '../models/Member.js';
 
 import {
   errorLog,

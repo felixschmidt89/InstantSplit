@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import styles from "./CreateExpense.module.css";
 import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility.jsx";
 import { LOG_LEVELS } from "../../../../../shared/constants/debugConstants.js";
-import { debugLog } from "../../../../../shared/utils/debug/debugLog.js";
+import debugLog from "../../../../../shared/utils/debug/debugLog.js";
 import { TO } from "../../../constants/navigationConstants";
 import { buttonStyles } from "../../../constants/stylesConstants.jsx";
 import { useGroupContext } from "../../../context/GroupContext";

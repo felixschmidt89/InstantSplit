@@ -1,5 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
-import User from '../models/User.js';
+import User from '../models/Member.js';
 
 /**
  * Checks if a provided property value in the request body matches the one in the database.

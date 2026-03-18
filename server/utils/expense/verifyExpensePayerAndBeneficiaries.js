@@ -1,5 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
-import User from '../../models/User.js';
+import User from '../../models/Member.js';
 
 export const verifyExpensePayerAndBeneficiaries = async (
   expensePayerId,

@@ -26,7 +26,8 @@
     "server",
     "docs",
     "shared",
-    "client/src/utils/localStorage/.test.js"
+    "client/src/utils/localStorage/.test.js",
+    "server/routes/.js"
   ],
   "exclude": ["node_modules", "client/dist", "server/dist"]
 }

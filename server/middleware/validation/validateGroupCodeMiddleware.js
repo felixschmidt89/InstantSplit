@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
-import { ApiError } from '../../utils/errors/index.js';
 import { MISSING_GROUPCODE_ERROR } from '../../constants/errorConstants.js';
+import ApiError from '../../utils/errors/ApiError.js';
 
 const { BAD_REQUEST } = StatusCodes;
 

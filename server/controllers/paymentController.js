@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import Payment from '../models/Payment.js';
-import User from '../models/User.js';
+import User from '../models/Member.js';
 import {
   errorLog,
   sendInternalError,

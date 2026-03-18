@@ -2,8 +2,8 @@ import { Schema, model } from 'mongoose';
 
 import Expense from './Expense.js';
 import Payment from './Payment.js';
-import { debugLog } from '../../shared/utils/debug/debugLog.js';
 import { LOG_LEVELS } from '../../shared/constants/debugConstants.js';
+import debugLog from '../../shared/utils/debug/debugLog.js';
 
 const { LOG_ERROR, LOG_DEBUG } = LOG_LEVELS;
 
@@ -19,9 +19,9 @@ const extractAggregateTotal = (aggregateResult, operationName) => {
   return total;
 };
 
-const userSchema = new Schema(
+const memberSchema = new Schema(
   {
-    userName: {
+    memberName: {
       type: String,
       trim: true,
       required: true,
@@ -56,28 +56,27 @@ const userSchema = new Schema(
   },
 );
 
-// Virtual properties
-userSchema.virtual('userBalance').get(function () {
+memberSchema.virtual('memberBalance').get(function () {
   const balance =
     this.totalExpensesPaidAmount +
     this.totalPaymentsMadeAmount -
     this.totalExpenseBenefittedAmount -
     this.totalPaymentsReceivedAmount;
+
   return Number(balance);
 });
 
-userSchema.virtual('expensesSettled').get(function () {
-  return this.get('userBalance') === 0;
+memberSchema.virtual('expensesSettled').get(function () {
+  return this.get('memberBalance') === 0;
 });
 
-// METHODS
-userSchema.methods.updateTotalExpensesPaid = async function () {
-  const userId = this._id;
+memberSchema.methods.updateTotalExpensesPaid = async function () {
+  const memberId = this._id;
 
   try {
     const totalExpensesPaid = await Expense.aggregate([
       {
-        $match: { expensePayer: userId },
+        $match: { expensePayer: memberId },
       },
       {
         $group: {
@@ -93,7 +92,7 @@ userSchema.methods.updateTotalExpensesPaid = async function () {
     );
 
     await this.constructor.findOneAndUpdate(
-      { _id: userId },
+      { _id: memberId },
       {
         $set: {
           totalExpensesPaidAmount: updatedTotalExpensesPaidAmount,
@@ -103,21 +102,21 @@ userSchema.methods.updateTotalExpensesPaid = async function () {
   } catch (error) {
     debugLog(
       'Error calculating totalExpensesPaidAmount',
-      { error: error.message, userId },
+      { error: error.message, memberId },
       LOG_ERROR,
     );
     throw error;
   }
 };
 
-userSchema.methods.updateTotalExpenseBenefitted = async function () {
-  const userId = this._id;
+memberSchema.methods.updateTotalExpenseBenefitted = async function () {
+  const memberId = this._id;
 
   try {
     const totalExpenseBenefitted = await Expense.aggregate([
       {
         $match: {
-          expenseBeneficiaries: userId,
+          expenseBeneficiaries: memberId,
         },
       },
       {
@@ -134,7 +133,7 @@ userSchema.methods.updateTotalExpenseBenefitted = async function () {
     );
 
     await this.constructor.findOneAndUpdate(
-      { _id: userId },
+      { _id: memberId },
       {
         $set: {
           totalExpenseBenefittedAmount: updatedTotalExpenseBenefittedAmount,
@@ -144,20 +143,20 @@ userSchema.methods.updateTotalExpenseBenefitted = async function () {
   } catch (error) {
     debugLog(
       'Error calculating totalExpenseBenefittedAmount',
-      { error: error.message, userId },
+      { error: error.message, memberId },
       LOG_ERROR,
     );
     throw error;
   }
 };
 
-userSchema.methods.updateTotalPaymentsReceived = async function () {
-  const userId = this._id;
+memberSchema.methods.updateTotalPaymentsReceived = async function () {
+  const memberId = this._id;
 
   try {
     const totalPaymentsReceived = await Payment.aggregate([
       {
-        $match: { paymentRecipient: userId },
+        $match: { paymentRecipient: memberId },
       },
       {
         $group: {
@@ -173,7 +172,7 @@ userSchema.methods.updateTotalPaymentsReceived = async function () {
     );
 
     await this.constructor.findOneAndUpdate(
-      { _id: userId },
+      { _id: memberId },
       {
         $set: {
           totalPaymentsReceivedAmount: updatedTotalPaymentsReceivedAmount,
@@ -183,20 +182,20 @@ userSchema.methods.updateTotalPaymentsReceived = async function () {
   } catch (error) {
     debugLog(
       'Error calculating totalPaymentsReceivedAmount',
-      { error: error.message, userId },
+      { error: error.message, memberId },
       LOG_ERROR,
     );
     throw error;
   }
 };
 
-userSchema.methods.updateTotalPaymentsMadeAmount = async function () {
-  const userId = this._id;
+memberSchema.methods.updateTotalPaymentsMadeAmount = async function () {
+  const memberId = this._id;
 
   try {
     const totalPaymentsMade = await Payment.aggregate([
       {
-        $match: { paymentMaker: userId },
+        $match: { paymentMaker: memberId },
       },
       {
         $group: {
@@ -212,7 +211,7 @@ userSchema.methods.updateTotalPaymentsMadeAmount = async function () {
     );
 
     await this.constructor.findOneAndUpdate(
-      { _id: userId },
+      { _id: memberId },
       {
         $set: {
           totalPaymentsMadeAmount: updatedTotalPaymentsMadeAmount,
@@ -222,13 +221,13 @@ userSchema.methods.updateTotalPaymentsMadeAmount = async function () {
   } catch (error) {
     debugLog(
       'Error updating totalPaymentsMadeAmount',
-      { error: error.message, userId },
+      { error: error.message, memberId },
       LOG_ERROR,
     );
     throw error;
   }
 };
 
-const User = model('User', userSchema);
+const Member = model('Member', memberSchema);
 
-export default User;
+export default Member;

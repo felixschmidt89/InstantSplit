@@ -1,8 +1,8 @@
-export const API_ROUTES = {
+const API_ROUTES = {
   URL_PARAMS: {
     GROUP_ID: "groupId",
     EXPENSE_ID: "expenseId",
-    USER_ID: "userId",
+    MEMBER_ID: "memberId",
   },
 
   GROUPS: {
@@ -17,8 +17,8 @@ export const API_ROUTES = {
     DATA_PURGE: "data-purge",
   },
 
-  USERS: {
-    BASE: "users",
+  MEMBERS: {
+    BASE: "members",
     BY_GROUP: "by-group",
     TRANSACTIONS: "expenses-and-payments",
   },
@@ -36,13 +36,18 @@ export const API_ROUTES = {
   SETTLEMENTS: {
     BASE: "settlements",
   },
+
   HEALTH: {
     BASE: "health",
   },
+
   FILES: {
     BASE: "files",
   },
+
   CAPTCHAS: {
     BASE: "captchas",
   },
 };
+
+export default API_ROUTES;

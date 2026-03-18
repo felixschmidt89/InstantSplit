@@ -10,7 +10,7 @@ import FormSubmitButton from "../../FormSubmitButton/FormSubmitButton";
 import ErrorModal from "../../ErrorModal/ErrorModal";
 
 import styles from "./CreateGroupMemberForm.module.css";
-import { debugLog } from "../../../../../shared/utils/debug/debugLog.js";
+import debugLog from "../../../../../shared/utils/debug/debugLog.js";
 
 const CreateGroupMemberForm = () => {
   const { t } = useTranslation();

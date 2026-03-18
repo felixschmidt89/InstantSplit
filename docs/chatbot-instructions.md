@@ -77,12 +77,10 @@
   - **Standard**: Folder-per-page pattern inside `src/pages/`.
   - **Structure**: Every page resides in its own named folder (e.g., `src/pages/ContactPage/`).
   - **Naming**: Folder and Primary File must include the "Page" suffix (e.g., `ContactPage.jsx`).
-  - **Explicit Imports**: Do **NOT** use `index.js` files. Imports must explicitly reference the page file.
 - **Component Architecture & Naming**:
   - **Flat Structure**: All component folders must reside directly under `src/components/`. Sub-categorization folders such as `common/` or `features/` are strictly prohibited.
   - **Folder-per-Component Pattern**: Every component resides in its own named folder (e.g., `src/components/Footer/`).
   - **Primary File**: The main component file name must match the folder name exactly (e.g., `Footer.jsx`).
-  - **Explicit Imports**: Do **NOT** use `index.js` files. Imports must explicitly reference the component file (e.g., `import Footer from "@components/Footer/Footer";`).
   - **Styles**: Component-specific styles must use the CSS Module naming convention matching the component (e.g., `Footer.module.css`).
 
 - **API & Logic Logging**:
@@ -343,3 +341,14 @@ This is a legacy codebase. When we work on existing files, we always want to ref
 
 - Lifecycle timestamps (e.g., `lastActive`) must be handled via centralized middleware or database hooks rather than manual service-layer calls.
 - Use atomic update operations (`updateOne`, `findOneAndUpdate`) for non-business side effects to minimize database overhead.
+
+### 15. Direct Atomic Import Standard
+
+- **Prohibition of Barrel Files**:
+  - **Standard**: The use of `index.js` files as export barrels is strictly prohibited across the entire project (Client, Server, Shared).
+  - **Structure**: All functional category folders must contain only the individual atomic logic files (e.g., `shared/utils/dates/sortByDateDescending.js`).
+- **Consumer Protocol**:
+  - **Standard**: Consumers must import directly from the specific atomic file providing the logic.
+  - **Requirement**: Always use the full file path including the filename and the mandatory extension (e.g., `import sortByDateDescending from "../../shared/utils/dates/sortByDateDescending.js";`).
+- **Import Style**:
+  - **Requirement**: Since atomic files must use a single `default export`, consumers should use default imports rather than named imports.
