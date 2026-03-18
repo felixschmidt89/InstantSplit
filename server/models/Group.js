@@ -1,71 +1,65 @@
 import { Schema, model } from 'mongoose';
 
-import { DEFAULT_CURRENCY } from '../../shared/constants/domain/currencyConstants.js/index.js';
-import { debugLog } from '../../shared/utils/debug/debugLog.js';
-import { LOG_LEVELS } from '../../shared/constants/system/loggerConstants.js/index.js';
+import { DEFAULT_CURRENCY } from '../../shared/constants/domain/currencyConstants.js';
+import {
+  COMMON_FIELDS,
+  COMMON_DEFINITIONS,
+  MODEL_NAMES,
+} from '../../shared/constants/models/commonConstants.js';
+import {
+  GROUP_FIELDS,
+  GROUP_LIMITS,
+} from '../../shared/constants/models/groupConstants.js';
+
+const { TRUE, FALSE, STRING, DATE, BOOLEAN, NOW } = COMMON_DEFINITIONS;
+const { GROUP_CODE } = COMMON_FIELDS;
+const { GROUP: GROUP_MODEL_NAME } = MODEL_NAMES;
+const {
+  GROUP_NAME,
+  GROUP_CURRENCY,
+  LAST_ACTIVE,
+  INACTIVE_DATA_PURGE,
+  FIXED_DEBITOR_CREDITOR_ORDER,
+} = GROUP_FIELDS;
+const { NAME_MIN_LENGTH, NAME_MAX_LENGTH } = GROUP_LIMITS;
 
 const groupSchema = new Schema(
   {
-    groupCode: {
-      type: String,
-      required: true,
-      index: true,
+    [GROUP_CODE]: {
+      type: STRING,
+      required: TRUE,
+      index: TRUE,
     },
-    groupName: {
-      type: String,
-      trim: true,
-      required: true,
-      minlength: 1,
-      maxlength: 30,
-      index: true,
+    [GROUP_NAME]: {
+      type: STRING,
+      trim: TRUE,
+      required: TRUE,
+      minlength: NAME_MIN_LENGTH,
+      maxlength: NAME_MAX_LENGTH,
+      index: TRUE,
     },
-    initialGroupName: {
-      type: String,
-      trim: true,
-      validate: {
-        validator: (value) => !value.includes('/'),
-      },
-    },
-    currency: {
-      type: String,
+    [GROUP_CURRENCY]: {
+      type: STRING,
       default: DEFAULT_CURRENCY,
     },
-    lastActive: {
-      type: Date,
-      default: Date.now,
+    [LAST_ACTIVE]: {
+      type: DATE,
+      default: NOW,
     },
-    inactiveDataPurge: {
-      type: Boolean,
-      default: true,
+    [INACTIVE_DATA_PURGE]: {
+      type: BOOLEAN,
+      default: TRUE,
     },
-    fixedDebitorCreditorOrder: {
-      type: Boolean,
-      default: false,
+    [FIXED_DEBITOR_CREDITOR_ORDER]: {
+      type: BOOLEAN,
+      default: FALSE,
     },
   },
-  { timestamps: true },
+  {
+    timestamps: TRUE,
+  },
 );
 
-groupSchema.methods.touchLastActive = async function () {
-  try {
-    this.lastActive = new Date();
-    await this.save();
-
-    debugLog(
-      'lastActive touched',
-      { groupCode: this.groupCode },
-      LOG_LEVELS.INFO,
-    );
-  } catch (error) {
-    debugLog(
-      'Error touching lastActive',
-      { error: error.message },
-      LOG_LEVELS.LOG_ERROR,
-    );
-    throw error;
-  }
-};
-
-const Group = model('Group', groupSchema);
+const Group = model(GROUP_MODEL_NAME, groupSchema);
 
 export default Group;

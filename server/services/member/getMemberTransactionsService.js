@@ -1,30 +1,68 @@
+import { LOG_LEVELS } from '../../../shared/constants/system/loggerConstants.js';
+import { SORT_ORDER } from '../../../shared/constants/system/systemConstants.js';
+import { TRANSACTION_TYPES } from '../../../shared/constants/domain/transactionConstants.js';
+import { COMMON_FIELDS } from '../../../shared/constants/models/commonConstants.js';
+import { EXPENSE_FIELDS } from '../../../shared/constants/models/expenseConstants.js';
+import { PAYMENT_FIELDS } from '../../../shared/constants/models/paymentConstants.js';
+
+import debugLog from '../../../shared/utils/debug/debugLog.js';
+import sortByDate from '../../../shared/utils/dates/sortByDate.js';
+
 import Expense from '../../models/Expense.js';
 import Payment from '../../models/Payment.js';
-import sortByDateDescending from '../../../shared/utils/dates/sortByDateDescending.js';
+
+const { INFO } = LOG_LEVELS;
+const { DESCENDING } = SORT_ORDER;
+const { EXPENSE, PAYMENT } = TRANSACTION_TYPES;
+const { CREATED_AT } = COMMON_FIELDS;
+const { EXPENSE_PAYER, EXPENSE_BENEFICIARIES } = EXPENSE_FIELDS;
+const { PAYMENT_MAKER, PAYMENT_RECIPIENT } = PAYMENT_FIELDS;
 
 const getMemberTransactionsService = async (memberId) => {
+  debugLog('Querying database for member transactions', { memberId }, INFO);
+
   const [expenses, payments] = await Promise.all([
     Expense.find({
-      $or: [{ expensePayer: memberId }, { expenseBeneficiaries: memberId }],
+      $or: [
+        { [EXPENSE_PAYER]: memberId },
+        { [EXPENSE_BENEFICIARIES]: memberId },
+      ],
     })
-      .populate('expensePayer', 'memberName')
-      .populate('expenseBeneficiaries', 'memberName')
+      .populate(EXPENSE_PAYER, 'memberName')
+      .populate(EXPENSE_BENEFICIARIES, 'memberName')
       .lean(),
 
     Payment.find({
-      $or: [{ paymentMaker: memberId }, { paymentRecipient: memberId }],
+      $or: [{ [PAYMENT_MAKER]: memberId }, { [PAYMENT_RECIPIENT]: memberId }],
     })
-      .populate('paymentMaker', 'memberName')
-      .populate('paymentRecipient', 'memberName')
+      .populate(PAYMENT_MAKER, 'memberName')
+      .populate(PAYMENT_RECIPIENT, 'memberName')
       .lean(),
   ]);
 
+  debugLog(
+    'Member results retrieved from DB',
+    {
+      expensesCount: expenses.length,
+      paymentsCount: payments.length,
+    },
+    INFO,
+  );
+
   const transactions = [
-    ...expenses.map((item) => ({ ...item, itemType: 'expense' })),
-    ...payments.map((item) => ({ ...item, itemType: 'payment' })),
+    ...expenses.map((item) => ({ ...item, itemType: EXPENSE })),
+    ...payments.map((item) => ({ ...item, itemType: PAYMENT })),
   ];
 
-  return sortByDateDescending(transactions, 'createdAt');
+  const sortedTransactions = sortByDate(transactions, CREATED_AT, DESCENDING);
+
+  debugLog(
+    'Member transactions processed and sorted',
+    { total: sortedTransactions.length },
+    INFO,
+  );
+
+  return sortedTransactions;
 };
 
 export default getMemberTransactionsService;

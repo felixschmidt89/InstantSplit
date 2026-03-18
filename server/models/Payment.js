@@ -10,12 +10,12 @@ const paymentSchema = new Schema(
     },
     paymentMaker: {
       type: Schema.Types.ObjectId,
-      ref: 'User',
+      ref: 'Member',
       required: true,
     },
     paymentRecipient: {
       type: Schema.Types.ObjectId,
-      ref: 'User',
+      ref: 'Member',
       required: true,
     },
     groupCode: {

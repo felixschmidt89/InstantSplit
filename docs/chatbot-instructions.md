@@ -346,7 +346,7 @@ This is a legacy codebase. When we work on existing files, we always want to ref
 
 - **Prohibition of Barrel Files**:
   - **Standard**: The use of `index.js` files as export barrels is strictly prohibited across the entire project (Client, Server, Shared).
-  - **Structure**: All functional category folders must contain only the individual atomic logic files (e.g., `shared/utils/dates/sortByDateDescending.js`).
+  - **Structure**: All functional category folders must contain only the individual atomic logic files (e.g., `shared/utils/dates/sortByDate.js`).
 - **Consumer Protocol**:
   - **Standard**: Consumers must import directly from the specific atomic file providing the logic.
   - **Requirement**: Always use the full file path including the filename and the mandatory extension (e.g., `import sortByDateDescending from "../../shared/utils/dates/sortByDateDescending.js";`).
