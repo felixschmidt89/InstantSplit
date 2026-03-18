@@ -21,7 +21,6 @@ import logRequestDetailsMiddleware from '../middleware/common/logRequestDetailsM
 import extractGroupCodeMiddleware from '../middleware/context/extractGroupCodeMiddleware.js';
 import validateGroupCodeMiddleware from '../middleware/validation/validateGroupCodeMiddleware.js';
 import touchGroupLastActiveMiddleware from '../middleware/group/touchGroupLastActiveMiddleware.js';
-import developmentOnlyMiddleware from '../middleware/developmentOnlyMiddleware.js';
 import {
   strictLimiter,
   strictlyLimitRequestsPerIpMiddleware,
@@ -60,7 +59,6 @@ if (CONFIG.LOG_API_REQUESTS) {
  */
 router.post('/', createGroupController);
 router.get(`/${STORED_GROUP_NAMES}`, listGroupNamesByStoredGroupCodes);
-router.get('/debug/all', developmentOnlyMiddleware, listAllGroups);
 
 /**
  * Group Context Protected Routes

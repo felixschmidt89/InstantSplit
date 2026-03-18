@@ -2,15 +2,12 @@ import express from 'express';
 import {
   createExpense,
   listAllExpensesByGroupCode,
-  listAllExpenses,
-  deleteAllExpenses,
   getExpenseInfo,
   deleteExpense,
   updateExpense,
   getExpensesTotalByGroupCode,
 } from '../controllers/expenseController.js';
 import { expenseValidator } from '../validators/expenseValidator.js';
-import developmentOnlyMiddleware from '../middleware/developmentOnlyMiddleware.js';
 import { API_ROUTES } from '../../shared/constants/apiRoutesConstants.js';
 
 const router = express.Router();
@@ -34,8 +31,5 @@ router.get(
   `/${EXPENSES.TOTAL}/${URL_PARAMS.GROUP_CODE}`,
   getExpensesTotalByGroupCode,
 );
-
-router.get('/debug/all', developmentOnlyMiddleware, listAllExpenses);
-router.delete('/debug/all', developmentOnlyMiddleware, deleteAllExpenses);
 
 export default router;

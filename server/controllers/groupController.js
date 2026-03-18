@@ -216,23 +216,3 @@ export const groupHasPersistedDebitorCreditorOrder = async (req, res) => {
     return sendInternalError(res, error);
   }
 };
-// TODO: Ensure that this function is limited to development mode only
-
-export const listAllGroups = async (req, res) => {
-  try {
-    const groups = await Group.find();
-    res.status(StatusCodes.OK).json({
-      status: 'success',
-      results: groups.length,
-      groups,
-      message: 'All groups retrieved successfully',
-    });
-  } catch (error) {
-    errorLog(
-      error,
-      'Error listing all groups:',
-      'Failed to list all groups. Please try again later.',
-    );
-    sendInternalError(res, error);
-  }
-};
