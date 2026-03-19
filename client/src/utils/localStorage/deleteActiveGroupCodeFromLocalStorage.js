@@ -1,6 +1,8 @@
-import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
-import { deleteLocalStorageKey } from "./deleteLocalStorageKey";
+import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants.js";
+import deleteLocalStorageKey from "./deleteLocalStorageKey.js";
 
-export const deleteActiveGroupCodeFromLocalStorage = () => {
+const deleteActiveGroupCodeFromLocalStorage = () => {
   return deleteLocalStorageKey(LOCAL_STORAGE_KEYS.ACTIVE_GROUP_CODE);
 };
+
+export default deleteActiveGroupCodeFromLocalStorage;

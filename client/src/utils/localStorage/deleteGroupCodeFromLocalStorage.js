@@ -1,21 +1,21 @@
-import { getStoredGroupCodesFromLocalStorage } from "./getStoredGroupCodesFromLocalStorage";
-import { setLocalStorageKey } from "./setLocalStorageKey";
-import { getActiveGroupCodeFromLocalStorage } from "./getActiveGroupCodeFromLocalStorage";
-import { deleteActiveGroupCodeFromLocalStorage } from "./deleteActiveGroupCodeFromLocalStorage";
-import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
-import debugLog from "../../../../shared/utils/debug/debugLog.js";
-
+import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants.js";
 import { LOG_LEVELS } from "../../../../shared/constants/system/loggerConstants.js";
+import debugLog from "../../../../shared/utils/debug/debugLog.js";
+import deleteActiveGroupCodeFromLocalStorage from "./deleteActiveGroupCodeFromLocalStorage.js";
+import getActiveGroupCodeFromLocalStorage from "./getActiveGroupCodeFromLocalStorage.js";
+import getStoredGroupCodesFromLocalStorage from "./getStoredGroupCodesFromLocalStorage.js";
+import setLocalStorageKey from "./setLocalStorageKey.js";
 
 const { LOG_ERROR } = LOG_LEVELS;
 
-export const deleteGroupCodeFromLocalStorage = (groupCode) => {
+const deleteGroupCodeFromLocalStorage = (groupCode) => {
   try {
     const storedGroupCodes = getStoredGroupCodesFromLocalStorage();
 
     const updatedCodes = storedGroupCodes.filter((code) => code !== groupCode);
 
     const activeGroupCode = getActiveGroupCodeFromLocalStorage();
+
     if (activeGroupCode === groupCode) {
       deleteActiveGroupCodeFromLocalStorage();
     }
@@ -26,7 +26,6 @@ export const deleteGroupCodeFromLocalStorage = (groupCode) => {
     );
 
     if (success) {
-      debugLog("GroupCode removed from local storage:", groupCode);
       return true;
     }
 
@@ -37,6 +36,9 @@ export const deleteGroupCodeFromLocalStorage = (groupCode) => {
       { error: error.message },
       LOG_ERROR,
     );
+
     return false;
   }
 };
+
+export default deleteGroupCodeFromLocalStorage;

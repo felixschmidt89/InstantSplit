@@ -1,9 +1,9 @@
-import { setStoredViewInLocalStorage } from "./setStoredViewInLocalStorage";
-import { setLocalStorageKey } from "./setLocalStorageKey";
-import { VIEW_TYPES } from "../../constants/viewConstants";
-import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
+import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants.js";
+import { VIEW_TYPES } from "../../constants/viewConstants.js";
+import setLocalStorageKey from "./setLocalStorageKey.js";
+import setStoredViewInLocalStorage from "./setStoredViewInLocalStorage.js";
 
-jest.mock("./setLocalStorageKey");
+jest.mock("./setLocalStorageKey.js");
 
 describe("setStoredViewInLocalStorage", () => {
   beforeEach(() => {

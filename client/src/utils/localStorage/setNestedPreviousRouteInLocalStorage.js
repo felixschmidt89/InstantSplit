@@ -1,6 +1,8 @@
-import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
-import { setLocalStorageKey } from "./setLocalStorageKey";
+import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants.js";
+import setLocalStorageKey from "./setLocalStorageKey.js";
 
-export const setNestedPreviousRouteInLocalStorage = (route) => {
+const setNestedPreviousRouteInLocalStorage = (route) => {
   return setLocalStorageKey(LOCAL_STORAGE_KEYS.NESTED_PREVIOUS_ROUTE, route);
 };
+
+export default setNestedPreviousRouteInLocalStorage;

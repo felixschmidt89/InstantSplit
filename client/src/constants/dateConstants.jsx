@@ -6,10 +6,7 @@
  */
 export const currentYear = new Date().getFullYear();
 
-/**
- * Constant representing the current timestamp.
- * @type {number}
- */
+// TODO: Delete when used in application, Date.now() is safer
 export const currentTimeStamp = Date.now();
 
 /**

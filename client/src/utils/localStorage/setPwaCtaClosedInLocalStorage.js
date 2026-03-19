@@ -1,6 +1,8 @@
-import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
-import { setLocalStorageKey } from "./setLocalStorageKey";
+import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants.js";
+import setLocalStorageKey from "./setLocalStorageKey.js";
 
-export const setPwaCtaClosedInLocalStorage = () => {
+const setPwaCtaClosedInLocalStorage = () => {
   return setLocalStorageKey(LOCAL_STORAGE_KEYS.PWA_CTA_CLOSED, Date.now());
 };
+
+export default setPwaCtaClosedInLocalStorage;

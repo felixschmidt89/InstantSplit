@@ -1,12 +1,11 @@
-import debugLog from "../../../../shared/utils/debug/debugLog.js";
-
-import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
-import { getLocalStorageKey } from "./getLocalStorageKey";
 import { LOG_LEVELS } from "../../../../shared/constants/system/loggerConstants.js";
+import debugLog from "../../../../shared/utils/debug/debugLog.js";
+import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants.js";
+import getLocalStorageKey from "./getLocalStorageKey.js";
 
 const { LOG_ERROR } = LOG_LEVELS;
 
-export const getStoredGroupCodesFromLocalStorage = () => {
+const getStoredGroupCodesFromLocalStorage = () => {
   try {
     const storedCodes = getLocalStorageKey(
       LOCAL_STORAGE_KEYS.STORED_GROUP_CODES,
@@ -23,6 +22,9 @@ export const getStoredGroupCodesFromLocalStorage = () => {
       { error: error.message },
       LOG_ERROR,
     );
+
     return [];
   }
 };
+
+export default getStoredGroupCodesFromLocalStorage;

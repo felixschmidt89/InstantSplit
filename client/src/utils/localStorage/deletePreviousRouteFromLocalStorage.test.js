@@ -1,8 +1,8 @@
-import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
-import { deletePreviousRouteFromLocalStorage } from "./deletePreviousRouteFromLocalStorage";
-import { deleteLocalStorageKey } from "./deleteLocalStorageKey";
+import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants.js";
+import deleteLocalStorageKey from "./deleteLocalStorageKey.js";
+import deletePreviousRouteFromLocalStorage from "./deletePreviousRouteFromLocalStorage.js";
 
-jest.mock("./deleteLocalStorageKey");
+jest.mock("./deleteLocalStorageKey.js");
 
 describe("deletePreviousRouteFromLocalStorage", () => {
   const mockKey = LOCAL_STORAGE_KEYS.PREVIOUS_ROUTE;

@@ -1,10 +1,10 @@
-import debugLog from "../../../../shared/utils/debug/debugLog.js";
-import { getStoredGroupCodesFromLocalStorage } from "./getStoredGroupCodesFromLocalStorage";
 import { LOG_LEVELS } from "../../../../shared/constants/system/loggerConstants.js";
+import debugLog from "../../../../shared/utils/debug/debugLog.js";
+import getStoredGroupCodesFromLocalStorage from "./getStoredGroupCodesFromLocalStorage.js";
 
 const { LOG_ERROR } = LOG_LEVELS;
 
-export const isGroupCodeInLocalStorageStoredGroupCodes = (groupCode) => {
+const isGroupCodeInLocalStorageStoredGroupCodes = (groupCode) => {
   try {
     const storedGroupCodes = getStoredGroupCodesFromLocalStorage();
 
@@ -19,3 +19,5 @@ export const isGroupCodeInLocalStorageStoredGroupCodes = (groupCode) => {
     return false;
   }
 };
+
+export default isGroupCodeInLocalStorageStoredGroupCodes;

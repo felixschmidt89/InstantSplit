@@ -1,9 +1,9 @@
-import { getPreviousRouteFromLocalStorage } from "./getPreviousRouteFromLocalStorage";
-import { getLocalStorageKey } from "./getLocalStorageKey";
-import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
-import { MOCK_LOCALSTORAGE_VALUES } from "../../../../shared/constants/test/testConstants";
+import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants.js";
+import { MOCK_LOCALSTORAGE_VALUES } from "../../../../shared/constants/test/testConstants.js";
+import getLocalStorageKey from "./getLocalStorageKey.js";
+import getPreviousRouteFromLocalStorage from "./getPreviousRouteFromLocalStorage.js";
 
-jest.mock("./getLocalStorageKey");
+jest.mock("./getLocalStorageKey.js");
 
 describe("getPreviousRouteFromLocalStorage", () => {
   const mockKey = LOCAL_STORAGE_KEYS.PREVIOUS_ROUTE;

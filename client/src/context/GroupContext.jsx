@@ -7,13 +7,11 @@ import {
   useMemo,
 } from "react";
 
-import {
-  deleteGroupCodeFromLocalStorage,
-  getActiveGroupCodeFromLocalStorage,
-  getStoredGroupCodesFromLocalStorage,
-  setActiveGroupCodeInLocalStorage,
-  deleteActiveGroupCodeFromLocalStorage,
-} from "../utils/localStorage/index.js";
+import deleteActiveGroupCodeFromLocalStorage from "../utils/localStorage/deleteActiveGroupCodeFromLocalStorage.js";
+import deleteGroupCodeFromLocalStorage from "../utils/localStorage/deleteGroupCodeFromLocalStorage.js";
+import getActiveGroupCodeFromLocalStorage from "../utils/localStorage/getActiveGroupCodeFromLocalStorage.js";
+import getStoredGroupCodesFromLocalStorage from "../utils/localStorage/getStoredGroupCodesFromLocalStorage.js";
+import setActiveGroupCodeInLocalStorage from "../utils/localStorage/setActiveGroupCodeInLocalStorage.js";
 
 import { LOCAL_STORAGE_KEYS } from "../constants/localStorageConstants.js";
 import useFetchGroupMembers from "../hooks/useFetchGroupMembers.jsx";

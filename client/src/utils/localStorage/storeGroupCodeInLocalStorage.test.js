@@ -1,11 +1,11 @@
-import { storeGroupCodeInLocalStorage } from "./storeGroupCodeInLocalStorage";
-import { getStoredGroupCodesFromLocalStorage } from "./getStoredGroupCodesFromLocalStorage";
-import { setLocalStorageKey } from "./setLocalStorageKey";
-import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
-import { MOCK_LOCALSTORAGE_VALUES } from "../../../../shared/constants/test/testConstants";
+import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants.js";
+import { MOCK_LOCALSTORAGE_VALUES } from "../../../../shared/constants/test/testConstants.js";
+import getStoredGroupCodesFromLocalStorage from "./getStoredGroupCodesFromLocalStorage.js";
+import setLocalStorageKey from "./setLocalStorageKey.js";
+import storeGroupCodeInLocalStorage from "./storeGroupCodeInLocalStorage.js";
 
-jest.mock("./getStoredGroupCodesFromLocalStorage");
-jest.mock("./setLocalStorageKey");
+jest.mock("./getStoredGroupCodesFromLocalStorage.js");
+jest.mock("./setLocalStorageKey.js");
 
 describe("storeGroupCodeInLocalStorage", () => {
   const { ACTIVE_GROUP_CODE, STORED_GROUP_CODES, NEW_TEST_GROUP_CODE } =

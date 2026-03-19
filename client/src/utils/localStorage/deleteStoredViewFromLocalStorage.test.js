@@ -1,21 +1,18 @@
-import { deleteStoredViewFromLocalStorage } from "./deleteStoredViewFromLocalStorage";
-import { deleteLocalStorageKey } from "./deleteLocalStorageKey";
-import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
+import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants.js";
+import deleteLocalStorageKey from "./deleteLocalStorageKey.js";
+import deleteStoredViewFromLocalStorage from "./deleteStoredViewFromLocalStorage.js";
 
-jest.mock("./deleteLocalStorageKey");
+jest.mock("./deleteLocalStorageKey.js");
 
 describe("deleteStoredViewFromLocalStorage", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it("should call deleteLocalStorageKey for both view keys", () => {
+  it("should call deleteLocalStorageKey for the view key", () => {
     deleteStoredViewFromLocalStorage();
 
     expect(deleteLocalStorageKey).toHaveBeenCalledWith(LOCAL_STORAGE_KEYS.VIEW);
-    expect(deleteLocalStorageKey).toHaveBeenCalledWith(
-      LOCAL_STORAGE_KEYS.VIEW_STATE_LEGACY,
-    );
-    expect(deleteLocalStorageKey).toHaveBeenCalledTimes(2);
+    expect(deleteLocalStorageKey).toHaveBeenCalledTimes(1);
   });
 });

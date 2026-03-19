@@ -1,18 +1,17 @@
-import { getStoredGroupCodesFromLocalStorage } from "./getStoredGroupCodesFromLocalStorage";
-import { getLocalStorageKey } from "./getLocalStorageKey";
-import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
-import debugLog from "../../../../shared/utils/debug/debugLog.js";
-
+import { LOG_LEVELS } from "../../../../shared/constants/system/loggerConstants.js";
 import {
   MOCK_DATA,
   MOCK_LOCALSTORAGE_VALUES,
 } from "../../../../shared/constants/test/testConstants.js";
-import { LOG_LEVELS } from "../../../../shared/constants/system/loggerConstants.js";
+import debugLog from "../../../../shared/utils/debug/debugLog.js";
+import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants.js";
+import getLocalStorageKey from "./getLocalStorageKey.js";
+import getStoredGroupCodesFromLocalStorage from "./getStoredGroupCodesFromLocalStorage.js";
 
 const { LOG_ERROR } = LOG_LEVELS;
 
-jest.mock("./getLocalStorageKey");
-jest.mock("../../../../shared/utils/debug");
+jest.mock("./getLocalStorageKey.js");
+jest.mock("../../../../shared/utils/debug/debugLog.js");
 
 describe("getStoredGroupCodesFromLocalStorage", () => {
   const mockKey = LOCAL_STORAGE_KEYS.STORED_GROUP_CODES;

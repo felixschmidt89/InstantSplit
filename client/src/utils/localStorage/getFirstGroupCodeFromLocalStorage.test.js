@@ -1,18 +1,15 @@
+import { LOG_LEVELS } from "../../../../shared/constants/system/loggerConstants.js";
 import {
   MOCK_ERROR_MESSAGES,
   MOCK_LOCALSTORAGE_VALUES,
 } from "../../../../shared/constants/test/testConstants.js";
 import debugLog from "../../../../shared/utils/debug/debugLog.js";
-import { getFirstGroupCodeFromLocalStorage } from "./getFirstGroupCodeFromLocalStorage.js";
-import { getStoredGroupCodesFromLocalStorage } from "./getStoredGroupCodesFromLocalStorage.js";
-import { LOG_LEVELS } from "../../../../shared/constants/system/loggerConstants.js";
+import getFirstGroupCodeFromLocalStorage from "./getFirstGroupCodeFromLocalStorage.js";
+import getStoredGroupCodesFromLocalStorage from "./getStoredGroupCodesFromLocalStorage.js";
 
 const { LOG_ERROR } = LOG_LEVELS;
 
-jest.mock("../../../../shared/utils/debug/debugLog.js", () => ({
-  debugLog: jest.fn(),
-}));
-
+jest.mock("../../../../shared/utils/debug/debugLog.js");
 jest.mock("./getStoredGroupCodesFromLocalStorage.js");
 
 describe("getFirstGroupCodeFromLocalStorage", () => {
@@ -49,7 +46,7 @@ describe("getFirstGroupCodeFromLocalStorage", () => {
 
     expect(result).toBeNull();
     expect(debugLog).toHaveBeenCalledWith(
-      `Error retrieving the first groupCode from the storedGroupCodes array:`,
+      "Error retrieving the first groupCode from the storedGroupCodes array:",
       { error: mockError.message },
       LOG_ERROR,
     );

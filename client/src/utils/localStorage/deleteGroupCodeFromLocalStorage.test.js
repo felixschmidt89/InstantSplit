@@ -1,15 +1,15 @@
-import { deleteGroupCodeFromLocalStorage } from "./deleteGroupCodeFromLocalStorage";
-import { getStoredGroupCodesFromLocalStorage } from "./getStoredGroupCodesFromLocalStorage";
-import { setLocalStorageKey } from "./setLocalStorageKey";
-import { getActiveGroupCodeFromLocalStorage } from "./getActiveGroupCodeFromLocalStorage";
-import { deleteActiveGroupCodeFromLocalStorage } from "./deleteActiveGroupCodeFromLocalStorage";
-import { MOCK_LOCALSTORAGE_VALUES } from "../../../../shared/constants/test/testConstants";
-import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
+import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants.js";
+import { MOCK_LOCALSTORAGE_VALUES } from "../../../../shared/constants/test/testConstants.js";
+import deleteActiveGroupCodeFromLocalStorage from "./deleteActiveGroupCodeFromLocalStorage.js";
+import deleteGroupCodeFromLocalStorage from "./deleteGroupCodeFromLocalStorage.js";
+import getActiveGroupCodeFromLocalStorage from "./getActiveGroupCodeFromLocalStorage.js";
+import getStoredGroupCodesFromLocalStorage from "./getStoredGroupCodesFromLocalStorage.js";
+import setLocalStorageKey from "./setLocalStorageKey.js";
 
-jest.mock("./getStoredGroupCodesFromLocalStorage");
-jest.mock("./setLocalStorageKey");
-jest.mock("./getActiveGroupCodeFromLocalStorage");
-jest.mock("./deleteActiveGroupCodeFromLocalStorage");
+jest.mock("./deleteActiveGroupCodeFromLocalStorage.js");
+jest.mock("./getActiveGroupCodeFromLocalStorage.js");
+jest.mock("./getStoredGroupCodesFromLocalStorage.js");
+jest.mock("./setLocalStorageKey.js");
 
 describe("deleteGroupCodeFromLocalStorage", () => {
   const { STORED_GROUP_CODES, ACTIVE_GROUP_CODE, NEW_TEST_GROUP_CODE } =

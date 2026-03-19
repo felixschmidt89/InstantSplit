@@ -1,8 +1,7 @@
 import debugLog from "../../../../shared/utils/debug/debugLog.js";
+import deleteLocalStorageKey from "./deleteLocalStorageKey.js";
 
-import { deleteLocalStorageKey } from "./deleteLocalStorageKey";
-
-export const setLocalStorageKey = (key, value) => {
+const setLocalStorageKey = (key, value) => {
   try {
     if (value === null) {
       return deleteLocalStorageKey(key);
@@ -13,9 +12,13 @@ export const setLocalStorageKey = (key, value) => {
 
     localStorage.setItem(key, valueToStore);
     debugLog(`Key "${key}" successfully set in local storage.`);
+
     return true;
   } catch (error) {
     debugLog(`Error setting key "${key}" in local storage:`, error);
+
     return false;
   }
 };
+
+export default setLocalStorageKey;

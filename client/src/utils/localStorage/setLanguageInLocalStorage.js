@@ -1,8 +1,8 @@
-import { LANGUAGES } from "../../../../shared/constants/system/languageConstants";
-import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
-import { setLocalStorageKey } from "./setLocalStorageKey";
+import { LANGUAGES } from "../../../../shared/constants/system/languageConstants.js";
+import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants.js";
+import setLocalStorageKey from "./setLocalStorageKey.js";
 
-export const setLanguageInLocalStorage = (language) => {
+const setLanguageInLocalStorage = (language) => {
   const isSupported = Object.values(LANGUAGES).includes(language);
 
   if (!isSupported) {
@@ -12,3 +12,5 @@ export const setLanguageInLocalStorage = (language) => {
 
   return setLocalStorageKey(LOCAL_STORAGE_KEYS.LANGUAGE, language);
 };
+
+export default setLanguageInLocalStorage;

@@ -1,14 +1,14 @@
-import { getStoredViewFromLocalStorage } from "./getStoredViewFromLocalStorage.js";
-import { getLocalStorageKey } from "./getLocalStorageKey.js";
-import { deleteLocalStorageKey } from "./deleteLocalStorageKey.js";
 import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants.js";
 import {
   LEGACY_VIEW_TYPES,
   VIEW_TYPES,
 } from "../../constants/viewConstants.js";
+import deleteLocalStorageKey from "./deleteLocalStorageKey.js";
+import getLocalStorageKey from "./getLocalStorageKey.js";
+import getStoredViewFromLocalStorage from "./getStoredViewFromLocalStorage.js";
 
-jest.mock("./getLocalStorageKey");
-jest.mock("./deleteLocalStorageKey");
+jest.mock("./getLocalStorageKey.js");
+jest.mock("./deleteLocalStorageKey.js");
 
 describe("getStoredViewFromLocalStorage", () => {
   beforeEach(() => {

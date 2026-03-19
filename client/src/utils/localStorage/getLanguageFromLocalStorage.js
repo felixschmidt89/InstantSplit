@@ -1,5 +1,7 @@
-import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
-import { getLocalStorageKey } from "./getLocalStorageKey";
+import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants.js";
+import getLocalStorageKey from "./getLocalStorageKey.js";
 
-export const getLanguageFromLocalStorage = () =>
+const getLanguageFromLocalStorage = () =>
   getLocalStorageKey(LOCAL_STORAGE_KEYS.LANGUAGE);
+
+export default getLanguageFromLocalStorage;

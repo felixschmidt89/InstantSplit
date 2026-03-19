@@ -1,9 +1,9 @@
-import { setPwaCtaClosedInLocalStorage } from "./setPwaCtaClosedInLocalStorage";
-import { setLocalStorageKey } from "./setLocalStorageKey";
-import { MOCK_TIME } from "../../../../shared/constants/test/testConstants";
-import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
+import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants.js";
+import { MOCK_TIME } from "../../../../shared/constants/test/testConstants.js";
+import setLocalStorageKey from "./setLocalStorageKey.js";
+import setPwaCtaClosedInLocalStorage from "./setPwaCtaClosedInLocalStorage.js";
 
-jest.mock("./setLocalStorageKey");
+jest.mock("./setLocalStorageKey.js");
 
 describe("setPwaCtaClosedInLocalStorage", () => {
   beforeEach(() => {

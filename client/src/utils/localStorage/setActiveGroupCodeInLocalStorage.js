@@ -1,6 +1,8 @@
-import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
-import { setLocalStorageKey } from "./setLocalStorageKey";
+import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants.js";
+import setLocalStorageKey from "./setLocalStorageKey.js";
 
-export const setActiveGroupCodeInLocalStorage = (groupCode) => {
+const setActiveGroupCodeInLocalStorage = (groupCode) => {
   return setLocalStorageKey(LOCAL_STORAGE_KEYS.ACTIVE_GROUP_CODE, groupCode);
 };
+
+export default setActiveGroupCodeInLocalStorage;

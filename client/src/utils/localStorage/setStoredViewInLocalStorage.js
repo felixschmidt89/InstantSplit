@@ -1,6 +1,8 @@
-import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
-import { setLocalStorageKey } from "./setLocalStorageKey";
+import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants.js";
+import setLocalStorageKey from "./setLocalStorageKey.js";
 
-export const setStoredViewInLocalStorage = (value) => {
+const setStoredViewInLocalStorage = (value) => {
   return setLocalStorageKey(LOCAL_STORAGE_KEYS.VIEW, value);
 };
+
+export default setStoredViewInLocalStorage;

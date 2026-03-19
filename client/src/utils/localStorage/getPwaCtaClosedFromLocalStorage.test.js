@@ -1,8 +1,8 @@
-import { getPwaCtaClosedFromLocalStorage } from "./getPwaCtaClosedFromLocalStorage";
-import { getLocalStorageKey } from "./getLocalStorageKey";
-import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
+import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants.js";
+import getLocalStorageKey from "./getLocalStorageKey.js";
+import getPwaCtaClosedFromLocalStorage from "./getPwaCtaClosedFromLocalStorage.js";
 
-jest.mock("./getLocalStorageKey");
+jest.mock("./getLocalStorageKey.js");
 
 describe("getPwaCtaClosedFromLocalStorage", () => {
   const mockKey = LOCAL_STORAGE_KEYS.PWA_CTA_CLOSED;

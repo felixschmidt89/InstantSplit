@@ -1,5 +1,3 @@
-import { API_ROUTES } from "../api/apiRoutesConstants";
-
 export const MOCK_DATA = {
   STRING: "test_string_value",
   NUMBER: 123,
@@ -8,7 +6,7 @@ export const MOCK_DATA = {
   ARRAY: ["item_1", "item_2"],
   EMAIL: "test@example.com",
   ID: "6976543dabc5a7097f50bb01",
-  TIMESTAMP: 1737936000000, // 2026-01-27T00:00:00Z
+  TIMESTAMP: 1737936000000,
 };
 
 export const MOCK_TIME = {

@@ -1,7 +1,9 @@
-import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
-import { deleteLocalStorageKey } from "./deleteLocalStorageKey";
+import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants.js";
+import deleteLocalStorageKey from "./deleteLocalStorageKey.js";
 
-export const deleteStoredViewFromLocalStorage = () => {
+const deleteStoredViewFromLocalStorage = () => {
   deleteLocalStorageKey(LOCAL_STORAGE_KEYS.VIEW);
-  deleteLocalStorageKey(LOCAL_STORAGE_KEYS.VIEW_STATE_LEGACY);
+  // TODO: Delete VIEW STATE LEGACY FUNCTIONALITY. Add script to delete everything, if v1 data is present
 };
+
+export default deleteStoredViewFromLocalStorage;

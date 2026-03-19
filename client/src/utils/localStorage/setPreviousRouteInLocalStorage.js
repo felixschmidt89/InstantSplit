@@ -1,6 +1,8 @@
-import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
-import { setLocalStorageKey } from "./setLocalStorageKey";
+import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants.js";
+import setLocalStorageKey from "./setLocalStorageKey.js";
 
-export const setPreviousRouteInLocalStorage = (route) => {
+const setPreviousRouteInLocalStorage = (route) => {
   return setLocalStorageKey(LOCAL_STORAGE_KEYS.PREVIOUS_ROUTE, route);
 };
+
+export default setPreviousRouteInLocalStorage;

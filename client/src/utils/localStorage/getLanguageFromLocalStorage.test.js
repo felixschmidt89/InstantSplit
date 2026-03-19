@@ -1,9 +1,9 @@
-import { MOCK_LOCALSTORAGE_VALUES } from "../../../../shared/constants/test/testConstants";
-import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
-import { getLanguageFromLocalStorage } from "./getLanguageFromLocalStorage";
-import { getLocalStorageKey } from "./getLocalStorageKey";
+import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants.js";
+import { MOCK_LOCALSTORAGE_VALUES } from "../../../../shared/constants/test/testConstants.js";
+import getLanguageFromLocalStorage from "./getLanguageFromLocalStorage.js";
+import getLocalStorageKey from "./getLocalStorageKey.js";
 
-jest.mock("./getLocalStorageKey");
+jest.mock("./getLocalStorageKey.js");
 
 describe("getLanguageFromLocalStorage", () => {
   const mockKey = LOCAL_STORAGE_KEYS.LANGUAGE;
