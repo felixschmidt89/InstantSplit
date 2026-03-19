@@ -1,7 +1,7 @@
 import IS_DEVELOPMENT from "../../constants/system/environmentConstants.js";
-import { LOG_LEVELS } from "../../constants/system/loggerConstants.js";
+import LOG_LEVELS from "../../constants/system/loggerConstants.js";
 
-const { INFO, ERROR, LOG_ERROR } = LOG_LEVELS;
+const { INFO, LOG_ERROR } = LOG_LEVELS;
 
 const debugLog = (message = "debug", data, level = INFO) => {
   if (!IS_DEVELOPMENT) return;
@@ -9,8 +9,7 @@ const debugLog = (message = "debug", data, level = INFO) => {
   const debugMessage = `${level}: ${message}`;
 
   if (data !== undefined) {
-    const isErrorState =
-      data instanceof Error || level === ERROR || level === LOG_ERROR;
+    const isErrorState = data instanceof Error || level === LOG_ERROR;
 
     if (isErrorState) {
       console.error(debugMessage, data);

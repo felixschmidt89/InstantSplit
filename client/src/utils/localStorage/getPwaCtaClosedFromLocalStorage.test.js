@@ -1,4 +1,5 @@
-import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants.js";
+import LOCAL_STORAGE_KEYS from "../../constants/localStorageConstants.js";
+
 import getLocalStorageKey from "./getLocalStorageKey.js";
 import getPwaCtaClosedFromLocalStorage from "./getPwaCtaClosedFromLocalStorage.js";
 

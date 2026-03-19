@@ -1,5 +1,3 @@
-// React and Third-Party Libraries
-import React from "react";
 import { useTranslation } from "react-i18next";
 
 // Constants and Utils

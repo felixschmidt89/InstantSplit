@@ -1,6 +1,6 @@
-import { ROUTE_PARAMS } from "../../../shared/constants/api/routeParamConstants.js";
+import ROUTE_PARAMS from "../../../shared/constants/api/routeParamConstants.js";
 import prefixParamsWithColon from "../utils/route/prefixParamsWithColon.js";
-import { CLIENT_STATIC_ROUTES } from "./clientStaticRoutesConstants.js";
+import CLIENT_STATIC_ROUTES from "./clientStaticRoutesConstants.js";
 
 const DYNAMIC_SEGMENTS = prefixParamsWithColon(ROUTE_PARAMS);
 
@@ -29,7 +29,7 @@ const {
   PAYMENT_ID,
 } = DYNAMIC_SEGMENTS;
 
-export const CLIENT_ROUTE_PATTERNS = {
+const CLIENT_ROUTE_PATTERNS = {
   GROUPCODE_VALIDATOR: `${GROUPCODE_VALIDATOR}/${GROUP_CODE}`,
   JOIN_GROUP_DE: `${JOIN_GROUP_DE}/${INITIAL_GROUP_NAME}/${GROUP_CODE}`,
   JOIN_GROUP_EN: `${JOIN_GROUP_EN}/${INITIAL_GROUP_NAME}/${GROUP_CODE}`,
@@ -45,7 +45,7 @@ export const CLIENT_ROUTE_PATTERNS = {
   NOT_FOUND: "*",
 };
 
-export const CLIENT_LINKS = {
+const CLIENT_LINKS = {
   MEMBER_DETAILS: (groupCode, userId) =>
     `${MEMBER_DETAILS}/${groupCode}/${userId}`,
 
@@ -73,3 +73,10 @@ export const CLIENT_LINKS = {
   SHARE_GROUP: (initialGroupName, groupCode) =>
     `${SHARE_GROUP}/${initialGroupName}/${groupCode}`,
 };
+
+const ROUTES = {
+  PATTERNS: CLIENT_ROUTE_PATTERNS,
+  LINKS: CLIENT_LINKS,
+};
+
+export default ROUTES;

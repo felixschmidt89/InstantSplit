@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 
 import emojiConstants from "../../constants/emojiConstants";
-import { TO } from "../../constants/navigationConstants";
+import { TO } from "../../constants/clientRouteLinks";
 
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import Emoji from "../../components/Emoji/Emoji";

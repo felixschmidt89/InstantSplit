@@ -1,13 +1,13 @@
-import apiClient from "../axiosInstance";
+import apiClient from "../axiosInstance.js";
 
-import { API_ROUTES } from "../../../../shared/constants/api/apiRoutesConstants";
-import { LOG_LEVELS } from "../../../../shared/constants/system/loggerConstants";
-import debugLog from "../../../../shared/utils/debug/debugLog";
+import API_ROUTES from "../../../../shared/constants/api/apiRoutesConstants.js";
+import LOG_LEVELS from "../../../../shared/constants/system/loggerConstants.js";
+import debugLog from "../../../../shared/utils/debug/debugLog.js";
 
 const { LOG_ERROR } = LOG_LEVELS;
 const { BASE, TRANSACTIONS } = API_ROUTES.USERS;
 
-export const fetchGroupMemberTransactions = async (userId) => {
+const fetchGroupMemberTransactions = async (userId) => {
   try {
     const { data } = await apiClient.get(`/${BASE}/${userId}/${TRANSACTIONS}`);
     return data;
@@ -20,3 +20,5 @@ export const fetchGroupMemberTransactions = async (userId) => {
     throw error;
   }
 };
+
+export default fetchGroupMemberTransactions;

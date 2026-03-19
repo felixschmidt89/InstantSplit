@@ -6,7 +6,7 @@ import styles from "./CreateExpense.module.css";
 import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility.jsx";
 import { LOG_LEVELS } from "../../../../../shared/constants/system/loggerConstants.js";
 import debugLog from "../../../../../shared/utils/debug/debugLog.js";
-import { TO } from "../../../constants/navigationConstants";
+import { TO } from "../../../constants/clientRouteLinks.js";
 import { buttonStyles } from "../../../constants/stylesConstants.jsx";
 import { useGroupContext } from "../../../context/GroupContext";
 

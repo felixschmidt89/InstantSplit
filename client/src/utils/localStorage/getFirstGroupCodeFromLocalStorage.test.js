@@ -1,4 +1,4 @@
-import { LOG_LEVELS } from "../../../../shared/constants/system/loggerConstants.js";
+import LOG_LEVELS from "../../../../shared/constants/system/loggerConstants.js";
 import {
   MOCK_ERROR_MESSAGES,
   MOCK_LOCALSTORAGE_VALUES,

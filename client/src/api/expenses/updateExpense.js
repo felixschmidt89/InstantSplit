@@ -1,13 +1,13 @@
 import apiClient from "../axiosInstance.js";
 
-import { API_ROUTES } from "../../../../shared/constants/api/apiRoutesConstants.js";
-import { LOG_LEVELS } from "../../../../shared/constants/system/loggerConstants.js";
+import API_ROUTES from "../../../../shared/constants/api/apiRoutesConstants.js";
+import LOG_LEVELS from "../../../../shared/constants/system/loggerConstants.js";
 import debugLog from "../../../../shared/utils/debug/debugLog.js";
 
 const { LOG_ERROR } = LOG_LEVELS;
 const { BASE } = API_ROUTES.EXPENSES;
 
-export const updateExpense = async (expenseId, payload) => {
+const updateExpense = async (expenseId, payload) => {
   try {
     const { data } = await apiClient.put(`/${BASE}/${expenseId}`, payload);
 
@@ -21,3 +21,5 @@ export const updateExpense = async (expenseId, payload) => {
     throw error;
   }
 };
+
+export default updateExpense;

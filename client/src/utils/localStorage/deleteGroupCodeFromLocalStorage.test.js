@@ -1,4 +1,5 @@
-import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants.js";
+import LOCAL_STORAGE_KEYS from "../../constants/localStorageConstants.js";
+
 import { MOCK_LOCALSTORAGE_VALUES } from "../../../../shared/constants/test/testConstants.js";
 import deleteActiveGroupCodeFromLocalStorage from "./deleteActiveGroupCodeFromLocalStorage.js";
 import deleteGroupCodeFromLocalStorage from "./deleteGroupCodeFromLocalStorage.js";

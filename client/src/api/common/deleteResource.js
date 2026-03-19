@@ -1,10 +1,10 @@
 import apiClient from "../axiosInstance.js";
-import { LOG_LEVELS } from "../../../../shared/constants/system/loggerConstants.js";
+import LOG_LEVELS from "../../../../shared/constants/system/loggerConstants.js";
 import debugLog from "../../../../shared/utils/debug/debugLog.js";
 
 const { LOG_ERROR } = LOG_LEVELS;
 
-export const deleteResource = async (resourceType, resourceId) => {
+const deleteResource = async (resourceType, resourceId) => {
   try {
     const response = await apiClient.delete(`/${resourceType}/${resourceId}`);
     return response;
@@ -17,3 +17,5 @@ export const deleteResource = async (resourceType, resourceId) => {
     throw error;
   }
 };
+
+export default deleteResource;

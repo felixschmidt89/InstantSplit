@@ -1,5 +1,3 @@
-// React and Third-Party Libraries
-import React from "react";
 import { LuMenu } from "react-icons/lu";
 import { LuPlus } from "react-icons/lu";
 import { useTranslation } from "react-i18next";

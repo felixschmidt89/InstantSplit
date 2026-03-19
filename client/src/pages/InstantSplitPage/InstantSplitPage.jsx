@@ -4,19 +4,17 @@ import { useTranslation } from "react-i18next";
 
 import styles from "./InstantSplitPage.module.css";
 import { useGroupContext } from "../../context/GroupContext";
-import {
-  deleteGroupCodeFromLocalStorage,
-  deleteNestedPreviousRouteFromLocalStorage,
-  deletePreviousRouteFromLocalStorage,
-  getStoredViewFromLocalStorage,
-  setStoredViewInLocalStorage,
-} from "../../utils/localStorage";
+import deleteGroupCodeFromLocalStorage from "../../utils/localStorage/deleteGroupCodeFromLocalStorage.js";
+import deleteNestedPreviousRouteFromLocalStorage from "../../utils/localStorage/deleteNestedPreviousRouteFromLocalStorage.js";
+import deletePreviousRouteFromLocalStorage from "../../utils/localStorage/deletePreviousRouteFromLocalStorage.js";
+import getStoredViewFromLocalStorage from "../../utils/localStorage/getStoredViewFromLocalStorage.js";
+import setStoredViewInLocalStorage from "../../utils/localStorage/setStoredViewInLocalStorage.js";
 import { LEGACY_VIEW_TYPES, VIEW_TYPES } from "../../constants/viewConstants";
 import useValidateGroupExistence from "../../hooks/useValidateGroupCodeExistence";
 import useFetchGroupData from "../../hooks/useFetchGroupData";
 import useGetClientDeviceAndPwaInfo from "../../hooks/useGetClientDeviceAndPwaInfo";
 import { shouldShowPwaPrompt } from "../../utils/user";
-import { TO } from "../../constants/navigationConstants";
+import { TO } from "../../constants/clientRouteLinks.js";
 import { devLog } from "../../utils/errorUtils";
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import DefaultAndUserSettingsBar from "../../components/DefaultAndUserSettingsBar/DefaultAndUserSettingsBar";

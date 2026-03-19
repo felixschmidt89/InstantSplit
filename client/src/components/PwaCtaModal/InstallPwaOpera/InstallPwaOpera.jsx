@@ -1,5 +1,3 @@
-// React and Third-Party Libraries
-import React from "react";
 import { HiDotsVertical } from "react-icons/hi";
 import { HiOutlinePlusCircle } from "react-icons/hi";
 import { MdAddToHomeScreen } from "react-icons/md";
@@ -12,6 +10,7 @@ import styles from "./InstallPwaOpera.module.css";
  * Renders instructions for installing PWA via Opera Android app.
  * @returns {JSX.Element} React component.
  */
+// TODO: Delete functionality
 const InstallPwaOpera = () => {
   const { t } = useTranslation();
 

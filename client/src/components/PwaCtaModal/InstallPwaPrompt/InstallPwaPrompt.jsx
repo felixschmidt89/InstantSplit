@@ -1,5 +1,3 @@
-// React and Third-Party Libraries
-import React from "react";
 import { Button } from "@mui/material";
 import { usePWAInstall } from "react-use-pwa-install";
 import { useTranslation } from "react-i18next";

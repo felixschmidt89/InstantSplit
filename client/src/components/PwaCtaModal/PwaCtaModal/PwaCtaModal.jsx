@@ -1,4 +1,3 @@
-import React from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@mui/material";
 
@@ -7,7 +6,7 @@ import { smallButtonStyles } from "../../../constants/stylesConstants";
 import RenderInstallPwaCta from "../RenderInstallPwaCta/RenderInstallPwaCta";
 
 import styles from "./PwaCtaModal.module.css";
-import { setPwaCtaClosedInLocalStorage } from "../../../utils/localStorage";
+import setPwaCtaClosedInLocalStorage from "../../../utils/localStorage/setPwaCtaClosedInLocalStorage.js";
 
 const PwaCtaModal = ({ ctaToRender, setShowPwaCtaModal }) => {
   const { t } = useTranslation();

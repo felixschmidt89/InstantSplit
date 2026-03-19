@@ -1,4 +1,5 @@
-import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants.js";
+import LOCAL_STORAGE_KEYS from "../../constants/localStorageConstants.js";
+
 import {
   LEGACY_VIEW_TYPES,
   VIEW_TYPES,

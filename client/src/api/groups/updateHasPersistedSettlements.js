@@ -1,13 +1,13 @@
-import apiClient from "../axiosInstance";
+import apiClient from "../axiosInstance.js";
 
-import { API_ROUTES } from "../../../../shared/constants/api/apiRoutesConstants";
-import { LOG_LEVELS } from "../../../../shared/constants/system/loggerConstants";
-import debugLog from "../../../../shared/utils/debug/debugLog";
+import API_ROUTES from "../../../../shared/constants/api/apiRoutesConstants.js";
+import LOG_LEVELS from "../../../../shared/constants/system/loggerConstants.js";
+import debugLog from "../../../../shared/utils/debug/debugLog.js";
 
 const { LOG_ERROR } = LOG_LEVELS;
 const { BASE, PERSISTED_ORDER } = API_ROUTES.GROUPS;
 
-export const updateHasPersistedSettlements = async (
+const updateHasPersistedSettlements = async (
   groupCode,
   hasPersistedSettlements,
 ) => {
@@ -32,3 +32,5 @@ export const updateHasPersistedSettlements = async (
     throw error;
   }
 };
+
+export default updateHasPersistedSettlements;

@@ -1,13 +1,13 @@
 import apiClient from "../axiosInstance.js";
 
-import { API_ROUTES } from "../../../../shared/constants/api/apiRoutesConstants.js";
-import { LOG_LEVELS } from "../../../../shared/constants/system/loggerConstants.js";
+import API_ROUTES from "../../../../shared/constants/api/apiRoutesConstants.js";
+import LOG_LEVELS from "../../../../shared/constants/system/loggerConstants.js";
 import debugLog from "../../../../shared/utils/debug/debugLog.js";
 
 const { LOG_ERROR } = LOG_LEVELS;
 const { BASE, STORED_GROUP_NAMES } = API_ROUTES.GROUPS;
 
-export const fetchStoredGroupNames = async (groupCodesArray) => {
+const fetchStoredGroupNames = async (groupCodesArray) => {
   try {
     const groupCodesString = groupCodesArray.join(",");
 
@@ -25,3 +25,5 @@ export const fetchStoredGroupNames = async (groupCodesArray) => {
     throw error;
   }
 };
+
+export default fetchStoredGroupNames;

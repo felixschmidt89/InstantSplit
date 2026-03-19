@@ -1,6 +1,6 @@
-import { LOG_LEVELS } from "../../../../shared/constants/system/loggerConstants.js";
+import LOG_LEVELS from "../../../../shared/constants/system/loggerConstants.js";
 import debugLog from "../../../../shared/utils/debug/debugLog.js";
-import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants.js";
+import LOCAL_STORAGE_KEYS from "../../constants/localStorageConstants.js";
 import getLocalStorageKey from "./getLocalStorageKey.js";
 
 const { LOG_ERROR } = LOG_LEVELS;

@@ -5,7 +5,7 @@ import useErrorModalVisibility from "../../hooks/useErrorModalVisibility";
 import useUpdateResource from "../../hooks/useUpdateResource";
 import { submitOnEnter } from "../../utils/form/submitOnEnter";
 import { sendFormSubmitButtonStyles } from "../../constants/stylesConstants";
-import { TO } from "../../constants/navigationConstants";
+import { TO } from "../../constants/clientRouteLinks";
 import FormSubmitButton from "../FormSubmitButton/FormSubmitButton";
 import ErrorModal from "../ErrorModal/ErrorModal";
 

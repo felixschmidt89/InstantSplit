@@ -4,10 +4,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import HistoryIcon from "@mui/icons-material/History";
 
 import styles from "./RouteButton.module.css";
-import {
-  setNestedPreviousRouteInLocalStorage,
-  setPreviousRouteInLocalStorage,
-} from "../../../utils/localStorage";
+import setNestedPreviousRouteInLocalStorage from "../../../utils/localStorage/setNestedPreviousRouteInLocalStorage.js";
+import setPreviousRouteInLocalStorage from "../../../utils/localStorage/setPreviousRouteInLocalStorage.js";
 import { routeButtonStyles } from "../../../constants/stylesConstants";
 
 const iconMap = {

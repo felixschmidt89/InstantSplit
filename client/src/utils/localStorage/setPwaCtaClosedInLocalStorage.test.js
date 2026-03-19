@@ -1,4 +1,5 @@
-import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants.js";
+import LOCAL_STORAGE_KEYS from "../../constants/localStorageConstants.js";
+
 import { MOCK_TIME } from "../../../../shared/constants/test/testConstants.js";
 import setLocalStorageKey from "./setLocalStorageKey.js";
 import setPwaCtaClosedInLocalStorage from "./setPwaCtaClosedInLocalStorage.js";

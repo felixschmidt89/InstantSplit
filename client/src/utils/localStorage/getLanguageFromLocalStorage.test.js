@@ -1,4 +1,5 @@
-import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants.js";
+import LOCAL_STORAGE_KEYS from "../../constants/localStorageConstants.js";
+
 import { MOCK_LOCALSTORAGE_VALUES } from "../../../../shared/constants/test/testConstants.js";
 import getLanguageFromLocalStorage from "./getLanguageFromLocalStorage.js";
 import getLocalStorageKey from "./getLocalStorageKey.js";

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useGroupContext } from "../context/GroupContext";
 import { getFirstGroupCodeFromLocalStorage } from "../utils/localStorage";
-import { TO } from "../constants/navigationConstants.js";
+import { TO } from "../constants/clientRouteLinks.js";
 
 const { INSTANT_SPLIT } = TO;
 

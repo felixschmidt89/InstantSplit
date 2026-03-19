@@ -1,8 +1,15 @@
-export const FONTS = {
+const FONTS = {
   NOTO_EMOJI: "Noto Emoji",
 };
 
-export const FONT_STATE = {
+const FONT_STATE = {
   LOADED: "loaded",
   FALLBACK: "fallback",
 };
+
+const TYPOGRAPHY = {
+  FONTS,
+  STATE: FONT_STATE,
+};
+
+export default TYPOGRAPHY;

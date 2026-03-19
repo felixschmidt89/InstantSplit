@@ -5,7 +5,7 @@ import deFlag from "../../assets/flags/de.svg";
 import enFlag from "../../assets/flags/gb.svg";
 
 import styles from "./LanguageToggle.module.css";
-import { setLanguageInLocalStorage } from "../../utils/localStorage";
+import setLanguageInLocalStorage from "../../utils/localStorage/setLanguageInLocalStorage.js";
 import { LANGUAGES } from "../../../../shared/constants/system/languageConstants.js";
 
 const LanguageToggle = () => {

@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./ConfirmSettlementPayment.module.css";
 import { useGroupContext } from "../../../context/GroupContext.jsx";
 import useConfirmationModalLogicAndActions from "../../../hooks/useConfirmationModalLogicAndActions.jsx";
-import { setStoredViewInLocalStorage } from "../../../utils/localStorage/index.js";
+import setStoredViewInLocalStorage from "../../../utils/localStorage/setStoredViewInLocalStorage.js";
 import { API_URL } from "../../../constants/apiConstants.js";
 import { VIEW_TYPES } from "../../../constants/viewConstants.js";
 import { CLIENT_STATIC_ROUTES } from "../../../constants/clientStaticRoutesConstants.js";

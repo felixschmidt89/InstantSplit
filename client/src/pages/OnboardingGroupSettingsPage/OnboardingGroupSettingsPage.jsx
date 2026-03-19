@@ -6,7 +6,7 @@ import useFetchGroupData from "../../hooks/useFetchGroupData.jsx";
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify.jsx";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar.jsx";
 import { CLIENT_STATIC_ROUTES } from "../../constants/clientStaticRoutesConstants.js";
-import { TO } from "../../constants/navigationConstants.js";
+import { TO } from "../../constants/clientRouteLinks.js";
 import Spinner from "../../components/Spinner/Spinner.jsx";
 import ChangeGroupCurrency from "../../components/GroupSettings/ChangeGroupCurrency/ChangeGroupCurrency.jsx";
 import ChangeDataPurgeSetting from "../../components/GroupSettings/ChangeDataPurgeSetting/ChangeDataPurgeSetting.jsx";

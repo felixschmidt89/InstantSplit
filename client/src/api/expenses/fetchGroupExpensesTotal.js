@@ -1,13 +1,13 @@
 import apiClient from "../axiosInstance.js";
 
-import { API_ROUTES } from "../../../../shared/constants/api/apiRoutesConstants.js";
-import { LOG_LEVELS } from "../../../../shared/constants/system/loggerConstants.js";
+import API_ROUTES from "../../../../shared/constants/api/apiRoutesConstants.js";
+import LOG_LEVELS from "../../../../shared/constants/system/loggerConstants.js";
 import debugLog from "../../../../shared/utils/debug/debugLog.js";
 
 const { LOG_ERROR } = LOG_LEVELS;
 const { BASE, TOTAL } = API_ROUTES.EXPENSES;
 
-export const fetchGroupExpensesTotal = async (groupCode) => {
+const fetchGroupExpensesTotal = async (groupCode) => {
   try {
     const { data } = await apiClient.get(`/${BASE}/${TOTAL}/${groupCode}`);
 
@@ -21,3 +21,5 @@ export const fetchGroupExpensesTotal = async (groupCode) => {
     throw error;
   }
 };
+
+export default fetchGroupExpensesTotal;

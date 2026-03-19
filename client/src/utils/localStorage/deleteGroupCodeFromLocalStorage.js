@@ -1,5 +1,6 @@
-import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants.js";
-import { LOG_LEVELS } from "../../../../shared/constants/system/loggerConstants.js";
+import LOCAL_STORAGE_KEYS from "../../constants/localStorageConstants.js";
+
+import LOG_LEVELS from "../../../../shared/constants/system/loggerConstants.js";
 import debugLog from "../../../../shared/utils/debug/debugLog.js";
 import deleteActiveGroupCodeFromLocalStorage from "./deleteActiveGroupCodeFromLocalStorage.js";
 import getActiveGroupCodeFromLocalStorage from "./getActiveGroupCodeFromLocalStorage.js";

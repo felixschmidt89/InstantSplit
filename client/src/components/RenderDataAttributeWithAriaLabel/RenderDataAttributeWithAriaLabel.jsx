@@ -1,6 +1,3 @@
-// React and Third-Party Libraries
-import React from "react";
-
 /**
  * Component for rendering a single data attribute with a specified ARIA label.
  * @param {Object} props - The component props.

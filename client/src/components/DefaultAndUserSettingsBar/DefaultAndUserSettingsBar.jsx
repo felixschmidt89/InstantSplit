@@ -15,7 +15,7 @@ import useIsSlimDevice from "../../hooks/useIsSlimDevice";
 import { isWebShareSupported } from "../../utils/user";
 import useFetchGroupData from "../../hooks/useFetchGroupData";
 import { addUserReactIconStyles } from "../../constants/stylesConstants";
-import { TO, TO_GROUP_ACTIONS } from "../../constants/navigationConstants";
+import { TO, TO_GROUP_ACTIONS } from "../../constants/clientRouteLinks";
 import WebShareApiInvite from "../ShareGroupInvitation/WebShareApiInvite/WebShareApiInvite";
 import ReactIconNavigate from "../InAppNavigation/ReactIconNavigate/ReactIconNavigate";
 import InstantSplitLogo from "../InstantSplitLogo/InstantSplitLogo";

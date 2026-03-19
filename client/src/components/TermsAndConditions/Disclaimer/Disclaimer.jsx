@@ -4,8 +4,8 @@ import { LAST_UPDATE_DATE } from "../termsAndConditionsConstants";
 
 import styles from "./Disclaimer.module.css";
 import { DEFAULT_LANGUAGE } from "../../../../../shared/constants/system/languageConstants";
-import { getLanguageFromLocalStorage } from "../../../utils/localStorage";
 import { getLocalizedDateString } from "../../../../../shared/utils/dateUtils";
+import getLanguageFromLocalStorage from "../../../utils/localStorage/getLanguageFromLocalStorage.js";
 
 const Disclaimer = () => {
   const { t } = useTranslation();

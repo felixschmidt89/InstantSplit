@@ -9,7 +9,7 @@ import { useGroupContext } from "../../../context/GroupContext";
 import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
 import { API_URL } from "../../../constants/apiConstants";
 import { devLog, handleApiErrors } from "../../../utils/errorUtils";
-import { TO } from "../../../constants/navigationConstants";
+import { TO } from "../../../constants/clientRouteLinks";
 import PaymentAmountInput from "../PaymentAmountInput/PaymentAmountInput";
 import PaymentMakerSelect from "../PaymentMakerSelect/PaymentMakerSelect";
 import RenderReactIcon from "../../RenderReactIcon/RenderReactIcon";

@@ -1,5 +1,3 @@
-import React from "react";
-
 /**
  * Renders a React Icon Component with custom font size, scaling, translations.
  *

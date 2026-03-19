@@ -5,15 +5,13 @@ import { useTranslation } from "react-i18next";
 import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
 import { useGroupContext } from "../../../context/GroupContext";
 
-import {
-  setActiveGroupCodeInLocalStorage,
-  setPreviousRouteInLocalStorage,
-  storeGroupCodeInLocalStorage,
-} from "../../../utils/localStorage";
+import setActiveGroupCodeInLocalStorage from "../../../utils/localStorage/setActiveGroupCodeInLocalStorage.js";
+import setPreviousRouteInLocalStorage from "../../../utils/localStorage/setPreviousRouteInLocalStorage.js";
+import storeGroupCodeInLocalStorage from "../../../utils/localStorage/storeGroupCodeInLocalStorage.js";
 import { handleApiErrors } from "../../../utils/errorUtils";
 import { replaceSlashesWithDashes } from "../../../utils/replaceSlashesWithDashes";
 
-import { TO_MEMBERS } from "../../../constants/navigationConstants.js";
+import { TO_MEMBERS } from "../../../constants/clientRouteLinks.js";
 import { plusFormSubmitButtonStyles } from "../../../constants/stylesConstants";
 import { createGroup } from "../../../api/groups/createGroup";
 

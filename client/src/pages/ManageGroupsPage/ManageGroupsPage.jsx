@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 
 import styles from "./ManageGroupsPage.module.css";
 // Fixed: Using the specific LocalStorage helper name
-import { setPreviousRouteInLocalStorage } from "../../utils/localStorage";
+import setPreviousRouteInLocalStorage from "../../utils/localStorage/setPreviousRouteInLocalStorage.js";
 import useSyncStoredGroupCodes from "../../hooks/useSyncStoredGroupCodes";
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";

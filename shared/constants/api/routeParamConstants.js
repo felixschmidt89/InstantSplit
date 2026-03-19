@@ -1,4 +1,4 @@
-export const ROUTE_PARAMS = {
+const ROUTE_PARAMS = {
   GROUP_CODE: "groupCode",
   MEMBER_ID: "memberId",
   MEMBER_NAME: "memberName",
@@ -7,3 +7,5 @@ export const ROUTE_PARAMS = {
   ITEM_ID: "itemId",
   GROUP_NAME: "groupName",
 };
+
+export default ROUTE_PARAMS;

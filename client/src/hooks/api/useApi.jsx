@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef } from "react";
 
-export const useApi = (apiService) => {
+const useApi = (apiService) => {
   const [data, setData] = useState(null);
   const [isFetched, setIsFetched] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -35,3 +35,5 @@ export const useApi = (apiService) => {
 
   return { data, isFetched, isLoading, error, trigger, setData };
 };
+
+export default useApi;

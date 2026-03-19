@@ -1,7 +1,7 @@
 import { Outlet, useParams, Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useGroupContext } from "../context/GroupContext.jsx";
-import { getActiveGroupCodeFromLocalStorage } from "../utils/localStorage/getActiveGroupCodeFromLocalStorage.js";
+import getActiveGroupCodeFromLocalStorage from "../utils/localStorage/getActiveGroupCodeFromLocalStorage.js";
 import { CLIENT_STATIC_ROUTES } from "../constants/clientStaticRoutesConstants.js";
 
 const { HOME } = CLIENT_STATIC_ROUTES;

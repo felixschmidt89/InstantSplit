@@ -1,4 +1,4 @@
-export const CLIENT_STATIC_ROUTES = {
+const CLIENT_STATIC_ROUTES = {
   HOME: "/",
   LEGAL_NOTICE: "/legal-notice",
   TERMS_AND_CONDITIONS: "/terms-and-conditions",
@@ -28,3 +28,5 @@ export const CLIENT_STATIC_ROUTES = {
   CREATE_PAYMENT: "/create-payment",
   GROUPCODE_VALIDATOR: "/groupCode-validator",
 };
+
+export default CLIENT_STATIC_ROUTES;

@@ -1,6 +1,3 @@
-// React and Third-Party Libraries
-import React from "react";
-
 // Components
 import InstallPwaFirefox from "../InstallPwaFirefox/InstallPwaFirefox";
 import InstallPwaSafari from "../InstallPwaSafari/InstallPwaSafari";

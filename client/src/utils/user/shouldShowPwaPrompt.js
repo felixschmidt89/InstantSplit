@@ -1,5 +1,5 @@
 import { PWA_PROMPT_RESHOW_THRESHOLD_MS } from "../../../../shared/constants/system/systemConstants";
-import { getPwaCtaClosedFromLocalStorage } from "../localStorage";
+import getPwaCtaClosedFromLocalStorage from "../localStorage/getPwaCtaClosedFromLocalStorage.js";
 
 export const shouldShowPwaPrompt = () => {
   const lastPwaPromptClosure = getPwaCtaClosedFromLocalStorage();

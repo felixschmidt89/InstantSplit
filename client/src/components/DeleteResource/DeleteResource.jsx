@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { buttonStyles } from "../../constants/stylesConstants";
 import useDeleteResource from "../../hooks/useDeleteResource";
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
-import { TO } from "../../constants/navigationConstants";
+import { TO } from "../../constants/clientRouteLinks";
 import styles from "./DeleteResource.module.css";
 
 const DeleteResource = ({

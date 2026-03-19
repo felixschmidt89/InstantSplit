@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import axios from "axios";
 
 import styles from "./UpdatePayment.module.css";
-import { TO } from "../../../constants/navigationConstants";
+import { TO } from "../../../constants/clientRouteLinks";
 import { useGroupContext } from "../../../context/GroupContext";
 import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
 import { MINIMUM_VALID_AMOUNT } from "../../../constants/dataConstants";

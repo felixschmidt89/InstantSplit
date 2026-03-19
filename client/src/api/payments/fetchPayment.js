@@ -1,13 +1,13 @@
 import apiClient from "../axiosInstance.js";
 
-import { API_ROUTES } from "../../../../shared/constants/api/apiRoutesConstants.js";
-import { LOG_LEVELS } from "../../../../shared/constants/system/loggerConstants.js";
+import API_ROUTES from "../../../../shared/constants/api/apiRoutesConstants.js";
+import LOG_LEVELS from "../../../../shared/constants/system/loggerConstants.js";
 import debugLog from "../../../../shared/utils/debug/debugLog.js";
 
 const { LOG_ERROR } = LOG_LEVELS;
 const { BASE } = API_ROUTES.PAYMENTS;
 
-export const fetchPayment = async (paymentId) => {
+const fetchPayment = async (paymentId) => {
   try {
     const { data } = await apiClient.get(`/${BASE}/${paymentId}`);
 
@@ -21,3 +21,5 @@ export const fetchPayment = async (paymentId) => {
     throw error;
   }
 };
+
+export default fetchPayment;

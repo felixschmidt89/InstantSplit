@@ -7,7 +7,7 @@ import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
 import { updateExpense } from "../../../api/expenses/updateExpense";
 import { handleApiErrors } from "../../../utils/errorUtils";
 import { buttonStyles } from "../../../constants/stylesConstants";
-import { TO } from "../../../constants/navigationConstants";
+import { TO } from "../../../constants/clientRouteLinks.js";
 
 import ExpenseDescriptionInput from "../ExpenseDescriptionInput/ExpenseDescriptionInput";
 import ExpenseAmountInput from "../ExpenseAmountInput/ExpenseAmountInput";

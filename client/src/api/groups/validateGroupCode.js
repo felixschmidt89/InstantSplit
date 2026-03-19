@@ -1,7 +1,7 @@
 import apiClient from "../axiosInstance.js";
 
-import { API_ROUTES } from "../../../../shared/constants/api/apiRoutesConstants.js";
-import { LOG_LEVELS } from "../../../../shared/constants/system/loggerConstants.js";
+import API_ROUTES from "../../../../shared/constants/api/apiRoutesConstants.js";
+import LOG_LEVELS from "../../../../shared/constants/system/loggerConstants.js";
 import debugLog from "../../../../shared/utils/debug/debugLog.js";
 
 const { LOG_ERROR } = LOG_LEVELS;
@@ -11,10 +11,8 @@ const {
   VALIDATE_GROUP_EXISTENCE_LIMITED,
 } = API_ROUTES.GROUPS;
 
-export const validateGroupCode = async (
-  groupCode,
-  validationType = "continuous",
-) => {
+// TODO: Drop limited
+const validateGroupCode = async (groupCode, validationType = "continuous") => {
   try {
     const validationPath =
       validationType === "limited"
@@ -35,3 +33,5 @@ export const validateGroupCode = async (
     throw error;
   }
 };
+
+export default validateGroupCode;

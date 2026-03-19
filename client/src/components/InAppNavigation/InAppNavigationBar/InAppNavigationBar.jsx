@@ -8,13 +8,11 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 import styles from "./InAppNavigationBar.module.css";
-import { TO } from "../../../constants/navigationConstants";
+import { TO } from "../../../constants/clientRouteLinks.js";
 import debugLog from "../../../../../shared/utils/debug/debugLog.js";
 import { useGroupContext } from "../../../context/GroupContext";
-import {
-  getPreviousRouteFromLocalStorage,
-  getNestedPreviousRouteFromLocalStorage,
-} from "../../../utils/localStorage";
+import getNestedPreviousRouteFromLocalStorage from "../../../utils/localStorage/getNestedPreviousRouteFromLocalStorage.js";
+import getPreviousRouteFromLocalStorage from "../../../utils/localStorage/getPreviousRouteFromLocalStorage.js";
 import InstantSplitLogo from "../../InstantSplitLogo/InstantSplitLogo";
 
 const { INSTANT_SPLIT } = TO;

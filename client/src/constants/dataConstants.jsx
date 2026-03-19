@@ -1,24 +1,25 @@
 /**
  * Balance threshold for financial calculations.
- * If the absolute value of a balance is less than or equal to this threshold (0.01), it is considered as effectively zero for practical purposes.
- *
- * @constant
- * @type {number}
+ * If the absolute value of a balance is less than or equal to this threshold (0.01),
+ * it is considered as effectively zero for practical purposes.
  */
-export const BALANCE_THRESHOLD = 0.01;
+const BALANCE_THRESHOLD = 0.01;
 
 /**
- * Number of days without any group activity prior to purging all related group data from db
- *
- * @constant
- * @type {number}
+ * Number of days without any group activity prior to purging
+ * all related group data from db.
  */
-export const INACTIVE_DAYS = 90;
+const INACTIVE_DAYS = 90;
 
 /**
  * The minimum valid amount for amount inputs.
- *
- * @constant
- * @type {number}
  */
-export const MINIMUM_VALID_AMOUNT = 0.01;
+const MINIMUM_VALID_AMOUNT = 0.01;
+
+const BUSINESS_RULES = {
+  BALANCE_THRESHOLD,
+  INACTIVE_DAYS,
+  MINIMUM_VALID_AMOUNT,
+};
+
+export default BUSINESS_RULES;

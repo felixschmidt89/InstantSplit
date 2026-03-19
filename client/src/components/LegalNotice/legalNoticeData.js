@@ -1,4 +1,4 @@
-export const authorDetails = {
+const authorDetails = {
   name: "Felix Schmidt",
   address: "Paul-Grasse-Straße 2, 10409 Berlin",
   representative: "Felix Schmidt",
@@ -6,7 +6,7 @@ export const authorDetails = {
   email: "felix.schmidt@protonmail.com",
 };
 
-export const legalNoticeSections = [
+const legalNoticeSections = [
   {
     id: "content-liability",
     title: "Haftung für Inhalte",
@@ -51,3 +51,10 @@ export const legalNoticeSections = [
     },
   },
 ];
+
+const LEGAL_NOTICE = {
+  AUTHOR: authorDetails,
+  SECTIONS: legalNoticeSections,
+};
+
+export default LEGAL_NOTICE;

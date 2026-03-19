@@ -1,16 +1,18 @@
-// TODO: move to shared constants if needed elsewhere
+// TODO: Move where it fits better
 
 /**
  * Constant representing the current year.
- * @type {number}
  */
-export const currentYear = new Date().getFullYear();
-
-// TODO: Delete when used in application, Date.now() is safer
-export const currentTimeStamp = Date.now();
+const CURRENT_YEAR = new Date().getFullYear();
 
 /**
  * Constant representing 24h in milliseconds.
- * @type {number}
  */
-export const twentyFourHours = 24 * 60 * 60 * 1000;
+const TWENTY_FOUR_HOURS_MS = 24 * 60 * 60 * 1000;
+
+const TIME = {
+  CURRENT_YEAR,
+  TWENTY_FOUR_HOURS_MS,
+};
+
+export default TIME;

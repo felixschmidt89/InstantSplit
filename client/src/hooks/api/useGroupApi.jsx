@@ -1,8 +1,8 @@
 import { useCallback } from "react";
-import { useApi } from "./useApi";
-import { useGroupContext } from "../../context/GroupContext";
+import useApi from "./useApi.js";
+import useGroupContext from "../../context/GroupContext.js";
 
-export const useGroupApi = (apiService) => {
+const useGroupApi = (apiService) => {
   const { activeGroupCode } = useGroupContext();
 
   const { trigger: baseTrigger, ...apiState } = useApi(apiService);
@@ -16,3 +16,5 @@ export const useGroupApi = (apiService) => {
 
   return { ...apiState, trigger };
 };
+
+export default useGroupApi;

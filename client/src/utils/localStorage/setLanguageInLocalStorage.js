@@ -1,5 +1,6 @@
 import { LANGUAGES } from "../../../../shared/constants/system/languageConstants.js";
-import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants.js";
+import LOCAL_STORAGE_KEYS from "../../constants/localStorageConstants.js";
+
 import setLocalStorageKey from "./setLocalStorageKey.js";
 
 const setLanguageInLocalStorage = (language) => {

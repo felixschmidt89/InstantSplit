@@ -5,12 +5,10 @@ import { useNavigate } from "react-router-dom";
 
 import TermsAndConditionsSection from "../../Home/TermsAndConditionsSection/TermsAndConditionsSection";
 import { buttonStyles } from "../../../constants/stylesConstants";
-import { TO } from "../../../constants/navigationConstants";
-import {
-  isGroupCodeInLocalStorageStoredGroupCodes,
-  setActiveGroupCodeInLocalStorage,
-  storeGroupCodeInLocalStorage,
-} from "../../../utils/localStorage";
+import { TO } from "../../../constants/clientRouteLinks.js";
+import isGroupCodeInLocalStorageStoredGroupCodes from "../../../utils/localStorage/isGroupCodeInLocalStorageStoredGroupCodes.js";
+import setActiveGroupCodeInLocalStorage from "../../../utils/localStorage/setActiveGroupCodeInLocalStorage.js";
+import storeGroupCodeInLocalStorage from "../../../utils/localStorage/storeGroupCodeInLocalStorage.js";
 import { useGroupContext } from "../../../context/GroupContext";
 
 import styles from "./AcceptGroupInvitation.module.css";

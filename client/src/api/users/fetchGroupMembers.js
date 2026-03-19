@@ -1,7 +1,7 @@
 import apiClient from "../axiosInstance.js";
-import { API_ROUTES } from "../../../../shared/constants/api/apiRoutesConstants.js";
+import API_ROUTES from "../../../../shared/constants/api/apiRoutesConstants.js";
 
-const { BASE } = API_ROUTES.USERS;
+const { BASE } = API_ROUTES.MEMBERS;
 
 const fetchGroupMembers = async (groupId) => {
   const { data } = await apiClient.get(`/${BASE}/${groupId}`);

@@ -1,4 +1,5 @@
-import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants.js";
+import LOCAL_STORAGE_KEYS from "../../constants/localStorageConstants.js";
+
 import deleteLocalStorageKey from "./deleteLocalStorageKey.js";
 import deleteStoredViewFromLocalStorage from "./deleteStoredViewFromLocalStorage.js";
 

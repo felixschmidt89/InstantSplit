@@ -1,5 +1,3 @@
-// React and Third-Party Libraries
-import React from "react";
 import { TbShare2 } from "react-icons/tb";
 import { MdOutlineAddBox } from "react-icons/md";
 import { useTranslation } from "react-i18next";

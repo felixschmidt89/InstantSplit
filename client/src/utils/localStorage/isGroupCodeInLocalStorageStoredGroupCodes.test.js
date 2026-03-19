@@ -1,4 +1,4 @@
-import { LOG_LEVELS } from "../../../../shared/constants/system/loggerConstants.js";
+import LOG_LEVELS from "../../../../shared/constants/system/loggerConstants.js";
 import { MOCK_LOCALSTORAGE_VALUES } from "../../../../shared/constants/test/testConstants.js";
 import debugLog from "../../../../shared/utils/debug/debugLog.js";
 import getStoredGroupCodesFromLocalStorage from "./getStoredGroupCodesFromLocalStorage.js";
