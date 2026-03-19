@@ -1,6 +1,6 @@
-import CONFIG_CONFIG from "../../constants/system/configConstants.js";
+import SYSTEM from "../../constants/system/systemConstants.js";
 
-const { SORT_ORDER } = CONFIG_CONFIG;
+const { SORT_ORDER } = SYSTEM;
 const { ASCENDING, DESCENDING } = SORT_ORDER;
 
 /**

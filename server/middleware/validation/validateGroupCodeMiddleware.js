@@ -1,8 +1,9 @@
 import { StatusCodes } from 'http-status-codes';
-import { MISSING_GROUPCODE_ERROR } from '../../../shared/constants/error/errorConstants.js/index.js';
+import ERROR_CONFIG from '../../../shared/constants/error/errorConstants.js';
 import ApiError from '../../utils/errors/ApiError.js';
 
 const { BAD_REQUEST } = StatusCodes;
+const { MISSING_GROUPCODE_ERROR } = ERROR_CONFIG;
 
 const validateGroupCodeMiddleware = (req, res, next) => {
   const { groupCode } = req;
