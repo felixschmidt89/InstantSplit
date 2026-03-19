@@ -9,7 +9,7 @@ import NotEnoughGroupMembers from "../../NotEnoughGroupMembers/NotEnoughGroupMem
 import ErrorModal from "../../../ErrorModal/ErrorModal";
 import useErrorModalVisibility from "../../../../hooks/useErrorModalVisibility.jsx";
 import { LOG_LEVELS } from "../../../../../../shared/constants/system/loggerConstants.js";
-import { debugLog } from "../../../../../../shared/utils/debug/debugLog.js";
+import debugLog from "../../../../../../shared/utils/debug/debugLog.js";
 
 const { DEBUG } = LOG_LEVELS;
 

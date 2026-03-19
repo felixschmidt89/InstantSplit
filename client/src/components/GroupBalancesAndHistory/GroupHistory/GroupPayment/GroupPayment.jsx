@@ -5,7 +5,7 @@ import Emoji from "../../../Emoji/Emoji.js";
 import RenderReactIcon from "../../../RenderReactIcon/RenderReactIcon.jsx";
 import { useGroupContext } from "../../../../context/GroupContext.jsx";
 import { LOG_LEVELS } from "../../../../../../shared/constants/system/loggerConstants.js";
-import { debugLog } from "../../../../../../shared/utils/debug/debugLog.js";
+import debugLog from "../../../../../../shared/utils/debug/debugLog.js";
 import emojiConstants from "../../../../constants/emojiConstants.jsx";
 
 import styles from "./GroupPayment.module.css";

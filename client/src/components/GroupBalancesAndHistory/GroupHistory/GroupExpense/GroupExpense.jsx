@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useGroupContext } from "../../../../context/GroupContext.jsx";
 import Emoji from "../../../Emoji/Emoji";
 import { LOG_LEVELS } from "../../../../../../shared/constants/system/loggerConstants.js";
-import { debugLog } from "../../../../../../shared/utils/debug/debugLog.js";
+import debugLog from "../../../../../../shared/utils/debug/debugLog.js";
 import emojiConstants from "../../../../constants/emojiConstants.jsx";
 
 import styles from "./GroupExpense.module.css";
