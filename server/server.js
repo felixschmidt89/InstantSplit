@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import cron from 'node-cron';
 
-import app from './app.js';
+import app from './expressApp.js';
 import purgeInactiveGroups from './scripts/dataPurge/purgeInactiveGroups.js';
 import IS_DEVELOPMENT from '../shared/constants/system/environmentConstants.js';
 // TODO: Make this a script

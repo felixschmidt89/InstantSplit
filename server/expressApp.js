@@ -1,28 +1,29 @@
-import express from 'express';
-import cors from 'cors';
 import compression from 'compression';
+import cors from 'cors';
+import express from 'express';
 
+import API_ROUTES from '../shared/constants/api/apiRoutesConstants.js';
 import serverConfig from './config/serverConfig.js';
 import extractGroupCodeMiddleware from './middleware/context/extractGroupCodeMiddleware.js';
 import apiErrorMiddleware from './middleware/errors/apiErrorMiddleware.js';
-import groupRouter from './routes/groupRouter.js';
-import memberRouter from './routes/memberRouter.js';
-import expenseRouter from './routes/expenseRouter.js';
-import paymentRouter from './routes/paymentRouter.js';
-import healthRouter from './routes/healthRouter.js';
-import fileRouter from './routes/fileRouter.js';
 import captchaRouter from './routes/captchaRouter.js';
+import expenseRouter from './routes/expenseRouter.js';
+import fileRouter from './routes/fileRouter.js';
+import groupRouter from './routes/groupRouter.js';
+import healthRouter from './routes/healthRouter.js';
+import memberRouter from './routes/memberRouter.js';
+import paymentRouter from './routes/paymentRouter.js';
 import settlementRouter from './routes/settlementRouter.js';
-import API_ROUTES from '../shared/constants/api/apiRoutesConstants.js/index.js';
 
 const {
-  GROUPS,
-  MEMBERS,
-  EXPENSES,
-  PAYMENTS,
-  HEALTH,
-  FILES,
   CAPTCHAS,
+  EXPENSES,
+  // TODO: DELETE FILES globaly
+  FILES,
+  GROUPS,
+  HEALTH,
+  MEMBERS,
+  PAYMENTS,
   SETTLEMENTS,
 } = API_ROUTES;
 
