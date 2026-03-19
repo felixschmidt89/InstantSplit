@@ -6,14 +6,11 @@ import changeMemberNameController from '../controllers/member/changeMemberNameCo
 import deleteMemberController from '../controllers/member/deleteMemberController.js';
 import getMemberInfoController from '../controllers/member/getMemberInfoController.js';
 import getMemberTransactionsController from '../controllers/member/getMemberTransactionsController.js';
-import API_ROUTES from '../../shared/constants/api/apiRoutesConstants.js/index.js';
+import API_ROUTES from '../../shared/constants/api/apiRoutesConstants.js';
 
 const router = express.Router();
 const { MEMBERS, URL_PARAMS } = API_ROUTES;
 
-/**
- * Member Management Routes
- */
 router.post('/', createMemberController);
 
 router.get(`/:${URL_PARAMS.MEMBER_ID}`, getMemberInfoController);

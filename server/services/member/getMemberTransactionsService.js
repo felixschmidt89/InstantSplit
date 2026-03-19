@@ -1,4 +1,4 @@
-import { LOG_LEVELS } from '../../../shared/constants/system/loggerConstants.js';
+import LOG_LEVELS from '../../../shared/constants/system/loggerConstants.js';
 import { SORT_ORDER } from '../../../shared/constants/system/systemConstants.js';
 import { TRANSACTION_TYPES } from '../../../shared/constants/domain/transactionConstants.js';
 import { COMMON_FIELDS } from '../../../shared/constants/models/commonConstants.js';

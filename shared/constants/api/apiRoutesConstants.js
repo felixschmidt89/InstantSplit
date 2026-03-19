@@ -40,11 +40,6 @@ const API_ROUTES = {
   HEALTH: {
     BASE: "health",
   },
-
-  FILES: {
-    BASE: "files",
-  },
-
   CAPTCHAS: {
     BASE: "captchas",
   },

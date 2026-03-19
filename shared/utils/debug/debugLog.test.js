@@ -1,10 +1,9 @@
-import { LOG_LEVELS, LOG_SOURCES } from "../../constants/system/loggerConstants.js";
-import {
-  MOCK_LOGS,
-  MOCK_LOG_METHODS,
-  MOCK_DATA,
-} from "../../constants/test/testConstants.js";
+import LOG_CONFIG from "../../constants/system/loggerConstants.js";
+import TEST_CONFIG from "../../constants/test/testConstants.js";
 import debugLog from "./debugLog.js";
+
+const { LOG_LEVELS, LOG_SOURCES } = LOG_CONFIG;
+const { MOCK_LOGS, MOCK_LOG_METHODS, MOCK_DATA } = TEST_CONFIG;
 
 describe("debugLog", () => {
   const originalEnv = process.env.NODE_ENV;
@@ -71,3 +70,4 @@ describe("debugLog", () => {
     expect(logSpy).not.toHaveBeenCalled();
     expect(errorSpy).not.toHaveBeenCalled();
   });
+});

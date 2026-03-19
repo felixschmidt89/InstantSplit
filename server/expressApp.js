@@ -8,24 +8,15 @@ import extractGroupCodeMiddleware from './middleware/context/extractGroupCodeMid
 import apiErrorMiddleware from './middleware/errors/apiErrorMiddleware.js';
 import captchaRouter from './routes/captchaRouter.js';
 import expenseRouter from './routes/expenseRouter.js';
-import fileRouter from './routes/fileRouter.js';
+
 import groupRouter from './routes/groupRouter.js';
 import healthRouter from './routes/healthRouter.js';
 import memberRouter from './routes/memberRouter.js';
 import paymentRouter from './routes/paymentRouter.js';
 import settlementRouter from './routes/settlementRouter.js';
 
-const {
-  CAPTCHAS,
-  EXPENSES,
-  // TODO: DELETE FILES globaly
-  FILES,
-  GROUPS,
-  HEALTH,
-  MEMBERS,
-  PAYMENTS,
-  SETTLEMENTS,
-} = API_ROUTES;
+const { CAPTCHAS, EXPENSES, GROUPS, HEALTH, MEMBERS, PAYMENTS, SETTLEMENTS } =
+  API_ROUTES;
 
 const { API_BASEURL, TRUST_PROXY } = serverConfig;
 
@@ -46,7 +37,6 @@ app.use(`${API_BASEURL}/${MEMBERS.BASE}`, memberRouter);
 app.use(`${API_BASEURL}/${EXPENSES.BASE}`, expenseRouter);
 app.use(`${API_BASEURL}/${PAYMENTS.BASE}`, paymentRouter);
 app.use(`${API_BASEURL}/${HEALTH.BASE}`, healthRouter);
-app.use(`${API_BASEURL}/${FILES.BASE}`, fileRouter);
 app.use(`${API_BASEURL}/${CAPTCHAS.BASE}`, captchaRouter);
 app.use(`${API_BASEURL}/${SETTLEMENTS.BASE}`, settlementRouter);
 

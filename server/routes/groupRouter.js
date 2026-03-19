@@ -7,7 +7,6 @@ import createGroupController from '../controllers/group/createGroupController.js
 import changeGroupNameController from '../controllers/group/changeGroupNameController.js';
 import getGroupInfoController from '../controllers/group/getGroupInfoController.js';
 import {
-  listAllGroups,
   listGroupNamesByStoredGroupCodes,
   validateGroupExistence,
   changeGroupCurrency,
@@ -31,7 +30,7 @@ import {
 } from '../middleware/laxLimitRequestsPerIpMiddleware.js';
 
 // Constants & Config
-import { API_ROUTES } from '../../shared/constants/api/apiRoutesConstants.js/index.js';
+import API_ROUTES from '../../shared/constants/api/apiRoutesConstants.js';
 import { CONFIG } from '../config/serverConfig.js';
 
 const router = express.Router();

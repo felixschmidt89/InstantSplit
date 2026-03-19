@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import { useGroupContext } from "../../../../context/GroupContext.jsx";
 import Emoji from "../../../Emoji/Emoji.jsx";
-import { LOG_LEVELS } from "../../../../../../shared/constants/system/loggerConstants.js";
+import LOG_LEVELS from "../../../../../../shared/constants/system/loggerConstants.js";
 import debugLog from "../../../../../../shared/utils/debug/debugLog.js";
 import emojiConstants from "../../../../constants/emojiConstants.jsx";
 

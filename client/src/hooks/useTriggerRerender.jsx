@@ -3,7 +3,7 @@ import { useState } from "react";
 import { getActiveGroupCode } from "../utils/localStorage";
 
 import debugLog from "../../../shared/utils/debug/debugLog.js";
-import { LOG_LEVELS } from "../../../shared/constants/system/loggerConstants.js";
+import LOG_LEVELS from "../../../shared/constants/system/loggerConstants.js";
 
 const useTriggerRerender = () => {
   const groupCode = getActiveGroupCode();

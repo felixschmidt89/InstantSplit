@@ -133,8 +133,8 @@ InstantSpilt
 │   │   │   │   ├── EditPenButton.jsx
 │   │   │   │   └── EditPenButton.module.css
 │   │   │   ├── Emoji
-│   │   │   │   ├── Emoji.module.css
-│   │   │   │   └── Emoji.tsx
+│   │   │   │   ├── Emoji.jsx
+│   │   │   │   └── Emoji.module.css
 │   │   │   ├── ErrorDisplay
 │   │   │   │   ├── ErrorDisplay.jsx
 │   │   │   │   └── ErrorDisplay.module.css
@@ -407,6 +407,7 @@ InstantSpilt
 │   │   │   ├── apiConstants.js
 │   │   │   ├── browserConstants.js
 │   │   │   ├── clientDynamicRoutesConstants.js
+│   │   │   ├── clientRouteLinks.js
 │   │   │   ├── clientStaticRoutesConstants.js
 │   │   │   ├── configConstants.js
 │   │   │   ├── dataConstants.jsx
@@ -415,7 +416,6 @@ InstantSpilt
 │   │   │   ├── fontConstants.js
 │   │   │   ├── linkConstants.js
 │   │   │   ├── localStorageConstants.js
-│   │   │   ├── navigationConstants.js
 │   │   │   ├── stylesConstants.jsx
 │   │   │   └── viewConstants.js
 │   │   ├── contents
@@ -425,7 +425,6 @@ InstantSpilt
 │   │   │   └── GroupContext.jsx
 │   │   ├── hooks
 │   │   │   ├── api
-│   │   │   │   ├── index.js
 │   │   │   │   ├── useApi.jsx
 │   │   │   │   └── useGroupApi.jsx
 │   │   │   ├── device
@@ -559,6 +558,7 @@ InstantSpilt
 │   │   │   │   ├── deleteGroupCodeFromLocalStorage.js
 │   │   │   │   ├── deleteGroupCodeFromLocalStorage.test.js
 │   │   │   │   ├── deleteLocalStorageKey.js
+│   │   │   │   ├── deleteLocalStorageKey.test.js
 │   │   │   │   ├── deleteNestedPreviousRoute.test.js
 │   │   │   │   ├── deleteNestedPreviousRouteFromLocalStorage.js
 │   │   │   │   ├── deleteNestedPreviousRouteFromLocalStorage.test.js
@@ -584,7 +584,6 @@ InstantSpilt
 │   │   │   │   ├── getStoredGroupCodesFromLocalStorage.test.js
 │   │   │   │   ├── getStoredViewFromLocalStorage.js
 │   │   │   │   ├── getStoredViewFromLocalStorage.test.js
-│   │   │   │   ├── index.js
 │   │   │   │   ├── isGroupCodeInLocalStorageStoredGroupCodes.js
 │   │   │   │   ├── isGroupCodeInLocalStorageStoredGroupCodes.test.js
 │   │   │   │   ├── setActiveGroupCodeInLocalStorage.js
@@ -631,7 +630,6 @@ InstantSpilt
 ├── package-lock.json
 ├── package.json
 ├── server
-│   ├── app.js
 │   ├── config
 │   │   ├── cloudinaryConfig.js
 │   │   ├── env
@@ -659,6 +657,7 @@ InstantSpilt
 │   │   ├── paymentController.js
 │   │   ├── settlementController.js
 │   │   └── userController.js
+│   ├── expressApp.js
 │   ├── jsconfig.json
 │   ├── middleware
 │   │   ├── common

@@ -1,5 +1,6 @@
-import { SORT_ORDER } from "../../constants/system/configConstants.js";
+import CONFIG_CONFIG from "../../constants/system/configConstants.js";
 
+const { SORT_ORDER } = CONFIG_CONFIG;
 const { ASCENDING, DESCENDING } = SORT_ORDER;
 
 /**
@@ -11,7 +12,9 @@ const { ASCENDING, DESCENDING } = SORT_ORDER;
  */
 const sortByDate = (array, dateKey, order) => {
   const isAllowedOrder = Boolean(order === ASCENDING || order === DESCENDING);
-  const hasValidInput = Boolean(Array.isArray(array) && dateKey && isAllowedOrder);
+  const hasValidInput = Boolean(
+    Array.isArray(array) && dateKey && isAllowedOrder,
+  );
 
   if (!hasValidInput) {
     return array || [];

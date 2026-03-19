@@ -8,7 +8,7 @@ import Spinner from "../../../Spinner/Spinner";
 import NotEnoughGroupMembers from "../../NotEnoughGroupMembers/NotEnoughGroupMembers";
 import ErrorModal from "../../../ErrorModal/ErrorModal";
 import useErrorModalVisibility from "../../../../hooks/useErrorModalVisibility.jsx";
-import { LOG_LEVELS } from "../../../../../../shared/constants/system/loggerConstants.js";
+import LOG_LEVELS from "../../../../../../shared/constants/system/loggerConstants.js";
 import debugLog from "../../../../../../shared/utils/debug/debugLog.js";
 
 const { DEBUG } = LOG_LEVELS;

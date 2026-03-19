@@ -1,7 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 
-import { DEFAULT_ERROR_MESSAGE } from '../../constants/errorConstants.js';
-import { LOG_LEVELS } from '../../../shared/constants/system/loggerConstants.js';
+import { DEFAULT_ERROR_MESSAGE } from '../../../shared/constants/error/errorConstants.js/index.js';
+import LOG_LEVELS from '../../../shared/constants/system/loggerConstants.js';
 import debugLog from '../../../shared/utils/debug/debugLog.js';
 
 const { INTERNAL_SERVER_ERROR } = StatusCodes;

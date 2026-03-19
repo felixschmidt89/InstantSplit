@@ -7,14 +7,12 @@ import {
   ENV_FILES,
   BOOLEAN_STRINGS,
   DEFAULTS,
-} from '../constants/configConstants.js';
+} from '../constants/serverConfigConstants.js';
 
 const __filename = fileURLToPath(import.meta.url);
-
 const __dirname = path.dirname(__filename);
 
 const nodeEnv = process.env.NODE_ENV || ENV_MODES.DEVELOPMENT;
-
 const envFile = ENV_FILES[nodeEnv] || ENV_FILES[ENV_MODES.DEVELOPMENT];
 
 dotenv.config({ path: path.resolve(__dirname, 'env', envFile) });

@@ -4,7 +4,7 @@ import getNestedPreviousRouteFromLocalStorage from "../utils/localStorage/getNes
 import getPreviousRouteFromLocalStorage from "../utils/localStorage/getPreviousRouteFromLocalStorage.js";
 import { CLIENT_STATIC_ROUTES } from "../constants/clientStaticRoutesConstants.js";
 import debugLog from "../../../shared/utils/debug/debugLog.js";
-import { LOG_LEVELS } from "../../../shared/constants/system/loggerConstants.js";
+import LOG_LEVELS from "../../../shared/constants/system/loggerConstants.js";
 
 const {
   EXPENSE_DETAILS,

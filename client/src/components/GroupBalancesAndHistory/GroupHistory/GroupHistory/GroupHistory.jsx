@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useGroupContext } from "../../../../context/GroupContext.jsx";
 import { fetchGroupTransactions } from "../../../../api/groups/fetchGroupTransactions.js";
 import debugLog from "../../../../../../shared/utils/debug/debugLog.js";
-import { LOG_LEVELS } from "../../../../../../shared/constants/system/loggerConstants.js";
+import LOG_LEVELS from "../../../../../../shared/constants/system/loggerConstants.js";
 import { TRANSACTION_TYPES } from "../../../../../../shared/constants/domain/transactionConstants.js";
 import useErrorModalVisibility from "../../../../hooks/useErrorModalVisibility.jsx";
 import { usePolling } from "../../../../hooks/usePolling.jsx";

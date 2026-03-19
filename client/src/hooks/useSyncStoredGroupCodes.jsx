@@ -4,7 +4,7 @@ import deleteGroupCodeFromLocalStorage from "../utils/localStorage/deleteGroupCo
 import getStoredGroupCodesFromLocalStorage from "../utils/localStorage/getStoredGroupCodesFromLocalStorage.js";
 import { API_ENDPOINTS } from "../../../shared/constants/apiEndpointsConstants";
 import debugLog from "../../../shared/utils/debug/debugLog.js";
-import { LOG_LEVELS } from "../../../shared/constants/system/loggerConstants.js";
+import LOG_LEVELS from "../../../shared/constants/system/loggerConstants.js";
 import { useGroupContext } from "../context/GroupContext";
 
 const { ERROR } = LOG_LEVELS;

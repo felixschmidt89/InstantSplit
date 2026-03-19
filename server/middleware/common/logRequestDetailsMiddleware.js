@@ -1,5 +1,5 @@
 import { API_HEADERS } from '../../../shared/constants/api/apiHeaderConstants.js';
-import { LOG_LEVELS } from '../../../shared/constants/system/loggerConstants.js';
+import LOG_LEVELS from '../../../shared/constants/system/loggerConstants.js';
 import debugLog from '../../../shared/utils/debug/debugLog.js';
 
 const { GROUPCODE } = API_HEADERS;

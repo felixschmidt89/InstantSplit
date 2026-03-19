@@ -1,40 +1,49 @@
-import { INACTIVE_DAYS } from '../../constants/dataConstants.js';
+import SYSTEM from '../../../shared/constants/system/systemConstants.js';
 import Expense from '../../models/Expense.js';
 import Group from '../../models/Group.js';
 import Payment from '../../models/Payment.js';
-import User from '../../models/Member.js';
+import Member from '../../models/Member.js';
+
+const { GROUP_INACTIVITY_THRESHOLD_DAYS } = SYSTEM;
 
 const purgeInactiveGroups = async () => {
-  // Set cutoffDate
-  const cutoffDate = new Date();
-  cutoffDate.setDate(cutoffDate.getDate() - INACTIVE_DAYS);
+  const expirationDate = new Date();
+  expirationDate.setDate(
+    expirationDate.getDate() - GROUP_INACTIVITY_THRESHOLD_DAYS,
+  );
 
-  const excludedGroupCodes = ['UO99CWXD', '7DCAG3YZ'];
+  const excludedGroupCodes = [];
 
   try {
-    console.log('Find groups to purge');
-    const groupsToPurge = await Group.find({
-      groupCode: { $nin: excludedGroupCodes }, // exclude specified groups
-      lastActive: { $lt: cutoffDate },
-      inactiveDataPurge: true, // exclude groups with deactivated auto purge
-    });
+    const expiredGroups = await Group.find({
+      groupCode: { $nin: excludedGroupCodes },
+      lastActive: { $lt: expirationDate },
+      inactiveDataPurge: true,
+    }).select('groupCode');
 
-    let purgedCount = 0;
-
-    for (const group of groupsToPurge) {
-      // Delete associated Payment, User, and Expense documents
-      await Payment.deleteMany({ groupCode: group.groupCode });
-      await User.deleteMany({ groupCode: group.groupCode });
-      await Expense.deleteMany({ groupCode: group.groupCode });
-
-      // Delete the Group document itself
-      await Group.deleteOne({ _id: group._id });
-      purgedCount += 1;
+    if (expiredGroups.length === 0) {
+      console.log('No inactive groups found to purge.');
+      return;
     }
 
-    console.log(`Purging complete. ${purgedCount} groups purged.`);
+    const expiredGroupCodes = expiredGroups.map((group) => group.groupCode);
+
+    console.log(
+      `Purge started. Deleting data for ${expiredGroupCodes.length} expired groups...`,
+    );
+
+    await Promise.all([
+      Payment.deleteMany({ groupCode: { $in: expiredGroupCodes } }),
+      Member.deleteMany({ groupCode: { $in: expiredGroupCodes } }),
+      Expense.deleteMany({ groupCode: { $in: expiredGroupCodes } }),
+      Group.deleteMany({ groupCode: { $in: expiredGroupCodes } }),
+    ]);
+
+    console.log(
+      `Purging complete. ${expiredGroupCodes.length} groups and their associated data removed.`,
+    );
   } catch (error) {
-    console.error('Error purging inactive groups:', error);
+    console.error('Error during bulk purging of expired groups:', error);
   }
 };
 
