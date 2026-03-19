@@ -1,15 +1,13 @@
 import { StatusCodes } from 'http-status-codes';
 import Group from '../models/Group.js';
-import Expense from '../models/Expense.js';
-import Payment from '../models/Payment.js';
 import {
+  // TODO: Drop legacy utils
   devLog,
   errorLog,
   sendInternalError,
   sendValidationError,
 } from '../utils/errorUtils.js';
-import { generateUniqueGroupCode } from '../utils/groupCodeUtils.js';
-import { LOG_LEVELS } from '../../shared/constants/system/loggerConstants.js/index.js';
+import LOG_LEVELS from '../../shared/constants/system/loggerConstants.js';
 import debugLog from '../../shared/utils/debug/debugLog.js';
 
 export const changeGroupDataPurgeSetting = async (req, res) => {

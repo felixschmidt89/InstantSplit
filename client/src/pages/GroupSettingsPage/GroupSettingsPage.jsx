@@ -5,7 +5,7 @@ import useSettingsEmoji from "../../hooks/useSettingsEmoji";
 import useFetchGroupData from "../../hooks/useFetchGroupData";
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-import Emoji from "../../components/Emoji/Emoji";
+import Emoji from "../../components/Emoji/Emoji.jsx";
 import Spinner from "../../components/Spinner/Spinner";
 import ChangeGroupName from "../../components/GroupSettings/ChangeGroupName/ChangeGroupName";
 import ChangeGroupCurrency from "../../components/GroupSettings/ChangeGroupCurrency/ChangeGroupCurrency";

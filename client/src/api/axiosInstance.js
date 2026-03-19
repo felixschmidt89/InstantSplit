@@ -1,8 +1,8 @@
 import axios from "axios";
 
-import { CONFIG } from "../config/index.js";
+import CONFIG from "../config/index.js";
 
-import { LOG_LEVELS } from "../../../shared/constants/system/loggerConstants.js";
+import LOG_LEVELS from "../../../shared/constants/system/loggerConstants.js";
 import debugLog from "../../../shared/utils/debug/debugLog.js";
 import getActiveGroupCodeFromLocalStorage from "../utils/localStorage/getActiveGroupCodeFromLocalStorage.js";
 import {

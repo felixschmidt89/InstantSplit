@@ -1,5 +1,3 @@
-// React and Third-Party Libraries
-import React from "react";
 import { useTranslation } from "react-i18next";
 
 // Constants and Utils
@@ -7,7 +5,7 @@ import emojiConstants from "../../../constants/emojiConstants";
 
 // Components
 import DeleteResource from "../../DeleteResource/DeleteResource";
-import Emoji from "../../Emoji/Emoji";
+import Emoji from "../../Emoji/Emoji.jsx";
 import RenderDataAttributeWithAriaLabel from "../../RenderDataAttributeWithAriaLabel/RenderDataAttributeWithAriaLabel";
 import LinkToPage from "../../InAppNavigation/LinkToPage/LinkToPage";
 

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import styles from "./Footer.module.css";
 import LanguageToggle from "../LanguageToggle/LanguageToggle";
-import { CLIENT_STATIC_ROUTES } from "../../constants/clientStaticRoutesConstants.js";
+import CLIENT_STATIC_ROUTES from "../../constants/clientStaticRoutesConstants.js";
 
 const { LEGAL_NOTICE, TERMS_AND_CONDITIONS } = CLIENT_STATIC_ROUTES;
 

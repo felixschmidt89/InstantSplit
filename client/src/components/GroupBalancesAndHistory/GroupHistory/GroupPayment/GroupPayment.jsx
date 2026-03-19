@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { IoArrowForwardOutline } from "react-icons/io5";
 
-import Emoji from "../../../Emoji/Emoji.js";
+import Emoji from "../../../Emoji/Emoji.jsx";
 import RenderReactIcon from "../../../RenderReactIcon/RenderReactIcon.jsx";
 import { useGroupContext } from "../../../../context/GroupContext.jsx";
 import { LOG_LEVELS } from "../../../../../../shared/constants/system/loggerConstants.js";

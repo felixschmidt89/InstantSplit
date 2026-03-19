@@ -8,7 +8,7 @@ import {
   getExpensesTotalByGroupCode,
 } from '../controllers/expenseController.js';
 import { expenseValidator } from '../validators/expenseValidator.js';
-import { API_ROUTES } from '../../shared/constants/api/apiRoutesConstants.js/index.js';
+import API_ROUTES from '../../shared/constants/api/apiRoutesConstants.js';
 
 const router = express.Router();
 

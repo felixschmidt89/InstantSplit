@@ -1,12 +1,10 @@
-// React and Third-Party Libraries
-import React from "react";
 import { Link } from "react-router-dom";
 
 // Constants and Utils
 import emojiConstants from "../../../../constants/emojiConstants";
 
 // Components
-import Emoji from "../../../Emoji/Emoji";
+import Emoji from "../../../Emoji/Emoji.jsx";
 
 // Styles
 import styles from "./RenderGroupMemberBalance.module.css";

@@ -1,4 +1,3 @@
-import React from "react";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -9,7 +8,7 @@ import Spinner from "../../components/Spinner/Spinner";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import RenderPaymentDetails from "../../components/Payments/RenderPaymentDetails/RenderPaymentDetails";
 import RenderResourceCreated from "../../components/RenderResourceCreated/RenderResourceCreated";
-import Emoji from "../../components/Emoji/Emoji";
+import Emoji from "../../components/Emoji/Emoji.jsx";
 import RouteButton from "../../components/InAppNavigation/RouteButton/RouteButton";
 import DeleteResource from "../../components/DeleteResource/DeleteResource";
 

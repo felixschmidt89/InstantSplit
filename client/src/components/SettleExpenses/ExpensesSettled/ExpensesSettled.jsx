@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import emojiConstants from "../../../constants/emojiConstants";
 
 // Components
-import Emoji from "../../Emoji/Emoji";
+import Emoji from "../../Emoji/Emoji.jsx";
 
 // Styles
 import styles from "./ExpensesSettled.module.css";

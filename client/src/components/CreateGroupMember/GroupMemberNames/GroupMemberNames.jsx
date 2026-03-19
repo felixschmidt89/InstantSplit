@@ -6,12 +6,12 @@ import { useGroupContext } from "../../../context/GroupContext.jsx";
 import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility.jsx";
 import DeleteGroupMemberBin from "../DeleteGroupMemberBin/DeleteGroupMemberBin.jsx";
 import Spinner from "../../Spinner/Spinner.jsx";
-import Emoji from "../../Emoji/Emoji.jsx";
 import ErrorModal from "../../ErrorModal/ErrorModal.jsx";
 
 import styles from "./GroupMemberNames.module.css";
 import emojiConstants from "../../../constants/emojiConstants.jsx";
 import { CLIENT_LINKS } from "../../../constants/clientDynamicRoutesConstants.js";
+import Emoji from "../../Emoji/Emoji.jsx";
 
 const { MEMBER_DETAILS } = CLIENT_LINKS;
 

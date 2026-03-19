@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import emojiConstants from "../../../constants/emojiConstants";
-import Emoji from "../../Emoji/Emoji";
+import Emoji from "../../Emoji/Emoji.jsx";
 import { toggleBeneficiariesButtonStyles } from "../../../constants/stylesConstants";
 import styles from "./ExpenseBeneficiariesInput.module.css";
 

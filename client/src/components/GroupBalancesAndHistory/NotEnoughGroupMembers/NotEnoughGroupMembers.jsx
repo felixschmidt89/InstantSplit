@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 
 import styles from "./NotEnoughGroupMembers.module.css";
 import emojiConstants from "../../../constants/emojiConstants";
-import Emoji from "../../Emoji/Emoji";
+import Emoji from "../../Emoji/Emoji.jsx";
 
 const NotEnoughGroupMembers = () => {
   const { t } = useTranslation();

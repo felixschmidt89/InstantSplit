@@ -7,9 +7,9 @@ const FONT_STATE = {
   FALLBACK: "fallback",
 };
 
-const TYPOGRAPHY = {
+const FONT_CONFIG = {
   FONTS,
   STATE: FONT_STATE,
 };
 
-export default TYPOGRAPHY;
+export default FONT_CONFIG;

@@ -1,18 +1,8 @@
-import { FONT_STATE } from "../../constants/fontConstants";
-import useIsNotoEmojiFontLoaded from "../../hooks/useIsNotoEmojiFontLoaded";
+import FONT_CONFIG from "../../constants/fontConstants.js";
+import useIsNotoEmojiFontLoaded from "../../hooks/useIsNotoEmojiFontLoaded.jsx";
 import styles from "./Emoji.module.css";
 
-type EmojiProps = {
-  ariaLabel: string;
-  emoji: string;
-  scale?: number;
-  translateX?: number;
-  translateY?: number;
-
-  // TODO: Indicate unit in prop name (refactor later)
-  // translateXRem?: number;
-  // translateYRem?: number;
-};
+const { STATE } = FONT_CONFIG;
 
 const Emoji = ({
   ariaLabel,
@@ -20,7 +10,7 @@ const Emoji = ({
   scale = 1,
   translateX = 0,
   translateY = 0,
-}: EmojiProps) => {
+}) => {
   const { isLoaded, fontState } = useIsNotoEmojiFontLoaded();
 
   if (!isLoaded) return null;
@@ -33,7 +23,7 @@ const Emoji = ({
     <span
       role='img'
       aria-label={ariaLabel}
-      className={fontState === FONT_STATE.LOADED ? styles.emojiFont : ""}
+      className={fontState === STATE.LOADED ? styles.emojiFont : ""}
       style={emojiStyle}>
       {emoji}
     </span>

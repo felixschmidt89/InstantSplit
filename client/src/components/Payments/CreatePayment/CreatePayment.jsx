@@ -13,7 +13,7 @@ import { TO } from "../../../constants/clientRouteLinks";
 import PaymentAmountInput from "../PaymentAmountInput/PaymentAmountInput";
 import PaymentMakerSelect from "../PaymentMakerSelect/PaymentMakerSelect";
 import RenderReactIcon from "../../RenderReactIcon/RenderReactIcon";
-import Emoji from "../../Emoji/Emoji";
+import Emoji from "../../Emoji/Emoji.jsx";
 import emojiConstants from "../../../constants/emojiConstants";
 import PaymentRecipientSelect from "../PaymentRecipientSelect/PaymentRecipientSelect";
 import { buttonStyles } from "../../../constants/stylesConstants";

@@ -13,7 +13,7 @@ import RenderExpenseDetails from "../../components/Expenses/RenderExpenseDetails
 import RenderResourceCreated from "../../components/RenderResourceCreated/RenderResourceCreated";
 import DeleteResource from "../../components/DeleteResource/DeleteResource";
 import InAppNavigation from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-import Emoji from "../../components/Emoji/Emoji";
+import Emoji from "../../components/Emoji/Emoji.jsx";
 
 import emojiConstants from "../../constants/emojiConstants";
 import { LOG_LEVELS } from "../../../../shared/constants/system/loggerConstants";

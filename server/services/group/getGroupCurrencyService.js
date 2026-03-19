@@ -1,4 +1,4 @@
-import { LOG_LEVELS } from '../../../shared/constants/system/loggerConstants.js/index.js';
+import LOG_LEVELS from '../../../shared/constants/system/loggerConstants.js';
 import { COMMON_FIELDS } from '../../../shared/constants/models/commonConstants.js';
 import { GROUP_FIELDS } from '../../../shared/constants/models/groupConstants.js';
 import debugLog from '../../../shared/utils/debug/debugLog.js';

@@ -14,7 +14,7 @@ import debugLog from "../../../../../shared/utils/debug/debugLog.js";
 import { LOG_LEVELS } from "../../../../../shared/constants/system/loggerConstants.js";
 import emojiConstants from "../../../constants/emojiConstants.jsx";
 import ConfirmationModal from "../../ConfirmationModal/ConfirmationModal.jsx";
-import Emoji from "../../Emoji/Emoji.js";
+import Emoji from "../../Emoji/Emoji.jsx";
 
 const { INSTANT_SPLIT } = CLIENT_STATIC_ROUTES;
 const { DEBUG, ERROR } = LOG_LEVELS;

@@ -8,7 +8,7 @@ import { RESOURCE_TYPES } from "../../../../../shared/constants/domain/resourceC
 import DeleteResource from "../../DeleteResource/DeleteResource";
 import RenderDataAttributeWithAriaLabel from "../../RenderDataAttributeWithAriaLabel/RenderDataAttributeWithAriaLabel";
 import LinkToPage from "../../InAppNavigation/LinkToPage/LinkToPage";
-import Emoji from "../../Emoji/Emoji";
+import Emoji from "../../Emoji/Emoji.jsx";
 
 import styles from "./GroupMemberExpense.module.css";
 

@@ -14,7 +14,7 @@ import { devLog, handleApiErrors } from "../../../utils/errorUtils";
 import PaymentAmountInput from "../PaymentAmountInput/PaymentAmountInput";
 import PaymentMakerSelect from "../PaymentMakerSelect/PaymentMakerSelect";
 import emojiConstants from "../../../constants/emojiConstants";
-import Emoji from "../../Emoji/Emoji";
+import Emoji from "../../Emoji/Emoji.jsx";
 import RenderReactIcon from "../../RenderReactIcon/RenderReactIcon";
 import PaymentRecipientSelect from "../PaymentRecipientSelect/PaymentRecipientSelect";
 import { buttonStyles } from "../../../constants/stylesConstants";
