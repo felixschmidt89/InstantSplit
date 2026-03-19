@@ -11,7 +11,8 @@
     "start:server": "npm run start --workspace=server",
     "test": "npm test --workspaces --if-present",
     "test:client": "npm test --workspace=client",
-    "test:server": "npm test --workspace=server"
+    "test:server": "npm test --workspace=server",
+    "tree": "npx tree-node-cli -I 'node_modules|.git' > docs/repository-structure.md"
   },
   "devDependencies": {
     "concurrently": "^9.2.1"

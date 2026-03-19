@@ -30,6 +30,9 @@
   - **Protocol**: You must explicitly flag technical debt or sub-optimal patterns (e.g., redundant logic, complex nesting, or naming inconsistencies).
   - **Rule Induction**: When a pattern is corrected or improved, you must suggest a corresponding permanent rule for the instructions file to prevent recurrence.
   - **Technical Reasoning**: Every flag or suggested rule must be accompanied by a brief "Technical Reasoning" explanation focusing on maintainability, performance, or readability.
+- **Missing Context & Repository Structure**:
+  - **Protocol**: If architectural context, file relationships, or constant mappings are unclear, you must explicitly ask the user to provide the current repository structure.
+  - **Action**: Direct the user to run `npm run tree` and paste the output to establish a complete contextual baseline before attempting complex refactors or resolving imports.
 
 ### 4. General Formatting & Output
 
