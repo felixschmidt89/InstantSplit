@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-import { debugLog } from "../../../shared/utils/debug/debugLog.js";
+import debugLog from "../../../shared/utils/debug/debugLog.js";
 import { LOG_LEVELS } from "../../../shared/constants/system/loggerConstants.js";
 
 import { fetchHasPersistedSettlements } from "../api/groups/fetchHasPersistedSettlements.js";

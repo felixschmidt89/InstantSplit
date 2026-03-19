@@ -1,7 +1,7 @@
 import { getStoredGroupCodesFromLocalStorage } from "./getStoredGroupCodesFromLocalStorage";
 import { getLocalStorageKey } from "./getLocalStorageKey";
 import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
-import { debugLog } from "../../../../shared/utils/debug/debugLog.js";
+import debugLog from "../../../../shared/utils/debug/debugLog.js";
 
 import {
   MOCK_DATA,

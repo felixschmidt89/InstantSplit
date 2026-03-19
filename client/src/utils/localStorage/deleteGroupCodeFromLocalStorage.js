@@ -3,7 +3,7 @@ import { setLocalStorageKey } from "./setLocalStorageKey";
 import { getActiveGroupCodeFromLocalStorage } from "./getActiveGroupCodeFromLocalStorage";
 import { deleteActiveGroupCodeFromLocalStorage } from "./deleteActiveGroupCodeFromLocalStorage";
 import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
-import { debugLog } from "../../../../shared/utils/debug/debugLog.js";
+import debugLog from "../../../../shared/utils/debug/debugLog.js";
 
 import { LOG_LEVELS } from "../../../../shared/constants/system/loggerConstants.js";
 

@@ -10,7 +10,7 @@ import {
 } from '../utils/errorUtils.js';
 import { generateUniqueGroupCode } from '../utils/groupCodeUtils.js';
 import { LOG_LEVELS } from '../../shared/constants/system/loggerConstants.js/index.js';
-import { debugLog } from '../../shared/utils/debug/debugLog.js';
+import debugLog from '../../shared/utils/debug/debugLog.js';
 
 export const changeGroupDataPurgeSetting = async (req, res) => {
   try {

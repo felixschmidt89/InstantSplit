@@ -1,7 +1,7 @@
 import Group from '../../models/Group.js';
 
 import { LOG_LEVELS } from '../../../shared/constants/system/loggerConstants.js/index.js';
-import { debugLog } from '../../../shared/utils/debug/debugLog.js';
+import debugLog from '../../../shared/utils/debug/debugLog.js';
 
 const { LOG_ERROR } = LOG_LEVELS;
 

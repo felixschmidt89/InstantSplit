@@ -5,7 +5,7 @@ import {
   getActiveGroupCodeFromLocalStorage,
 } from "../utils/localStorage/index.js";
 import { CLIENT_STATIC_ROUTES } from "../constants/clientStaticRoutesConstants.js";
-import { debugLog } from "../../../shared/utils/debug/debugLog.js";
+import debugLog from "../../../shared/utils/debug/debugLog.js";
 import { LOG_LEVELS } from "../../../shared/constants/system/loggerConstants.js";
 
 const {

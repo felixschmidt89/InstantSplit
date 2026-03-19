@@ -1,4 +1,4 @@
-import { debugLog } from "../../../../shared/utils/debug/debugLog.js";
+import debugLog from "../../../../shared/utils/debug/debugLog.js";
 
 import { LOCAL_STORAGE_KEYS } from "../../constants/localStorageConstants";
 import { getLocalStorageKey } from "./getLocalStorageKey";

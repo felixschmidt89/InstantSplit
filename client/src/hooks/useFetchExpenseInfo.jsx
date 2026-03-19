@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import { fetchExpense } from "../api/expenses/fetchExpense";
 import { LOG_LEVELS } from "../../../shared/constants/system/loggerConstants";
-import { debugLog } from "../../../shared/utils/debug/debugLog";
+import debugLog from "../../../shared/utils/debug/debugLog.js";
 
 const { INFO, LOG_ERROR } = LOG_LEVELS;
 

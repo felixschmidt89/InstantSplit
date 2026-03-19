@@ -1,4 +1,4 @@
-import { debugLog } from "../../../../shared/utils/debug/debugLog.js";
+import debugLog from "../../../../shared/utils/debug/debugLog.js";
 import { getStoredGroupCodesFromLocalStorage } from "./getStoredGroupCodesFromLocalStorage";
 import { LOG_LEVELS } from "../../../../shared/constants/system/loggerConstants.js";
 

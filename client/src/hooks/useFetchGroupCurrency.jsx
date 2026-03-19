@@ -1,9 +1,8 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-import { fetchGroupCurrency } from "../api/groups/fetchGroupCurrency";
-import { debugLog, INFO, ERROR } from "../../../shared/utils/debug/debugLog.js";
-import { useGroupApi } from "./api/useGroupApi.jsx";
+import fetchGroupCurrency from "../api/groups/fetchGroupCurrency.js";
+import useGroupApi from "./api/useGroupApi.jsx";
 
 const useFetchGroupCurrency = () => {
   const { t } = useTranslation();
@@ -11,35 +10,22 @@ const useFetchGroupCurrency = () => {
   const { data, isFetched, isLoading, error, trigger } =
     useGroupApi(fetchGroupCurrency);
 
+  // TODO: Update error handling to be more specific based on error type/status code
+  const hasError = Boolean(error);
+  const errorMessage = hasError ? t("generic-error-message") : null;
+  const groupCurrency = data?.currency || null;
+
   useEffect(() => {
     if (!isFetched) {
-      trigger()
-        .then((result) => {
-          if (!result?.currency) {
-            debugLog("No currency found for group", null, INFO);
-          } else {
-            debugLog(
-              "Group currency fetched:",
-              { currency: result.currency },
-              INFO,
-            );
-          }
-        })
-        .catch((requestError) => {
-          debugLog(
-            "Error fetching group currency:",
-            { error: requestError.message },
-            ERROR,
-          );
-        });
+      trigger();
     }
   }, [isFetched, trigger]);
 
   return {
-    groupCurrency: data?.currency || null,
+    groupCurrency,
     isFetched,
     isLoading,
-    error: error ? t("generic-error-message") : null,
+    error: errorMessage,
   };
 };
 

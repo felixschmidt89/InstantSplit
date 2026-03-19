@@ -1,4 +1,4 @@
-import { debugLog } from "../../../../shared/utils/debug/debugLog.js";
+import debugLog from "../../../../shared/utils/debug/debugLog.js";
 
 export const isWebShareSupported = () => {
   const isSupported = !!navigator.share;

@@ -2,7 +2,7 @@ import { useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 
 import { updateHasPersistedSettlements } from "../api/groups/updateHasPersistedSettlements";
-import { debugLog } from "../../../shared/utils/debug/debugLog";
+import debugLog from "../../../shared/utils/debug/debugLog.js";
 import { LOG_LEVELS } from "../../../shared/constants/system/loggerConstants";
 
 const { LOG_ERROR } = LOG_LEVELS;

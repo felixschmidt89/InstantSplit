@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import FontFaceObserver from "fontfaceobserver";
 
-import { debugLog } from "../../../shared/utils/debug/debugLog";
+import debugLog from "../../../shared/utils/debug/debugLog.js";
 import { LOG_LEVELS } from "../../../shared/constants/system/loggerConstants";
 import { FONT_STATE, FONTS } from "../constants/fontConstants";
 

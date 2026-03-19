@@ -8,7 +8,7 @@ import {
   sendInternalError,
   sendValidationError,
 } from '../utils/errorUtils.js';
-import { debugLog } from '../../shared/utils/debug/debugLog.js';
+import debugLog from '../../shared/utils/debug/debugLog.js';
 import { LOG_LEVELS } from '../../shared/constants/system/loggerConstants.js/index.js';
 
 // Domain Utils

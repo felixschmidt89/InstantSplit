@@ -6,7 +6,7 @@ import {
   calculateAndAddUserBalance,
   filterUnsettledUsers,
 } from "../utils/settlementUtils";
-import { debugLog } from "../../../shared/utils/debug/debugLog";
+import debugLog from "../../../shared/utils/debug/debugLog.js";
 import { LOG_LEVELS } from "../../../shared/constants/system/loggerConstants";
 
 const { LOG_ERROR } = LOG_LEVELS;

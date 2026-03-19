@@ -4,7 +4,7 @@ import {
   MOCK_LOG_METHODS,
   MOCK_DATA,
 } from "../../constants/test/testConstants.js";
-import { debugLog } from "./debugLog.js";
+import debugLog from "./debugLog.js";
 
 describe("debugLog", () => {
   const originalEnv = process.env.NODE_ENV;

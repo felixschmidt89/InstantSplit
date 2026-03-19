@@ -1,6 +1,6 @@
-import { debugLog } from "../../../../shared/utils/debug/debugLog.js";
+import debugLog from "../../../../shared/utils/debug/debugLog.js";
 
-export const getLocalStorageKey = (key) => {
+const getLocalStorageKey = (key) => {
   try {
     const value = localStorage.getItem(key);
 
@@ -11,6 +11,9 @@ export const getLocalStorageKey = (key) => {
     return value;
   } catch (error) {
     debugLog(`Error accessing local storage key "${key}":`, error);
+
     return null;
   }
 };
+
+export default getLocalStorageKey;

@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { fetchGroupMemberTransactions } from "../api/users/fetchGroupMemberTransactions";
-import { debugLog } from "../../../shared/utils/debug/debugLog.js";
+import debugLog from "../../../shared/utils/debug/debugLog.js";
 import { LOG_LEVELS } from "../../../shared/constants/system/loggerConstants.js";
 
 const { LOG_ERROR, INFO } = LOG_LEVELS;

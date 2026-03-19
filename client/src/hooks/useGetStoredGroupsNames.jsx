@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { getStoredGroupCodesFromLocalStorage } from "../utils/localStorage";
-import { debugLog } from "../../../shared/utils/debug/debugLog.js";
+import debugLog from "../../../shared/utils/debug/debugLog.js";
 import { fetchStoredGroupNames } from "../api/groups/fetchStoredGroupNames";
 
 const useGetStoredGroupsNames = (activeGroupCode) => {
