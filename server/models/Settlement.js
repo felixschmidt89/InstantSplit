@@ -1,33 +1,43 @@
 import { Schema, model } from 'mongoose';
 
+import SETTLEMENT from '../../shared/constants/models/settlementConstants.js';
+import COMMON from '../../shared/constants/models/commonConstants.js';
+
+const { FIELDS } = SETTLEMENT;
+const {
+  MODEL_NAMES,
+  DEFINITIONS,
+  FIELDS: COMMON_FIELDS,
+  LIMITS: COMMON_LIMITS,
+} = COMMON;
+
 const settlementSchema = new Schema(
-  // TODO: Use ObjectId references for from and to, add migration script to update existing settlements
   {
-    from: {
-      type: String,
-      required: [true, 'Missing debtor username'],
+    [FIELDS.DEBTOR]: {
+      type: DEFINITIONS.OBJECT_ID,
+      ref: MODEL_NAMES.MEMBER,
+      required: [DEFINITIONS.TRUE, 'Missing debtor reference'],
     },
-    to: {
-      type: String,
-      required: [true, 'Missing creditor username'],
+    [FIELDS.CREDITOR]: {
+      type: DEFINITIONS.OBJECT_ID,
+      ref: MODEL_NAMES.MEMBER,
+      required: [DEFINITIONS.TRUE, 'Missing creditor reference'],
     },
-    amount: {
-      type: Number,
-      required: true,
-      min: 0.01,
-      max: 99999.99,
+    [FIELDS.AMOUNT]: {
+      type: DEFINITIONS.NUMBER,
+      required: DEFINITIONS.TRUE,
+      min: COMMON_LIMITS.TRANSACTION_AMOUNT_MIN,
+      max: COMMON_LIMITS.TRANSACTION_AMOUNT_MAX,
     },
-    groupCode: {
-      type: String,
-      required: true,
-      trim: true,
+    [COMMON_FIELDS.GROUP_CODE]: {
+      type: DEFINITIONS.STRING,
+      required: DEFINITIONS.TRUE,
+      trim: DEFINITIONS.TRUE,
     },
   },
   {
-    timestamps: true,
+    timestamps: DEFINITIONS.TRUE,
   },
 );
 
-const Settlement = model('Settlement', settlementSchema);
-
-export default Settlement;
+export default model(MODEL_NAMES.SETTLEMENT, settlementSchema);

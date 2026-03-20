@@ -103,7 +103,27 @@
   - Prioritize destructuring specific hooks (e.g., `import { useState } from "react"`) instead of using the `React` prefix.
 - **Import Destructuring**:
   - **MANDATORY**: Always destructure properties from imported objects at the top of the file, immediately following the import block.
-  - **Prohibition**: Do **NOT** use member expressions (e.g., `LOG_LEVELS.INFO`) within the functional logic.
+  - **Prohibition**: Do **NOT** use member expressions (e.g., `LOG_LEVELS.INFO`) within the functional logic, unless following the **Category-Scoped Pattern** defined in **Constant Management**.
+
+- **Constant Management**:
+  - **Constant Location Strategy**:
+    - **Shared Scope**: **MANDATORY**: Any constant consumed by both Client and Server (e.g., `errorConstants.js`, `validationConstants.js`) must reside in `shared/constants/`.
+    - **Client-Specific**: UI-only constants must reside in `client/src/constants/`.
+    - **Server-Specific**: Logic-only constants must reside in `server/constants/`.
+  - **Export Standards**:
+    - **Single Export Rule**: Every constant file must use a single `export default` statement at the bottom of the file.
+    - **Nesting**: Group related constants into nested objects (e.g., `FIELDS`, `LIMITS`, `MESSAGES`) within the default export object.
+  - **Category-Scoped Pattern**:
+    - **Import Level**: Only import the top-level default export object (e.g., `import EXPENSE from "..."`).
+    - **Destructuring Level**: Destructure only the first-level "Category" objects (e.g., `const { FIELDS, LIMITS } = EXPENSE;`). Do **NOT** destructure individual keys into the local namespace.
+    - **Usage Level**: Access constants using `Category.KEY` (e.g., `[FIELDS.AMOUNT]`, `LIMITS.MAX`).
+    - **Standard Aliasing**: Always alias the `FIELDS` object from `COMMON` as `COMMON_FIELDS` to distinguish it from entity-specific fields (e.g., `const { FIELDS: COMMON_FIELDS } = COMMON;`).
+  - **Naming Uniqueness**:
+    - **Prohibition**: Constant keys within categories must not conflict with common class, model, or function names.
+    - **Protocol**: Use descriptive suffixes within the constant key itself (e.g., `EXPENSE_MODEL: "Expense"`) to allow direct destructuring and usage without aliasing.
+  - **Constant Integrity & Verification**:
+    - **Prohibition**: NEVER "hallucinate" or assume the existence of constant keys.
+    - **Protocol**: You must explicitly ask the user to provide the relevant constant file before generating code that consumes it.
 
 - **Avoid Regex**:
   - **Priority**: Always prioritize standard string/array methods (e.g., `.includes()`, `.startsWith()`, `.split()`) over Regular Expressions.
@@ -158,22 +178,24 @@
   - **Prohibition**: Writing raw strings ("Magic Strings") for user-facing messages, error messages, identifiers, or configuration values is strictly prohibited across the entire project (Client, Server, Shared).
   - **Protocol**: **MANDATORY**: Before implementing a string, you must search the related constant files (e.g., `errorConstants.js`, `apiRoutesConstants.js`, `clientStaticRoutesConstants.js`) for an existing match.
   - **Implementation**: If no match exists, you must create a new descriptive constant in the appropriate constant file before using it in the logic layer.
-
-- **Constant Management**:
-  - **Constant Location Strategy**:
-    - **Shared Scope**: **MANDATORY**: Any constant consumed by both Client and Server (e.g., `errorConstants.js`, `validationConstants.js`, `transactionTypes.js`) must reside in `shared/constants/`.
-    - **Client-Specific**: UI-only constants, such as route paths for navigation or component labels, must reside in `client/src/constants/`.
-    - **Server-Specific**: Logic-only constants, such as database collection names or environment configurations, must reside in `server/constants/`.
-  - **Validation**:
-    - Before creating a new constant, search the `shared/` directory first to ensure a global definition does not already exist.
-    - **Prohibition**: Do NOT duplicate constants across environments. If a Client constant is needed by the Server, migrate it to `shared/` immediately.
+- **Constant Location Strategy**:
+  - **Shared Scope**: **MANDATORY**: Any constant consumed by both Client and Server (e.g., `errorConstants.js`, `validationConstants.js`) must reside in `shared/constants/`.
+  - **Client-Specific**: UI-only constants must reside in `client/src/constants/`.
+  - **Server-Specific**: Logic-only constants must reside in `server/constants/`.
 - **Export Standards**:
-  - **Single Export Rule**: If a file contains only a single export, it must use a `default export`.
-  - **Placement**: The `export default` statement must be placed at the very bottom of the file.
+  - **Single Export Rule**: Every constant file must use a single `export default` statement at the bottom of the file.
+  - **Nesting**: Group related constants into nested objects (e.g., `FIELDS`, `LIMITS`, `MESSAGES`) within the default export object.
+- **Category-Scoped Pattern**:
+  - **Import Level**: Only import the top-level default export object (e.g., `import EXPENSE from "..."`).
+  - **Destructuring Level**: Destructure only the first-level "Category" objects (e.g., `const { FIELDS, LIMITS } = EXPENSE;`). Do **NOT** destructure individual keys into the local namespace.
+  - **Usage Level**: Access constants using `Category.KEY` (e.g., `[FIELDS.AMOUNT]`, `LIMITS.MAX`).
+  - **Standard Aliasing**: Always alias the `FIELDS` object from `COMMON` as `COMMON_FIELDS` to distinguish it from entity-specific fields (e.g., `const { FIELDS: COMMON_FIELDS } = COMMON;`).
+- **Naming Uniqueness**:
+  - **Prohibition**: Constant keys within categories like `MODEL_NAMES` must not conflict with common class or model names (e.g., avoid `EXPENSE: "Expense"` if the model is named `Expense`).
+  - **Protocol**: Use descriptive suffixes within the constant key itself (e.g., `EXPENSE_MODEL: "Expense"`) to allow direct destructuring without aliasing (e.g., `const { EXPENSE_MODEL } = MODEL_NAMES`).
 - **Constant Integrity & Verification**:
-  - **Prohibition**: NEVER "hallucinate" or assume the existence of constant keys or structures (e.g., assuming a nested object structure like `TRANSACTION_CONSTANTS.TRANSACTION_TYPES`).
-  - **Protocol**: You must explicitly ask the user to provide the relevant constant file (e.g., `transactionConstants.js`) before generating code that consumes it.
-  - **Action**: If a required constant is missing from the provided file, you must suggest the specific addition to the constant file first and wait for confirmation before using it in the logic layer.
+  - **Prohibition**: NEVER "hallucinate" or assume the existence of constant keys.
+  - **Protocol**: You must explicitly ask the user to provide the relevant constant file before generating code that consumes it.
 
 ### 6. Labeling & Translation Rules
 

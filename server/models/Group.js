@@ -1,65 +1,52 @@
 import { Schema, model } from 'mongoose';
 
+import GROUP from '../../shared/constants/models/groupConstants.js';
+import COMMON from '../../shared/constants/models/commonConstants.js';
 import { DEFAULT_CURRENCY } from '../../shared/constants/domain/currencyConstants.js';
-import {
-  COMMON_FIELDS,
-  COMMON_DEFINITIONS,
-  MODEL_NAMES,
-} from '../../shared/constants/models/commonConstants.js';
-import {
-  GROUP_FIELDS,
-  GROUP_LIMITS,
-} from '../../shared/constants/models/groupConstants.js';
 
-const { TRUE, FALSE, STRING, DATE, BOOLEAN, NOW } = COMMON_DEFINITIONS;
-const { GROUP_CODE } = COMMON_FIELDS;
-const { GROUP: GROUP_MODEL_NAME } = MODEL_NAMES;
+const { FIELDS } = GROUP;
 const {
-  GROUP_NAME,
-  GROUP_CURRENCY,
-  LAST_ACTIVE,
-  INACTIVE_DATA_PURGE,
-  FIXED_DEBITOR_CREDITOR_ORDER,
-} = GROUP_FIELDS;
-const { NAME_MIN_LENGTH, NAME_MAX_LENGTH } = GROUP_LIMITS;
+  MODEL_NAMES,
+  DEFINITIONS,
+  FIELDS: COMMON_FIELDS,
+  LIMITS: COMMON_LIMITS,
+} = COMMON;
 
 const groupSchema = new Schema(
   {
-    [GROUP_CODE]: {
-      type: STRING,
-      required: TRUE,
-      index: TRUE,
+    [COMMON_FIELDS.GROUP_CODE]: {
+      type: DEFINITIONS.STRING,
+      required: DEFINITIONS.TRUE,
+      index: DEFINITIONS.TRUE,
     },
-    [GROUP_NAME]: {
-      type: STRING,
-      trim: TRUE,
-      required: TRUE,
-      minlength: NAME_MIN_LENGTH,
-      maxlength: NAME_MAX_LENGTH,
-      index: TRUE,
+    [FIELDS.NAME]: {
+      type: DEFINITIONS.STRING,
+      trim: DEFINITIONS.TRUE,
+      required: DEFINITIONS.TRUE,
+      minlength: COMMON_LIMITS.NAME_MIN_LENGTH,
+      maxlength: COMMON_LIMITS.NAME_MAX_LENGTH,
+      index: DEFINITIONS.TRUE,
     },
-    [GROUP_CURRENCY]: {
-      type: STRING,
+    [FIELDS.CURRENCY]: {
+      type: DEFINITIONS.STRING,
       default: DEFAULT_CURRENCY,
     },
-    [LAST_ACTIVE]: {
-      type: DATE,
-      default: NOW,
+    [FIELDS.LAST_ACTIVE]: {
+      type: DEFINITIONS.DATE,
+      default: DEFINITIONS.NOW,
     },
-    [INACTIVE_DATA_PURGE]: {
-      type: BOOLEAN,
-      default: TRUE,
+    [FIELDS.INACTIVE_DATA_PURGE]: {
+      type: DEFINITIONS.BOOLEAN,
+      default: DEFINITIONS.TRUE,
     },
-    [FIXED_DEBITOR_CREDITOR_ORDER]: {
-      type: BOOLEAN,
-      default: FALSE,
+    [FIELDS.FIXED_DEBTOR_CREDITOR_ORDER]: {
+      type: DEFINITIONS.BOOLEAN,
+      default: DEFINITIONS.FALSE,
     },
   },
   {
-    timestamps: TRUE,
+    timestamps: DEFINITIONS.TRUE,
   },
 );
 
-const Group = model(GROUP_MODEL_NAME, groupSchema);
-
-export default Group;
+export default model(MODEL_NAMES.GROUP, groupSchema);

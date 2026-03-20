@@ -1,11 +1,23 @@
 import { Schema, model } from 'mongoose';
 
+import MEMBER from '../../shared/constants/models/memberConstants.js';
+import COMMON from '../../shared/constants/models/commonConstants.js';
+import EXPENSE from '../../shared/constants/models/expenseConstants.js';
+import PAYMENT from '../../shared/constants/models/paymentConstants.js';
+import LOG_LEVELS from '../../shared/constants/system/loggerConstants.js';
 import Expense from './Expense.js';
 import Payment from './Payment.js';
-import LOG_LEVELS from '../../shared/constants/system/loggerConstants.js';
 import debugLog from '../../shared/utils/debug/debugLog.js';
 
-const { LOG_ERROR, LOG_DEBUG } = LOG_LEVELS;
+const { FIELDS: MEMBER_FIELDS } = MEMBER;
+const {
+  MODEL_NAMES,
+  DEFINITIONS,
+  FIELDS: COMMON_FIELDS,
+  LIMITS: COMMON_LIMITS,
+} = COMMON;
+const { FIELDS: EXPENSE_FIELDS } = EXPENSE;
+const { FIELDS: PAYMENT_FIELDS } = PAYMENT;
 
 const extractAggregateTotal = (aggregateResult, operationName) => {
   const total = aggregateResult.length ? aggregateResult[0].total : 0;
@@ -13,7 +25,7 @@ const extractAggregateTotal = (aggregateResult, operationName) => {
   debugLog(
     `Aggregate total extracted for ${operationName}`,
     { total, rawResultLength: aggregateResult.length },
-    LOG_DEBUG,
+    LOG_LEVELS.LOG_DEBUG,
   );
 
   return total;
@@ -21,213 +33,170 @@ const extractAggregateTotal = (aggregateResult, operationName) => {
 
 const memberSchema = new Schema(
   {
-    memberName: {
-      type: String,
-      trim: true,
-      required: true,
-      minlength: 1,
-      maxlength: 20,
+    [MEMBER_FIELDS.NAME]: {
+      type: DEFINITIONS.STRING,
+      trim: DEFINITIONS.TRUE,
+      required: DEFINITIONS.TRUE,
+      minlength: COMMON_LIMITS.NAME_MIN_LENGTH,
+      maxlength: COMMON_LIMITS.NAME_MAX_LENGTH,
     },
-    groupCode: {
-      type: String,
-      required: true,
+    [COMMON_FIELDS.GROUP_CODE]: {
+      type: DEFINITIONS.STRING,
+      required: DEFINITIONS.TRUE,
     },
-    totalExpensesPaidAmount: {
-      type: Number,
+    [MEMBER_FIELDS.TOTAL_EXPENSES_PAID]: {
+      type: DEFINITIONS.NUMBER,
       default: 0,
     },
-    totalExpenseBenefittedAmount: {
-      type: Number,
+    [MEMBER_FIELDS.TOTAL_EXPENSES_BENEFITTED]: {
+      type: DEFINITIONS.NUMBER,
       default: 0,
     },
-    totalPaymentsMadeAmount: {
-      type: Number,
+    [MEMBER_FIELDS.TOTAL_PAYMENTS_MADE]: {
+      type: DEFINITIONS.NUMBER,
       default: 0,
     },
-    totalPaymentsReceivedAmount: {
-      type: Number,
+    [MEMBER_FIELDS.TOTAL_PAYMENTS_RECEIVED]: {
+      type: DEFINITIONS.NUMBER,
       default: 0,
     },
   },
   {
-    timestamps: true,
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true },
+    timestamps: DEFINITIONS.TRUE,
+    toJSON: { virtuals: DEFINITIONS.TRUE },
+    toObject: { virtuals: DEFINITIONS.TRUE },
   },
 );
 
-memberSchema.virtual('memberBalance').get(function () {
+memberSchema.virtual(MEMBER_FIELDS.BALANCE).get(function () {
   const balance =
-    this.totalExpensesPaidAmount +
-    this.totalPaymentsMadeAmount -
-    this.totalExpenseBenefittedAmount -
-    this.totalPaymentsReceivedAmount;
+    this[MEMBER_FIELDS.TOTAL_EXPENSES_PAID] +
+    this[MEMBER_FIELDS.TOTAL_PAYMENTS_MADE] -
+    this[MEMBER_FIELDS.TOTAL_EXPENSES_BENEFITTED] -
+    this[MEMBER_FIELDS.TOTAL_PAYMENTS_RECEIVED];
 
-  return Number(balance);
+  return DEFINITIONS.NUMBER(balance);
 });
 
-memberSchema.virtual('expensesSettled').get(function () {
-  return this.get('memberBalance') === 0;
+memberSchema.virtual(MEMBER_FIELDS.SETTLED).get(function () {
+  return this.get(MEMBER_FIELDS.BALANCE) === 0;
 });
 
 memberSchema.methods.updateTotalExpensesPaid = async function () {
-  const memberId = this._id;
+  const memberId = this[COMMON_FIELDS.ID];
 
   try {
     const totalExpensesPaid = await Expense.aggregate([
-      {
-        $match: { expensePayer: memberId },
-      },
-      {
-        $group: {
-          _id: null,
-          total: { $sum: '$expenseAmount' },
-        },
-      },
+      { $match: { [EXPENSE_FIELDS.PAYER]: memberId } },
+      { $group: { _id: null, total: { $sum: `$${EXPENSE_FIELDS.AMOUNT}` } } },
     ]);
 
-    const updatedTotalExpensesPaidAmount = extractAggregateTotal(
+    const updatedTotal = extractAggregateTotal(
       totalExpensesPaid,
       'updateTotalExpensesPaid',
     );
 
     await this.constructor.findOneAndUpdate(
-      { _id: memberId },
-      {
-        $set: {
-          totalExpensesPaidAmount: updatedTotalExpensesPaidAmount,
-        },
-      },
+      { [COMMON_FIELDS.ID]: memberId },
+      { $set: { [MEMBER_FIELDS.TOTAL_EXPENSES_PAID]: updatedTotal } },
     );
   } catch (error) {
     debugLog(
       'Error calculating totalExpensesPaidAmount',
       { error: error.message, memberId },
-      LOG_ERROR,
+      LOG_LEVELS.LOG_ERROR,
     );
     throw error;
   }
 };
 
 memberSchema.methods.updateTotalExpenseBenefitted = async function () {
-  const memberId = this._id;
+  const memberId = this[COMMON_FIELDS.ID];
 
   try {
     const totalExpenseBenefitted = await Expense.aggregate([
-      {
-        $match: {
-          expenseBeneficiaries: memberId,
-        },
-      },
+      { $match: { [EXPENSE_FIELDS.BENEFICIARIES]: memberId } },
       {
         $group: {
           _id: null,
-          total: { $sum: '$expenseAmountPerBeneficiary' },
+          total: { $sum: `$${EXPENSE_FIELDS.AMOUNT_PER_BENEFICIARY}` },
         },
       },
     ]);
 
-    const updatedTotalExpenseBenefittedAmount = extractAggregateTotal(
+    const updatedTotal = extractAggregateTotal(
       totalExpenseBenefitted,
       'updateTotalExpenseBenefitted',
     );
 
     await this.constructor.findOneAndUpdate(
-      { _id: memberId },
-      {
-        $set: {
-          totalExpenseBenefittedAmount: updatedTotalExpenseBenefittedAmount,
-        },
-      },
+      { [COMMON_FIELDS.ID]: memberId },
+      { $set: { [MEMBER_FIELDS.TOTAL_EXPENSES_BENEFITTED]: updatedTotal } },
     );
   } catch (error) {
     debugLog(
       'Error calculating totalExpenseBenefittedAmount',
       { error: error.message, memberId },
-      LOG_ERROR,
+      LOG_LEVELS.LOG_ERROR,
     );
     throw error;
   }
 };
 
 memberSchema.methods.updateTotalPaymentsReceived = async function () {
-  const memberId = this._id;
+  const memberId = this[COMMON_FIELDS.ID];
 
   try {
     const totalPaymentsReceived = await Payment.aggregate([
-      {
-        $match: { paymentRecipient: memberId },
-      },
-      {
-        $group: {
-          _id: null,
-          total: { $sum: '$paymentAmount' },
-        },
-      },
+      { $match: { [PAYMENT_FIELDS.RECIPIENT]: memberId } },
+      { $group: { _id: null, total: { $sum: `$${PAYMENT_FIELDS.AMOUNT}` } } },
     ]);
 
-    const updatedTotalPaymentsReceivedAmount = extractAggregateTotal(
+    const updatedTotal = extractAggregateTotal(
       totalPaymentsReceived,
       'updateTotalPaymentsReceived',
     );
 
     await this.constructor.findOneAndUpdate(
-      { _id: memberId },
-      {
-        $set: {
-          totalPaymentsReceivedAmount: updatedTotalPaymentsReceivedAmount,
-        },
-      },
+      { [COMMON_FIELDS.ID]: memberId },
+      { $set: { [MEMBER_FIELDS.TOTAL_PAYMENTS_RECEIVED]: updatedTotal } },
     );
   } catch (error) {
     debugLog(
       'Error calculating totalPaymentsReceivedAmount',
       { error: error.message, memberId },
-      LOG_ERROR,
+      LOG_LEVELS.LOG_ERROR,
     );
     throw error;
   }
 };
 
 memberSchema.methods.updateTotalPaymentsMadeAmount = async function () {
-  const memberId = this._id;
+  const memberId = this[COMMON_FIELDS.ID];
 
   try {
     const totalPaymentsMade = await Payment.aggregate([
-      {
-        $match: { paymentMaker: memberId },
-      },
-      {
-        $group: {
-          _id: null,
-          total: { $sum: '$paymentAmount' },
-        },
-      },
+      { $match: { [PAYMENT_FIELDS.MAKER]: memberId } },
+      { $group: { _id: null, total: { $sum: `$${PAYMENT_FIELDS.AMOUNT}` } } },
     ]);
 
-    const updatedTotalPaymentsMadeAmount = extractAggregateTotal(
+    const updatedTotal = extractAggregateTotal(
       totalPaymentsMade,
       'updateTotalPaymentsMadeAmount',
     );
 
     await this.constructor.findOneAndUpdate(
-      { _id: memberId },
-      {
-        $set: {
-          totalPaymentsMadeAmount: updatedTotalPaymentsMadeAmount,
-        },
-      },
+      { [COMMON_FIELDS.ID]: memberId },
+      { $set: { [MEMBER_FIELDS.TOTAL_PAYMENTS_MADE]: updatedTotal } },
     );
   } catch (error) {
     debugLog(
       'Error updating totalPaymentsMadeAmount',
       { error: error.message, memberId },
-      LOG_ERROR,
+      LOG_LEVELS.LOG_ERROR,
     );
     throw error;
   }
 };
 
-const Member = model('Member', memberSchema);
-
-export default Member;
+export default model(MODEL_NAMES.MEMBER, memberSchema);

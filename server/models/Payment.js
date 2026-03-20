@@ -1,50 +1,42 @@
 import { Schema, model } from 'mongoose';
-import {
-  PAYMENT_FIELDS,
-  PAYMENT_LIMITS,
-} from '../../shared/constants/models/paymentConstants.js';
-import {
-  COMMON_FIELDS,
-  COMMON_DEFINITIONS,
+
+import PAYMENT from '../../shared/constants/models/paymentConstants.js';
+import COMMON from '../../shared/constants/models/commonConstants.js';
+
+const { FIELDS } = PAYMENT;
+const {
   MODEL_NAMES,
-} from '../../shared/constants/models/commonConstants.js';
-
-const { PAYMENT_AMOUNT, PAYMENT_MAKER, PAYMENT_RECIPIENT } = PAYMENT_FIELDS;
-
-const { AMOUNT_MIN, AMOUNT_MAX } = PAYMENT_LIMITS;
-
-const { GROUP_CODE } = COMMON_FIELDS;
-const { NUMBER, STRING, OBJECT_ID, TRUE } = COMMON_DEFINITIONS;
-const { PAYMENT, MEMBER } = MODEL_NAMES;
+  DEFINITIONS,
+  FIELDS: COMMON_FIELDS,
+  LIMITS: COMMON_LIMITS,
+} = COMMON;
 
 const paymentSchema = new Schema(
   {
-    [PAYMENT_AMOUNT]: {
-      type: NUMBER,
-      required: TRUE,
-      min: AMOUNT_MIN,
-      max: AMOUNT_MAX,
+    [FIELDS.AMOUNT]: {
+      type: DEFINITIONS.NUMBER,
+      required: DEFINITIONS.TRUE,
+      min: COMMON_LIMITS.TRANSACTION_AMOUNT_MIN,
+      max: COMMON_LIMITS.TRANSACTION_AMOUNT_MAX,
     },
-    [PAYMENT_MAKER]: {
-      type: OBJECT_ID,
-      ref: MEMBER,
-      required: TRUE,
+    [FIELDS.MAKER]: {
+      type: DEFINITIONS.OBJECT_ID,
+      ref: MODEL_NAMES.MEMBER,
+      required: DEFINITIONS.TRUE,
     },
-    [PAYMENT_RECIPIENT]: {
-      type: OBJECT_ID,
-      ref: MEMBER,
-      required: TRUE,
+    [FIELDS.RECIPIENT]: {
+      type: DEFINITIONS.OBJECT_ID,
+      ref: MODEL_NAMES.MEMBER,
+      required: DEFINITIONS.TRUE,
     },
-    [GROUP_CODE]: {
-      type: STRING,
-      required: TRUE,
+    [COMMON_FIELDS.GROUP_CODE]: {
+      type: DEFINITIONS.STRING,
+      required: DEFINITIONS.TRUE,
     },
   },
   {
-    timestamps: TRUE,
+    timestamps: DEFINITIONS.TRUE,
   },
 );
 
-const Payment = model(PAYMENT, paymentSchema);
-
-export default Payment;
+export default model(MODEL_NAMES.PAYMENT, paymentSchema);
