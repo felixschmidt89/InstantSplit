@@ -1,18 +1,20 @@
-export const MODEL_NAMES = {
+import { Schema } from "mongoose";
+
+const MODEL_NAMES = {
   GROUP: "Group",
   MEMBER: "Member",
   EXPENSE: "Expense",
   PAYMENT: "Payment",
 };
 
-export const COMMON_FIELDS = {
+const FIELDS = {
   ID: "_id",
   GROUP_CODE: "groupCode",
   CREATED_AT: "createdAt",
   UPDATED_AT: "updatedAt",
 };
 
-export const COMMON_DEFINITIONS = {
+const DEFINITIONS = {
   TRUE: true,
   FALSE: false,
   STRING: String,
@@ -20,4 +22,13 @@ export const COMMON_DEFINITIONS = {
   BOOLEAN: Boolean,
   DATE: Date,
   NOW: Date.now,
+  OBJECT_ID: Schema.Types.ObjectId,
 };
+
+const COMMON = {
+  MODEL_NAMES,
+  FIELDS,
+  DEFINITIONS,
+};
+
+export default COMMON;
