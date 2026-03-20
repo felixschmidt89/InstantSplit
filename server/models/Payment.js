@@ -1,33 +1,50 @@
 import { Schema, model } from 'mongoose';
+import {
+  PAYMENT_FIELDS,
+  PAYMENT_LIMITS,
+} from '../../shared/constants/models/paymentConstants.js';
+import {
+  COMMON_FIELDS,
+  COMMON_DEFINITIONS,
+  MODEL_NAMES,
+} from '../../shared/constants/models/commonConstants.js';
+
+const { PAYMENT_AMOUNT, PAYMENT_MAKER, PAYMENT_RECIPIENT } = PAYMENT_FIELDS;
+
+const { AMOUNT_MIN, AMOUNT_MAX } = PAYMENT_LIMITS;
+
+const { GROUP_CODE } = COMMON_FIELDS;
+const { NUMBER, STRING, OBJECT_ID, TRUE } = COMMON_DEFINITIONS;
+const { PAYMENT, MEMBER } = MODEL_NAMES;
 
 const paymentSchema = new Schema(
   {
-    paymentAmount: {
-      type: Number,
-      required: true,
-      min: 0.01,
-      max: 99999.99,
+    [PAYMENT_AMOUNT]: {
+      type: NUMBER,
+      required: TRUE,
+      min: AMOUNT_MIN,
+      max: AMOUNT_MAX,
     },
-    paymentMaker: {
-      type: Schema.Types.ObjectId,
-      ref: 'Member',
-      required: true,
+    [PAYMENT_MAKER]: {
+      type: OBJECT_ID,
+      ref: MEMBER,
+      required: TRUE,
     },
-    paymentRecipient: {
-      type: Schema.Types.ObjectId,
-      ref: 'Member',
-      required: true,
+    [PAYMENT_RECIPIENT]: {
+      type: OBJECT_ID,
+      ref: MEMBER,
+      required: TRUE,
     },
-    groupCode: {
-      type: String,
-      required: true,
+    [GROUP_CODE]: {
+      type: STRING,
+      required: TRUE,
     },
   },
   {
-    timestamps: true,
+    timestamps: TRUE,
   },
 );
 
-const Payment = model('Payment', paymentSchema);
+const Payment = model(PAYMENT, paymentSchema);
 
 export default Payment;
