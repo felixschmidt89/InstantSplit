@@ -1,6 +1,5 @@
 import express from 'express';
 
-// Controllers
 import getGroupTransactionsController from '../controllers/group/getGroupTransactionsController.js';
 import getGroupCurrencyController from '../controllers/group/getGroupCurrencyController.js';
 import createGroupController from '../controllers/group/createGroupController.js';
@@ -15,7 +14,6 @@ import {
   groupHasPersistedDebitorCreditorOrder,
 } from '../controllers/groupController.js';
 
-// Middleware
 import logRequestDetailsMiddleware from '../middleware/common/logRequestDetailsMiddleware.js';
 import extractGroupCodeMiddleware from '../middleware/context/extractGroupCodeMiddleware.js';
 import validateGroupCodeMiddleware from '../middleware/validation/validateGroupCodeMiddleware.js';
@@ -29,9 +27,8 @@ import {
   laxLimiter,
 } from '../middleware/laxLimitRequestsPerIpMiddleware.js';
 
-// Constants & Config
 import API_ROUTES from '../../shared/constants/api/apiRoutesConstants.js';
-import { CONFIG } from '../config/serverConfig.js';
+import CONFIG from '../config/serverConfig.js';
 
 const router = express.Router();
 

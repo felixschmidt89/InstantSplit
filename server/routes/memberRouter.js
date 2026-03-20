@@ -6,27 +6,27 @@ import changeMemberNameController from '../controllers/member/changeMemberNameCo
 import deleteMemberController from '../controllers/member/deleteMemberController.js';
 import getMemberInfoController from '../controllers/member/getMemberInfoController.js';
 import getMemberTransactionsController from '../controllers/member/getMemberTransactionsController.js';
+
 import API_ROUTES from '../../shared/constants/api/apiRoutesConstants.js';
 
-const router = express.Router();
 const { MEMBERS, URL_PARAMS } = API_ROUTES;
+const { MEMBER_ID, GROUP_ID } = URL_PARAMS;
 
-router.post('/', createMemberController);
+const memberRouter = express.Router();
 
-router.get(`/:${URL_PARAMS.MEMBER_ID}`, getMemberInfoController);
+memberRouter.post('/', createMemberController);
 
-router.patch(`/:${URL_PARAMS.MEMBER_ID}`, changeMemberNameController);
+memberRouter.get(`/:${MEMBER_ID}`, getMemberInfoController);
 
-router.delete(`/:${URL_PARAMS.MEMBER_ID}`, deleteMemberController);
+memberRouter.patch(`/:${MEMBER_ID}`, changeMemberNameController);
 
-router.get(
-  `/${MEMBERS.BY_GROUP}/:${URL_PARAMS.GROUP_ID}`,
-  getMembersController,
-);
+memberRouter.delete(`/:${MEMBER_ID}`, deleteMemberController);
 
-router.get(
-  `/:${URL_PARAMS.MEMBER_ID}/${MEMBERS.TRANSACTIONS}`,
+memberRouter.get(`/${MEMBERS.BY_GROUP}/:${GROUP_ID}`, getMembersController);
+
+memberRouter.get(
+  `/:${MEMBER_ID}/${MEMBERS.TRANSACTIONS}`,
   getMemberTransactionsController,
 );
 
-export default router;
+export default memberRouter;
