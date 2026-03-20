@@ -93,29 +93,3 @@ export const listExpensesAndPaymentsByUser = async (req, res) => {
     sendInternalError();
   }
 };
-
-export const listAllUsersByGroupCode = async (req, res) => {
-  try {
-    const { groupCode } = req.params;
-
-    // Find users by group code
-    let users = await User.find({ groupCode });
-
-    // Sort users alphabetically by userName
-    users.sort((a, b) => a.userName.localeCompare(b.userName));
-
-    res.status(StatusCodes.OK).json({
-      status: 'success',
-      results: users.length,
-      users,
-      message: 'User list retrieved successfully',
-    });
-  } catch (error) {
-    errorLog(
-      error,
-      'Error listing group members by groupCode:',
-      'Failed to list group members. Please try again later.',
-    );
-    sendInternalError();
-  }
-};

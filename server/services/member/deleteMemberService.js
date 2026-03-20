@@ -3,13 +3,22 @@ import Expense from '../../models/Expense.js';
 import Payment from '../../models/Payment.js';
 import ApiError from '../../utils/errors/ApiError.js';
 
+import { EXPENSE_FIELDS } from '../../../shared/constants/models/expenseConstants.js';
+import { PAYMENT_FIELDS } from '../../../shared/constants/models/paymentConstants.js';
+
+const { EXPENSE_PAYER, EXPENSE_BENEFICIARIES } = EXPENSE_FIELDS;
+const { PAYMENT_MAKER, PAYMENT_RECIPIENT } = PAYMENT_FIELDS;
+
 const deleteMemberService = async (memberId) => {
   const [associatedExpenses, associatedPayments] = await Promise.all([
     Expense.find({
-      $or: [{ expensePayer: memberId }, { expenseBeneficiaries: memberId }],
+      $or: [
+        { [EXPENSE_PAYER]: memberId },
+        { [EXPENSE_BENEFICIARIES]: memberId },
+      ],
     }),
     Payment.find({
-      $or: [{ paymentMaker: memberId }, { paymentRecipient: memberId }],
+      $or: [{ [PAYMENT_MAKER]: memberId }, { [PAYMENT_RECIPIENT]: memberId }],
     }),
   ]);
 
@@ -18,15 +27,13 @@ const deleteMemberService = async (memberId) => {
 
   if (hasActiveFinancialHistory) {
     throw ApiError.badRequest(
-      'User has associated transactions. Please remove the user from all transactions.',
+      'Member has associated transactions. Please remove the member from all transactions.',
     );
   }
 
   const deletedMember = await Member.findByIdAndDelete(memberId);
 
-  const memberNotFound = !deletedMember;
-
-  if (memberNotFound) {
+  if (!deletedMember) {
     throw ApiError.notFound('Member not found.');
   }
 
