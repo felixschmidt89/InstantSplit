@@ -8,14 +8,16 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 import styles from "./InAppNavigationBar.module.css";
-import { TO } from "../../../constants/clientRouteLinks.js";
+
+import TO from "../../../constants/clientRouteLinks.js";
+
 import debugLog from "../../../../../shared/utils/debug/debugLog.js";
 import { useGroupContext } from "../../../context/GroupContext";
 import getNestedPreviousRouteFromLocalStorage from "../../../utils/localStorage/getNestedPreviousRouteFromLocalStorage.js";
 import getPreviousRouteFromLocalStorage from "../../../utils/localStorage/getPreviousRouteFromLocalStorage.js";
 import InstantSplitLogo from "../../InstantSplitLogo/InstantSplitLogo";
 
-const { INSTANT_SPLIT } = TO;
+const { INSTANT_SPLIT } = TO.STATIC;
 
 const InAppNavigationBar = ({
   back = false,

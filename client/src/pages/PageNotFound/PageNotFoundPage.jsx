@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 import emojiConstants from "../../constants/emojiConstants";
-import { TO } from "../../constants/clientRouteLinks";
+import TO from "../../constants/clientRouteLinks.js";
 
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
@@ -10,7 +10,7 @@ import RouteButton from "../../components/InAppNavigation/RouteButton/RouteButto
 import styles from "./PageNotFoundPage.module.css";
 import Emoji from "../../components/Emoji/Emoji.jsx";
 
-const { INSTANT_SPLIT } = TO;
+const { INSTANT_SPLIT } = TO.STATIC;
 
 const PageNotFoundPage = () => {
   const { t } = useTranslation();

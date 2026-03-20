@@ -651,9 +651,12 @@ InstantSpilt
 │   │   │   ├── changeMemberNameController.js
 │   │   │   ├── createMemberController.js
 │   │   │   ├── deleteMemberController.js
+│   │   │   ├── getGroupMembersController.js
 │   │   │   ├── getMemberInfoController.js
 │   │   │   ├── getMemberTransactionsController.js
 │   │   │   └── getMembersController.js
+│   │   ├── payment
+│   │   │   └── createPaymentController.js
 │   │   ├── paymentController.js
 │   │   ├── settlementController.js
 │   │   └── userController.js
@@ -702,10 +705,15 @@ InstantSpilt
 │   │   │   ├── getGroupCurrencyService.js
 │   │   │   ├── getGroupInfoService.js
 │   │   │   └── getGroupTransactionsService.js
-│   │   └── member
-│   │       ├── createMemberService.js
-│   │       ├── deleteMemberService.js
-│   │       └── getMemberTransactionsService.js
+│   │   ├── member
+│   │   │   ├── changeMemberNameService.js
+│   │   │   ├── createMemberService.js
+│   │   │   ├── deleteMemberService.js
+│   │   │   ├── getGroupMembersService.js
+│   │   │   ├── getMemberInfoService.js
+│   │   │   └── getMemberTransactionsService.js
+│   │   └── payment
+│   │       └── createPaymentService.js
 │   ├── utils
 │   │   ├── databaseUtils.js
 │   │   ├── errorUtils.js
@@ -743,7 +751,8 @@ InstantSpilt
     │   │   ├── expenseConstants.js
     │   │   ├── groupConstants.js
     │   │   ├── memberConstants.js
-    │   │   └── paymentConstants.js
+    │   │   ├── paymentConstants.js
+    │   │   └── settlementConstants.js
     │   ├── system
     │   │   ├── environmentConstants.js
     │   │   ├── languageConstants.js

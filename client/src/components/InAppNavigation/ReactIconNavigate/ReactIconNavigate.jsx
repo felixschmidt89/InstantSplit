@@ -30,6 +30,7 @@ const ReactIconNavigate = ({
   const navigate = useNavigate();
   const { activeGroupCode } = useGroupContext();
 
+  //TODO: Optimize
   const handleIconClick = () => {
     if (email) {
       window.location.href = `mailto:${email}`;

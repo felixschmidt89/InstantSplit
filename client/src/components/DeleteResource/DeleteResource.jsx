@@ -5,13 +5,18 @@ import { useTranslation } from "react-i18next";
 import { buttonStyles } from "../../constants/stylesConstants";
 import useDeleteResource from "../../hooks/useDeleteResource";
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
-import { TO } from "../../constants/clientRouteLinks";
+
+// FIX: Corrected relative path (2 levels up from src/components/DeleteResource)
+import TO from "../../constants/clientRouteLinks.js";
+
 import styles from "./DeleteResource.module.css";
+
+const { INSTANT_SPLIT } = TO.STATIC;
 
 const DeleteResource = ({
   resourceId,
   resourceType,
-  route = TO.INSTANT_SPLIT,
+  route = INSTANT_SPLIT,
   isButton = true,
   navigateOnDelete = true,
   onDeleteResource,
@@ -29,6 +34,7 @@ const DeleteResource = ({
   );
 
   useEffect(() => {
+    // TODO: Centralize error handling and transformation logic in a utility function for consistency across the app
     if (hookError) {
       const transformedError = `delete-resource-error-${hookError
         .toLowerCase()
@@ -43,10 +49,14 @@ const DeleteResource = ({
   const handleDelete = async () => {
     try {
       await deleteResource();
+
       setIsConfirmationVisible(false);
       if (onDeleteResource) await onDeleteResource();
     } catch (err) {
-      /* Error handled by hook state */
+      // TODO: Drop
+      if (import.meta.env.DEV) {
+        console.error("Deletion failed:", err);
+      }
     }
   };
 

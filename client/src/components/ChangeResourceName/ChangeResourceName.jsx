@@ -5,13 +5,14 @@ import useErrorModalVisibility from "../../hooks/useErrorModalVisibility";
 import useUpdateResource from "../../hooks/useUpdateResource";
 import { submitOnEnter } from "../../utils/form/submitOnEnter";
 import { sendFormSubmitButtonStyles } from "../../constants/stylesConstants";
-import { TO } from "../../constants/clientRouteLinks";
+
+import TO from "../../constants/clientRouteLinks.js";
 import FormSubmitButton from "../FormSubmitButton/FormSubmitButton";
 import ErrorModal from "../ErrorModal/ErrorModal";
 
 import styles from "./ChangeResourceName.module.css";
 
-const { INSTANT_SPLIT } = TO;
+const { INSTANT_SPLIT } = TO.STATIC;
 
 const ChangeResourceName = ({
   resourceId,
@@ -34,8 +35,9 @@ const ChangeResourceName = ({
 
   const pluralResourceType = `${resourceType}s`;
 
+  // TODO: Improve
   const updatePayload = {
-    [resourceType]: resourceId,
+    [`${resourceType}Id`]: resourceId,
     [`${resourceType}Name`]: newResourceName,
     groupCode,
   };
@@ -52,7 +54,6 @@ const ChangeResourceName = ({
 
     try {
       await updateResource(updatePayload);
-
       inputRef.current?.blur();
     } catch (apiError) {
       displayErrorModal();

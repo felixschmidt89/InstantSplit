@@ -15,6 +15,9 @@
 - **Primary Development Flow**:
   - **Standard**: New feature or refactor branches are strictly branched from the `develop` branch.
   - **UAT**: In specific cases, branches may be created from the `test` branch (UAT deployment).
+- **V2 Architecture Strategy**:
+  - **Migration Independence**: We are actively developing "V2". Do **NOT** attempt to maintain backward compatibility with V1 data structures, legacy APIs, or outdated client consumption patterns.
+  - **Breaking Changes Expected**: Embrace breaking changes if they align with the new V2 standards (e.g., swapping strings for ObjectIds, flattening responses, removing legacy endpoints).
 - **Workflow Protocol**:
   - When analyzing code, always consider the impact on the `develop` branch integration.
   - Ensure all refactors maintain compatibility with the existing MERN monorepo structure (Client, Server, Shared).
@@ -52,10 +55,10 @@
   - Adhere strictly to the established visual style used in `### 4. Coding Standards: React & JS`, utilizing a structured hierarchy of bolded categories followed by bulleted requirements. Do not reprint `### 4. Coding Standards: React & JS`.
   - Ensure the output is modular and ready for direct copy-pasting into the main instruction document.
 - **Inline Code:** Present code inline.
-- **Comments:**
+- **Comments & Annotations**:
   - **NEVER:** Add extra comments unless requested.
   - **NEVER:** Use JSDoc comments.
-  - **NEVER:** Change comments that include "TODO:".
+  - **MANDATORY TODO Preservation**: NEVER delete, resolve, or alter any `// TODO:` or `/* TODO: */` comments encountered in the provided code. They must be preserved exactly as written, even during major refactors, path updates, or logic cleanups.
 - **Naming:**
   - **NEVER** use abbreviations, always use full descriptive names.
   - **NEVER** Change existing names. Highlight incorrect names for review though.
@@ -241,7 +244,7 @@ This is a legacy codebase. When we work on existing files, we always want to ref
 - **Content Requirements**:
   - **PR Title**: Use the Angular/Conventional Commits format (`type: subject`) in lowercase (e.g., `chore: ...`, `feat: ...`).
   - **Summary Text**: Provide a concise, bulleted list of changes using technical terminology (e.g., "module resolution," "path aliasing").
-  - **Exclusions**: Do not include "PR Title" or "Description" headers within the code block; provide only the raw text.
+  - **Exclusions**: do not include "PR Title" or "Description" headers within the code block; provide only the raw text.
 
 ### 10. Atomic Utility Architecture
 

@@ -5,7 +5,9 @@ import { useNavigate } from "react-router-dom";
 
 import TermsAndConditionsSection from "../../Home/TermsAndConditionsSection/TermsAndConditionsSection";
 import { buttonStyles } from "../../../constants/stylesConstants";
-import { TO } from "../../../constants/clientRouteLinks.js";
+
+import TO from "../../../constants/clientRouteLinks.js";
+
 import isGroupCodeInLocalStorageStoredGroupCodes from "../../../utils/localStorage/isGroupCodeInLocalStorageStoredGroupCodes.js";
 import setActiveGroupCodeInLocalStorage from "../../../utils/localStorage/setActiveGroupCodeInLocalStorage.js";
 import storeGroupCodeInLocalStorage from "../../../utils/localStorage/storeGroupCodeInLocalStorage.js";
@@ -13,9 +15,9 @@ import { useGroupContext } from "../../../context/GroupContext";
 
 import styles from "./AcceptGroupInvitation.module.css";
 
-const { INSTANT_SPLIT } = TO;
+const { INSTANT_SPLIT } = TO.STATIC;
 
-const AcceptGroupInvitation = ({ groupName, groupCode }) => {
+const AcceptGroupInvitation = ({ groupCode }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { setActiveGroupCode } = useGroupContext();
