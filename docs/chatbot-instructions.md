@@ -59,7 +59,7 @@
   - **NEVER:** Add extra comments unless requested.
   - **NEVER:** Use JSDoc comments.
   - **MANDATORY TODO Preservation**: NEVER delete, resolve, or alter any `// TODO:` or `/* TODO: */` comments encountered in the provided code. They must be preserved exactly as written, even during major refactors, path updates, or logic cleanups.
-- **Naming:**
+- **Naming**:
   - **NEVER** use abbreviations, always use full descriptive names.
   - **NEVER** Change existing names. Highlight incorrect names for review though.
   - **When introducing new names and functions** Always use descriptive names and ask for confirmation prior to implementation.
@@ -115,6 +115,7 @@
     - **Server-Specific**: Logic-only constants must reside in `server/constants/`.
   - **Export Standards**:
     - **Single Export Rule**: Every constant file must use a single `export default` statement at the bottom of the file.
+    - **V2 Export Enforcement**: Constant files must strictly use a single `export default` object. Named exports are prohibited to ensure compatibility with Vite's Fast Refresh and to maintain the Category-Scoped Pattern.
     - **Nesting**: Group related constants into nested objects (e.g., `FIELDS`, `LIMITS`, `MESSAGES`) within the default export object.
   - **Category-Scoped Pattern**:
     - **Import Level**: Only import the top-level default export object (e.g., `import EXPENSE from "..."`).
@@ -177,28 +178,13 @@
   - Prioritize CSS for styles; use JavaScript only if absolutely necessary.
   - **NEVER** use `px` units; use `rem`, `em`, `%`, `vh`, or `vw`.
 
-- **Project-Wide String Management**:
-  - **Prohibition**: Writing raw strings ("Magic Strings") for user-facing messages, error messages, identifiers, or configuration values is strictly prohibited across the entire project (Client, Server, Shared).
-  - **Protocol**: **MANDATORY**: Before implementing a string, you must search the related constant files (e.g., `errorConstants.js`, `apiRoutesConstants.js`, `clientStaticRoutesConstants.js`) for an existing match.
-  - **Implementation**: If no match exists, you must create a new descriptive constant in the appropriate constant file before using it in the logic layer.
-- **Constant Location Strategy**:
-  - **Shared Scope**: **MANDATORY**: Any constant consumed by both Client and Server (e.g., `errorConstants.js`, `validationConstants.js`) must reside in `shared/constants/`.
-  - **Client-Specific**: UI-only constants must reside in `client/src/constants/`.
-  - **Server-Specific**: Logic-only constants must reside in `server/constants/`.
-- **Export Standards**:
-  - **Single Export Rule**: Every constant file must use a single `export default` statement at the bottom of the file.
-  - **Nesting**: Group related constants into nested objects (e.g., `FIELDS`, `LIMITS`, `MESSAGES`) within the default export object.
-- **Category-Scoped Pattern**:
-  - **Import Level**: Only import the top-level default export object (e.g., `import EXPENSE from "..."`).
-  - **Destructuring Level**: Destructure only the first-level "Category" objects (e.g., `const { FIELDS, LIMITS } = EXPENSE;`). Do **NOT** destructure individual keys into the local namespace.
-  - **Usage Level**: Access constants using `Category.KEY` (e.g., `[FIELDS.AMOUNT]`, `LIMITS.MAX`).
-  - **Standard Aliasing**: Always alias the `FIELDS` object from `COMMON` as `COMMON_FIELDS` to distinguish it from entity-specific fields (e.g., `const { FIELDS: COMMON_FIELDS } = COMMON;`).
-- **Naming Uniqueness**:
-  - **Prohibition**: Constant keys within categories like `MODEL_NAMES` must not conflict with common class or model names (e.g., avoid `EXPENSE: "Expense"` if the model is named `Expense`).
-  - **Protocol**: Use descriptive suffixes within the constant key itself (e.g., `EXPENSE_MODEL: "Expense"`) to allow direct destructuring without aliasing (e.g., `const { EXPENSE_MODEL } = MODEL_NAMES`).
-- **Constant Integrity & Verification**:
-  - **Prohibition**: NEVER "hallucinate" or assume the existence of constant keys.
-  - **Protocol**: You must explicitly ask the user to provide the relevant constant file before generating code that consumes it.
+- **Path Accuracy & Resolution**:
+  - **Relative Path Verification**: Always calculate relative import depth based on the file's absolute position in the monorepo. For components nested three levels deep (e.g., `src/components/Feature/Component/`), use `../../../` to reach the `src` root.
+  - **Directory Depth Validation**: Before finalizing imports, verify the exact nesting level of the current file. If the component is located in a sub-folder (e.g., `src/components/Category/Component/`), an additional parent selector (`../`) must be prepended to reach shared directories (`src/constants/`, `src/utils/`).
+  - **Path Resolution for Nested Components**: For any component currently nested in a sub-category folder (against V2 flat standards), ensure all root-level imports (e.g., `src/constants/`) use `../../../../` to reach the source root.
+
+- **Import Consistency**:
+  - **Default Import Enforcement**: When consuming constants or utilities that utilize `export default`, you must use default import syntax. Named imports against default exports will trigger a `SyntaxError` in ES modules.
 
 ### 6. Labeling & Translation Rules
 
@@ -292,14 +278,19 @@ This is a legacy codebase. When we work on existing files, we always want to ref
 - **Constants Organization**:
   - **`clientStaticRoutesConstants.js`**: Stores a flat object of base path strings.
   - **`clientDynamicRoutesConstants.js`**: Composes full route definitions for the router using template literals and dynamic segments.
-  - **`navigationConstants.js`**: Stores the `TO` object containing functional route builders created via the `createRoute` utility.
+  - **`clientRouteLinks.js`**: Stores the functional route builders created via the `createRoute` utility (commonly aliased as `TO` or `NAV_LINKS`).
 - **Import & Destructuring**:
   - **Route Constants**: Always destructure required paths from `CLIENT_STATIC_ROUTES` or `CLIENT_DYNAMIC_ROUTES` at the top level of the file for route matching, configuration, or comparison logic.
-  - **Navigation Helpers (`TO`)**: Always import the `TO` object in full. Do **NOT** destructure properties from it at the top level.
+  - **Navigation Helpers**: Always import the `NAV_LINKS` (or `TO`) object in full from `clientRouteLinks.js`. Do **NOT** destructure properties from it at the top level.
 - **Usage Restrictions**:
-  - **`TO` Object**: Strictly reserved for use within `useNavigate()` calls (e.g., `Maps(TO.HOME)`). Never pass `TO` constants into component props.
+  - **Navigation Object**: Strictly reserved for use within `useNavigate()` calls (e.g., `Maps(TO.HOME)`). Never pass `TO` constants into component props.
   - **Static Props**: For any component prop requiring a path string (e.g., `abortTo`, `backTo`, `forwardTo`), **MANDATORY** use of destructured strings from `CLIENT_STATIC_ROUTES` (e.g., `HOME`).
-  - **Import Priority**: Always prioritize `CLIENT_STATIC_ROUTES` for path references if technically possible, particularly when other static constants are already present in the import block, to avoid redundant `TO` imports.
+  - **Import Priority**: Always prioritize `CLIENT_STATIC_ROUTES` for path references if technically possible, particularly when other static constants are already present in the import block, to avoid redundant navigation object imports.
+- **Navigation Implementation**:
+  - **Functional Route Builders**: Always use the functional builders from `clientRouteLinks.js` for programmatic navigation via `useNavigate`. Ensure dynamic segments (e.g., `groupCode`) are passed as arguments to the corresponding route builder function.
+- **Navigation Constant Sourcing**:
+  - **Primary Navigation Export**: All functional route builders must be exported via the `NAV_LINKS` object (or `TO`) alias from `clientRouteLinks.js`.
+  - **Dynamic Segment Enforcement**: Any navigation constant targeting a group-specific resource must be implemented as a function accepting `groupCode` to ensure valid URI construction.
 - **Component Implementation**:
   - **Semantic Variables**: Extract ternary logic or complex destination selection into well-named variables within the functional body (e.g., `const homeDestination = isGuest ? HOME : INSTANT_SPLIT;`).
   - **JSX Declarativeness**: Pass these semantic variables directly to component props (e.g., `homeTo={homeDestination}`) to ensure the presentation layer remains readable and logically thin.

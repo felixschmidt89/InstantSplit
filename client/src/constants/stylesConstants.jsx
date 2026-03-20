@@ -1,7 +1,4 @@
-/**
- * Default styles for Material-UI button.
- */
-export const buttonStyles = {
+const buttonStyles = {
   padding: "0rem 0.6rem",
   fontSize: "1.6rem",
   margin: "0 auto",
@@ -13,10 +10,7 @@ export const buttonStyles = {
   borderRadius: "20px",
 };
 
-/**
- * Styles for small Material-UI button, such as OK button.
- */
-export const smallButtonStyles = {
+const smallButtonStyles = {
   padding: "0rem 0.5rem",
   fontSize: "1.4rem",
   margin: "0 auto",
@@ -28,10 +22,7 @@ export const smallButtonStyles = {
   borderRadius: "20px",
 };
 
-/**
- * Styles for attach file Material-UI button.
- */
-export const attachFileButtonStyles = {
+const attachFileButtonStyles = {
   padding: "0.2rem 0.5rem",
   fontSize: "1.6rem",
   marginTop: "0rem",
@@ -42,10 +33,7 @@ export const attachFileButtonStyles = {
   borderRadius: "20px",
 };
 
-/**
- * Styles for Material-UI button used for routing within the application.
- */
-export const routeButtonStyles = {
+const routeButtonStyles = {
   padding: "0.1rem 0.5rem",
   fontSize: "1.6rem",
   margin: "0 auto",
@@ -57,9 +45,7 @@ export const routeButtonStyles = {
   borderRadius: "20px",
 };
 
-/**
- * Styles for toggleBeneficiariesButton Material-UI  */
-export const toggleBeneficiariesButtonStyles = {
+const toggleBeneficiariesButtonStyles = {
   padding: "0rem 0.5rem",
   fontSize: "1.4rem",
   margin: "0 auto",
@@ -70,9 +56,7 @@ export const toggleBeneficiariesButtonStyles = {
   borderRadius: "20px",
 };
 
-/**
- * Styles for plus icon FormSubmitButton component  */
-export const plusFormSubmitButtonStyles = {
+const plusFormSubmitButtonStyles = {
   fontSize: 1.6,
   add: true,
   marginLeft: "0.1",
@@ -81,9 +65,7 @@ export const plusFormSubmitButtonStyles = {
   translateY: 0.15,
 };
 
-/**
- * Styles for send icon FormSubmitButton component  */
-export const sendFormSubmitButtonStyles = {
+const sendFormSubmitButtonStyles = {
   fontSize: 1.6,
   submit: true,
   marginLeft: "0.1",
@@ -92,9 +74,7 @@ export const sendFormSubmitButtonStyles = {
   translateY: 0.1,
 };
 
-/**
- * Styles for add user React icon component*/
-export const addUserReactIconStyles = {
+const addUserReactIconStyles = {
   containerHeight: "8",
   containerWidth: "7",
   iconExplanationWidth: "5",
@@ -105,3 +85,16 @@ export const addUserReactIconStyles = {
   translateX: 0.3,
   iconScale: 1,
 };
+
+const STYLES = {
+  buttonStyles,
+  smallButtonStyles,
+  attachFileButtonStyles,
+  routeButtonStyles,
+  toggleBeneficiariesButtonStyles,
+  plusFormSubmitButtonStyles,
+  sendFormSubmitButtonStyles,
+  addUserReactIconStyles,
+};
+
+export default STYLES;

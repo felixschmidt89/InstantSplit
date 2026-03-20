@@ -2,26 +2,25 @@ import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
-import { useGroupContext } from "../../../context/GroupContext";
-
-import setActiveGroupCodeInLocalStorage from "../../../utils/localStorage/setActiveGroupCodeInLocalStorage.js";
-import setPreviousRouteInLocalStorage from "../../../utils/localStorage/setPreviousRouteInLocalStorage.js";
-import storeGroupCodeInLocalStorage from "../../../utils/localStorage/storeGroupCodeInLocalStorage.js";
-import { handleApiErrors } from "../../../utils/errorUtils";
-import { replaceSlashesWithDashes } from "../../../utils/replaceSlashesWithDashes";
-
-import { TO_MEMBERS } from "../../../constants/clientRouteLinks.js";
-import { plusFormSubmitButtonStyles } from "../../../constants/stylesConstants";
-import { createGroup } from "../../../api/groups/createGroup";
-
-import FormSubmitButton from "../../FormSubmitButton/FormSubmitButton";
-import ErrorModal from "../../ErrorModal/ErrorModal";
-import styles from "./CreateGroupForm.module.css";
+import useErrorModalVisibility from "../../../../hooks/useErrorModalVisibility";
+import { useGroupContext } from "../../../../context/GroupContext";
+import NAV_LINKS from "../../../../constants/clientRouteLinks.js";
+import STYLES from "../../../../constants/stylesConstants.js";
+import createGroup from "../../../../api/groups/createGroup.js";
+import setActiveGroupCodeInLocalStorage from "../../../../utils/localStorage/setActiveGroupCodeInLocalStorage.js";
+import setPreviousRouteInLocalStorage from "../../../../utils/localStorage/setPreviousRouteInLocalStorage.js";
+import storeGroupCodeInLocalStorage from "../../../../utils/localStorage/storeGroupCodeInLocalStorage.js";
+import handleApiErrors from "../../../../utils/errorUtils.js";
+import replaceSlashesWithDashes from "../../../../utils/replaceSlashesWithDashes.js";
 import LOG_LEVELS from "../../../../../shared/constants/system/loggerConstants.js";
 import debugLog from "../../../../../shared/utils/debug/debugLog.js";
+import FormSubmitButton from "../../FormSubmitButton/FormSubmitButton.jsx";
+import ErrorModal from "../../ErrorModal/ErrorModal.jsx";
+import styles from "./CreateGroupForm.module.css";
 
 const { LOG_ERROR } = LOG_LEVELS;
+const { MEMBERS } = NAV_LINKS;
+const { plusFormSubmitButtonStyles } = STYLES;
 
 const CreateGroupForm = ({ isExistingUser = false }) => {
   const navigate = useNavigate();
@@ -31,11 +30,12 @@ const CreateGroupForm = ({ isExistingUser = false }) => {
 
   const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
     useErrorModalVisibility();
-
   const { setActiveGroupCode } = useGroupContext();
 
   const [groupName, setGroupName] = useState("");
   const [error, setError] = useState(null);
+
+  const hasGroupName = Boolean(groupName.length);
 
   const handleInputChange = (event) => {
     setGroupName(replaceSlashesWithDashes(event.target.value));
@@ -52,13 +52,13 @@ const CreateGroupForm = ({ isExistingUser = false }) => {
       storeGroupCodeInLocalStorage(groupCode);
       setActiveGroupCodeInLocalStorage(groupCode);
       setPreviousRouteInLocalStorage(pathname);
-
       setActiveGroupCode(groupCode);
 
       debugLog("Group created successfully, navigating to member creation", {
         groupCode,
       });
-      navigate(TO_MEMBERS.CREATE);
+
+      navigate(MEMBERS.CREATE(groupCode));
     } catch (apiError) {
       if (apiError.response) {
         handleApiErrors(apiError, setError, "groups", displayErrorModal, t);
@@ -93,7 +93,10 @@ const CreateGroupForm = ({ isExistingUser = false }) => {
         ref={inputRef}
       />
       {/* TODO: Re-enable FriendlyCaptcha validation & ensure it's working on test deploy too */}
-      <FormSubmitButton {...plusFormSubmitButtonStyles} />
+      <FormSubmitButton
+        {...plusFormSubmitButtonStyles}
+        disabled={!hasGroupName}
+      />
 
       <ErrorModal
         error={error}

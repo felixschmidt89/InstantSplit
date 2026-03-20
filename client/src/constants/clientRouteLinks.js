@@ -1,20 +1,23 @@
 import createRoute from "../utils/route/createRoute.js";
 import CLIENT_STATIC_ROUTES from "./clientStaticRoutesConstants.js";
 
+// TODO: Refactor to not use groupCode in routes
 const TO_EXPENSE = {
-  CREATE: CLIENT_STATIC_ROUTES.CREATE_EXPENSE,
+  CREATE: (groupCode) => `${CLIENT_STATIC_ROUTES.CREATE_EXPENSE}/${groupCode}`,
   UPDATE: createRoute(CLIENT_STATIC_ROUTES.UPDATE_EXPENSE),
   DETAILS: createRoute(CLIENT_STATIC_ROUTES.EXPENSE_DETAILS),
 };
 
+// TODO: Refactor to not use groupCode in routes
 const TO_PAYMENT = {
-  CREATE: CLIENT_STATIC_ROUTES.CREATE_PAYMENT,
+  CREATE: (groupCode) => `${CLIENT_STATIC_ROUTES.CREATE_PAYMENT}/${groupCode}`,
   UPDATE: createRoute(CLIENT_STATIC_ROUTES.UPDATE_PAYMENT),
   DETAILS: createRoute(CLIENT_STATIC_ROUTES.PAYMENT_DETAILS),
 };
 
+// TODO: Refactor to not use groupCode in routes
 const TO_MEMBERS = {
-  CREATE: CLIENT_STATIC_ROUTES.CREATE_MEMBERS,
+  CREATE: (groupCode) => `${CLIENT_STATIC_ROUTES.CREATE_MEMBERS}/${groupCode}`,
   DETAILS: createRoute(CLIENT_STATIC_ROUTES.MEMBER_DETAILS),
   TRANSACTION_HISTORY: createRoute(
     CLIENT_STATIC_ROUTES.MEMBER_TRANSACTION_HISTORY,
