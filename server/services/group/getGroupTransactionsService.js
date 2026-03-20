@@ -1,5 +1,5 @@
 import LOG_LEVELS from '../../../shared/constants/system/loggerConstants.js';
-import { SORT_ORDER } from '../../../shared/constants/system/systemConstants.js';
+import SYSTEM from '../../../shared/constants/system/systemConstants.js';
 import { TRANSACTION_TYPES } from '../../../shared/constants/domain/transactionConstants.js';
 import { COMMON_FIELDS } from '../../../shared/constants/models/commonConstants.js';
 import { EXPENSE_FIELDS } from '../../../shared/constants/models/expenseConstants.js';
@@ -12,6 +12,7 @@ import Expense from '../../models/Expense.js';
 import Payment from '../../models/Payment.js';
 
 const { INFO } = LOG_LEVELS;
+const { SORT_ORDER } = SYSTEM;
 const { DESCENDING } = SORT_ORDER;
 const { EXPENSE, PAYMENT, UNKNOWN } = TRANSACTION_TYPES;
 const { ID, CREATED_AT } = COMMON_FIELDS;

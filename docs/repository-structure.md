@@ -635,13 +635,10 @@ InstantSpilt
 │   │   ├── env
 │   │   └── serverConfig.js
 │   ├── constants
-│   │   ├── configConstants.js
-│   │   ├── dataConstants.js
-│   │   └── errorConstants.js
+│   │   └── serverConfigConstants.js
 │   ├── controllers
 │   │   ├── captchaController.js
 │   │   ├── expenseController.js
-│   │   ├── fileController.js
 │   │   ├── group
 │   │   │   ├── changeGroupNameController.js
 │   │   │   ├── createGroupController.js
@@ -651,9 +648,12 @@ InstantSpilt
 │   │   ├── groupController.js
 │   │   ├── healthController.js
 │   │   ├── member
+│   │   │   ├── changeMemberNameController.js
 │   │   │   ├── createMemberController.js
 │   │   │   ├── deleteMemberController.js
-│   │   │   └── getMemberTransactionsController.js
+│   │   │   ├── getMemberInfoController.js
+│   │   │   ├── getMemberTransactionsController.js
+│   │   │   └── getMembersController.js
 │   │   ├── paymentController.js
 │   │   ├── settlementController.js
 │   │   └── userController.js
@@ -684,7 +684,6 @@ InstantSpilt
 │   ├── routes
 │   │   ├── captchaRouter.js
 │   │   ├── expenseRouter.js
-│   │   ├── fileRouter.js
 │   │   ├── groupRouter.js
 │   │   ├── healthRouter.js
 │   │   ├── memberRouter.js
@@ -737,6 +736,8 @@ InstantSpilt
     │   │   ├── currencyConstants.js
     │   │   ├── resourceConstants.js
     │   │   └── transactionConstants.js
+    │   ├── error
+    │   │   └── errorConstants.js
     │   ├── models
     │   │   ├── commonConstants.js
     │   │   ├── expenseConstants.js

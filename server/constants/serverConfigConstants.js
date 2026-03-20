@@ -7,7 +7,7 @@ const ENV_MODES = {
 const ENV_FILES = {
   [ENV_MODES.PRODUCTION]: '.env.production',
   [ENV_MODES.DEVELOPMENT]: '.env.development',
-  [ENV_MODES.TEST]: '.env.test',
+  [ENV_MODES.EXAMPLE]: '.env.example',
 };
 
 const BOOLEAN_STRINGS = {

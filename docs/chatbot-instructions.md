@@ -170,6 +170,10 @@
 - **Export Standards**:
   - **Single Export Rule**: If a file contains only a single export, it must use a `default export`.
   - **Placement**: The `export default` statement must be placed at the very bottom of the file.
+- **Constant Integrity & Verification**:
+  - **Prohibition**: NEVER "hallucinate" or assume the existence of constant keys or structures (e.g., assuming a nested object structure like `TRANSACTION_CONSTANTS.TRANSACTION_TYPES`).
+  - **Protocol**: You must explicitly ask the user to provide the relevant constant file (e.g., `transactionConstants.js`) before generating code that consumes it.
+  - **Action**: If a required constant is missing from the provided file, you must suggest the specific addition to the constant file first and wait for confirmation before using it in the logic layer.
 
 ### 6. Labeling & Translation Rules
 
