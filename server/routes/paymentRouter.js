@@ -1,8 +1,6 @@
 import express from 'express';
 import {
   createPayment,
-  listAllPayments,
-  deleteAllPayments,
   getPaymentInfo,
   deletePayment,
   updatePayment,

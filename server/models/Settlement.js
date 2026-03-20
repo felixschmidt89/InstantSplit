@@ -16,12 +16,12 @@ const settlementSchema = new Schema(
     [FIELDS.DEBTOR]: {
       type: DEFINITIONS.OBJECT_ID,
       ref: MODEL_NAMES.MEMBER,
-      required: [DEFINITIONS.TRUE, 'Missing debtor reference'],
+      required: [DEFINITIONS.TRUE, 'Settlement requires a valid debtor ID'],
     },
     [FIELDS.CREDITOR]: {
       type: DEFINITIONS.OBJECT_ID,
       ref: MODEL_NAMES.MEMBER,
-      required: [DEFINITIONS.TRUE, 'Missing creditor reference'],
+      required: [DEFINITIONS.TRUE, 'Settlement requires a valid creditor ID'],
     },
     [FIELDS.AMOUNT]: {
       type: DEFINITIONS.NUMBER,

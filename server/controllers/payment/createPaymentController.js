@@ -5,7 +5,8 @@ const { CREATED } = StatusCodes;
 
 const createPaymentController = async (req, res, next) => {
   try {
-    const { makerId, recipientId, amount, groupCode } = req.body;
+    const { makerId, recipientId, amount } = req.body;
+    const { groupCode } = req.context;
 
     const payment = await createPaymentService({
       makerId,

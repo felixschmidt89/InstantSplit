@@ -1,13 +1,11 @@
 import { StatusCodes } from 'http-status-codes';
 
-import { MEMBER_FIELDS } from '../../../shared/constants/models/memberConstants.js';
-import { COMMON_FIELDS } from '../../../shared/constants/models/commonConstants.js';
+import MEMBER from '../../../shared/constants/models/memberConstants.js';
+import COMMON from '../../../shared/constants/models/commonConstants.js';
 
 import Member from '../../models/Member.js';
 import ApiError from '../../utils/errors/ApiError.js';
 
-const { MEMBER_NAME } = MEMBER_FIELDS;
-const { ID } = COMMON_FIELDS;
 const { CONFLICT, NOT_FOUND } = StatusCodes;
 
 const changeMemberNameService = async (memberData) => {
@@ -15,17 +13,17 @@ const changeMemberNameService = async (memberData) => {
   const sanitizedName = memberName.trim();
 
   const existingMember = await Member.findOne({
-    [MEMBER_NAME]: sanitizedName,
-    groupCode,
+    [MEMBER.FIELDS.NAME]: sanitizedName,
+    [COMMON.FIELDS.GROUP_CODE]: groupCode,
   }).lean();
 
-  if (existingMember && String(existingMember[ID]) !== memberId) {
+  if (existingMember && String(existingMember[COMMON.FIELDS.ID]) !== memberId) {
     throw new ApiError(CONFLICT, 'Name is already taken in this group');
   }
 
   const updatedMember = await Member.findByIdAndUpdate(
     memberId,
-    { $set: { [MEMBER_NAME]: sanitizedName } },
+    { $set: { [MEMBER.FIELDS.NAME]: sanitizedName } },
     { new: true, runValidators: true },
   ).lean();
 
