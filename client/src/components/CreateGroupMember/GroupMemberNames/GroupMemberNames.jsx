@@ -70,7 +70,7 @@ const GroupMemberNames = ({ isInAppGroupCreation }) => {
             </span>
           ) : (
             <ul className={styles.list}>
-              {sortedMembers.map(({ _id, userName }) => (
+              {sortedMembers.map(({ _id, memberName }) => (
                 <li key={_id} className={styles.listItem}>
                   {!isInAppGroupCreation ? (
                     <>
@@ -84,14 +84,14 @@ const GroupMemberNames = ({ isInAppGroupCreation }) => {
                           />
                         </span>
                         <span className={styles.groupMemberName}>
-                          {userName}
+                          {memberName}
                         </span>
                       </Link>
 
                       <span className={styles.linkButton}>
                         <DeleteGroupMemberBin
-                          userId={_id}
-                          groupMemberName={userName}
+                          memberId={_id}
+                          groupMemberName={memberName}
                           onDeleteSuccess={refreshGroupMembers}
                           isInAppGroupCreation={isInAppGroupCreation}
                         />
@@ -105,11 +105,13 @@ const GroupMemberNames = ({ isInAppGroupCreation }) => {
                           ariaLabel='group member emoji'
                         />
                       </span>
-                      <span className={styles.groupMemberName}>{userName}</span>
+                      <span className={styles.groupMemberName}>
+                        {memberName}
+                      </span>
                       <span className={styles.button}>
                         <DeleteGroupMemberBin
-                          userId={_id}
-                          groupMemberName={userName}
+                          memberId={_id}
+                          groupMemberName={memberName}
                           onDeleteSuccess={refreshGroupMembers}
                           isInAppGroupCreation={isInAppGroupCreation}
                         />

@@ -4,7 +4,7 @@ import GROUP from '../../shared/constants/models/groupConstants.js';
 import COMMON from '../../shared/constants/models/commonConstants.js';
 import { DEFAULT_CURRENCY } from '../../shared/constants/domain/currencyConstants.js';
 
-const { FIELDS } = GROUP;
+const { FIELDS, TYPE_VALUE } = GROUP;
 const {
   MODEL_NAMES,
   DEFINITIONS,
@@ -14,6 +14,11 @@ const {
 
 const groupSchema = new Schema(
   {
+    [COMMON_FIELDS.TRANSACTION_TYPE]: {
+      type: DEFINITIONS.STRING,
+      default: TYPE_VALUE,
+      immutable: DEFINITIONS.TRUE,
+    },
     [COMMON_FIELDS.GROUP_CODE]: {
       type: DEFINITIONS.STRING,
       required: DEFINITIONS.TRUE,
@@ -35,11 +40,11 @@ const groupSchema = new Schema(
       type: DEFINITIONS.DATE,
       default: DEFINITIONS.NOW,
     },
-    [FIELDS.INACTIVE_DATA_PURGE]: {
+    [FIELDS.DATA_PURGE_ENABLED]: {
       type: DEFINITIONS.BOOLEAN,
       default: DEFINITIONS.TRUE,
     },
-    [FIELDS.FIXED_DEBTOR_CREDITOR_ORDER]: {
+    [FIELDS.SETTLEMENTS_CALCULATED]: {
       type: DEFINITIONS.BOOLEAN,
       default: DEFINITIONS.FALSE,
     },

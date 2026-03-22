@@ -11,6 +11,7 @@ const MODEL_NAMES = {
 const FIELDS = {
   ID: "_id",
   GROUP_CODE: "groupCode",
+  TRANSACTION_TYPE: "transactionType",
   CREATED_AT: "createdAt",
   UPDATED_AT: "updatedAt",
 };

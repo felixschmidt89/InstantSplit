@@ -1,9 +1,8 @@
 import { Schema, model } from 'mongoose';
-
 import EXPENSE from '../../shared/constants/models/expenseConstants.js';
 import COMMON from '../../shared/constants/models/commonConstants.js';
 
-const { FIELDS } = EXPENSE;
+const { FIELDS, TYPE_VALUE } = EXPENSE;
 const {
   MODEL_NAMES,
   DEFINITIONS,
@@ -13,6 +12,11 @@ const {
 
 const expenseSchema = new Schema(
   {
+    [COMMON_FIELDS.TRANSACTION_TYPE]: {
+      type: DEFINITIONS.STRING,
+      default: TYPE_VALUE,
+      immutable: DEFINITIONS.TRUE,
+    },
     [FIELDS.DESCRIPTION]: {
       type: DEFINITIONS.STRING,
       trim: DEFINITIONS.TRUE,

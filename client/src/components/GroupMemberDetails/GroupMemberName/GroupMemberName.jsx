@@ -1,17 +1,18 @@
 import { useRef, useState } from "react";
-
 import { useGroupContext } from "../../../context/GroupContext";
 import useEditPenVisibility from "../../../hooks/useEditPenVisibility";
 import ChangeResourceName from "../../ChangeResourceName/ChangeResourceName";
 import EditPenButton from "../../EditPenButton/EditPenButton";
 
+// Assuming you have MEMBER in your RESOURCE_TYPES now
 import { RESOURCE_TYPES } from "../../../../../shared/constants/domain/resourceConstants.js";
 
 import styles from "./GroupMemberName.module.css";
 
-const { USER } = RESOURCE_TYPES;
+// FIX: Change USER to MEMBER
+const { MEMBER } = RESOURCE_TYPES;
 
-const GroupMemberName = ({ userId }) => {
+const GroupMemberName = ({ memberId }) => {
   const containerRef = useRef(null);
 
   const { getMemberName, activeGroupCode, refreshGroupMembers } =
@@ -29,7 +30,8 @@ const GroupMemberName = ({ userId }) => {
     await refreshGroupMembers();
   };
 
-  const fetchedName = getMemberName(userId);
+  // FIX: Use memberId to look up the name
+  const fetchedName = getMemberName(memberId);
   const displayName = optimisticName ?? fetchedName;
 
   return (
@@ -37,8 +39,8 @@ const GroupMemberName = ({ userId }) => {
       {showEdit ? (
         <div className={styles.changeName}>
           <ChangeResourceName
-            resourceId={userId}
-            resourceType={USER}
+            resourceId={memberId}
+            resourceType={MEMBER}
             resourceName={displayName}
             groupCode={activeGroupCode}
             inputWidth={20}

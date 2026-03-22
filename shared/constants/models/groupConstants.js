@@ -1,13 +1,16 @@
 const FIELDS = {
-  NAME: "groupName",
+  NAME: "name",
   CURRENCY: "currency",
   LAST_ACTIVE: "lastActive",
-  INACTIVE_DATA_PURGE: "inactiveDataPurge",
-  FIXED_DEBTOR_CREDITOR_ORDER: "fixedDebitorCreditorOrder",
+  DATA_PURGE_ENABLED: "dataPurgeEnabled",
+  SETTLEMENTS_CALCULATED: "settlementsCalculated",
 };
+
+const TRANSACTION_TYPE_VALUE = "group";
 
 const GROUP = {
   FIELDS,
+  TYPE_VALUE: TRANSACTION_TYPE_VALUE,
 };
 
 export default GROUP;

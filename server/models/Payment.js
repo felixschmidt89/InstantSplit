@@ -3,7 +3,7 @@ import { Schema, model } from 'mongoose';
 import PAYMENT from '../../shared/constants/models/paymentConstants.js';
 import COMMON from '../../shared/constants/models/commonConstants.js';
 
-const { FIELDS } = PAYMENT;
+const { FIELDS, TYPE_VALUE } = PAYMENT;
 const {
   MODEL_NAMES,
   DEFINITIONS,
@@ -13,6 +13,11 @@ const {
 
 const paymentSchema = new Schema(
   {
+    [COMMON_FIELDS.TRANSACTION_TYPE]: {
+      type: DEFINITIONS.STRING,
+      default: TYPE_VALUE,
+      immutable: DEFINITIONS.TRUE,
+    },
     [FIELDS.AMOUNT]: {
       type: DEFINITIONS.NUMBER,
       required: DEFINITIONS.TRUE,

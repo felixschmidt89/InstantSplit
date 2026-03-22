@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import LOG_LEVELS from "../../../shared/constants/system/loggerConstants.js";
 import fetchGroupMembers from "../api/members/fetchGroupMembers.js";
@@ -7,7 +7,6 @@ import usePolling from "./usePolling.jsx";
 
 const { LOG_ERROR } = LOG_LEVELS;
 
-// TODO: create useApi hook and move this there
 const useFetchGroupMembers = (groupCode) => {
   const { t } = useTranslation();
 
@@ -20,10 +19,8 @@ const useFetchGroupMembers = (groupCode) => {
 
   const getMembers = useCallback(
     async (isPolling = false) => {
-      // If no code is present or we are already fetching, exit immediately
       if (!groupCode || isFetchingRef.current) return;
 
-      // Only show the spinner for manual loads/initial mounts if data isn't already there
       if (!isPolling && !isFetched) {
         setIsLoading(true);
       }
@@ -33,8 +30,9 @@ const useFetchGroupMembers = (groupCode) => {
       try {
         const response = await fetchGroupMembers(groupCode);
 
-        if (response?.users) {
-          setGroupMembers(response.users);
+        // Renamed from response.users to response.members
+        if (response?.members) {
+          setGroupMembers(response.members);
           setIsFetched(true);
         }
 
@@ -72,7 +70,6 @@ const useFetchGroupMembers = (groupCode) => {
     }
   }, [groupCode, getMembers, isFetched]);
 
-  // TODO: use isocket eventually
   usePolling(() => getMembers(true));
 
   return {

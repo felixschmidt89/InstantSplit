@@ -1,15 +1,18 @@
 const FIELDS = {
-  NAME: "memberName",
-  TOTAL_EXPENSES_PAID: "totalExpensesPaidAmount",
-  TOTAL_EXPENSES_BENEFITTED: "totalExpenseBenefittedAmount",
-  TOTAL_PAYMENTS_MADE: "totalPaymentsMadeAmount",
-  TOTAL_PAYMENTS_RECEIVED: "totalPaymentsReceivedAmount",
-  BALANCE: "memberBalance",
-  SETTLED: "expensesSettled",
+  NAME: "name",
+  EXPENSES_PAID: "expensesPaid",
+  EXPENSES_BENEFITTED: "expensesBenefitted",
+  PAYMENTS_MADE: "paymentsMade",
+  PAYMENTS_RECEIVED: "paymentsReceived",
+  BALANCE: "balance",
+  SETTLED: "isSettled",
 };
+
+const TRANSACTION_TYPE_VALUE = "member";
 
 const MEMBER = {
   FIELDS,
+  TYPE_VALUE: TRANSACTION_TYPE_VALUE,
 };
 
 export default MEMBER;

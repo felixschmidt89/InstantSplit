@@ -1,5 +1,5 @@
 export const RESOURCE_TYPES = {
-  USER: "user",
+  USER: "member",
   GROUP: "group",
   EXPENSE: "expense",
 };

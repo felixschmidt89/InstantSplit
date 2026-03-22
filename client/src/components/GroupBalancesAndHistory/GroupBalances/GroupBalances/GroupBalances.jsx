@@ -31,29 +31,31 @@ const GroupBalances = ({ groupCurrency }) => {
   const groupMemberDetails = useMemo(() => {
     if (!groupMembers || groupMembers.length === 0) return [];
 
-    return groupMembers.map((user) => {
+    return groupMembers.map((member) => {
       // TODO: Refactor and move this calculation to the backend or a utility helper
       const isNoEdgeCase =
         groupMembers.length > 1 &&
         groupMembers.every(
-          (member) => Math.abs(member.userBalance) <= SYSTEM.BALANCE_THRESHOLD,
+          (member) =>
+            Math.abs(member.memberBalance) <= SYSTEM.BALANCE_THRESHOLD,
         ) &&
-        Math.abs(user.userBalance) <=
+        Math.abs(memer.memberBalance) <=
           (groupMembers.length - 1) * SYSTEM.BALANCE_THRESHOLD;
 
       debugLog(
         "Balance Edge Case Check",
-        { userName: user.userName, isNoEdgeCase },
+        { memberName: member.memberName, isNoEdgeCase },
         DEBUG,
       );
 
       return {
-        userId: user._id,
-        userName: user.userName,
-        userBalance:
-          Math.abs(user.userBalance) <= SYSTEM.BALANCE_THRESHOLD && isNoEdgeCase
+        memberId: member._id,
+        memberName: member.memberName,
+        memberBalance:
+          Math.abs(member.memberBalance) <= SYSTEM.BALANCE_THRESHOLD &&
+          isNoEdgeCase
             ? 0
-            : +parseFloat(user.userBalance).toFixed(2),
+            : +parseFloat(member.memberBalance).toFixed(2),
       };
     });
   }, [groupMembers]);

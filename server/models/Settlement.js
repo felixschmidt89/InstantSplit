@@ -3,7 +3,7 @@ import { Schema, model } from 'mongoose';
 import SETTLEMENT from '../../shared/constants/models/settlementConstants.js';
 import COMMON from '../../shared/constants/models/commonConstants.js';
 
-const { FIELDS } = SETTLEMENT;
+const { FIELDS, TYPE_VALUE } = SETTLEMENT;
 const {
   MODEL_NAMES,
   DEFINITIONS,
@@ -13,6 +13,11 @@ const {
 
 const settlementSchema = new Schema(
   {
+    [COMMON_FIELDS.TRANSACTION_TYPE]: {
+      type: DEFINITIONS.STRING,
+      default: TYPE_VALUE,
+      immutable: DEFINITIONS.TRUE,
+    },
     [FIELDS.DEBTOR]: {
       type: DEFINITIONS.OBJECT_ID,
       ref: MODEL_NAMES.MEMBER,

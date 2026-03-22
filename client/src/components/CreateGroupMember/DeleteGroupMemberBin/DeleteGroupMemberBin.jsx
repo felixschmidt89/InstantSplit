@@ -9,7 +9,7 @@ import ConfirmationModal from "../../ConfirmationModal/ConfirmationModal";
 
 import styles from "./DeleteGroupMemberBin.module.css";
 
-const DeleteGroupMemberBin = ({ userId, groupMemberName }) => {
+const DeleteGroupMemberBin = ({ memberId, groupMemberName }) => {
   const { t } = useTranslation();
   const { refreshGroupMembers } = useGroupContext();
   const { showError } = useGlobalError();
@@ -18,8 +18,8 @@ const DeleteGroupMemberBin = ({ userId, groupMemberName }) => {
     useState(false);
 
   const { deleteResource, error: hookError } = useDeleteResource(
-    "users",
-    userId,
+    "members",
+    memberId,
     null,
     refreshGroupMembers,
   );

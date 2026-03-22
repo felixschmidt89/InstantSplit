@@ -9,7 +9,7 @@ import Expense from './Expense.js';
 import Payment from './Payment.js';
 import debugLog from '../../shared/utils/debug/debugLog.js';
 
-const { FIELDS: MEMBER_FIELDS } = MEMBER;
+const { FIELDS: MEMBER_FIELDS, TYPE_VALUE } = MEMBER;
 const {
   MODEL_NAMES,
   DEFINITIONS,
@@ -21,18 +21,21 @@ const { FIELDS: PAYMENT_FIELDS } = PAYMENT;
 
 const extractAggregateTotal = (aggregateResult, operationName) => {
   const total = aggregateResult.length ? aggregateResult[0].total : 0;
-
   debugLog(
     `Aggregate total extracted for ${operationName}`,
     { total, rawResultLength: aggregateResult.length },
     LOG_LEVELS.LOG_DEBUG,
   );
-
   return total;
 };
 
 const memberSchema = new Schema(
   {
+    [COMMON_FIELDS.TRANSACTION_TYPE]: {
+      type: DEFINITIONS.STRING,
+      default: TYPE_VALUE,
+      immutable: DEFINITIONS.TRUE,
+    },
     [MEMBER_FIELDS.NAME]: {
       type: DEFINITIONS.STRING,
       trim: DEFINITIONS.TRUE,
@@ -44,19 +47,19 @@ const memberSchema = new Schema(
       type: DEFINITIONS.STRING,
       required: DEFINITIONS.TRUE,
     },
-    [MEMBER_FIELDS.TOTAL_EXPENSES_PAID]: {
+    [MEMBER_FIELDS.EXPENSES_PAID]: {
       type: DEFINITIONS.NUMBER,
       default: 0,
     },
-    [MEMBER_FIELDS.TOTAL_EXPENSES_BENEFITTED]: {
+    [MEMBER_FIELDS.EXPENSES_BENEFITTED]: {
       type: DEFINITIONS.NUMBER,
       default: 0,
     },
-    [MEMBER_FIELDS.TOTAL_PAYMENTS_MADE]: {
+    [MEMBER_FIELDS.PAYMENTS_MADE]: {
       type: DEFINITIONS.NUMBER,
       default: 0,
     },
-    [MEMBER_FIELDS.TOTAL_PAYMENTS_RECEIVED]: {
+    [MEMBER_FIELDS.PAYMENTS_RECEIVED]: {
       type: DEFINITIONS.NUMBER,
       default: 0,
     },
@@ -70,10 +73,10 @@ const memberSchema = new Schema(
 
 memberSchema.virtual(MEMBER_FIELDS.BALANCE).get(function () {
   const balance =
-    this[MEMBER_FIELDS.TOTAL_EXPENSES_PAID] +
-    this[MEMBER_FIELDS.TOTAL_PAYMENTS_MADE] -
-    this[MEMBER_FIELDS.TOTAL_EXPENSES_BENEFITTED] -
-    this[MEMBER_FIELDS.TOTAL_PAYMENTS_RECEIVED];
+    this[MEMBER_FIELDS.EXPENSES_PAID] +
+    this[MEMBER_FIELDS.PAYMENTS_MADE] -
+    this[MEMBER_FIELDS.EXPENSES_BENEFITTED] -
+    this[MEMBER_FIELDS.PAYMENTS_RECEIVED];
 
   return DEFINITIONS.NUMBER(balance);
 });
@@ -84,13 +87,11 @@ memberSchema.virtual(MEMBER_FIELDS.SETTLED).get(function () {
 
 memberSchema.methods.updateTotalExpensesPaid = async function () {
   const memberId = this[COMMON_FIELDS.ID];
-
   try {
     const totalExpensesPaid = await Expense.aggregate([
       { $match: { [EXPENSE_FIELDS.PAYER]: memberId } },
       { $group: { _id: null, total: { $sum: `$${EXPENSE_FIELDS.AMOUNT}` } } },
     ]);
-
     const updatedTotal = extractAggregateTotal(
       totalExpensesPaid,
       'updateTotalExpensesPaid',
@@ -98,11 +99,11 @@ memberSchema.methods.updateTotalExpensesPaid = async function () {
 
     await this.constructor.findOneAndUpdate(
       { [COMMON_FIELDS.ID]: memberId },
-      { $set: { [MEMBER_FIELDS.TOTAL_EXPENSES_PAID]: updatedTotal } },
+      { $set: { [MEMBER_FIELDS.EXPENSES_PAID]: updatedTotal } },
     );
   } catch (error) {
     debugLog(
-      'Error calculating totalExpensesPaidAmount',
+      'Error calculating expensesPaid',
       { error: error.message, memberId },
       LOG_LEVELS.LOG_ERROR,
     );
