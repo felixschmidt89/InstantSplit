@@ -2,11 +2,10 @@ import { useEffect, useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import { buttonStyles } from "../../constants/stylesConstants";
+import buttonStyles from "../../constants/stylesConstants";
 import useDeleteResource from "../../hooks/useDeleteResource";
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
 
-// FIX: Corrected relative path (2 levels up from src/components/DeleteResource)
 import TO from "../../constants/clientRouteLinks.js";
 
 import styles from "./DeleteResource.module.css";

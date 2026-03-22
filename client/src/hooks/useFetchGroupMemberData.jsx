@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 import debugLog from "../../../shared/utils/debug/debugLog.js";
-import { API_URL } from "../constants/apiConstants";
+import API_URL from "../constants/apiConstants";
 
 const useFetchGroupMemberData = (userId) => {
   const { t } = useTranslation();

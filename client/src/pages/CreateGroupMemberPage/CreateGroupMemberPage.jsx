@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 
 import styles from "./CreateGroupMemberPage.module.css";
 import useUserOrigin from "../../hooks/useUserOrigin.jsx";
-import { CLIENT_STATIC_ROUTES } from "../../constants/clientStaticRoutesConstants.js";
+import CLIENT_STATIC_ROUTES from "../../constants/clientStaticRoutesConstants.js";
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify.jsx";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar.jsx";
 import CreateGroupMemberForm from "../../components/CreateGroupMember/CreateGroupMemberForm/CreateGroupMemberForm.jsx";

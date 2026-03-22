@@ -5,9 +5,9 @@ import { useTranslation } from "react-i18next";
 
 import styles from "./ChangeDataPurgeSetting.module.css";
 import { useGlobalError } from "../../../context/ErrorContext.jsx";
-import { API_URL } from "../../../constants/apiConstants";
+import API_URL from "../../../constants/apiConstants";
 import { devLog } from "../../../utils/errorUtils";
-import { INACTIVE_DAYS } from "../../../constants/dataConstants";
+import SYSTEM from "../../../../../shared/constants/system/systemConstants.js";
 
 const ChangeDataPurgeSetting = ({ groupCode, inactiveDataPurge }) => {
   const { t } = useTranslation();
@@ -45,7 +45,7 @@ const ChangeDataPurgeSetting = ({ groupCode, inactiveDataPurge }) => {
       <div className={styles.box}>
         <p className={styles.explanation}>
           {t("change-data-purge-setting-explanation", {
-            days: INACTIVE_DAYS,
+            days: SYSTEM.GROUP_INACTIVITY_THRESHOLD_DAYS,
           })}
         </p>
 

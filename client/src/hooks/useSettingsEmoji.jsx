@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import useGetClientDeviceAndPwaInfo from "./useGetClientDeviceAndPwaInfo";
 import emojiConstants from "../constants/emojiConstants";
-import { BROWSERS } from "../constants/browserConstants";
+import BROWSERS from "../constants/browserConstants";
 
 const useSettingsEmoji = () => {
   const { browserName } = useGetClientDeviceAndPwaInfo();

@@ -9,8 +9,7 @@ import styles from "./UpdatePayment.module.css";
 import { TO } from "../../../constants/clientRouteLinks";
 import { useGroupContext } from "../../../context/GroupContext";
 import { useGlobalError } from "../../../context/ErrorContext.jsx";
-import { MINIMUM_VALID_AMOUNT } from "../../../constants/dataConstants";
-import { API_URL } from "../../../constants/apiConstants";
+import API_URL from "../../../constants/apiConstants";
 import { devLog, handleApiErrors } from "../../../utils/errorUtils";
 import PaymentAmountInput from "../PaymentAmountInput/PaymentAmountInput";
 import PaymentMakerSelect from "../PaymentMakerSelect/PaymentMakerSelect";
@@ -19,6 +18,7 @@ import Emoji from "../../Emoji/Emoji.jsx";
 import RenderReactIcon from "../../RenderReactIcon/RenderReactIcon";
 import PaymentRecipientSelect from "../PaymentRecipientSelect/PaymentRecipientSelect";
 import STYLES from "../../../constants/stylesConstants";
+import SYSTEM from "../../../../../shared/constants/system/systemConstants.js";
 
 const { INSTANT_SPLIT } = TO;
 const { buttonStyles } = STYLES;
@@ -48,7 +48,7 @@ const UpdatePayment = ({ paymentDetails, navigateTo = INSTANT_SPLIT }) => {
 
   const isSubmitButtonVisible =
     formChanged &&
-    paymentAmount >= MINIMUM_VALID_AMOUNT &&
+    paymentAmount >= SYSTEM.MINIMUM_VALID_TRANSACTION_AMOUNT &&
     paymentMakerName &&
     paymentRecipientName;
 

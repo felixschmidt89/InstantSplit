@@ -1,15 +1,11 @@
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-// Constants and Utils
-import { BALANCE_THRESHOLD } from "../../constants/dataConstants";
 import emojiConstants from "../../constants/emojiConstants";
 
-// Hooks
 import useFetchGroupMemberData from "../../hooks/useFetchGroupMemberData";
 import useFetchGroupCurrency from "../../hooks/useFetchGroupCurrency";
 
-// Components
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import Spinner from "../../components/Spinner/Spinner";
 import RouteButton from "../../components/InAppNavigation/RouteButton/RouteButton";
@@ -18,9 +14,9 @@ import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigation
 import Emoji from "../../components/Emoji/Emoji.jsx";
 import GroupMemberTotals from "../../components/GroupMemberDetails/GroupMemberTotals/UserTotals/GroupMemberTotals";
 
-// Styles
 import styles from "./GroupMemberDetailsPage.module.css";
 import GroupMemberName from "../../components/GroupMemberDetails/GroupMemberName/GroupMemberName";
+import SYSTEM from "../../../../shared/constants/system/systemConstants.js";
 
 const GroupMemberDetailsPage = () => {
   const { t } = useTranslation();
@@ -33,7 +29,7 @@ const GroupMemberDetailsPage = () => {
   // Set userBalance to 0 if it's less than or equal to BALANCE_THRESHOLD so balance is considered settled
   if (
     groupMemberData &&
-    Math.abs(groupMemberData.userBalance) <= BALANCE_THRESHOLD
+    Math.abs(groupMemberData.userBalance) <= SYSTEM.BALANCE_THRESHOLD
   ) {
     groupMemberData.userBalance = 0;
   }

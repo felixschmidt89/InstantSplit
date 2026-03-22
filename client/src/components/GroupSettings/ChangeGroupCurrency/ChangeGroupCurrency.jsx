@@ -6,9 +6,9 @@ import { currenciesContent } from "../../../contents/currenciesContent";
 
 import styles from "./ChangeGroupCurrency.module.css";
 import { useGlobalError } from "../../../context/ErrorContext.jsx";
-import { findCurrencyLabel } from "../../../utils/currencyUtils";
+import findCurrencyLabel from "../../../utils/currencyUtils";
 import useEditPenVisibility from "../../../hooks/useEditPenVisibility";
-import { API_URL } from "../../../constants/apiConstants";
+import API_URL from "../../../constants/apiConstants";
 import { devLog } from "../../../utils/errorUtils";
 
 import FormSubmitButton from "../../FormSubmitButton/FormSubmitButton";

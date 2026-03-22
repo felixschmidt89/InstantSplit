@@ -7,11 +7,12 @@ import styles from "./CreateExpense.module.css";
 import { useGlobalError } from "../../../context/ErrorContext.jsx";
 import LOG_LEVELS from "../../../../../shared/constants/system/loggerConstants.js";
 import debugLog from "../../../../../shared/utils/debug/debugLog.js";
-import { TO } from "../../../constants/clientRouteLinks.js";
-import STYLES from "../../../constants/stylesConstants.jsx";
+
+import NAV_LINKS from "../../../constants/clientRouteLinks.js";
+import STYLES_OBJECT from "../../../constants/stylesConstants.jsx";
 import { useGroupContext } from "../../../context/GroupContext";
 
-import { createExpense } from "../../../api/expenses/createExpense.js";
+import createExpense from "../../../api/expenses/createExpense.js";
 
 import ExpenseDescriptionInput from "../ExpenseDescriptionInput/ExpenseDescriptionInput.jsx";
 import ExpenseAmountInput from "../ExpenseAmountInput/ExpenseAmountInput.jsx";
@@ -19,8 +20,9 @@ import ExpensePayerSelect from "../ExpensePayerSelect/ExpensePayerSelect.jsx";
 import ExpenseBeneficiariesInput from "../ExpenseBeneficiariesInput/ExpenseBeneficiariesInput.jsx";
 
 const { LOG_ERROR } = LOG_LEVELS;
+const { STATIC: TO } = NAV_LINKS;
 const { INSTANT_SPLIT } = TO;
-const { buttonStyles } = STYLES;
+const { buttonStyles } = STYLES_OBJECT;
 
 const CreateExpense = ({ groupCode }) => {
   const navigate = useNavigate();

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { usePWAInstall } from "react-use-pwa-install";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 import styles from "./InstantSplitPage.module.css";
 import { useGroupContext } from "../../context/GroupContext";
@@ -9,22 +10,24 @@ import deleteNestedPreviousRouteFromLocalStorage from "../../utils/localStorage/
 import deletePreviousRouteFromLocalStorage from "../../utils/localStorage/deletePreviousRouteFromLocalStorage.js";
 import getStoredViewFromLocalStorage from "../../utils/localStorage/getStoredViewFromLocalStorage.js";
 import setStoredViewInLocalStorage from "../../utils/localStorage/setStoredViewInLocalStorage.js";
-import { LEGACY_VIEW_TYPES, VIEW_TYPES } from "../../constants/viewConstants";
+
+import VIEWS from "../../constants/viewConstants";
 import useValidateGroupExistence from "../../hooks/useValidateGroupCodeExistence";
 import useFetchGroupData from "../../hooks/useFetchGroupData";
 import useGetClientDeviceAndPwaInfo from "../../hooks/useGetClientDeviceAndPwaInfo";
 import { shouldShowPwaPrompt } from "../../utils/user";
-import { TO } from "../../constants/clientRouteLinks.js";
+
+import NAV_LINKS from "../../constants/clientRouteLinks.js";
 import { devLog } from "../../utils/errorUtils";
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import DefaultAndUserSettingsBar from "../../components/DefaultAndUserSettingsBar/DefaultAndUserSettingsBar";
 import SwitchViewButtonsBar from "../../components/GroupBalancesAndHistory/SwitchViewButtonsBar/SwitchViewButtonsBar";
 import RenderGroupHistory from "../../components/GroupBalancesAndHistory/GroupHistory/GroupHistory/GroupHistory";
-import RenderGroupBalances from "../../components/GroupBalancesAndHistory/GroupBalances/RenderGroupBalances/RenderGroupBalances";
+import RenderGroupBalances from "../../components/GroupBalancesAndHistory/GroupBalances/GroupBalances/GroupBalances.jsx";
 import ActiveGroupBar from "../../components/ActiveGroupBar/ActiveGroupBar";
 import PwaCtaModal from "../../components/PwaCtaModal/PwaCtaModal/PwaCtaModal";
-import { useNavigate } from "react-router-dom";
 
+const { STATIC: TO } = NAV_LINKS;
 const { HOME } = TO;
 
 const InstantSplitPage = () => {
@@ -35,7 +38,7 @@ const InstantSplitPage = () => {
   const { activeGroupCode } = useGroupContext();
 
   const [view, setView] = useState(
-    () => getStoredViewFromLocalStorage() || VIEW_TYPES.BALANCES,
+    () => getStoredViewFromLocalStorage() || VIEWS.BALANCES,
   );
   const [ctaToRender, setCtaToRender] = useState(null);
   const [showPwaCtaModal, setShowPwaCtaModal] = useState(null);
@@ -132,8 +135,7 @@ const InstantSplitPage = () => {
 
               <SwitchViewButtonsBar view={view} updateView={updateView} />
 
-              {view === VIEW_TYPES.HISTORY ||
-              view === LEGACY_VIEW_TYPES.VIEW_1 ? (
+              {view === VIEWS.HISTORY ? (
                 <RenderGroupHistory
                   groupCode={activeGroupCode}
                   groupCurrency={groupData.group.currency}

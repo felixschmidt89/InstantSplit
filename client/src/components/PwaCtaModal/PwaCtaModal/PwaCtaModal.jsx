@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { Button } from "@mui/material";
 
-import { smallButtonStyles } from "../../../constants/stylesConstants";
+import smallButtonStyles from "../../../constants/stylesConstants";
 
 import RenderInstallPwaCta from "../RenderInstallPwaCta/RenderInstallPwaCta";
 

@@ -1,22 +1,12 @@
 import { Link } from "react-router-dom";
 
-// Constants and Utils
-import emojiConstants from "../../../../constants/emojiConstants";
+import emojiConstants from "../../../../constants/emojiConstants.jsx";
 
-// Components
 import Emoji from "../../../Emoji/Emoji.jsx";
 
-// Styles
-import styles from "./RenderGroupMemberBalance.module.css";
+import styles from "./GroupMemberBalance.module.css";
 
-/**
- * Component for rendering group member name and balance
- *
- * @param {Object[]} userDetails - The array of user details.
- *  @param {string} props.groupCode - The groupCode of the group.
- *  @param {string} props.groupCurrency - The currency of the group.
- * @returns {JSX.Element} React component. */
-const RenderGroupMemberBalance = ({
+const GroupMemberBalance = ({
   groupMemberDetails,
   groupCode,
   groupCurrency,
@@ -57,4 +47,4 @@ const RenderGroupMemberBalance = ({
   </div>
 );
 
-export default RenderGroupMemberBalance;
+export default GroupMemberBalance;

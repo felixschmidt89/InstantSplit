@@ -1,6 +1,7 @@
-import { authorDetails } from "../legalNoticeData";
+import authorDetails from "../legalNoticeData";
 import styles from "./LegalNoticeAuthor.module.css";
 
+// TODO: Make this bilingual and move content outside of component
 const LegalNoticeAuthor = () => {
   return (
     <div className={styles.container}>

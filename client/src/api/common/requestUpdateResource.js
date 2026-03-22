@@ -1,24 +1,24 @@
+import apiClient from "../axiosInstance.js";
 import LOG_LEVELS from "../../../../shared/constants/system/loggerConstants.js";
 import debugLog from "../../../../shared/utils/debug/debugLog.js";
-import apiClient from "../axiosInstance.js";
 
 const { LOG_ERROR } = LOG_LEVELS;
 
-const updateResource = async (resourceType, resourceId, payload) => {
+const requestUpdateResource = async (resourceType, resourceId, payload) => {
   try {
     const response = await apiClient.patch(
       `/${resourceType}/${resourceId}`,
       payload,
     );
     return response;
-  } catch (error) {
+  } catch (apiError) {
     debugLog(
       `Error updating ${resourceType}`,
-      { error: error.message, resourceId, payload },
+      { error: apiError.message, resourceId, payload },
       LOG_ERROR,
     );
-    throw error;
+    throw apiError;
   }
 };
 
-export default updateResource;
+export default requestUpdateResource;

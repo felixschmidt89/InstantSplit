@@ -2,7 +2,7 @@ import { useState } from "react";
 import { StatusCodes } from "http-status-codes";
 import { useTranslation } from "react-i18next";
 
-import { updateResource as apiUpdateResource } from "../api/common/updateResource.js";
+import { updateResource as apiUpdateResource } from "../api/common/requestUpdateResource.js";
 import LOG_LEVELS from "../../../shared/constants/system/loggerConstants.js";
 import debugLog from "../../../shared/utils/debug/debugLog.js";
 import { useNavigate } from "react-router-dom";

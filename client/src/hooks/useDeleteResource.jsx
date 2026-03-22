@@ -1,10 +1,10 @@
 import { useState, useCallback } from "react";
 import { StatusCodes } from "http-status-codes";
 import { useTranslation } from "react-i18next";
-
-import { deleteResource as apiDeleteResource } from "../api/common/deleteResource";
-import { devLog } from "../utils/errorUtils";
 import { useNavigate } from "react-router-dom";
+
+import requestDeleteResource from "../api/common/requestDeleteResource.js";
+import { devLog } from "../utils/errorUtils";
 
 const useDeleteResource = (resourceType, resourceId, route, onSuccess) => {
   const { t } = useTranslation();
@@ -20,11 +20,13 @@ const useDeleteResource = (resourceType, resourceId, route, onSuccess) => {
     }
 
     try {
-      const response = await apiDeleteResource(resourceType, resourceId);
+      const response = await requestDeleteResource(resourceType, resourceId);
 
       if (response.status === StatusCodes.NO_CONTENT) {
         setError(null);
-        devLog(`Resource (${resourceType} ${resourceId}) has been deleted.`);
+        devLog(
+          `Resource (${resourceType} ${resourceId}) deleted successfully.`,
+        );
 
         if (onSuccess) {
           await onSuccess();
@@ -36,19 +38,19 @@ const useDeleteResource = (resourceType, resourceId, route, onSuccess) => {
 
         return response;
       }
-    } catch (error) {
-      if (error.response && error.response.status === StatusCodes.BAD_REQUEST) {
-        setError(error.response.data.message);
+    } catch (apiError) {
+      if (apiError.response?.status === StatusCodes.BAD_REQUEST) {
+        setError(apiError.response.data.message);
       } else {
         devLog(
           `Error deleting resource (${resourceType} ${resourceId}):`,
-          error,
+          apiError,
         );
         setError(t("generic-error-message"));
       }
-      throw error;
+      throw apiError;
     }
-  }, [resourceType, resourceId, route, onSuccess, navigate]);
+  }, [resourceType, resourceId, route, onSuccess, navigate, t]);
 
   return { deleteResource, resourceTypeSingular, error };
 };

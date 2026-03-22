@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import useApi from "./useApi.jsx";
-import useGroupContext from "../../context/GroupContext.jsx";
+import { useGroupContext } from "../../context/GroupContext.jsx";
 
 const useGroupApi = (apiService) => {
   const { activeGroupCode } = useGroupContext();

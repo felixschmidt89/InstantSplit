@@ -1,7 +1,7 @@
 import axios from "axios";
-import { BALANCE_THRESHOLD } from "../constants/dataConstants";
 import debugLog from "../../../shared/utils/debug/debugLog.js";
-import { API_URL } from "../constants/apiConstants";
+import API_URL from "../constants/apiConstants";
+import SYSTEM from "../../../shared/constants/system/systemConstants.js";
 
 export const calculateSuggestedSettlementPayments = (
   positiveBalanceUsers,
@@ -88,7 +88,7 @@ export const calculateAndAddUserBalance = (user) => {
  */
 export const filterUnsettledUsers = (userDetails) => {
   return userDetails.filter(
-    (user) => Math.abs(user.userBalanceCalculated) > BALANCE_THRESHOLD,
+    (user) => Math.abs(user.userBalanceCalculated) > SYSTEM.BALANCE_THRESHOLD,
   );
 };
 

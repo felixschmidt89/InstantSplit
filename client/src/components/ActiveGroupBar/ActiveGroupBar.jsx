@@ -8,7 +8,7 @@ import GroupActionsEmojiButton from "../GroupActionsEmojiButton/GroupActionsEmoj
 import emojiConstants from "../../constants/emojiConstants";
 
 import styles from "./ActiveGroupBar.module.css";
-import { CLIENT_STATIC_ROUTES } from "../../constants/clientStaticRoutesConstants.js";
+import CLIENT_STATIC_ROUTES from "../../constants/clientStaticRoutesConstants.js";
 
 const { GROUP_SETTINGS, CREATE_MEMBERS, CREATE_EXPENSE, SETTLE_EXPENSES } =
   CLIENT_STATIC_ROUTES;

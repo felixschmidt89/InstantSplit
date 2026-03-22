@@ -5,22 +5,20 @@ import CONFIG from "../config/index.js";
 import LOG_LEVELS from "../../../shared/constants/system/loggerConstants.js";
 import debugLog from "../../../shared/utils/debug/debugLog.js";
 import getActiveGroupCodeFromLocalStorage from "../utils/localStorage/getActiveGroupCodeFromLocalStorage.js";
-import {
-  API_CONTENT_TYPES,
-  API_HEADERS,
-} from "../../../shared/constants/api/apiHeaderConstants.js";
 
-// TODO: Improve, use constants etc
+import API_HEADER_CONSTANTS from "../../../shared/constants/api/apiHeaderConstants.js";
 
 const { INFO, LOG_ERROR } = LOG_LEVELS;
-const { CONTENT_TYPE, GROUPCODE } = API_HEADERS;
-const { JSON } = API_CONTENT_TYPES;
+
+const { HEADERS, CONTENT_TYPES } = API_HEADER_CONSTANTS;
+const { CONTENT_TYPE, GROUPCODE } = HEADERS;
+const { JSON: JSON_CONTENT_TYPE } = CONTENT_TYPES;
 
 const apiClient = axios.create({
   baseURL: CONFIG.API_URL,
   timeout: 30000,
   headers: {
-    [CONTENT_TYPE]: JSON,
+    [CONTENT_TYPE]: JSON_CONTENT_TYPE,
   },
 });
 
@@ -46,7 +44,7 @@ apiClient.interceptors.request.use(
     return config;
   },
   (error) => {
-    debugLog("API Request Error", error, LOG_ERROR);
+    debugLog("API Request Error", { message: error.message }, LOG_ERROR);
     return Promise.reject(error);
   },
 );

@@ -30,10 +30,10 @@ import SettleExpensesPage from "./pages/SettleExpensesPage/SettleExpensesPage.js
 import GroupMemberDetailsPage from "./pages/GroupMemberDetailsPage/GroupMemberDetailsPage.jsx";
 import GroupMemberTransactionHistoryPage from "./pages/GroupMemberTransactionHistoryPage/GroupMemberTransactionHistoryPage.jsx";
 
-import { CLIENT_STATIC_ROUTES } from "./constants/clientStaticRoutesConstants.js";
-import { CLIENT_ROUTE_PATTERNS } from "./constants/clientDynamicRoutesConstants.js";
+import CLIENT_STATIC_ROUTES from "./constants/clientStaticRoutesConstants.js";
+import CLIENT_ROUTE_PATTERNS from "./constants/clientDynamicRoutesConstants.js";
 import { GroupProvider } from "./context/GroupContext.jsx";
-import { ErrorProvider } from "./context/ErrorContext.jsx"; // [NEW] Global Error Provider
+import { ErrorProvider } from "./context/ErrorContext.jsx";
 import "./App.css";
 import muiTheme from "./themes/muiTheme.jsx";
 

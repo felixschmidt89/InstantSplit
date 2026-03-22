@@ -4,18 +4,18 @@ import debugLog from "../../../../shared/utils/debug/debugLog.js";
 
 const { LOG_ERROR } = LOG_LEVELS;
 
-const deleteResource = async (resourceType, resourceId) => {
+const requestDeleteResource = async (resourceType, resourceId) => {
   try {
     const response = await apiClient.delete(`/${resourceType}/${resourceId}`);
     return response;
-  } catch (error) {
+  } catch (apiError) {
     debugLog(
       `Error deleting ${resourceType}`,
-      { error: error.message, resourceId },
+      { error: apiError.message, resourceId },
       LOG_ERROR,
     );
-    throw error;
+    throw apiError;
   }
 };
 
-export default deleteResource;
+export default requestDeleteResource;

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import getActiveGroupCodeFromLocalStorage from "../utils/localStorage/getActiveGroupCodeFromLocalStorage.js";
 import getNestedPreviousRouteFromLocalStorage from "../utils/localStorage/getNestedPreviousRouteFromLocalStorage.js";
 import getPreviousRouteFromLocalStorage from "../utils/localStorage/getPreviousRouteFromLocalStorage.js";
-import { CLIENT_STATIC_ROUTES } from "../constants/clientStaticRoutesConstants.js";
+import CLIENT_STATIC_ROUTES from "../constants/clientStaticRoutesConstants.js";
 import debugLog from "../../../shared/utils/debug/debugLog.js";
 import LOG_LEVELS from "../../../shared/constants/system/loggerConstants.js";
 

@@ -9,7 +9,7 @@ import Spinner from "../../Spinner/Spinner.jsx";
 
 import styles from "./GroupMemberNames.module.css";
 import emojiConstants from "../../../constants/emojiConstants.jsx";
-import { CLIENT_LINKS } from "../../../constants/clientDynamicRoutesConstants.js";
+import CLIENT_LINKS from "../../../constants/clientDynamicRoutesConstants.js";
 import Emoji from "../../Emoji/Emoji.jsx";
 
 const { MEMBER_DETAILS } = CLIENT_LINKS;

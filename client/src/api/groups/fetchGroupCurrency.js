@@ -1,13 +1,14 @@
 import apiClient from "../axiosInstance.js";
 
-import API_HEADERS from "../../../../shared/constants/api/apiHeaderConstants.js";
-import API_ROUTES from "../../../../shared/constants/api/apiRoutesConstants.js";
+import API_HEADER_CONSTANTS from "../../../../shared/constants/api/apiHeaderConstants.js";
 import LOG_LEVELS from "../../../../shared/constants/system/loggerConstants.js";
 import debugLog from "../../../../shared/utils/debug/debugLog.js";
 
 const { LOG_ERROR } = LOG_LEVELS;
 const { BASE, CURRENCY } = API_ROUTES.GROUPS;
-const { GROUPCODE } = API_HEADERS;
+
+const { HEADERS } = API_HEADER_CONSTANTS;
+const { GROUPCODE } = HEADERS;
 
 const fetchGroupCurrency = async (groupCode) => {
   try {
@@ -18,13 +19,17 @@ const fetchGroupCurrency = async (groupCode) => {
     });
 
     return data;
-  } catch (error) {
+  } catch (apiError) {
     debugLog(
       "Error fetching group currency",
-      { error: error.message },
+      {
+        error: apiError.message,
+        groupCode,
+        status: apiError.response?.status,
+      },
       LOG_ERROR,
     );
-    throw error;
+    throw apiError;
   }
 };
 

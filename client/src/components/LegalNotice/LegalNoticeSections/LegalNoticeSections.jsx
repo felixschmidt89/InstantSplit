@@ -1,5 +1,5 @@
-import { EXTERNAL_LINK_PROPS } from "../../../constants/linkConstants.js";
-import { legalNoticeSections } from "../legalNoticeData";
+import EXTERNAL_LINK_PROPS from "../../../constants/linkConstants.js";
+import legalNoticeSections from "../legalNoticeData";
 import styles from "./LegalNoticeSections.module.css";
 
 const LegalNoticeSections = () => {

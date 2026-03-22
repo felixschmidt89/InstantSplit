@@ -1,18 +1,18 @@
 import { useMemo, useEffect } from "react";
 
-import styles from "./RenderGroupBalances.module.css";
-import { useGroupContext } from "../../../../context/GroupContext";
+import styles from "./GroupBalances.module.css";
+import { useGroupContext } from "../../../../context/GroupContext.jsx";
 import { useGlobalError } from "../../../../context/ErrorContext.jsx";
-import { BALANCE_THRESHOLD } from "../../../../constants/dataConstants";
-import RenderGroupMemberBalance from "../RenderGroupMemberBalance/RenderGroupMemberBalance";
-import Spinner from "../../../Spinner/Spinner";
-import NotEnoughGroupMembers from "../../NotEnoughGroupMembers/NotEnoughGroupMembers";
+import GroupMemberBalance from "../GroupMemberBalance/GroupMemberBalance.jsx";
+import Spinner from "../../../Spinner/Spinner.jsx";
+import NotEnoughGroupMembers from "../../NotEnoughGroupMembers/NotEnoughGroupMembers.jsx";
 import LOG_LEVELS from "../../../../../../shared/constants/system/loggerConstants.js";
 import debugLog from "../../../../../../shared/utils/debug/debugLog.js";
+import SYSTEM from "../../../../../../shared/constants/system/systemConstants.js";
 
 const { DEBUG } = LOG_LEVELS;
 
-const RenderGroupBalances = ({ groupCurrency }) => {
+const GroupBalances = ({ groupCurrency }) => {
   const { showError } = useGlobalError();
 
   const {
@@ -36,10 +36,10 @@ const RenderGroupBalances = ({ groupCurrency }) => {
       const isNoEdgeCase =
         groupMembers.length > 1 &&
         groupMembers.every(
-          (member) => Math.abs(member.userBalance) <= BALANCE_THRESHOLD,
+          (member) => Math.abs(member.userBalance) <= SYSTEM.BALANCE_THRESHOLD,
         ) &&
         Math.abs(user.userBalance) <=
-          (groupMembers.length - 1) * BALANCE_THRESHOLD;
+          (groupMembers.length - 1) * SYSTEM.BALANCE_THRESHOLD;
 
       debugLog(
         "Balance Edge Case Check",
@@ -51,7 +51,7 @@ const RenderGroupBalances = ({ groupCurrency }) => {
         userId: user._id,
         userName: user.userName,
         userBalance:
-          Math.abs(user.userBalance) <= BALANCE_THRESHOLD && isNoEdgeCase
+          Math.abs(user.userBalance) <= SYSTEM.BALANCE_THRESHOLD && isNoEdgeCase
             ? 0
             : +parseFloat(user.userBalance).toFixed(2),
       };
@@ -69,7 +69,7 @@ const RenderGroupBalances = ({ groupCurrency }) => {
   return (
     <div className={styles.container}>
       {groupMemberDetails.length > 0 ? (
-        <RenderGroupMemberBalance
+        <GroupMemberBalance
           groupMemberDetails={groupMemberDetails}
           groupCode={groupCode}
           groupCurrency={groupCurrency}
@@ -83,4 +83,4 @@ const RenderGroupBalances = ({ groupCurrency }) => {
   );
 };
 
-export default RenderGroupBalances;
+export default GroupBalances;

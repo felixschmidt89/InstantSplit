@@ -106,9 +106,9 @@
 
 @media screen and (max-width: 500px) {
   :root {
-    --min-width: 14rem; /* Minimum width for expenseInfo */
-    --max-width: 20rem; /* Maximum width for expenseInfo */
-    --screen-width: 500px; /* Initial screen width */
+    --min-width: 14rem;
+    --max-width: 20rem;
+    --screen-width: 500px;
   }
 
   .expenseInfo {

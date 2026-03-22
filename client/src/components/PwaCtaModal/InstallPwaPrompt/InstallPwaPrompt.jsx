@@ -2,20 +2,12 @@ import { Button } from "@mui/material";
 import { usePWAInstall } from "react-use-pwa-install";
 import { useTranslation } from "react-i18next";
 
-// Constants and Utils
-import { buttonStyles } from "../../../constants/stylesConstants";
+import buttonStyles from "../../../constants/stylesConstants";
 
-// Styles
 import styles from "./InstallPwaPrompt.module.css";
-
-/**
- * Renders instructions for installing PWA via Chrome Android app.
- * @returns {JSX.Element} React component.
- */
 
 const InstallPwaPrompt = () => {
   const { t } = useTranslation();
-  // use library to install PWA
   const handleInstallPWA = usePWAInstall();
   return (
     <div className={styles.container}>
