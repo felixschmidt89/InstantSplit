@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 import TermsAndConditionsSection from "../../Home/TermsAndConditionsSection/TermsAndConditionsSection";
-import { buttonStyles } from "../../../constants/stylesConstants";
+import buttonStyles from "../../../constants/stylesConstants";
 
 import TO from "../../../constants/clientRouteLinks.js";
 

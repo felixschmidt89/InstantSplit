@@ -1,31 +1,24 @@
 import apiClient from "../axiosInstance.js";
 
-import API_HEADER_CONSTANTS from "../../../../shared/constants/api/apiHeaderConstants.js";
 import LOG_LEVELS from "../../../../shared/constants/system/loggerConstants.js";
 import debugLog from "../../../../shared/utils/debug/debugLog.js";
 import API_ROUTES from "../../../../shared/constants/api/apiRoutesConstants.js";
 
 const { LOG_ERROR } = LOG_LEVELS;
-const { BASE, CURRENCY } = API_ROUTES.GROUPS;
+const { BASE, TRANSACTIONS } = API_ROUTES.MEMBERS;
 
-const { HEADERS } = API_HEADER_CONSTANTS;
-const { GROUPCODE } = HEADERS;
-
-const fetchGroupCurrency = async (groupCode) => {
+const fetchGroupMemberTransactions = async (memberId) => {
   try {
-    const { data } = await apiClient.get(`/${BASE}/${CURRENCY}`, {
-      headers: {
-        [GROUPCODE]: groupCode,
-      },
-    });
-
+    const { data } = await apiClient.get(
+      `/${BASE}/${memberId}/${TRANSACTIONS}`,
+    );
     return data;
   } catch (apiError) {
     debugLog(
-      "Error fetching group currency",
+      "Error fetching group member transactions",
       {
         error: apiError.message,
-        groupCode,
+        memberId,
         status: apiError.response?.status,
       },
       LOG_ERROR,
@@ -34,4 +27,4 @@ const fetchGroupCurrency = async (groupCode) => {
   }
 };
 
-export default fetchGroupCurrency;
+export default fetchGroupMemberTransactions;

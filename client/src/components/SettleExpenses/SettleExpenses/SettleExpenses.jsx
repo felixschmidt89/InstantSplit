@@ -5,7 +5,7 @@ import useHasGroupPersistedSettlements from "../../../hooks/useHasGroupPersisted
 import useFetchUnsettledGroupMembers from "../../../hooks/useUnsettledGroupMembers.jsx";
 import useUpdateGroupHasPersistedSettlements from "../../../hooks/useUpdateGroupHasPersistedSettlements.jsx";
 
-import { fetchSettlements } from "../../../api/settlements/fetchSettlements.js";
+import fetchSettlements from "../../../api/settlements/fetchSettlements.js";
 
 import { useGroupContext } from "../../../context/GroupContext.jsx";
 

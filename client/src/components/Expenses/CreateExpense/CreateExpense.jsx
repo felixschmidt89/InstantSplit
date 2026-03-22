@@ -22,7 +22,7 @@ import ExpenseBeneficiariesInput from "../ExpenseBeneficiariesInput/ExpenseBenef
 const { LOG_ERROR } = LOG_LEVELS;
 const { STATIC: TO } = NAV_LINKS;
 const { INSTANT_SPLIT } = TO;
-const { buttonStyles } = STYLES_OBJECT;
+const buttonStyles = STYLES_OBJECT;
 
 const CreateExpense = ({ groupCode }) => {
   const navigate = useNavigate();

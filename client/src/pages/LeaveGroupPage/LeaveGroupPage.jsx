@@ -14,7 +14,7 @@ import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/Helmet
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import CopyToClipboard from "../../components/CopyToClipboard/CopyToClipboard";
 import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
-import { buttonStyles } from "../../constants/stylesConstants";
+import buttonStyles from "../../constants/stylesConstants";
 
 const { INSTANT_SPLIT } = TO;
 

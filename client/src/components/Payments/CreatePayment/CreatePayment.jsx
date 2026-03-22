@@ -20,7 +20,7 @@ import PaymentRecipientSelect from "../PaymentRecipientSelect/PaymentRecipientSe
 import STYLES from "../../../constants/stylesConstants";
 
 const { INSTANT_SPLIT } = TO;
-const { buttonStyles } = STYLES;
+const buttonStyles = STYLES;
 
 const CreatePayment = () => {
   const navigate = useNavigate();

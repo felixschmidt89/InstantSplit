@@ -21,7 +21,7 @@ import STYLES from "../../../constants/stylesConstants";
 import SYSTEM from "../../../../../shared/constants/system/systemConstants.js";
 
 const { INSTANT_SPLIT } = TO;
-const { buttonStyles } = STYLES;
+const buttonStyles = STYLES;
 
 const UpdatePayment = ({ paymentDetails, navigateTo = INSTANT_SPLIT }) => {
   const { t } = useTranslation();

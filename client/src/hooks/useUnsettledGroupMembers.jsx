@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-import { fetchGroupMembers } from "../api/users/fetchGroupMembers";
+import fetchGroupMembers from "../api/members/fetchGroupMembers.js";
 import {
   calculateAndAddUserBalance,
   filterUnsettledUsers,

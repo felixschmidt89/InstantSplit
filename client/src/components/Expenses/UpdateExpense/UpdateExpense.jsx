@@ -19,7 +19,7 @@ import styles from "./UpdateExpense.module.css";
 import debugLog from "../../../../../shared/utils/debug/debugLog.js";
 
 const { INSTANT_SPLIT } = TO;
-const { buttonStyles } = STYLES;
+const buttonStyles = STYLES;
 
 const UpdateExpense = ({
   expenseInfo,

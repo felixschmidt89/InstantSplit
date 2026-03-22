@@ -1,46 +1,45 @@
 import { useState, useEffect, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { fetchGroupMemberTransactions } from "../api/users/fetchGroupMemberTransactions";
 import debugLog from "../../../shared/utils/debug/debugLog.js";
 import LOG_LEVELS from "../../../shared/constants/system/loggerConstants.js";
+import fetchGroupMemberTransactions from "../api/members/fetchGroupMemberTransactions.js";
 
 const { LOG_ERROR, INFO } = LOG_LEVELS;
 
-const useGroupMemberTransactions = (userId) => {
+const useGroupMemberTransactions = (memberId) => {
   const { t } = useTranslation();
   const [transactions, setTransactions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const refetchTransactions = useCallback(async () => {
-    if (!userId) return;
+    if (!memberId) return;
 
     setIsLoading(true);
     setError(null);
 
     try {
-      const data = await fetchGroupMemberTransactions(userId);
-
+      const data = await fetchGroupMemberTransactions(memberId);
       const fetchedTransactions = data?.transactions || [];
 
       debugLog(
-        `User ${userId} transactions fetched`,
+        `Member ${memberId} transactions fetched`,
         { count: fetchedTransactions.length },
         INFO,
       );
 
       setTransactions(fetchedTransactions);
-    } catch (err) {
+    } catch (apiError) {
       debugLog(
-        "Error fetching transactions",
-        { error: err.message },
+        "Error fetching member transactions",
+        { error: apiError.message, memberId },
         LOG_ERROR,
       );
       setError(t("generic-error-message"));
     } finally {
       setIsLoading(false);
     }
-  }, [userId, t]);
+  }, [memberId, t]);
 
   useEffect(() => {
     refetchTransactions();
