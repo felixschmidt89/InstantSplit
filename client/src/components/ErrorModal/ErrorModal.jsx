@@ -1,22 +1,18 @@
 import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
-
 import styles from "./ErrorModal.module.css";
-import { smallButtonStyles } from "../../constants/stylesConstants";
+import STYLES from "../../constants/stylesConstants";
 import ErrorDisplay from "../ErrorDisplay/ErrorDisplay";
 
-const ErrorModal = ({ error, onClose, isVisible }) => {
+const { smallButtonStyles } = STYLES;
+
+const ErrorModal = ({ error, onClose, isOpen }) => {
   const { t } = useTranslation();
 
-  const handleModalClick = (e) => {
-    e.stopPropagation();
-  };
+  const handleModalClick = (e) => e.stopPropagation();
+  const handleOutsideClick = () => onClose();
 
-  const handleOutsideClick = () => {
-    onClose();
-  };
-
-  if (!isVisible) return null;
+  if (!isOpen) return null;
 
   return (
     <div className={styles.modal} onClick={handleOutsideClick}>

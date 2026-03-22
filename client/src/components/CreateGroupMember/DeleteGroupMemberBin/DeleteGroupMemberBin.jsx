@@ -3,18 +3,16 @@ import { MdDelete } from "react-icons/md";
 import { useTranslation } from "react-i18next";
 
 import { useGroupContext } from "../../../context/GroupContext";
-import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
+import { useGlobalError } from "../../../context/ErrorContext";
 import useDeleteResource from "../../../hooks/useDeleteResource";
 import ConfirmationModal from "../../ConfirmationModal/ConfirmationModal";
-import ErrorModal from "../../ErrorModal/ErrorModal";
 
 import styles from "./DeleteGroupMemberBin.module.css";
 
 const DeleteGroupMemberBin = ({ userId, groupMemberName }) => {
   const { t } = useTranslation();
   const { refreshGroupMembers } = useGroupContext();
-  const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
-    useErrorModalVisibility();
+  const { showError } = useGlobalError();
 
   const [shouldShowConfirmationModal, setShouldShowConfirmationModal] =
     useState(false);
@@ -35,11 +33,9 @@ const DeleteGroupMemberBin = ({ userId, groupMemberName }) => {
       handleHideConfirmation();
     } catch (error) {
       setShouldShowConfirmationModal(false);
-      displayErrorModal();
+      showError(hookError ? t(hookError) : t("generic-error-message"));
     }
   };
-
-  const hasHookError = Boolean(hookError);
 
   return (
     <div className={styles.container}>
@@ -61,12 +57,6 @@ const DeleteGroupMemberBin = ({ userId, groupMemberName }) => {
           error={hookError}
         />
       )}
-
-      <ErrorModal
-        error={hasHookError && t(hookError)}
-        onClose={handleCloseErrorModal}
-        isVisible={isErrorModalVisible}
-      />
     </div>
   );
 };

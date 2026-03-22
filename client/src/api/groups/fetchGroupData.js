@@ -12,13 +12,17 @@ const fetchGroupData = async (groupCode) => {
     const { data } = await apiClient.get(`/${BASE}/${groupCode}`);
 
     return data;
-  } catch (error) {
+  } catch (apiError) {
     debugLog(
       "Error fetching group data",
-      { error: error.message, groupCode },
+      {
+        error: apiError.message,
+        groupCode,
+        status: apiError.response?.status,
+      },
       LOG_ERROR,
     );
-    throw error;
+    throw apiError;
   }
 };
 

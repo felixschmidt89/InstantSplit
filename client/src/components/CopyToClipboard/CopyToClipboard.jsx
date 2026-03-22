@@ -2,8 +2,7 @@ import { useState, useRef } from "react";
 import { LuCopy, LuCopyCheck } from "react-icons/lu";
 import { useTranslation } from "react-i18next";
 
-import useErrorModalVisibility from "../../hooks/useErrorModalVisibility.jsx";
-import ErrorModal from "../ErrorModal/ErrorModal.jsx";
+import { useGlobalError } from "../../context/ErrorContext.jsx";
 import LOG_LEVELS from "../../../../shared/constants/system/loggerConstants.js";
 import debugLog from "../../../../shared/utils/debug/debugLog.js";
 
@@ -13,12 +12,10 @@ const { INFO, ERROR } = LOG_LEVELS;
 
 const CopyToClipboard = ({ infoToCopy, inputFieldWidth = 16.5 }) => {
   const [isCopied, setIsCopied] = useState(false);
-  const [error, setError] = useState(null);
   const inputRef = useRef(null);
   const { t } = useTranslation();
 
-  const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
-    useErrorModalVisibility();
+  const { showError } = useGlobalError();
 
   const handleCopyClick = async () => {
     try {
@@ -36,8 +33,7 @@ const CopyToClipboard = ({ infoToCopy, inputFieldWidth = 16.5 }) => {
       }
     } catch (copyError) {
       debugLog("Error copying to clipboard:", copyError, ERROR);
-      setError(t("copy-to-clipboard-component-error-copy"));
-      displayErrorModal();
+      showError(t("copy-to-clipboard-component-error-copy"));
       setIsCopied(false);
     }
   };
@@ -59,11 +55,6 @@ const CopyToClipboard = ({ infoToCopy, inputFieldWidth = 16.5 }) => {
         onClick={handleCopyClick}>
         {isCopied ? <LuCopyCheck /> : <LuCopy />}
       </span>
-      <ErrorModal
-        error={error}
-        onClose={handleCloseErrorModal}
-        isVisible={isErrorModalVisible}
-      />
     </span>
   );
 };

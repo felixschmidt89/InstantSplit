@@ -1,28 +1,32 @@
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 
 import styles from "./RenderGroupBalances.module.css";
 import { useGroupContext } from "../../../../context/GroupContext";
+import { useGlobalError } from "../../../../context/ErrorContext.jsx";
 import { BALANCE_THRESHOLD } from "../../../../constants/dataConstants";
 import RenderGroupMemberBalance from "../RenderGroupMemberBalance/RenderGroupMemberBalance";
 import Spinner from "../../../Spinner/Spinner";
 import NotEnoughGroupMembers from "../../NotEnoughGroupMembers/NotEnoughGroupMembers";
-import ErrorModal from "../../../ErrorModal/ErrorModal";
-import useErrorModalVisibility from "../../../../hooks/useErrorModalVisibility.jsx";
 import LOG_LEVELS from "../../../../../../shared/constants/system/loggerConstants.js";
 import debugLog from "../../../../../../shared/utils/debug/debugLog.js";
 
 const { DEBUG } = LOG_LEVELS;
 
 const RenderGroupBalances = ({ groupCurrency }) => {
-  const { isErrorModalVisible, handleCloseErrorModal } =
-    useErrorModalVisibility();
+  const { showError } = useGlobalError();
 
   const {
     activeGroupCode: groupCode,
     groupMembers,
     isLoading,
-    error,
+    error: contextError,
   } = useGroupContext();
+
+  useEffect(() => {
+    if (contextError) {
+      showError(contextError);
+    }
+  }, [contextError, showError]);
 
   const groupMemberDetails = useMemo(() => {
     if (!groupMembers || groupMembers.length === 0) return [];
@@ -75,12 +79,6 @@ const RenderGroupBalances = ({ groupCurrency }) => {
           <NotEnoughGroupMembers />
         </span>
       )}
-
-      <ErrorModal
-        error={error}
-        onClose={handleCloseErrorModal}
-        isVisible={isErrorModalVisible || !!error}
-      />
     </div>
   );
 };

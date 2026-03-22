@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 import styles from "./CreateExpense.module.css";
-import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility.jsx";
+import { useGlobalError } from "../../../context/ErrorContext.jsx";
 import LOG_LEVELS from "../../../../../shared/constants/system/loggerConstants.js";
 import debugLog from "../../../../../shared/utils/debug/debugLog.js";
 import { TO } from "../../../constants/clientRouteLinks.js";
-import { buttonStyles } from "../../../constants/stylesConstants.jsx";
+import STYLES from "../../../constants/stylesConstants.jsx";
 import { useGroupContext } from "../../../context/GroupContext";
 
 import { createExpense } from "../../../api/expenses/createExpense.js";
@@ -16,17 +17,15 @@ import ExpenseDescriptionInput from "../ExpenseDescriptionInput/ExpenseDescripti
 import ExpenseAmountInput from "../ExpenseAmountInput/ExpenseAmountInput.jsx";
 import ExpensePayerSelect from "../ExpensePayerSelect/ExpensePayerSelect.jsx";
 import ExpenseBeneficiariesInput from "../ExpenseBeneficiariesInput/ExpenseBeneficiariesInput.jsx";
-import ErrorModal from "../../ErrorModal/ErrorModal.jsx";
-import { useNavigate } from "react-router-dom";
 
 const { LOG_ERROR } = LOG_LEVELS;
 const { INSTANT_SPLIT } = TO;
+const { buttonStyles } = STYLES;
 
 const CreateExpense = ({ groupCode }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
-    useErrorModalVisibility();
+  const { showError } = useGlobalError();
 
   const { groupMembers } = useGroupContext();
 
@@ -34,7 +33,6 @@ const CreateExpense = ({ groupCode }) => {
   const [expenseAmount, setExpenseAmount] = useState("");
   const [expensePayer, setExpensePayer] = useState(null);
   const [selectedBeneficiaries, setSelectedBeneficiaries] = useState([]);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const hasMembers = groupMembers && groupMembers.length > 0;
@@ -45,20 +43,17 @@ const CreateExpense = ({ groupCode }) => {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    setError(null);
 
     const isPayerMissing = !expensePayer || !expensePayer._id;
     const isBeneficiaryMissing = selectedBeneficiaries.length === 0;
 
     if (isPayerMissing) {
-      setError(t("expense-payer-required-error"));
-      displayErrorModal();
+      showError(t("expense-payer-required-error"));
       return;
     }
 
     if (isBeneficiaryMissing) {
-      setError(t("expense-beneficiaries-required-error"));
-      displayErrorModal();
+      showError(t("expense-beneficiaries-required-error"));
       return;
     }
 
@@ -80,16 +75,15 @@ const CreateExpense = ({ groupCode }) => {
       await createExpense(payload);
 
       navigate(INSTANT_SPLIT);
-    } catch (error) {
-      debugLog("Error creating expense", { error: error.message }, LOG_ERROR);
+    } catch (apiError) {
+      debugLog(
+        "Error creating expense",
+        { error: apiError.message },
+        LOG_ERROR,
+      );
 
-      const apiErrorMessage = error?.response?.data?.message;
-      if (apiErrorMessage) {
-        setError(apiErrorMessage);
-      } else {
-        setError(t("generic-error-message"));
-      }
-      displayErrorModal();
+      const apiErrorMessage = apiError?.response?.data?.message;
+      showError(apiErrorMessage || t("generic-error-message"));
     }
   };
 
@@ -122,12 +116,6 @@ const CreateExpense = ({ groupCode }) => {
           {t("create-expense-add-expense-button-text")}
         </Button>
       </form>
-
-      <ErrorModal
-        error={error}
-        onClose={handleCloseErrorModal}
-        isVisible={isErrorModalVisible}
-      />
     </div>
   );
 };

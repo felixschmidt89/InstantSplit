@@ -4,16 +4,14 @@ import { FormControlLabel, Switch } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 import styles from "./ChangeDataPurgeSetting.module.css";
-import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
+import { useGlobalError } from "../../../context/ErrorContext.jsx";
 import { API_URL } from "../../../constants/apiConstants";
 import { devLog } from "../../../utils/errorUtils";
 import { INACTIVE_DAYS } from "../../../constants/dataConstants";
-import ErrorModal from "../../ErrorModal/ErrorModal";
 
 const ChangeDataPurgeSetting = ({ groupCode, inactiveDataPurge }) => {
   const { t } = useTranslation();
-  const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
-    useErrorModalVisibility();
+  const { showError } = useGlobalError();
 
   const [error, setError] = useState(null);
   const [isActive, setIsActive] = useState(inactiveDataPurge);
@@ -32,10 +30,11 @@ const ChangeDataPurgeSetting = ({ groupCode, inactiveDataPurge }) => {
       );
 
       devLog("inactiveDataPurge setting updated:", response);
-    } catch (error) {
-      setError(t("generic-error-message"));
-      devLog("Error updating inactive group data purge setting:", error);
-      displayErrorModal();
+    } catch (apiError) {
+      const errorMessage = t("generic-error-message");
+      setError(errorMessage);
+      devLog("Error updating inactive group data purge setting:", apiError);
+      showError(errorMessage);
     }
   };
 
@@ -63,12 +62,6 @@ const ChangeDataPurgeSetting = ({ groupCode, inactiveDataPurge }) => {
           />
         </form>
       </div>
-
-      <ErrorModal
-        error={error}
-        onClose={handleCloseErrorModal}
-        isVisible={isErrorModalVisible}
-      />
     </div>
   );
 };

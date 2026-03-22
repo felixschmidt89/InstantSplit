@@ -6,7 +6,9 @@ import HistoryIcon from "@mui/icons-material/History";
 import styles from "./RouteButton.module.css";
 import setNestedPreviousRouteInLocalStorage from "../../../utils/localStorage/setNestedPreviousRouteInLocalStorage.js";
 import setPreviousRouteInLocalStorage from "../../../utils/localStorage/setPreviousRouteInLocalStorage.js";
-import { routeButtonStyles } from "../../../constants/stylesConstants";
+import STYLES from "../../../constants/stylesConstants";
+
+const { routeButtonStyles } = STYLES;
 
 const iconMap = {
   edit: EditIcon,
@@ -34,7 +36,6 @@ const RouteButton = ({
   };
 
   const SelectedIcon = iconMap[endIcon];
-
   const renderEndIcon = endIcon && SelectedIcon ? <SelectedIcon /> : null;
 
   return (

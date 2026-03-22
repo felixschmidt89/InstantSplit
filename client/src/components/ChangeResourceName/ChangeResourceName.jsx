@@ -1,18 +1,15 @@
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-
-import useErrorModalVisibility from "../../hooks/useErrorModalVisibility";
-import useUpdateResource from "../../hooks/useUpdateResource";
-import { submitOnEnter } from "../../utils/form/submitOnEnter";
-import { sendFormSubmitButtonStyles } from "../../constants/stylesConstants";
-
+import { useGlobalError } from "../../context/ErrorContext.jsx";
+import { submitOnEnter } from "../../utils/form/submitOnEnter.js";
 import TO from "../../constants/clientRouteLinks.js";
-import FormSubmitButton from "../FormSubmitButton/FormSubmitButton";
-import ErrorModal from "../ErrorModal/ErrorModal";
-
+import FormSubmitButton from "../FormSubmitButton/FormSubmitButton.jsx";
 import styles from "./ChangeResourceName.module.css";
+import useUpdateResource from "../../hooks/useUpdateResource.jsx";
+import STYLES from "../../constants/stylesConstants.jsx";
 
 const { INSTANT_SPLIT } = TO.STATIC;
+const { sendFormSubmitButtonStyles } = STYLES;
 
 const ChangeResourceName = ({
   resourceId,
@@ -28,14 +25,12 @@ const ChangeResourceName = ({
   const inputRef = useRef(null);
   const { t } = useTranslation();
 
-  const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
-    useErrorModalVisibility();
+  // Use the global trigger instead of local state
+  const { showError } = useGlobalError();
 
   const [newResourceName, setNewResourceName] = useState(resourceName);
-
   const pluralResourceType = `${resourceType}s`;
 
-  // TODO: Improve
   const updatePayload = {
     [`${resourceType}Id`]: resourceId,
     [`${resourceType}Name`]: newResourceName,
@@ -56,7 +51,7 @@ const ChangeResourceName = ({
       await updateResource(updatePayload);
       inputRef.current?.blur();
     } catch (apiError) {
-      displayErrorModal();
+      showError(hookError ? t(hookError) : t("generic-error-message"));
     }
   };
 
@@ -81,12 +76,6 @@ const ChangeResourceName = ({
         />
         <FormSubmitButton {...sendFormSubmitButtonStyles} />
       </form>
-
-      <ErrorModal
-        error={Boolean(hookError) && t(hookError)}
-        onClose={handleCloseErrorModal}
-        isVisible={isErrorModalVisible}
-      />
     </div>
   );
 };

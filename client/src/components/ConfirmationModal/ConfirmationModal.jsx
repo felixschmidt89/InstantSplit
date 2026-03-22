@@ -1,12 +1,10 @@
-// React and Third-Party Libraries
-import React from "react";
 import { IoCheckmarkCircleOutline } from "react-icons/io5";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 // Constants and Utils
-import { smallButtonStyles } from "../../constants/stylesConstants";
+import STYLES from "../../constants/stylesConstants";
 
 // Components
 import ErrorDisplay from "../ErrorDisplay/ErrorDisplay";
@@ -14,6 +12,8 @@ import ReactIconNavigate from "../InAppNavigation/ReactIconNavigate/ReactIconNav
 
 // Styles
 import styles from "./ConfirmationModal.module.css";
+
+const { smallButtonStyles } = STYLES;
 
 /**
  * Component for displaying a confirmation message with options to confirm or cancel.
@@ -36,12 +36,10 @@ const ConfirmationModal = ({
 }) => {
   const { t } = useTranslation();
 
-  // Prevent modal from being closed when clicking the modal
   const handleModalClick = (e) => {
     e.stopPropagation();
   };
 
-  // Close modal when clicking outside of the modal
   const handleOutsideClick = () => {
     onCancel();
   };

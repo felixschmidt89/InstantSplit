@@ -3,11 +3,12 @@ import { Button } from "@mui/material";
 import { IoArrowDownOutline } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 import styles from "./UpdatePayment.module.css";
 import { TO } from "../../../constants/clientRouteLinks";
 import { useGroupContext } from "../../../context/GroupContext";
-import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
+import { useGlobalError } from "../../../context/ErrorContext.jsx";
 import { MINIMUM_VALID_AMOUNT } from "../../../constants/dataConstants";
 import { API_URL } from "../../../constants/apiConstants";
 import { devLog, handleApiErrors } from "../../../utils/errorUtils";
@@ -17,19 +18,16 @@ import emojiConstants from "../../../constants/emojiConstants";
 import Emoji from "../../Emoji/Emoji.jsx";
 import RenderReactIcon from "../../RenderReactIcon/RenderReactIcon";
 import PaymentRecipientSelect from "../PaymentRecipientSelect/PaymentRecipientSelect";
-import { buttonStyles } from "../../../constants/stylesConstants";
-import ErrorModal from "../../ErrorModal/ErrorModal";
-import { useNavigate } from "react-router-dom";
+import STYLES from "../../../constants/stylesConstants";
 
 const { INSTANT_SPLIT } = TO;
+const { buttonStyles } = STYLES;
 
 const UpdatePayment = ({ paymentDetails, navigateTo = INSTANT_SPLIT }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { showError } = useGlobalError();
   const { activeGroupCode, groupMembers } = useGroupContext();
-
-  const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
-    useErrorModalVisibility();
 
   const {
     _id: paymentId,
@@ -70,13 +68,14 @@ const UpdatePayment = ({ paymentDetails, navigateTo = INSTANT_SPLIT }) => {
 
       devLog("Payment updated:", response);
       navigate(navigateTo);
-    } catch (error) {
-      if (error.response) {
-        handleApiErrors(error, setError, "payments", displayErrorModal, t);
+    } catch (apiError) {
+      if (apiError.response) {
+        handleApiErrors(apiError, setError, "payments", showError, t);
       } else {
-        setError(t("generic-error-message"));
-        devLog("Error updating payment:", error);
-        displayErrorModal();
+        const genericMessage = t("generic-error-message");
+        setError(genericMessage);
+        devLog("Error updating payment:", apiError);
+        showError(genericMessage);
       }
     }
   };
@@ -136,12 +135,6 @@ const UpdatePayment = ({ paymentDetails, navigateTo = INSTANT_SPLIT }) => {
             {t("update-payment-button-text")}
           </Button>
         )}
-
-        <ErrorModal
-          error={error}
-          onClose={handleCloseErrorModal}
-          isVisible={isErrorModalVisible}
-        />
       </div>
     </form>
   );

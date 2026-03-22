@@ -3,30 +3,25 @@ import { useTranslation } from "react-i18next";
 
 import apiClient from "../../../api/axiosInstance";
 import { useGroupContext } from "../../../context/GroupContext";
-import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
+import { useGlobalError } from "../../../context/ErrorContext";
 import { handleApiErrors } from "../../../utils/errorUtils";
-import { sendFormSubmitButtonStyles } from "../../../constants/stylesConstants";
+import STYLES from "../../../constants/stylesConstants";
 import FormSubmitButton from "../../FormSubmitButton/FormSubmitButton";
-import ErrorModal from "../../ErrorModal/ErrorModal";
 
 import styles from "./CreateGroupMemberForm.module.css";
 import debugLog from "../../../../../shared/utils/debug/debugLog.js";
 
+const { sendFormSubmitButtonStyles } = STYLES;
+
 const CreateGroupMemberForm = () => {
   const { t } = useTranslation();
   const inputRef = useRef(null);
-  const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
-    useErrorModalVisibility();
+  const { showError } = useGlobalError();
 
   const { refreshGroupMembers, activeGroupCode: groupCode } = useGroupContext();
 
   const [userName, setUserName] = useState("");
   const [error, setError] = useState(null);
-
-  const handleModalClose = () => {
-    handleCloseErrorModal();
-    setError(null);
-  };
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -51,11 +46,12 @@ const CreateGroupMemberForm = () => {
       }
     } catch (apiError) {
       if (apiError.response) {
-        handleApiErrors(apiError, setError, "users", displayErrorModal, t);
+        handleApiErrors(apiError, setError, "users", showError, t);
       } else {
-        setError(t("generic-error-message"));
+        const genericMessage = t("generic-error-message");
+        setError(genericMessage);
         debugLog("Error creating user", { error: apiError.message });
-        displayErrorModal();
+        showError(genericMessage);
       }
     }
   };
@@ -78,12 +74,6 @@ const CreateGroupMemberForm = () => {
         />
         <FormSubmitButton {...sendFormSubmitButtonStyles} />
       </form>
-
-      <ErrorModal
-        error={error}
-        onClose={handleModalClose}
-        isVisible={isErrorModalVisible}
-      />
     </div>
   );
 };

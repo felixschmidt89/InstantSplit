@@ -1,16 +1,17 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
-import { fetchGroupData } from "../api/groups/fetchGroupData";
-
+import fetchGroupData from "../api/groups/fetchGroupData.js";
+import { useGlobalError } from "../context/ErrorContext.jsx";
 import debugLog from "../../../shared/utils/debug/debugLog.js";
 import LOG_LEVELS from "../../../shared/constants/system/loggerConstants.js";
-import { useApi } from "./api/useApi.jsx";
+import useApi from "./api/useApi.jsx";
 
 const { INFO, LOG_ERROR } = LOG_LEVELS;
 
 const useFetchGroupData = (groupCode) => {
   const { t } = useTranslation();
+  const { showError } = useGlobalError();
 
   const { data, isFetched, isLoading, error, trigger } = useApi(fetchGroupData);
 
@@ -30,9 +31,11 @@ const useFetchGroupData = (groupCode) => {
             { error: requestError.message, groupCode },
             LOG_ERROR,
           );
+
+          showError(t("generic-error-message"));
         });
     }
-  }, [groupCode, isFetched, trigger]);
+  }, [groupCode, isFetched, trigger, showError, t]);
 
   return {
     groupData: data,

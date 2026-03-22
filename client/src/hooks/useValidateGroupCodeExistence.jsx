@@ -3,7 +3,7 @@ import { StatusCodes } from "http-status-codes";
 import { useTranslation } from "react-i18next";
 
 import { devLog } from "../utils/errorUtils";
-import { validateGroupCode } from "../api/groups/validateGroupCode";
+import validateGroupCode from "../api/groups/validateGroupCode";
 
 function useValidateGroupExistence(groupCode, validationType = "continuous") {
   const [groupExists, setGroupExists] = useState(null);

@@ -12,11 +12,10 @@ import deleteGroupCodeFromLocalStorage from "../utils/localStorage/deleteGroupCo
 import getActiveGroupCodeFromLocalStorage from "../utils/localStorage/getActiveGroupCodeFromLocalStorage.js";
 import getStoredGroupCodesFromLocalStorage from "../utils/localStorage/getStoredGroupCodesFromLocalStorage.js";
 import setActiveGroupCodeInLocalStorage from "../utils/localStorage/setActiveGroupCodeInLocalStorage.js";
-
 import LOCAL_STORAGE_KEYS from "../constants/localStorageConstants.js";
 import useFetchGroupMembers from "../hooks/useFetchGroupMembers.jsx";
-import debugLog from "../../../shared/utils/debug/debugLog.js";
 import LOG_LEVELS from "../../../shared/constants/system/loggerConstants.js";
+import debugLog from "../../../shared/utils/debug/debugLog.js";
 
 const { ACTIVE_GROUP_CODE, STORED_GROUP_CODES } = LOCAL_STORAGE_KEYS;
 const { INFO, DEBUG } = LOG_LEVELS;
@@ -46,7 +45,7 @@ export const GroupProvider = ({ children }) => {
   }, [groupMembers]);
 
   const getFirstAvailableGroupCode = useCallback(() => {
-    return storedGroupCodes?.length ? storedGroupCodes[0] : null;
+    return Boolean(storedGroupCodes?.length) ? storedGroupCodes[0] : null;
   }, [storedGroupCodes]);
 
   const setActiveGroupCode = useCallback((newCode) => {

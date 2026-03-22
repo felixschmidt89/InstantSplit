@@ -1,11 +1,9 @@
-// React and Third-Party Libraries
-import React from "react";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
 
 // Constants and Utils
 import { devLog } from "../../../utils/errorUtils";
-import { addUserReactIconStyles } from "../../../constants/stylesConstants";
+import addUserReactIconStyles from "../../../constants/stylesConstants";
 
 // Components
 import ReactIconNavigate from "../../InAppNavigation/ReactIconNavigate/ReactIconNavigate";
@@ -13,14 +11,6 @@ import ReactIconNavigate from "../../InAppNavigation/ReactIconNavigate/ReactIcon
 // Styles
 import styles from "./WebShareApiInvite.module.css";
 
-/**
- * WebShareApiInvite component for inviting users to join the group via the Web Share API.
- *
- * @param {Object} props - The component props.
- * @param {string} props.groupName - The name of the group.
- * @param {string} props.invitationLink - The group's invitation link.
- * @returns {JSX.Element} React component.
- */
 const WebShareApiInvite = ({ groupName, invitationLink }) => {
   const { t } = useTranslation();
   const title = t("web-share-api-invite-title", { groupName });

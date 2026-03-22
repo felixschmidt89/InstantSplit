@@ -1,12 +1,11 @@
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import { useGroupContext } from "../../../context/GroupContext.jsx";
-import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility.jsx";
+import { useGlobalError } from "../../../context/ErrorContext.jsx";
 import DeleteGroupMemberBin from "../DeleteGroupMemberBin/DeleteGroupMemberBin.jsx";
 import Spinner from "../../Spinner/Spinner.jsx";
-import ErrorModal from "../../ErrorModal/ErrorModal.jsx";
 
 import styles from "./GroupMemberNames.module.css";
 import emojiConstants from "../../../constants/emojiConstants.jsx";
@@ -17,20 +16,24 @@ const { MEMBER_DETAILS } = CLIENT_LINKS;
 
 const GroupMemberNames = ({ isInAppGroupCreation }) => {
   const { t } = useTranslation();
+  const { showError } = useGlobalError();
 
   const {
     groupMembers,
     activeGroupCode: groupCode,
     isFetched,
     isLoading,
-    error,
+    error: contextError,
     refreshGroupMembers,
   } = useGroupContext();
 
-  const { isErrorModalVisible, handleCloseErrorModal } =
-    useErrorModalVisibility();
-
   const showSpinner = isLoading || (!isFetched && groupCode);
+
+  useEffect(() => {
+    if (contextError) {
+      showError(t(contextError));
+    }
+  }, [contextError, showError, t]);
 
   // TODO: Move to backend
   const sortedMembers = useMemo(() => {
@@ -44,7 +47,6 @@ const GroupMemberNames = ({ isInAppGroupCreation }) => {
 
   // TODO: Move to backend
   const hasNoMembers = sortedMembers.length === 0;
-  const shouldShowErrorModal = Boolean(isErrorModalVisible || error);
 
   if (showSpinner) {
     return (
@@ -120,12 +122,6 @@ const GroupMemberNames = ({ isInAppGroupCreation }) => {
           )}
         </div>
       </div>
-
-      <ErrorModal
-        error={error}
-        onClose={handleCloseErrorModal}
-        isVisible={shouldShowErrorModal}
-      />
     </div>
   );
 };

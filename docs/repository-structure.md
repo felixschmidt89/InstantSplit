@@ -430,12 +430,14 @@ InstantSpilt
 │   │   │   ├── device
 │   │   │   ├── expenses
 │   │   │   ├── groups
+│   │   │   ├── ui
+│   │   │   │   └── useErrorModal
+│   │   │   │       └── useErrorModal.jsx
 │   │   │   ├── useAutoActiveGroupCodeRedirect.jsx
 │   │   │   ├── useConfirmationModalLogicAndActions.jsx
 │   │   │   ├── useDeleteResource.jsx
 │   │   │   ├── useDynamicTranslation.jsx
 │   │   │   ├── useEditPenVisibility.jsx
-│   │   │   ├── useErrorModalVisibility.jsx
 │   │   │   ├── useFetchExpenseInfo.jsx
 │   │   │   ├── useFetchGroupCurrency.jsx
 │   │   │   ├── useFetchGroupData.jsx

@@ -2,11 +2,11 @@ import { useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useGroupContext } from "../../../../context/GroupContext.jsx";
+import { useGlobalError } from "../../../../context/ErrorContext.jsx";
 import { fetchGroupTransactions } from "../../../../api/groups/fetchGroupTransactions.js";
 import debugLog from "../../../../../../shared/utils/debug/debugLog.js";
 import LOG_LEVELS from "../../../../../../shared/constants/system/loggerConstants.js";
 import { TRANSACTION_TYPES } from "../../../../../../shared/constants/domain/transactionConstants.js";
-import useErrorModalVisibility from "../../../../hooks/useErrorModalVisibility.jsx";
 import { usePolling } from "../../../../hooks/usePolling.jsx";
 import Spinner from "../../../Spinner/Spinner.jsx";
 import RenderGroupExpensesTotal from "../RenderTotalGroupExpenses/RenderGroupExpensesTotal.jsx";
@@ -14,7 +14,6 @@ import RenderGroupExpense from "../GroupExpense/GroupExpense.jsx";
 import RenderGroupPayment from "../GroupPayment/GroupPayment.jsx";
 import NoGroupTransactions from "../NoGroupTransactions/NoGroupTransactions.jsx";
 import NotEnoughGroupMembers from "../../NotEnoughGroupMembers/NotEnoughGroupMembers.jsx";
-import ErrorModal from "../../../ErrorModal/ErrorModal.jsx";
 
 import styles from "./GroupHistory.module.css";
 
@@ -23,12 +22,11 @@ const { EXPENSE } = TRANSACTION_TYPES;
 
 const GroupHistory = ({ groupCode, groupCurrency }) => {
   const { t } = useTranslation();
+  const { showError } = useGlobalError();
   const { groupMembers, isFetched: isMembersFetched } = useGroupContext();
-  const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
-    useErrorModalVisibility();
+
   const [transactions, setTransactions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   const hasMultipleMembers = groupMembers?.length > 1;
   const hasTransactions = Boolean(transactions?.length);
@@ -55,24 +53,21 @@ const GroupHistory = ({ groupCode, groupCurrency }) => {
           );
           setTransactions(formattedTransactions);
         }
-
-        setError(null);
-      } catch (error) {
+      } catch (err) {
         debugLog(
           "Error fetching group history",
-          { error: error.message },
+          { error: err.message },
           LOG_ERROR,
         );
 
         if (!isPolling) {
-          setError(t("generic-error-message"));
-          displayErrorModal();
+          showError(t("generic-error-message"));
         }
       } finally {
         if (!isPolling) setIsLoading(false);
       }
     },
-    [groupCode, t, displayErrorModal],
+    [groupCode, t, showError],
   );
 
   usePolling(getGroupHistory);
@@ -124,12 +119,6 @@ const GroupHistory = ({ groupCode, groupCurrency }) => {
           )}
         </div>
       )}
-
-      <ErrorModal
-        error={error}
-        onClose={handleCloseErrorModal}
-        isVisible={isErrorModalVisible}
-      />
     </div>
   );
 };

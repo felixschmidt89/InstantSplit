@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 
 import usePaymentUpdate from "../../hooks/usePaymentUpdate";
 import useDetermineUpdateTransactionPageOpeningSource from "../../hooks/useUserOrigin";
-import { useGroupContext } from "../../context/GroupContext";
 
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import Spinner from "../../components/Spinner/Spinner";
@@ -16,12 +15,10 @@ const UpdatePaymentPage = () => {
   const { paymentId } = useParams();
   const { t } = useTranslation();
 
-  const { activeGroupCode } = useGroupContext();
-
   const { isChecked, openedViaGroupHistory, openedViaUserTransactionsHistory } =
     useDetermineUpdateTransactionPageOpeningSource();
 
-  const { isLoading, paymentInfo, groupMembers } = usePaymentUpdate(paymentId);
+  const { isLoading, paymentInfo } = usePaymentUpdate(paymentId);
 
   return (
     <main>

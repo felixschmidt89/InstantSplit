@@ -4,7 +4,7 @@ import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/Helmet
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import CreateGroupForm from "../../components/ManageGroups/CreateGroupForm/CreateGroupForm";
 
-import { TO } from "../../constants/clientRouteLinks";
+import TO from "../../constants/clientRouteLinks";
 
 import styles from "./OnboardingCreateGroupPage.module.css";
 

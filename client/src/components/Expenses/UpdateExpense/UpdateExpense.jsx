@@ -1,25 +1,25 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 import { useGroupContext } from "../../../context/GroupContext";
-import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
+import { useGlobalError } from "../../../context/ErrorContext.jsx";
 import { updateExpense } from "../../../api/expenses/updateExpense";
 import { handleApiErrors } from "../../../utils/errorUtils";
-import { buttonStyles } from "../../../constants/stylesConstants";
+import STYLES from "../../../constants/stylesConstants";
 import { TO } from "../../../constants/clientRouteLinks.js";
 
 import ExpenseDescriptionInput from "../ExpenseDescriptionInput/ExpenseDescriptionInput";
 import ExpenseAmountInput from "../ExpenseAmountInput/ExpenseAmountInput";
 import ExpensePayerSelect from "../ExpensePayerSelect/ExpensePayerSelect";
 import ExpenseBeneficiariesInput from "../ExpenseBeneficiariesInput/ExpenseBeneficiariesInput";
-import ErrorModal from "../../ErrorModal/ErrorModal";
 
 import styles from "./UpdateExpense.module.css";
 import debugLog from "../../../../../shared/utils/debug/debugLog.js";
-import { useNavigate } from "react-router-dom";
 
 const { INSTANT_SPLIT } = TO;
+const { buttonStyles } = STYLES;
 
 const UpdateExpense = ({
   expenseInfo,
@@ -29,8 +29,7 @@ const UpdateExpense = ({
 }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
-    useErrorModalVisibility();
+  const { showError } = useGlobalError();
 
   const { groupMembers } = useGroupContext();
 
@@ -73,13 +72,14 @@ const UpdateExpense = ({
       await updateExpense(expenseId, payload);
 
       navigate(navigateTo);
-    } catch (error) {
-      if (error?.response) {
-        handleApiErrors(error, setError, "expenses", displayErrorModal, t);
+    } catch (err) {
+      if (err?.response) {
+        handleApiErrors(err, setError, "expenses", showError, t);
       } else {
-        setError(t("generic-error-message"));
-        debugLog("Error updating expense", { error: error.message });
-        displayErrorModal();
+        const genericMessage = t("generic-error-message");
+        setError(genericMessage);
+        debugLog("Error updating expense", { error: err.message });
+        showError(genericMessage);
       }
     }
   };
@@ -127,12 +127,6 @@ const UpdateExpense = ({
           </Button>
         )}
       </form>
-
-      <ErrorModal
-        error={error}
-        onClose={handleCloseErrorModal}
-        isVisible={isErrorModalVisible}
-      />
     </div>
   );
 };

@@ -8,7 +8,7 @@ import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/Helmet
 import Spinner from "../../components/Spinner/Spinner";
 import UpdateExpense from "../../components/Expenses/UpdateExpense/UpdateExpense";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
-import { TO } from "../../constants/clientRouteLinks";
+import TO from "../../constants/clientRouteLinks";
 
 import styles from "./UpdateExpensePage.module.css";
 

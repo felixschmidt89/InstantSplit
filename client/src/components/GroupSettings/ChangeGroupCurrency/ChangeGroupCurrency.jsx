@@ -5,24 +5,25 @@ import { useTranslation } from "react-i18next";
 import { currenciesContent } from "../../../contents/currenciesContent";
 
 import styles from "./ChangeGroupCurrency.module.css";
-import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
+import { useGlobalError } from "../../../context/ErrorContext.jsx";
 import { findCurrencyLabel } from "../../../utils/currencyUtils";
 import useEditPenVisibility from "../../../hooks/useEditPenVisibility";
 import { API_URL } from "../../../constants/apiConstants";
 import { devLog } from "../../../utils/errorUtils";
 
 import FormSubmitButton from "../../FormSubmitButton/FormSubmitButton";
-import { sendFormSubmitButtonStyles } from "../../../constants/stylesConstants";
+import STYLES from "../../../constants/stylesConstants";
 import EditPenButton from "../../EditPenButton/EditPenButton";
-import ErrorModal from "../../ErrorModal/ErrorModal";
 import { submitOnEnter } from "../../../utils/form/submitOnEnter.js";
+
+const { sendFormSubmitButtonStyles } = STYLES;
 
 const ChangeGroupCurrency = ({ groupCurrency, groupCode }) => {
   const selectRef = useRef(null);
   const containerRef = useRef(null);
   const { t } = useTranslation();
-  const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
-    useErrorModalVisibility();
+
+  const { showError } = useGlobalError();
 
   const [currency, setCurrency] = useState({
     selectedCurrency: groupCurrency,
@@ -38,7 +39,7 @@ const ChangeGroupCurrency = ({ groupCurrency, groupCode }) => {
   );
 
   const handleFormSubmit = async (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     setError(null);
 
     try {
@@ -55,10 +56,11 @@ const ChangeGroupCurrency = ({ groupCurrency, groupCode }) => {
         storedCurrency: currency.selectedCurrency,
       }));
       devLog("Group currency updated:", response);
-    } catch (error) {
-      setError(t("generic-error-message"));
-      displayErrorModal();
-      devLog("Error updating group currency:", error);
+    } catch (apiError) {
+      const errorMessage = t("generic-error-message");
+      setError(errorMessage);
+      showError(errorMessage);
+      devLog("Error updating group currency:", apiError);
     }
   };
 
@@ -106,12 +108,6 @@ const ChangeGroupCurrency = ({ groupCurrency, groupCode }) => {
           </span>
         </div>
       )}
-
-      <ErrorModal
-        error={error}
-        onClose={handleCloseErrorModal}
-        isVisible={isErrorModalVisible}
-      />
     </div>
   );
 };

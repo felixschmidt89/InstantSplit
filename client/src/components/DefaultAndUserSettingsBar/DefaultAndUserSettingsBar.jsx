@@ -14,8 +14,8 @@ import { useGroupContext } from "../../context/GroupContext";
 import useIsSlimDevice from "../../hooks/useIsSlimDevice";
 import { isWebShareSupported } from "../../utils/user";
 import useFetchGroupData from "../../hooks/useFetchGroupData";
-import { addUserReactIconStyles } from "../../constants/stylesConstants";
-import { TO, TO_GROUP_ACTIONS } from "../../constants/clientRouteLinks";
+import addUserReactIconStyles from "../../constants/stylesConstants";
+import TO_GROUP_ACTIONS from "../../constants/clientRouteLinks.js";
 import WebShareApiInvite from "../ShareGroupInvitation/WebShareApiInvite/WebShareApiInvite";
 import ReactIconNavigate from "../InAppNavigation/ReactIconNavigate/ReactIconNavigate";
 import InstantSplitLogo from "../InstantSplitLogo/InstantSplitLogo";
@@ -34,6 +34,7 @@ const DefaultAndUserSettingsBar = () => {
   const { groupData, isFetched } = useFetchGroupData(activeGroupCode);
 
   const group = groupData?.group;
+
   const barClass = `${styles.userSettingsBar} ${
     isDefaultBarShown ? styles.showUserSettingsBar : styles.hideUserSettingsBar
   }`;
@@ -71,7 +72,14 @@ const DefaultAndUserSettingsBar = () => {
     }
   }, [isFetched, groupData]);
 
-  if (!isFetched) return <div />;
+  // Handle empty state during fetch
+  if (!isFetched) {
+    return (
+      <div className={styles.container}>
+        <span className={styles.spinner} />
+      </div>
+    );
+  }
 
   return (
     <div

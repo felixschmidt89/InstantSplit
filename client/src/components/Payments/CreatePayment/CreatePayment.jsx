@@ -3,10 +3,11 @@ import { useTranslation } from "react-i18next";
 import axios from "axios";
 import { Button } from "@mui/material";
 import { IoArrowDownOutline } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 import styles from "./CreatePayment.module.css";
 import { useGroupContext } from "../../../context/GroupContext";
-import useErrorModalVisibility from "../../../hooks/useErrorModalVisibility";
+import { useGlobalError } from "../../../context/ErrorContext.jsx";
 import { API_URL } from "../../../constants/apiConstants";
 import { devLog, handleApiErrors } from "../../../utils/errorUtils";
 import { TO } from "../../../constants/clientRouteLinks";
@@ -16,19 +17,16 @@ import RenderReactIcon from "../../RenderReactIcon/RenderReactIcon";
 import Emoji from "../../Emoji/Emoji.jsx";
 import emojiConstants from "../../../constants/emojiConstants";
 import PaymentRecipientSelect from "../PaymentRecipientSelect/PaymentRecipientSelect";
-import { buttonStyles } from "../../../constants/stylesConstants";
-import ErrorModal from "../../ErrorModal/ErrorModal";
-import { useNavigate } from "react-router-dom";
+import STYLES from "../../../constants/stylesConstants";
 
 const { INSTANT_SPLIT } = TO;
+const { buttonStyles } = STYLES;
 
 const CreatePayment = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { showError } = useGlobalError();
   const { activeGroupCode, groupMembers } = useGroupContext();
-
-  const { isErrorModalVisible, displayErrorModal, handleCloseErrorModal } =
-    useErrorModalVisibility();
 
   const [paymentAmount, setPaymentAmount] = useState("");
   const [paymentMakerName, setPaymentMakerName] = useState("");
@@ -48,15 +46,15 @@ const CreatePayment = () => {
       });
 
       devLog("Payment created:", response);
-
       navigate(INSTANT_SPLIT);
-    } catch (error) {
-      if (error?.response) {
-        handleApiErrors(error, setError, "payments", displayErrorModal, t);
+    } catch (apiError) {
+      if (apiError?.response) {
+        handleApiErrors(apiError, setError, "payments", showError, t);
       } else {
-        setError(t("generic-error-message"));
-        devLog("Error creating payment:", error);
-        displayErrorModal();
+        const genericMessage = t("generic-error-message");
+        setError(genericMessage);
+        devLog("Error creating payment:", apiError);
+        showError(genericMessage);
       }
     }
   };
@@ -96,12 +94,6 @@ const CreatePayment = () => {
           {t("create-payment-button-text")}
         </Button>
       </div>
-
-      <ErrorModal
-        error={error}
-        onClose={handleCloseErrorModal}
-        isVisible={isErrorModalVisible}
-      />
     </form>
   );
 };
