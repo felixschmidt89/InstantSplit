@@ -2,13 +2,14 @@ import { useState } from "react";
 import { StatusCodes } from "http-status-codes";
 import { useTranslation } from "react-i18next";
 
-import { updateResource as apiUpdateResource } from "../api/common/requestUpdateResource.js";
+import requestUpdateResource from "../api/common/requestUpdateResource.js";
 import LOG_LEVELS from "../../../shared/constants/system/loggerConstants.js";
 import debugLog from "../../../shared/utils/debug/debugLog.js";
 import { useNavigate } from "react-router-dom";
 
 const { INFO, ERROR } = LOG_LEVELS;
 
+// TODO: Add resourceType to models and use it to validate resourceType in this hook
 const useUpdateResource = (resourceType, resourceId, route, onSuccess) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ const useUpdateResource = (resourceType, resourceId, route, onSuccess) => {
 
   const updateResource = async (payload) => {
     try {
-      const response = await apiUpdateResource(
+      const response = await requestUpdateResource(
         resourceType,
         resourceId,
         payload,

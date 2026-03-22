@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet-async";
 import CLIENT_ROUTES from "../../constants/clientRouteLinks.js";
 import styles from "./InstantSplitLogo.module.css";
 
-const { TO } = CLIENT_ROUTES;
+const TO = CLIENT_ROUTES;
 const { INSTANT_SPLIT } = TO;
 const LOGO_PATH = "/logo_coloured.svg";
 

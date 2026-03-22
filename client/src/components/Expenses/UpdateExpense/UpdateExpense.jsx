@@ -5,10 +5,10 @@ import { useNavigate } from "react-router-dom";
 
 import { useGroupContext } from "../../../context/GroupContext";
 import { useGlobalError } from "../../../context/ErrorContext.jsx";
-import { updateExpense } from "../../../api/expenses/updateExpense";
+import updateExpense from "../../../api/expenses/updateExpense";
 import { handleApiErrors } from "../../../utils/errorUtils";
 import STYLES from "../../../constants/stylesConstants";
-import { TO } from "../../../constants/clientRouteLinks.js";
+import TO from "../../../constants/clientRouteLinks.js";
 
 import ExpenseDescriptionInput from "../ExpenseDescriptionInput/ExpenseDescriptionInput";
 import ExpenseAmountInput from "../ExpenseAmountInput/ExpenseAmountInput";

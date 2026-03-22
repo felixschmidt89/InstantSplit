@@ -6,7 +6,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 import styles from "./UpdatePayment.module.css";
-import { TO } from "../../../constants/clientRouteLinks";
+import TO from "../../../constants/clientRouteLinks";
 import { useGroupContext } from "../../../context/GroupContext";
 import { useGlobalError } from "../../../context/ErrorContext.jsx";
 import API_URL from "../../../constants/apiConstants";

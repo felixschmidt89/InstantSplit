@@ -3,7 +3,9 @@ import { useTranslation } from "react-i18next";
 
 import getStoredGroupCodesFromLocalStorage from "../utils/localStorage/getStoredGroupCodesFromLocalStorage.js";
 import debugLog from "../../../shared/utils/debug/debugLog.js";
-import { fetchStoredGroupNames } from "../api/groups/fetchStoredGroupNames";
+import fetchStoredGroupNames from "../api/groups/fetchStoredGroupNames";
+
+// TODO: Refactor and hide group codes so that they are not exposed in the API endpoint
 
 const useGetStoredGroupsNames = (activeGroupCode) => {
   const { t } = useTranslation();

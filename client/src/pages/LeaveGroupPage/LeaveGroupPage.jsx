@@ -9,7 +9,7 @@ import useConfirmationModalLogicAndActions from "../../hooks/useConfirmationModa
 import deleteNestedPreviousRouteFromLocalStorage from "../../utils/localStorage/deleteNestedPreviousRouteFromLocalStorage.js";
 import deletePreviousRouteFromLocalStorage from "../../utils/localStorage/deletePreviousRouteFromLocalStorage.js";
 import deleteStoredViewFromLocalStorage from "../../utils/localStorage/deleteStoredViewFromLocalStorage.js";
-import { TO } from "../../constants/clientRouteLinks.js";
+import TO from "../../constants/clientRouteLinks.js";
 import HelmetMetaTagsNetlify from "../../components/HelmetMetaTagsNetlify/HelmetMetaTagsNetlify";
 import InAppNavigationBar from "../../components/InAppNavigation/InAppNavigationBar/InAppNavigationBar";
 import CopyToClipboard from "../../components/CopyToClipboard/CopyToClipboard";

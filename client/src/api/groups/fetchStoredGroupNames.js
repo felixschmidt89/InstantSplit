@@ -7,6 +7,7 @@ import debugLog from "../../../../shared/utils/debug/debugLog.js";
 const { LOG_ERROR } = LOG_LEVELS;
 const { BASE, STORED_GROUP_NAMES } = API_ROUTES.GROUPS;
 
+// TODO: Refactor and hide group codes so that they are not exposed in the API endpoint
 const fetchStoredGroupNames = async (groupCodesArray) => {
   try {
     const groupCodesString = groupCodesArray.join(",");

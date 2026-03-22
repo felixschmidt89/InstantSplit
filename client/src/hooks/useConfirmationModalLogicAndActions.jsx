@@ -1,24 +1,6 @@
-// React and Third-Party Libraries
 import { useState } from "react";
 
-/**
- * Custom hook for managing modal confirmation logic and actions.
- *
- * @param {Function|Array<Function>} onConfirmationCallbacks - Either a single callback function or an array of callback functions
- * to be executed sequentially on confirmation.
- * @param {Function|Array<Function>} onShowCallbacks - Either a single callback function or an array of callback functions
- * to be executed when showing the confirmation dialog.
- * @param {Function|Array<Function>} onHideCallbacks - Either a single callback function or an array of callback functions
- * to be executed when hiding the confirmation dialog.
- * @returns {{
- *   isConfirmationVisible: boolean, - A boolean flag indicating whether the confirmation dialog is visible.
- *   handleConfirmation: () => Promise<void>, - Function to handle the confirmed action(s) by executing the provided
- *   callback(s) in order and returning a promise representing their completion.
- *   handleShowConfirmation: () => void, - Function to show the confirmation dialog.
- *   handleHideConfirmation: () => void - Function to hide the confirmation dialog.
- * }}
- */
-// TODO: Rename and refactor
+// TODO: Rename, refactor and decide whether this should live in context or remain as a custom hook
 const useConfirmationModalLogicAndActions = (
   onConfirmationCallbacks,
   onShowCallbacks,

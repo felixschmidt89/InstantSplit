@@ -2,10 +2,10 @@ import { useEffect } from "react";
 import axios from "axios";
 import deleteGroupCodeFromLocalStorage from "../utils/localStorage/deleteGroupCodeFromLocalStorage.js";
 import getStoredGroupCodesFromLocalStorage from "../utils/localStorage/getStoredGroupCodesFromLocalStorage.js";
-import API_ENDPOINTS from "../../../shared/constants/apiEndpointsConstants";
 import debugLog from "../../../shared/utils/debug/debugLog.js";
 import LOG_LEVELS from "../../../shared/constants/system/loggerConstants.js";
 import { useGroupContext } from "../context/GroupContext";
+import API_ENDPOINTS from "../../../shared/constants/apiEndpointsConstants.js";
 
 const { ERROR } = LOG_LEVELS;
 
