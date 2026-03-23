@@ -1,29 +1,26 @@
 import express from 'express';
-import {
-  createExpense,
-  getExpenseInfo,
-  deleteExpense,
-  updateExpense,
-} from '../controllers/expenseController.js';
+import ROUTE_PARAMS from '../../shared/constants/api/routeParamConstants.js';
+import API_ROUTES from '../../shared/constants/api/apiRouteConstants.js';
 
-// Modularized Controllers
+import createExpenseController from '../controllers/expense/createExpenseController.js';
+import getSingleExpenseController from '../controllers/expense/getSingleExpenseController.js';
+import updateExpenseController from '../controllers/expense/updateExpenseController.js';
+import deleteExpenseController from '../controllers/expense/deleteExpenseController.js';
 import getGroupExpensesController from '../controllers/expense/getGroupExpensesController.js';
 import getGroupExpensesTotalController from '../controllers/expense/getGroupExpensesTotalController.js';
 
 import { expenseValidator } from '../validators/expenseValidator.js';
-import ROUTE_PARAMS from '../../shared/constants/api/routeParamConstants.js';
 
 const router = express.Router();
 const { EXPENSE_ID, GROUP_ID } = ROUTE_PARAMS;
+const { GROUP_LIST, GROUP_TOTAL } = API_ROUTES.EXPENSES;
 
-// 1. Individual Transactions (Specific to :expenseId)
-router.post('/', expenseValidator, createExpense);
-router.get(`/:${EXPENSE_ID}`, getExpenseInfo);
-router.put(`/:${EXPENSE_ID}`, expenseValidator, updateExpense);
-router.delete(`/:${EXPENSE_ID}`, deleteExpense);
+router.get(`/${GROUP_LIST}/:${GROUP_ID}`, getGroupExpensesController);
+router.get(`/${GROUP_TOTAL}/:${GROUP_ID}`, getGroupExpensesTotalController);
 
-
-router.get(`/group-list/:${GROUP_ID}`, getGroupExpensesController);
-router.get(`/group-total/:${GROUP_ID}`, getGroupExpensesTotalController);
+router.post('/', expenseValidator, createExpenseController);
+router.get(`/:${EXPENSE_ID}`, getSingleExpenseController);
+router.put(`/:${EXPENSE_ID}`, expenseValidator, updateExpenseController);
+router.delete(`/:${EXPENSE_ID}`, deleteExpenseController);
 
 export default router;

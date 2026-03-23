@@ -9,7 +9,6 @@ const API_ROUTES = {
     BASE: "groups",
     TRANSACTIONS: "transactions",
     VALIDATE_GROUP_EXISTENCE_CONTINUOUS: "continuous-validate-existence",
-    VALIDATE_GROUP_EXISTENCE_LIMITED: "limited-validate-existence",
     STORED_GROUP_NAMES: "stored-group-names",
     CURRENCY: "currency",
     HAS_PERSISTED_ORDER: "has-persisted-order",
@@ -25,8 +24,8 @@ const API_ROUTES = {
 
   EXPENSES: {
     BASE: "expenses",
-    TOTAL: "total-expenses",
-    BY_GROUP: "by-group",
+    GROUP_TOTAL: "group-total",
+    GROUP_LIST: "group-list",
   },
 
   PAYMENTS: {

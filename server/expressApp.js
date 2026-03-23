@@ -2,7 +2,7 @@ import compression from 'compression';
 import cors from 'cors';
 import express from 'express';
 
-import API_ROUTES from '../shared/constants/api/apiRoutesConstants.js';
+import API_ROUTES from '../shared/constants/api/apiRouteConstants.js/index.js';
 import serverConfig from './config/serverConfig.js';
 import extractGroupCodeMiddleware from './middleware/context/extractGroupCodeMiddleware.js';
 import apiErrorMiddleware from './middleware/errors/apiErrorMiddleware.js';

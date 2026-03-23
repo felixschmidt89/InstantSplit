@@ -7,7 +7,7 @@ import deleteMemberController from '../controllers/member/deleteMemberController
 import getMemberInfoController from '../controllers/member/getMemberInfoController.js';
 import getMemberTransactionsController from '../controllers/member/getMemberTransactionsController.js';
 
-import API_ROUTES from '../../shared/constants/api/apiRoutesConstants.js';
+import API_ROUTES from '../../shared/constants/api/apiRouteConstants.js';
 
 const { MEMBERS, URL_PARAMS } = API_ROUTES;
 const { MEMBER_ID, GROUP_ID } = URL_PARAMS;

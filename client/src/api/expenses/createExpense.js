@@ -1,5 +1,5 @@
 import apiClient from "../axiosInstance.js";
-import API_ROUTES from "../../../../shared/constants/api/apiRoutesConstants.js";
+import API_ROUTES from "../../../../shared/constants/api/apiRouteConstants.js";
 import LOG_LEVELS from "../../../../shared/constants/system/loggerConstants.js";
 import debugLog from "../../../../shared/utils/debug/debugLog.js";
 
