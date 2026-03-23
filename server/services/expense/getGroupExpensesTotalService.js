@@ -1,13 +1,13 @@
 import LOG_LEVELS from '../../../shared/constants/system/loggerConstants.js';
-import COMMON from '../../../shared/constants/models/commonConstants.js';
-import EXPENSE from '../../../shared/constants/models/expenseConstants.js';
+import COMMON_CONSTANTS from '../../../shared/constants/models/commonConstants.js';
+import EXPENSE_CONSTANTS from '../../../shared/constants/models/expenseConstants.js';
 import debugLog from '../../../shared/utils/debug/debugLog.js';
 import Expense from '../../models/Expense.js';
 import extractAggregationTotal from '../../utils/database/extractAggregationTotal.js';
 
 const { INFO } = LOG_LEVELS;
-const { FIELDS: COMMON_FIELDS } = COMMON;
-const { FIELDS: EXPENSE_FIELDS } = EXPENSE;
+const { COMMON_FIELDS } = COMMON_CONSTANTS;
+const { EXPENSE_FIELDS } = EXPENSE_CONSTANTS;
 
 const getGroupExpensesTotalService = async (groupCode) => {
   debugLog('Calculating expenses total for group', { groupCode }, INFO);

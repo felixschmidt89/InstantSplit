@@ -1,16 +1,16 @@
 import LOG_LEVELS from '../../../shared/constants/system/loggerConstants.js';
-import COMMON from '../../../shared/constants/models/commonConstants.js';
+import COMMON_CONSTANTS from '../../../shared/constants/models/commonConstants.js';
 import debugLog from '../../../shared/utils/debug/debugLog.js';
 import Expense from '../../models/Expense.js';
 
 const { INFO } = LOG_LEVELS;
-const { FIELDS } = COMMON;
+const { COMMON_FIELDS } = COMMON_CONSTANTS;
 
 const getGroupExpensesService = async (groupCode) => {
   debugLog('Querying database for group expenses', { groupCode }, INFO);
 
-  const expenses = await Expense.find({ [FIELDS.GROUP_CODE]: groupCode })
-    .sort({ createdAt: -1 })
+  const expenses = await Expense.find({ [COMMON_FIELDS.GROUP_CODE]: groupCode })
+    .sort({ [COMMON_FIELDS.CREATED_AT]: -1 })
     .lean();
 
   debugLog(
