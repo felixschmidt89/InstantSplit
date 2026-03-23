@@ -1,3 +1,19 @@
+/**
+ * BACKEND REFACTOR TASKS:
+ * * 1. ROUTERS:
+ * - [ ] Update Expense/Payment/Member routers to remove :groupCode from the path.
+ * - [ ] Standardize param names to :expenseId, :paymentId, :memberId.
+ * * 2. CONTROLLERS:
+ * - [ ] Update destructuring: const { expenseId } = req.params (instead of groupId/groupCode).
+ * - [ ] Remove groupCode validation logic from transaction controllers (ID uniqueness is sufficient).
+ * * 3. SERVICES:
+ * - [ ] Refactor service methods to accept only the specific Resource ID.
+ * - [ ] Ensure "Get Details" queries use .findById(id) without needing a group filter.
+ * * 4. CLEANUP:
+ * - [ ] Remove INITIAL_GROUP_NAME and GROUP_NAME logic from Group creation/join flows.
+ * - [ ] Update API response objects to reflect the de-prefixed field names (e.g., 'amount' vs 'expenseAmount').
+ */
+
 import ROUTE_PARAMS from "../../../shared/constants/api/routeParamConstants.js";
 import prefixParamsWithColon from "../utils/route/prefixParamsWithColon.js";
 import CLIENT_STATIC_ROUTES from "./clientStaticRoutesConstants.js";
@@ -5,9 +21,7 @@ import CLIENT_STATIC_ROUTES from "./clientStaticRoutesConstants.js";
 const DYNAMIC_SEGMENTS = prefixParamsWithColon(ROUTE_PARAMS);
 
 const {
-  GROUPCODE_VALIDATOR,
-  JOIN_GROUP_DE,
-  JOIN_GROUP_EN,
+  JOIN_GROUP,
   TUTORIAL,
   SHARE_GROUP,
   LEAVE_GROUP,
@@ -19,59 +33,45 @@ const {
   UPDATE_PAYMENT,
 } = CLIENT_STATIC_ROUTES;
 
-const {
-  GROUP_CODE,
-  INITIAL_GROUP_NAME,
-  GROUP_NAME,
-  ITEM_ID,
-  USER_ID,
-  EXPENSE_ID,
-  PAYMENT_ID,
-} = DYNAMIC_SEGMENTS;
+const { GROUP_ID, MEMBER_ID, EXPENSE_ID, PAYMENT_ID } = DYNAMIC_SEGMENTS;
 
 const CLIENT_ROUTE_PATTERNS = {
-  GROUPCODE_VALIDATOR: `${GROUPCODE_VALIDATOR}/${GROUP_CODE}`,
-  JOIN_GROUP_DE: `${JOIN_GROUP_DE}/${INITIAL_GROUP_NAME}/${GROUP_CODE}`,
-  JOIN_GROUP_EN: `${JOIN_GROUP_EN}/${INITIAL_GROUP_NAME}/${GROUP_CODE}`,
-  TUTORIAL: `${TUTORIAL}/${INITIAL_GROUP_NAME}/${GROUP_CODE}`,
-  SHARE_GROUP: `${SHARE_GROUP}/${INITIAL_GROUP_NAME}/${GROUP_CODE}`,
-  LEAVE_GROUP: `${LEAVE_GROUP}/${GROUP_NAME}/${GROUP_CODE}`,
-  EXPENSE_DETAILS: `${EXPENSE_DETAILS}/${GROUP_CODE}/${ITEM_ID}`,
-  PAYMENT_DETAILS: `${PAYMENT_DETAILS}/${GROUP_CODE}/${ITEM_ID}`,
-  MEMBER_DETAILS: `${MEMBER_DETAILS}/${GROUP_CODE}/${USER_ID}`,
-  MEMBER_TRANSACTION_HISTORY: `${MEMBER_TRANSACTION_HISTORY}/${GROUP_CODE}/${USER_ID}`,
-  UPDATE_EXPENSE: `${UPDATE_EXPENSE}/${GROUP_CODE}/${EXPENSE_ID}`,
-  UPDATE_PAYMENT: `${UPDATE_PAYMENT}/${GROUP_CODE}/${PAYMENT_ID}`,
+  // Group
+  JOIN_GROUP: `${JOIN_GROUP}/${GROUP_ID}`,
+  TUTORIAL: `${TUTORIAL}/${GROUP_ID}`,
+  SHARE_GROUP: `${SHARE_GROUP}/${GROUP_ID}`,
+  LEAVE_GROUP: `${LEAVE_GROUP}/${GROUP_ID}`,
+
+  // Members
+  MEMBER_DETAILS: `${MEMBER_DETAILS}/${MEMBER_ID}`,
+  MEMBER_TRANSACTION_HISTORY: `${MEMBER_TRANSACTION_HISTORY}/${MEMBER_ID}`,
+
+  // Transactions
+  EXPENSE_DETAILS: `${EXPENSE_DETAILS}/${EXPENSE_ID}`,
+  PAYMENT_DETAILS: `${PAYMENT_DETAILS}/${PAYMENT_ID}`,
+  UPDATE_EXPENSE: `${UPDATE_EXPENSE}/${EXPENSE_ID}`,
+  UPDATE_PAYMENT: `${UPDATE_PAYMENT}/${PAYMENT_ID}`,
+
   NOT_FOUND: "*",
 };
 
 const CLIENT_LINKS = {
-  MEMBER_DETAILS: (groupCode, userId) =>
-    `${MEMBER_DETAILS}/${groupCode}/${userId}`,
+  // Member Links
+  MEMBER_DETAILS: (memberId) => `${MEMBER_DETAILS}/${memberId}`,
+  MEMBER_TRANSACTION_HISTORY: (memberId) =>
+    `${MEMBER_TRANSACTION_HISTORY}/${memberId}`,
 
-  MEMBER_TRANSACTION_HISTORY: (groupCode, userId) =>
-    `${MEMBER_TRANSACTION_HISTORY}/${groupCode}/${userId}`,
+  // Transaction Links
+  EXPENSE_DETAILS: (expenseId) => `${EXPENSE_DETAILS}/${expenseId}`,
+  PAYMENT_DETAILS: (paymentId) => `${PAYMENT_DETAILS}/${paymentId}`,
+  UPDATE_EXPENSE: (expenseId) => `${UPDATE_EXPENSE}/${expenseId}`,
+  UPDATE_PAYMENT: (paymentId) => `${UPDATE_PAYMENT}/${paymentId}`,
 
-  EXPENSE_DETAILS: (groupCode, itemId) =>
-    `${EXPENSE_DETAILS}/${groupCode}/${itemId}`,
-
-  PAYMENT_DETAILS: (groupCode, itemId) =>
-    `${PAYMENT_DETAILS}/${groupCode}/${itemId}`,
-
-  UPDATE_EXPENSE: (groupCode, expenseId) =>
-    `${UPDATE_EXPENSE}/${groupCode}/${expenseId}`,
-
-  UPDATE_PAYMENT: (groupCode, paymentId) =>
-    `${UPDATE_PAYMENT}/${groupCode}/${paymentId}`,
-
-  LEAVE_GROUP: (groupName, groupCode) =>
-    `${LEAVE_GROUP}/${groupName}/${groupCode}`,
-
-  TUTORIAL: (initialGroupName, groupCode) =>
-    `${TUTORIAL}/${initialGroupName}/${groupCode}`,
-
-  SHARE_GROUP: (initialGroupName, groupCode) =>
-    `${SHARE_GROUP}/${initialGroupName}/${groupCode}`,
+  // Group Links
+  JOIN_GROUP: (groupId) => `${JOIN_GROUP}/${groupId}`,
+  LEAVE_GROUP: (groupId) => `${LEAVE_GROUP}/${groupId}`,
+  TUTORIAL: (groupId) => `${TUTORIAL}/${groupId}`,
+  SHARE_GROUP: (groupId) => `${SHARE_GROUP}/${groupId}`,
 };
 
 const ROUTES = {

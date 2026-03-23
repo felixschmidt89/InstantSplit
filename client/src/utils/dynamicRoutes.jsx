@@ -26,10 +26,10 @@ export const dynamicRoutes = {
   },
 
   members: {
-    details: createRoute(ROUTES.MEMBERS.DETAILS, ["groupCode", "userId"]),
+    details: createRoute(ROUTES.MEMBERS.DETAILS, ["groupCode", "memberId"]),
     transactionHistory: createRoute(ROUTES.MEMBERS.TRANSACTION_HISTORY, [
       "groupCode",
-      "userId",
+      "memberId",
     ]),
   },
 };
