@@ -1,35 +1,29 @@
 import express from 'express';
 import {
   createExpense,
-  listAllExpensesByGroupCode,
   getExpenseInfo,
   deleteExpense,
   updateExpense,
-  getExpensesTotalByGroupCode,
+  getExpensesTotalByGroupId,
 } from '../controllers/expenseController.js';
+import getGroupExpensesController from '../controllers/expense/getGroupExpensesController.js';
+
 import { expenseValidator } from '../validators/expenseValidator.js';
-import API_ROUTES from '../../shared/constants/api/apiRoutesConstants.js';
+import ROUTE_PARAMS from '../../shared/constants/api/routeParamConstants.js';
 
 const router = express.Router();
 
-const { EXPENSES, URL_PARAMS } = API_ROUTES;
+const { EXPENSE_ID, GROUP_ID } = ROUTE_PARAMS;
 
 router.post('/', expenseValidator, createExpense);
 
-router.put(`/${URL_PARAMS.EXPENSE_ID}`, expenseValidator, updateExpense);
+router.get(`/:${EXPENSE_ID}`, getExpenseInfo);
+router.put(`/:${EXPENSE_ID}`, expenseValidator, updateExpense);
+router.delete(`/:${EXPENSE_ID}`, deleteExpense);
 
-router.get(`/${URL_PARAMS.EXPENSE_ID}`, getExpenseInfo);
+// Updated: now uses the context-based controller and a clean path
+router.get('/group', getGroupExpensesController);
 
-router.delete(`/${URL_PARAMS.EXPENSE_ID}`, deleteExpense);
-
-router.get(
-  `/${EXPENSES.BY_GROUP_CODE}/${URL_PARAMS.GROUP_CODE}`,
-  listAllExpensesByGroupCode,
-);
-
-router.get(
-  `/${EXPENSES.TOTAL}/${URL_PARAMS.GROUP_CODE}`,
-  getExpensesTotalByGroupCode,
-);
+router.get(`/total/:${GROUP_ID}`, getExpensesTotalByGroupId);
 
 export default router;

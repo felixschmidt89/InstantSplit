@@ -252,27 +252,6 @@ export const deleteExpense = async (req, res) => {
   }
 };
 
-export const listAllExpensesByGroupCode = async (req, res) => {
-  try {
-    const { groupCode } = req.params;
-
-    const expenses = await Expense.find({ groupCode });
-    res.status(StatusCodes.OK).json({
-      status: 'success',
-      results: expenses.length,
-      expenses,
-      message: 'Group expenses retrieved successfully',
-    });
-  } catch (error) {
-    errorLog(
-      error,
-      'Error listing expenses:',
-      'Failed to list group expenses. Please try again later.',
-    );
-    sendInternalError();
-  }
-};
-
 export const getExpensesTotalByGroupCode = async (req, res) => {
   try {
     const { groupCode } = req.params;
