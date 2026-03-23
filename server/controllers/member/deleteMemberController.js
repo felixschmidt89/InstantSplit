@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import deleteMemberService from '../../services/member/deleteMemberService.js';
-import API_ROUTES from '../../../shared/constants/api/apiRouteConstants.js/index.js';
+import API_ROUTES from '../../../shared/constants/api/apiRouteConstants.js';
 
 const { URL_PARAMS } = API_ROUTES;
 const { NO_CONTENT } = StatusCodes;

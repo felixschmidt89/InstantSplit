@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import getMemberTransactionsService from '../../services/member/getMemberTransactionsService.js';
-import API_ROUTES from '../../../shared/constants/api/apiRouteConstants.js/index.js';
+import API_ROUTES from '../../../shared/constants/api/apiRouteConstants.js';
 
 const { URL_PARAMS } = API_ROUTES;
 const { OK } = StatusCodes;
