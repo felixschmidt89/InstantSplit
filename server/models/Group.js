@@ -1,57 +1,52 @@
 import { Schema, model } from 'mongoose';
-
-import GROUP from '../../shared/constants/models/groupConstants.js';
-import COMMON from '../../shared/constants/models/commonConstants.js';
+import GROUP_CONSTANTS from '../../shared/constants/models/groupConstants.js';
+import COMMON_CONSTANTS from '../../shared/constants/models/commonConstants.js';
 import { DEFAULT_CURRENCY } from '../../shared/constants/domain/currencyConstants.js';
 
-const { FIELDS, TYPE_VALUE } = GROUP;
-const {
-  MODEL_NAMES,
-  DEFINITIONS,
-  FIELDS: COMMON_FIELDS,
-  LIMITS: COMMON_LIMITS,
-} = COMMON;
+const { GROUP_FIELDS, GROUP_TYPE_VALUE } = GROUP_CONSTANTS;
+const { COMMON_MODEL_NAMES, COMMON_FIELDS, COMMON_LIMITS, COMMON_DEFINITIONS } =
+  COMMON_CONSTANTS;
 
 const groupSchema = new Schema(
   {
     [COMMON_FIELDS.TRANSACTION_TYPE]: {
-      type: DEFINITIONS.STRING,
-      default: TYPE_VALUE,
-      immutable: DEFINITIONS.TRUE,
+      type: COMMON_DEFINITIONS.STRING,
+      default: GROUP_TYPE_VALUE,
+      immutable: COMMON_DEFINITIONS.TRUE,
     },
     [COMMON_FIELDS.GROUP_CODE]: {
-      type: DEFINITIONS.STRING,
-      required: DEFINITIONS.TRUE,
-      index: DEFINITIONS.TRUE,
+      type: COMMON_DEFINITIONS.STRING,
+      required: COMMON_DEFINITIONS.TRUE,
+      index: COMMON_DEFINITIONS.TRUE,
     },
-    [FIELDS.NAME]: {
-      type: DEFINITIONS.STRING,
-      trim: DEFINITIONS.TRUE,
-      required: DEFINITIONS.TRUE,
+    [GROUP_FIELDS.NAME]: {
+      type: COMMON_DEFINITIONS.STRING,
+      trim: COMMON_DEFINITIONS.TRUE,
+      required: COMMON_DEFINITIONS.TRUE,
       minlength: COMMON_LIMITS.NAME_MIN_LENGTH,
       maxlength: COMMON_LIMITS.NAME_MAX_LENGTH,
-      index: DEFINITIONS.TRUE,
+      index: COMMON_DEFINITIONS.TRUE,
     },
-    [FIELDS.CURRENCY]: {
-      type: DEFINITIONS.STRING,
+    [GROUP_FIELDS.CURRENCY]: {
+      type: COMMON_DEFINITIONS.STRING,
       default: DEFAULT_CURRENCY,
     },
-    [FIELDS.LAST_ACTIVE]: {
-      type: DEFINITIONS.DATE,
-      default: DEFINITIONS.NOW,
+    [GROUP_FIELDS.LAST_ACTIVE]: {
+      type: COMMON_DEFINITIONS.DATE,
+      default: COMMON_DEFINITIONS.NOW,
     },
-    [FIELDS.DATA_PURGE_ENABLED]: {
-      type: DEFINITIONS.BOOLEAN,
-      default: DEFINITIONS.TRUE,
+    [GROUP_FIELDS.DATA_PURGE_ENABLED]: {
+      type: COMMON_DEFINITIONS.BOOLEAN,
+      default: COMMON_DEFINITIONS.TRUE,
     },
-    [FIELDS.SETTLEMENTS_CALCULATED]: {
-      type: DEFINITIONS.BOOLEAN,
-      default: DEFINITIONS.FALSE,
+    [GROUP_FIELDS.SETTLEMENTS_CALCULATED]: {
+      type: COMMON_DEFINITIONS.BOOLEAN,
+      default: COMMON_DEFINITIONS.FALSE,
     },
   },
   {
-    timestamps: DEFINITIONS.TRUE,
+    timestamps: COMMON_DEFINITIONS.TRUE,
   },
 );
 
-export default model(MODEL_NAMES.GROUP, groupSchema);
+export default model(COMMON_MODEL_NAMES.GROUP, groupSchema);

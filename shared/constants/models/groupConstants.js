@@ -1,4 +1,4 @@
-const FIELDS = {
+const GROUP_FIELDS = {
   NAME: "name",
   CURRENCY: "currency",
   LAST_ACTIVE: "lastActive",
@@ -6,11 +6,11 @@ const FIELDS = {
   SETTLEMENTS_CALCULATED: "settlementsCalculated",
 };
 
-const TRANSACTION_TYPE_VALUE = "group";
+const GROUP_TYPE_VALUE = "group";
 
-const GROUP = {
-  FIELDS,
-  TYPE_VALUE: TRANSACTION_TYPE_VALUE,
+const GROUP_CONSTANTS = {
+  GROUP_FIELDS,
+  GROUP_TYPE_VALUE,
 };
 
-export default GROUP;
+export default GROUP_CONSTANTS;

@@ -1,4 +1,4 @@
-const FIELDS = {
+const MEMBER_FIELDS = {
   NAME: "name",
   EXPENSES_PAID: "expensesPaid",
   EXPENSES_BENEFITTED: "expensesBenefitted",
@@ -8,11 +8,11 @@ const FIELDS = {
   SETTLED: "isSettled",
 };
 
-const TRANSACTION_TYPE_VALUE = "member";
+const MEMBER_TYPE_VALUE = "member";
 
-const MEMBER = {
-  FIELDS,
-  TYPE_VALUE: TRANSACTION_TYPE_VALUE,
+const MEMBER_CONSTANTS = {
+  MEMBER_FIELDS,
+  MEMBER_TYPE_VALUE,
 };
 
-export default MEMBER;
+export default MEMBER_CONSTANTS;

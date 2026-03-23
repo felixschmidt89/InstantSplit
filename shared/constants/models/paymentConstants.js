@@ -1,14 +1,14 @@
-const FIELDS = {
+const PAYMENT_FIELDS = {
   AMOUNT: "amount",
   MAKER: "maker",
   RECIPIENT: "recipient",
 };
 
-const TRANSACTION_TYPE_VALUE = "payment";
+const PAYMENT_TYPE_VALUE = "payment";
 
-const PAYMENT = {
-  FIELDS,
-  TYPE_VALUE: TRANSACTION_TYPE_VALUE,
+const PAYMENT_CONSTANTS = {
+  PAYMENT_FIELDS,
+  PAYMENT_TYPE_VALUE,
 };
 
-export default PAYMENT;
+export default PAYMENT_CONSTANTS;

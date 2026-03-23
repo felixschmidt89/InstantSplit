@@ -1,23 +1,18 @@
 import { Schema, model } from 'mongoose';
-
-import MEMBER from '../../shared/constants/models/memberConstants.js';
-import COMMON from '../../shared/constants/models/commonConstants.js';
-import EXPENSE from '../../shared/constants/models/expenseConstants.js';
-import PAYMENT from '../../shared/constants/models/paymentConstants.js';
+import MEMBER_CONSTANTS from '../../shared/constants/models/memberConstants.js';
+import COMMON_CONSTANTS from '../../shared/constants/models/commonConstants.js';
+import EXPENSE_CONSTANTS from '../../shared/constants/models/expenseConstants.js';
+import PAYMENT_CONSTANTS from '../../shared/constants/models/paymentConstants.js';
 import LOG_LEVELS from '../../shared/constants/system/loggerConstants.js';
 import Expense from './Expense.js';
 import Payment from './Payment.js';
 import debugLog from '../../shared/utils/debug/debugLog.js';
 
-const { FIELDS: MEMBER_FIELDS, TYPE_VALUE } = MEMBER;
-const {
-  MODEL_NAMES,
-  DEFINITIONS,
-  FIELDS: COMMON_FIELDS,
-  LIMITS: COMMON_LIMITS,
-} = COMMON;
-const { FIELDS: EXPENSE_FIELDS } = EXPENSE;
-const { FIELDS: PAYMENT_FIELDS } = PAYMENT;
+const { MEMBER_FIELDS, MEMBER_TYPE_VALUE } = MEMBER_CONSTANTS;
+const { COMMON_MODEL_NAMES, COMMON_FIELDS, COMMON_LIMITS, COMMON_DEFINITIONS } =
+  COMMON_CONSTANTS;
+const { EXPENSE_FIELDS } = EXPENSE_CONSTANTS;
+const { PAYMENT_FIELDS } = PAYMENT_CONSTANTS;
 
 const extractAggregateTotal = (aggregateResult, operationName) => {
   const total = aggregateResult.length ? aggregateResult[0].total : 0;
@@ -32,42 +27,42 @@ const extractAggregateTotal = (aggregateResult, operationName) => {
 const memberSchema = new Schema(
   {
     [COMMON_FIELDS.TRANSACTION_TYPE]: {
-      type: DEFINITIONS.STRING,
-      default: TYPE_VALUE,
-      immutable: DEFINITIONS.TRUE,
+      type: COMMON_DEFINITIONS.STRING,
+      default: MEMBER_TYPE_VALUE,
+      immutable: COMMON_DEFINITIONS.TRUE,
     },
     [MEMBER_FIELDS.NAME]: {
-      type: DEFINITIONS.STRING,
-      trim: DEFINITIONS.TRUE,
-      required: DEFINITIONS.TRUE,
+      type: COMMON_DEFINITIONS.STRING,
+      trim: COMMON_DEFINITIONS.TRUE,
+      required: COMMON_DEFINITIONS.TRUE,
       minlength: COMMON_LIMITS.NAME_MIN_LENGTH,
       maxlength: COMMON_LIMITS.NAME_MAX_LENGTH,
     },
     [COMMON_FIELDS.GROUP_CODE]: {
-      type: DEFINITIONS.STRING,
-      required: DEFINITIONS.TRUE,
+      type: COMMON_DEFINITIONS.STRING,
+      required: COMMON_DEFINITIONS.TRUE,
     },
     [MEMBER_FIELDS.EXPENSES_PAID]: {
-      type: DEFINITIONS.NUMBER,
+      type: COMMON_DEFINITIONS.NUMBER,
       default: 0,
     },
     [MEMBER_FIELDS.EXPENSES_BENEFITTED]: {
-      type: DEFINITIONS.NUMBER,
+      type: COMMON_DEFINITIONS.NUMBER,
       default: 0,
     },
     [MEMBER_FIELDS.PAYMENTS_MADE]: {
-      type: DEFINITIONS.NUMBER,
+      type: COMMON_DEFINITIONS.NUMBER,
       default: 0,
     },
     [MEMBER_FIELDS.PAYMENTS_RECEIVED]: {
-      type: DEFINITIONS.NUMBER,
+      type: COMMON_DEFINITIONS.NUMBER,
       default: 0,
     },
   },
   {
-    timestamps: DEFINITIONS.TRUE,
-    toJSON: { virtuals: DEFINITIONS.TRUE },
-    toObject: { virtuals: DEFINITIONS.TRUE },
+    timestamps: COMMON_DEFINITIONS.TRUE,
+    toJSON: { virtuals: COMMON_DEFINITIONS.TRUE },
+    toObject: { virtuals: COMMON_DEFINITIONS.TRUE },
   },
 );
 
@@ -78,7 +73,7 @@ memberSchema.virtual(MEMBER_FIELDS.BALANCE).get(function () {
     this[MEMBER_FIELDS.EXPENSES_BENEFITTED] -
     this[MEMBER_FIELDS.PAYMENTS_RECEIVED];
 
-  return DEFINITIONS.NUMBER(balance);
+  return COMMON_DEFINITIONS.NUMBER(balance);
 });
 
 memberSchema.virtual(MEMBER_FIELDS.SETTLED).get(function () {
@@ -132,7 +127,7 @@ memberSchema.methods.updateTotalExpenseBenefitted = async function () {
 
     await this.constructor.findOneAndUpdate(
       { [COMMON_FIELDS.ID]: memberId },
-      { $set: { [MEMBER_FIELDS.TOTAL_EXPENSES_BENEFITTED]: updatedTotal } },
+      { $set: { [MEMBER_FIELDS.EXPENSES_BENEFITTED]: updatedTotal } },
     );
   } catch (error) {
     debugLog(
@@ -160,7 +155,7 @@ memberSchema.methods.updateTotalPaymentsReceived = async function () {
 
     await this.constructor.findOneAndUpdate(
       { [COMMON_FIELDS.ID]: memberId },
-      { $set: { [MEMBER_FIELDS.TOTAL_PAYMENTS_RECEIVED]: updatedTotal } },
+      { $set: { [MEMBER_FIELDS.PAYMENTS_RECEIVED]: updatedTotal } },
     );
   } catch (error) {
     debugLog(
@@ -188,7 +183,7 @@ memberSchema.methods.updateTotalPaymentsMadeAmount = async function () {
 
     await this.constructor.findOneAndUpdate(
       { [COMMON_FIELDS.ID]: memberId },
-      { $set: { [MEMBER_FIELDS.TOTAL_PAYMENTS_MADE]: updatedTotal } },
+      { $set: { [MEMBER_FIELDS.PAYMENTS_MADE]: updatedTotal } },
     );
   } catch (error) {
     debugLog(
@@ -200,4 +195,4 @@ memberSchema.methods.updateTotalPaymentsMadeAmount = async function () {
   }
 };
 
-export default model(MODEL_NAMES.MEMBER, memberSchema);
+export default model(COMMON_MODEL_NAMES.MEMBER, memberSchema);

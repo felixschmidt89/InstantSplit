@@ -1,4 +1,4 @@
-const FIELDS = {
+const EXPENSE_FIELDS = {
   DESCRIPTION: "description",
   AMOUNT: "amount",
   AMOUNT_PER_BENEFICIARY: "amountPerBeneficiary",
@@ -6,11 +6,11 @@ const FIELDS = {
   BENEFICIARIES: "beneficiaries",
 };
 
-const TRANSACTION_TYPE_VALUE = "expense";
+const EXPENSE_TYPE_VALUE = "expense";
 
-const EXPENSE = {
-  FIELDS,
-  TYPE_VALUE: TRANSACTION_TYPE_VALUE,
+const EXPENSE_CONSTANTS = {
+  EXPENSE_FIELDS,
+  EXPENSE_TYPE_VALUE,
 };
 
-export default EXPENSE;
+export default EXPENSE_CONSTANTS;

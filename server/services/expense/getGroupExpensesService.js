@@ -4,16 +4,17 @@ import debugLog from '../../../shared/utils/debug/debugLog.js';
 import Expense from '../../models/Expense.js';
 
 const { INFO } = LOG_LEVELS;
+const { FIELDS } = COMMON;
 
 const getGroupExpensesService = async (groupCode) => {
   debugLog('Querying database for group expenses', { groupCode }, INFO);
 
-  const expenses = await Expense.find({ [COMMON.FIELDS.GROUP_CODE]: groupCode })
+  const expenses = await Expense.find({ [FIELDS.GROUP_CODE]: groupCode })
     .sort({ createdAt: -1 })
     .lean();
 
   debugLog(
-    'Group expenses retrieved from DB',
+    'Group expenses retrieved successfully',
     {
       groupCode,
       count: expenses.length,

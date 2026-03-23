@@ -1,6 +1,6 @@
 import { Schema } from "mongoose";
 
-const MODEL_NAMES = {
+const COMMON_MODEL_NAMES = {
   GROUP: "Group",
   MEMBER: "Member",
   EXPENSE: "Expense",
@@ -8,7 +8,7 @@ const MODEL_NAMES = {
   SETTLEMENT: "Settlement",
 };
 
-const FIELDS = {
+const COMMON_FIELDS = {
   ID: "_id",
   GROUP_CODE: "groupCode",
   TRANSACTION_TYPE: "transactionType",
@@ -16,7 +16,7 @@ const FIELDS = {
   UPDATED_AT: "updatedAt",
 };
 
-const LIMITS = {
+const COMMON_LIMITS = {
   TRANSACTION_AMOUNT_MIN: 0.01,
   TRANSACTION_AMOUNT_MAX: 99999.99,
   DESCRIPTION_MIN_LENGTH: 1,
@@ -25,7 +25,7 @@ const LIMITS = {
   NAME_MAX_LENGTH: 30,
 };
 
-const DEFINITIONS = {
+const COMMON_DEFINITIONS = {
   TRUE: true,
   FALSE: false,
   STRING: String,
@@ -36,11 +36,11 @@ const DEFINITIONS = {
   OBJECT_ID: Schema.Types.ObjectId,
 };
 
-const COMMON = {
-  MODEL_NAMES,
-  FIELDS,
-  LIMITS,
-  DEFINITIONS,
+const COMMON_CONSTANTS = {
+  COMMON_MODEL_NAMES,
+  COMMON_FIELDS,
+  COMMON_LIMITS,
+  COMMON_DEFINITIONS,
 };
 
-export default COMMON;
+export default COMMON_CONSTANTS;

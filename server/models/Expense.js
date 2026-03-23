@@ -1,59 +1,55 @@
 import { Schema, model } from 'mongoose';
-import EXPENSE from '../../shared/constants/models/expenseConstants.js';
-import COMMON from '../../shared/constants/models/commonConstants.js';
+import EXPENSE_CONSTANTS from '../../shared/constants/models/expenseConstants.js';
+import COMMON_CONSTANTS from '../../shared/constants/models/commonConstants.js';
 
-const { FIELDS, TYPE_VALUE } = EXPENSE;
-const {
-  MODEL_NAMES,
-  DEFINITIONS,
-  FIELDS: COMMON_FIELDS,
-  LIMITS: COMMON_LIMITS,
-} = COMMON;
+const { EXPENSE_FIELDS, EXPENSE_TYPE_VALUE } = EXPENSE_CONSTANTS;
+const { COMMON_MODEL_NAMES, COMMON_FIELDS, COMMON_LIMITS, COMMON_DEFINITIONS } =
+  COMMON_CONSTANTS;
 
 const expenseSchema = new Schema(
   {
     [COMMON_FIELDS.TRANSACTION_TYPE]: {
-      type: DEFINITIONS.STRING,
-      default: TYPE_VALUE,
-      immutable: DEFINITIONS.TRUE,
+      type: COMMON_DEFINITIONS.STRING,
+      default: EXPENSE_TYPE_VALUE,
+      immutable: COMMON_DEFINITIONS.TRUE,
     },
-    [FIELDS.DESCRIPTION]: {
-      type: DEFINITIONS.STRING,
-      trim: DEFINITIONS.TRUE,
-      required: DEFINITIONS.TRUE,
+    [EXPENSE_FIELDS.DESCRIPTION]: {
+      type: COMMON_DEFINITIONS.STRING,
+      trim: COMMON_DEFINITIONS.TRUE,
+      required: COMMON_DEFINITIONS.TRUE,
       minlength: COMMON_LIMITS.DESCRIPTION_MIN_LENGTH,
       maxlength: COMMON_LIMITS.DESCRIPTION_MAX_LENGTH,
     },
-    [FIELDS.AMOUNT]: {
-      type: DEFINITIONS.NUMBER,
-      required: DEFINITIONS.TRUE,
+    [EXPENSE_FIELDS.AMOUNT]: {
+      type: COMMON_DEFINITIONS.NUMBER,
+      required: COMMON_DEFINITIONS.TRUE,
       min: COMMON_LIMITS.TRANSACTION_AMOUNT_MIN,
       max: COMMON_LIMITS.TRANSACTION_AMOUNT_MAX,
     },
-    [FIELDS.AMOUNT_PER_BENEFICIARY]: {
-      type: DEFINITIONS.NUMBER,
-      required: DEFINITIONS.TRUE,
+    [EXPENSE_FIELDS.AMOUNT_PER_BENEFICIARY]: {
+      type: COMMON_DEFINITIONS.NUMBER,
+      required: COMMON_DEFINITIONS.TRUE,
     },
-    [FIELDS.PAYER]: {
-      type: DEFINITIONS.OBJECT_ID,
-      ref: MODEL_NAMES.MEMBER,
-      required: DEFINITIONS.TRUE,
+    [EXPENSE_FIELDS.PAYER]: {
+      type: COMMON_DEFINITIONS.OBJECT_ID,
+      ref: COMMON_MODEL_NAMES.MEMBER,
+      required: COMMON_DEFINITIONS.TRUE,
     },
-    [FIELDS.BENEFICIARIES]: [
+    [EXPENSE_FIELDS.BENEFICIARIES]: [
       {
-        type: DEFINITIONS.OBJECT_ID,
-        ref: MODEL_NAMES.MEMBER,
-        required: DEFINITIONS.TRUE,
+        type: COMMON_DEFINITIONS.OBJECT_ID,
+        ref: COMMON_MODEL_NAMES.MEMBER,
+        required: COMMON_DEFINITIONS.TRUE,
       },
     ],
     [COMMON_FIELDS.GROUP_CODE]: {
-      type: DEFINITIONS.STRING,
-      required: DEFINITIONS.TRUE,
+      type: COMMON_DEFINITIONS.STRING,
+      required: COMMON_DEFINITIONS.TRUE,
     },
   },
   {
-    timestamps: DEFINITIONS.TRUE,
+    timestamps: COMMON_DEFINITIONS.TRUE,
   },
 );
 
-export default model(MODEL_NAMES.EXPENSE, expenseSchema);
+export default model(COMMON_MODEL_NAMES.EXPENSE, expenseSchema);

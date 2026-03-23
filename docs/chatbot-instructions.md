@@ -375,3 +375,9 @@ This is a legacy codebase. When we work on existing files, we always want to ref
   - **Requirement**: Always use the full file path including the filename and the mandatory extension (e.g., `import sortByDateDescending from "../../shared/utils/dates/sortByDateDescending.js";`).
 - **Import Style**:
   - **Requirement**: Since atomic files must use a single `default export`, consumers should use default imports rather than named imports.
+
+- **Dual-Identifier Protocol**:
+  - **Standard**: Adhere to a strict separation of concerns regarding group identifiers.
+  - **External Scope**: Use the non-sensitive database identifier (e.g., `groupId`) for all external interfaces, including URL parameters, endpoint definitions, and routing paths.
+  - **Internal Scope**: Use the sensitive domain identifier (`groupCode`) exclusively for internal database queries and business logic within the service layer.
+  - **Controller Responsibility**: The controller must manage the mapping between these identifiers, extracting the `groupId` from parameters while utilizing the `groupCode` from the request context to invoke services.

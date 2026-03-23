@@ -58,8 +58,8 @@ InstantSpilt
 │   │   ├── api
 │   │   │   ├── axiosInstance.js
 │   │   │   ├── common
-│   │   │   │   ├── deleteResource.js
-│   │   │   │   └── updateResource.js
+│   │   │   │   ├── requestDeleteResource.js
+│   │   │   │   └── requestUpdateResource.js
 │   │   │   ├── expenses
 │   │   │   │   ├── createExpense.js
 │   │   │   │   ├── fetchExpense.js
@@ -74,13 +74,13 @@ InstantSpilt
 │   │   │   │   ├── fetchStoredGroupNames.js
 │   │   │   │   ├── updateHasPersistedSettlements.js
 │   │   │   │   └── validateGroupCode.js
+│   │   │   ├── members
+│   │   │   │   ├── fetchGroupMemberTransactions.js
+│   │   │   │   └── fetchGroupMembers.js
 │   │   │   ├── payments
 │   │   │   │   └── fetchPayment.js
-│   │   │   ├── settlements
-│   │   │   │   └── fetchSettlements.js
-│   │   │   └── users
-│   │   │       ├── fetchGroupMemberTransactions.js
-│   │   │       └── fetchGroupMembers.js
+│   │   │   └── settlements
+│   │   │       └── fetchSettlements.js
 │   │   ├── assets
 │   │   │   ├── flags
 │   │   │   │   ├── de.svg
@@ -183,12 +183,12 @@ InstantSpilt
 │   │   │   │   │   ├── CreateGroupMemberCTA.jsx
 │   │   │   │   │   └── CreateGroupMemberCTA.module.css
 │   │   │   │   ├── GroupBalances
-│   │   │   │   │   ├── RenderGroupBalances
-│   │   │   │   │   │   ├── RenderGroupBalances.jsx
-│   │   │   │   │   │   └── RenderGroupBalances.module.css
-│   │   │   │   │   └── RenderGroupMemberBalance
-│   │   │   │   │       ├── RenderGroupMemberBalance.jsx
-│   │   │   │   │       └── RenderGroupMemberBalance.module.css
+│   │   │   │   │   ├── GroupBalances
+│   │   │   │   │   │   ├── GroupBalances.jsx
+│   │   │   │   │   │   └── GroupBalances.module.css
+│   │   │   │   │   └── GroupMemberBalance
+│   │   │   │   │       ├── GroupMemberBalance.jsx
+│   │   │   │   │       └── GroupMemberBalance.module.css
 │   │   │   │   ├── GroupHistory
 │   │   │   │   │   ├── GroupExpense
 │   │   │   │   │   │   ├── GroupExpense.jsx
@@ -410,8 +410,6 @@ InstantSpilt
 │   │   │   ├── clientRouteLinks.js
 │   │   │   ├── clientStaticRoutesConstants.js
 │   │   │   ├── configConstants.js
-│   │   │   ├── dataConstants.jsx
-│   │   │   ├── dateConstants.jsx
 │   │   │   ├── emojiConstants.jsx
 │   │   │   ├── fontConstants.js
 │   │   │   ├── linkConstants.js
@@ -422,6 +420,7 @@ InstantSpilt
 │   │   │   ├── currenciesContent.jsx
 │   │   │   └── legalNoticeContent.jsx
 │   │   ├── context
+│   │   │   ├── ErrorContext.jsx
 │   │   │   └── GroupContext.jsx
 │   │   ├── hooks
 │   │   │   ├── api
@@ -431,8 +430,6 @@ InstantSpilt
 │   │   │   ├── expenses
 │   │   │   ├── groups
 │   │   │   ├── ui
-│   │   │   │   └── useErrorModal
-│   │   │   │       └── useErrorModal.jsx
 │   │   │   ├── useAutoActiveGroupCodeRedirect.jsx
 │   │   │   ├── useConfirmationModalLogicAndActions.jsx
 │   │   │   ├── useDeleteResource.jsx
@@ -640,6 +637,9 @@ InstantSpilt
 │   │   └── serverConfigConstants.js
 │   ├── controllers
 │   │   ├── captchaController.js
+│   │   ├── expense
+│   │   │   ├── getGroupExpensesController.js
+│   │   │   └── getGroupExpensesTotalController.js
 │   │   ├── expenseController.js
 │   │   ├── group
 │   │   │   ├── changeGroupNameController.js
@@ -701,6 +701,8 @@ InstantSpilt
 │   │       └── purgeInactiveGroups.js
 │   ├── server.js
 │   ├── services
+│   │   ├── expense
+│   │   │   └── getGroupExpensesService.js
 │   │   ├── group
 │   │   │   ├── changeGroupNameService.js
 │   │   │   ├── createGroupService.js
@@ -759,7 +761,8 @@ InstantSpilt
     │   │   ├── environmentConstants.js
     │   │   ├── languageConstants.js
     │   │   ├── loggerConstants.js
-    │   │   └── systemConstants.js
+    │   │   ├── systemConstants.js
+    │   │   └── timeConstants.js
     │   └── test
     │       └── testConstants.js
     └── utils
