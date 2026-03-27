@@ -4,17 +4,12 @@ import useEditPenVisibility from "../../../hooks/useEditPenVisibility";
 import ChangeResourceName from "../../ChangeResourceName/ChangeResourceName";
 import EditPenButton from "../../EditPenButton/EditPenButton";
 
-// Assuming you have MEMBER in your RESOURCE_TYPES now
+import styles from "./GroupMemberName.module.css";
 import { RESOURCE_TYPES } from "../../../../../shared/constants/domain/resourceConstants.js";
 
-import styles from "./GroupMemberName.module.css";
-
-// FIX: Change USER to MEMBER
 const { MEMBER } = RESOURCE_TYPES;
-
 const GroupMemberName = ({ memberId }) => {
   const containerRef = useRef(null);
-
   const { getMemberName, activeGroupCode, refreshGroupMembers } =
     useGroupContext();
 
@@ -30,7 +25,6 @@ const GroupMemberName = ({ memberId }) => {
     await refreshGroupMembers();
   };
 
-  // FIX: Use memberId to look up the name
   const fetchedName = getMemberName(memberId);
   const displayName = optimisticName ?? fetchedName;
 

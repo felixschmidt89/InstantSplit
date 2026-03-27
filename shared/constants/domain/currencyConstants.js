@@ -1,6 +1,6 @@
-export const DEFAULT_CURRENCY = "€";
+const DEFAULT_CURRENCY = "€";
 
-export const CURRENCIES = [
+const CURRENCIES = [
   { value: "EUR", label: "Euro", symbol: "€" },
   { value: "USD", label: "US Dollar", symbol: "$" },
   { value: "GBP", label: "British Pound Sterling", symbol: "£" },
@@ -163,3 +163,10 @@ export const CURRENCIES = [
   { value: "ZMW", label: "Zambian Kwacha", symbol: "ZK" },
   { value: "ZWL", label: "Zimbabwean Dollar", symbol: "$" },
 ];
+
+const CURRENCY = {
+  DEFAULT_CURRENCY,
+  CURRENCIES,
+};
+
+export default CURRENCY;

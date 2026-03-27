@@ -1,4 +1,4 @@
-import { LANGUAGES } from "../../../../shared/constants/system/languageConstants.js";
+import LANGUAGES from "../../../../shared/constants/system/languageConstants.js";
 import { MOCK_DATA } from "../../../../shared/constants/test/testConstants.js";
 import LOCAL_STORAGE_KEYS from "../../constants/localStorageConstants.js";
 

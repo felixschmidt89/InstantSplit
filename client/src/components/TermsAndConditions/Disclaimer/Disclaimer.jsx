@@ -1,11 +1,14 @@
 import { useTranslation } from "react-i18next";
 
-import LAST_UPDATE_DATE from "../termsAndConditionsConstants";
+import TERMS_AND_CONDITIONS from "../termsAndConditionsConstants.js";
+import LANGUAGE from "../../../../../shared/constants/system/languageConstants.js";
+import getLocalizedDateString from "../../../../../shared/utils/dates/getLocalizedDateString.js";
+import getLanguageFromLocalStorage from "../../../utils/localStorage/getLanguageFromLocalStorage.js";
 
 import styles from "./Disclaimer.module.css";
-import { DEFAULT_LANGUAGE } from "../../../../../shared/constants/system/languageConstants";
-import { getLocalizedDateString } from "../../../../../shared/utils/dateUtils";
-import getLanguageFromLocalStorage from "../../../utils/localStorage/getLanguageFromLocalStorage.js";
+
+const { LAST_UPDATE_DATE } = TERMS_AND_CONDITIONS;
+const { DEFAULT_LANGUAGE } = LANGUAGE;
 
 const Disclaimer = () => {
   const { t } = useTranslation();

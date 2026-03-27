@@ -3,19 +3,18 @@ import HttpApi from "i18next-http-backend";
 import { initReactI18next } from "react-i18next";
 
 import getLanguageFromLocalStorage from "../utils/localStorage/getLanguageFromLocalStorage.js";
-import {
-  DEFAULT_LANGUAGE,
-  LANGUAGES,
-} from "../../../shared/constants/system/languageConstants.js";
+import LANGUAGE from "../../../shared/constants/system/languageConstants.js";
+
+const { DEFAULT_LANGUAGE, LANGUAGES } = LANGUAGE;
 
 i18n
   .use(HttpApi)
   .use(initReactI18next)
   .init({
-    lng: getLanguageFromLocalStorage() || DEFAULT_LANGUAGE,
+    lng: getLanguageFromLocalStorage() ?? DEFAULT_LANGUAGE,
     fallbackLng: DEFAULT_LANGUAGE,
     supportedLngs: Object.values(LANGUAGES),
-    debug: process.env.NODE_ENV === "development",
+    debug: import.meta.env.DEV,
     interpolation: {
       escapeValue: false,
     },

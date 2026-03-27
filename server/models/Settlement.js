@@ -16,23 +16,19 @@ const settlementSchema = new Schema(
     [SETTLEMENT_FIELDS.DEBTOR]: {
       type: Schema.Types.ObjectId,
       ref: COMMON_MODEL_NAMES.MEMBER,
-      required: [true, ERROR_CODES.SETTLEMENT.DEBTOR_REQUIRED],
+      required: [true, ERROR_CODES.MEMBER.NOT_FOUND],
     },
     [SETTLEMENT_FIELDS.CREDITOR]: {
       type: Schema.Types.ObjectId,
       ref: COMMON_MODEL_NAMES.MEMBER,
-      required: [true, ERROR_CODES.SETTLEMENT.CREDITOR_REQUIRED],
+      required: [true, ERROR_CODES.MEMBER.NOT_FOUND],
     },
     [SETTLEMENT_FIELDS.AMOUNT]: {
       type: Number,
-      required: [true, ERROR_CODES.SETTLEMENT.AMOUNT_REQUIRED],
+      required: [true, ERROR_CODES.PAYMENT.AMOUNT_REQUIRED],
       min: [
         COMMON_LIMITS.TRANSACTION_AMOUNT_MIN,
-        ERROR_CODES.SETTLEMENT.AMOUNT_TOO_LOW,
-      ],
-      max: [
-        COMMON_LIMITS.TRANSACTION_AMOUNT_MAX,
-        ERROR_CODES.SETTLEMENT.AMOUNT_TOO_HIGH,
+        ERROR_CODES.PAYMENT.AMOUNT_TOO_LOW,
       ],
     },
     [COMMON_FIELDS.GROUP_CODE]: {

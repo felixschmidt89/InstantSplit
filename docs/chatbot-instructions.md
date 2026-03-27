@@ -113,16 +113,14 @@
     - **Shared Scope**: **MANDATORY**: Any constant consumed by both Client and Server (e.g., `errorConstants.js`, `validationConstants.js`) must reside in `shared/constants/`.
     - **Client-Specific**: UI-only constants must reside in `client/src/constants/`.
     - **Server-Specific**: Logic-only constants must reside in `server/constants/`.
-  - **Export Standards**:
-    - **Single Export Rule**: Every constant file must use a single `export default` statement at the bottom of the file.
-    - **V2 Export Enforcement**: Constant files must strictly use a single `export default` object. Named exports are prohibited to ensure compatibility with Vite's Fast Refresh and to maintain the Category-Scoped Pattern.
-    - **Nesting**: Group related constants into nested objects (e.g., `COMMON_FIELDS`, `EXPENSE_LIMITS`) within the default export object.
-  - **Category-Scoped Pattern**:
-    - **Import Level**: Only import the top-level default export object (e.g., `import EXPENSE from "..."`).
-    - **Destructuring Level**: Destructure first-level "Category" objects.
-    - **Prohibition of Aliasing**: NEVER alias a category or key during destructuring (e.g., NO `{ FIELDS: COMMON_FIELDS }`).
-    - **Suffix Enforcement**: Every category name MUST be prefixed or suffixed within the constant file itself to ensure global uniqueness and eliminate the need for local aliasing (e.g., `COMMON_FIELDS`, `EXPENSE_FIELDS`).
-    - **Usage Level**: Access constants using `Category.KEY` (e.g., `COMMON_FIELDS.GROUP_CODE`, `EXPENSE_LIMITS.MAX`).
+  - **Export Standards (Bundle & Export Rule)**:
+    - **Internal Definition**: Constants must be defined as local variables first (e.g., `const SYMBOL = "€";`).
+    - **The Bundle**: Group these variables into a single, capitalized object representing the domain (e.g., `const CURRENCY = { SYMBOL };`).
+    - **Single Export Rule**: Every constant file must strictly use a single `export default <BUNDLE_NAME>;` statement at the very bottom. Named exports (`export const ...`) are strictly prohibited.
+  - **Import & Usage Pattern (Single Source Default)**:
+    - **No Destructured Imports**: NEVER use curly braces on the import line. Import the default bundle directly (e.g., `import CURRENCY from '../../constants/currencyConstants.js';`).
+    - **Local Destructuring**: Destructure the required constants on the immediately following line (e.g., `const { DEFAULT_CURRENCY } = CURRENCY;`).
+    - **Prohibition of Aliasing**: NEVER alias a category or key during destructuring.
   - **Naming Uniqueness**:
     - **Prohibition**: Constant keys within categories must not conflict with common class, model, or function names.
     - **Protocol**: Use descriptive suffixes within the constant key itself (e.g., `EXPENSE_MODEL: "Expense"`) to allow direct destructuring and usage without aliasing.
@@ -310,7 +308,7 @@ This is a legacy codebase. When we work on existing files, we always want to ref
   - **Structure**: Avoid a flat structure; group middleware by their responsibility (e.g., `auth/`, `context/`, `validation/`).
   - **Exports**: Use named exports for the function and `export default` for the middleware itself.
 
-  - **Middleware Error Standards**:
+- **Middleware Error Standards**:
   - **Property Consistency**: When a validation middleware terminates a request, it must attach the HTTP status code strictly to the `statusCode` property of the `Error` object.
   - **Constant Usage**: The `Error` message must be an imported constant from a `shared/constants/` or `server/constants/` error file.
 
@@ -328,19 +326,20 @@ This is a legacy codebase. When we work on existing files, we always want to ref
   - **Global Handler**: All controllers must use a `try/catch` block that forwards errors to a centralized middleware using `next(error)`.
   - **Prohibition**: Do **NOT** send error responses (e.g., `res.status(500).json(...)`) directly from the controller.
   - **Telemetry**: Centralize all error-level `debugLog` calls within the global error middleware to ensure consistent logging across the API.
-  - **Constants**: Use the `DEFAULT_ERROR_MESSAGE` constant for fallback error messages.
-  - **String Management**: **MANDATORY**: When a specific error message is required, add a new constant to `server/constants/errorConstants.js` instead of writing a raw string inline.
+  - **Atomic Error Codes**: Error constants must only contain the uppercase V2 error code string (e.g., `"ERROR_GROUP_NOT_FOUND"`). Do not store human-readable messages in the backend.
+  - **ApiError Utility**: Controllers and Middleware must throw errors using the custom `ApiError` class, passing the HTTP Status Code and the explicit `errorCode` (e.g., `throw new ApiError(StatusCodes.NOT_FOUND, ERROR_CODES.GROUP.NOT_FOUND);`).
+  - **Middleware Fallback**: Unhandled server crashes must be caught by `apiErrorMiddleware` and obscured using `ERROR_CODES.GENERIC.INTERNAL_SERVER_ERROR` to prevent leaking system details.
 
 - **Response JSON Standard**:
-  - **Object Wrapper**: All successful API responses must return a JSON object. Root-level arrays are strictly prohibited.
-  - **Entity Naming**: Use descriptive, semantic keys for the primary data payload.
-    - **Single Entities**: Use the singular name of the resource (e.g., `{ transaction: { ... } }`).
-    - **Collections**: Use the plural name of the resource (e.g., `{ members: [ ... ] }`).
-  - **Success Response Properties**:
-    - **Prohibition**: NEVER include `status: "success"` or generic `message` strings in successful (2xx) API responses.
-    - **Protocol**: Rely exclusively on the HTTP Status Code to communicate the operation's success. The JSON body must contain only the flattened, requested data payload.
-  - **Empty States**: For collection requests that yield no results, return an empty array `[]` assigned to the plural key. **NEVER** return `null` or omit the key, as this ensures the Client can safely call array methods (e.g., `.map()`, `.length`) without additional null-checks.
-  - **Payload Flatness**: Avoid deep nesting (e.g., `{ data: { result: { items: [] } } }`). Keep the primary entity key at the root of the response object.
+  - **Boolean Success Flag**: Every API response (success or failure) must include a boolean `success` flag at the root level to provide a predictable contract for the frontend.
+  - **Success Structure**: `{ "success": true, "data": { "member": { ... } } }`
+  - **Error Structure**: `{ "success": false, "code": "ERROR_MEMBER_NOT_FOUND" }`
+  - **Object Wrapper**: All successful API data payloads must be wrapped in a JSON object. Root-level arrays are strictly prohibited.
+  - **Entity Naming**: Use descriptive, semantic keys for the primary data payload within the `data` object.
+    - **Single Entities**: Use the singular name of the resource (e.g., `member: { ... }`).
+    - **Collections**: Use the plural name of the resource (e.g., `members: [ ... ]`).
+  - **Empty States**: For collection requests that yield no results, return an empty array `[]` assigned to the plural key. **NEVER** return `null` or omit the key.
+  - **Payload Flatness**: Avoid deep nesting (e.g., `{ data: { result: { items: [] } } }`). Keep the primary entity key directly under the `data` object.
 
 - **Domain Validation Standards**:
   - **Atomic Gatekeepers**: Create specific middleware for frequent domain-level requirements (e.g., `validateGroupCodeMiddleware.js`, `validateTransactionIdMiddleware.js`).
@@ -352,7 +351,7 @@ This is a legacy codebase. When we work on existing files, we always want to ref
   - **Namespace**: When middleware enriches the request object (Request Enrichment), attach domain-specific data to a `context` property (e.g., `req.context.groupCode`).
   - **Purpose**: This clearly distinguishes middleware-validated data from standard Express request properties (`req.params`, `req.query`, `req.body`), making the source of truth explicit within the controller.
 
-  - **API Header Constants**:
+- **API Header Constants**:
   - **Normalization**: All header keys defined in `apiHeaderConstants.js` must be strictly lowercase.
 
 - **Controller Architecture**:
