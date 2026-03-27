@@ -1,5 +1,7 @@
 const extractAggregationTotal = (aggregationResult, fieldName = 'total') => {
-  if (!Array.isArray(aggregationResult) || aggregationResult.length === 0) {
+  const hasResults = Boolean(aggregationResult?.length);
+
+  if (!hasResults) {
     return 0;
   }
 

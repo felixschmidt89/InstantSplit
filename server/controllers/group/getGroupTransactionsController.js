@@ -1,5 +1,4 @@
 import { StatusCodes } from 'http-status-codes';
-
 import getGroupTransactionsService from '../../services/group/getGroupTransactionsService.js';
 
 const { OK } = StatusCodes;
@@ -10,7 +9,7 @@ const getGroupTransactionsController = async (req, res, next) => {
 
     const transactions = await getGroupTransactionsService(groupCode);
 
-    res.status(OK).json({ transactions });
+    return res.status(OK).json({ transactions });
   } catch (error) {
     next(error);
   }

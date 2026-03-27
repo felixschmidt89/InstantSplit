@@ -1,5 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
-import ERROR_CONFIG from '../../../shared/constants/error/errorConstants.js';
+import ERROR_CONFIG from '../../../shared/constants/system/errorConstants.js/';
 import ApiError from '../../utils/errors/ApiError.js';
 
 const { BAD_REQUEST } = StatusCodes;

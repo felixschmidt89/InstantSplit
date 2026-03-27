@@ -4,38 +4,6 @@ import { validateString } from './validationUtils.js';
 import mongoose from 'mongoose';
 
 /**
- * Checks if groupCode is unique in the database.
- *
- * @param {string} groupCode - The groupCode to check for uniqueness.
- * @returns {Promise<boolean>} - Returns true if groupCode is unique, false if it already exists.
- * Logs errors for internal debugging purposes and transforms them for production logging with a custom prefix and user-friendly message.
- */
-export const isGroupCodeUnique = async (groupCode) => {
-  try {
-    // Validate that groupCode is a valid string
-    validateString(groupCode, 'groupCode');
-
-    // Find the existing group in the database by groupCode
-    const existingGroup = await Group.findOne({ groupCode });
-
-    // Log a message if the groupCode is unique in development environment
-    if (!existingGroup) {
-      devLog(`GroupCode "${groupCode}" is unique.`);
-    }
-
-    // Return true if the groupCode is unique (existingGroup is falsy)
-    return !existingGroup;
-  } catch (error) {
-    // Log and transform any other error using prodErrorLog
-    errorLog(
-      error,
-      'Error checking groupCode uniqueness:',
-      'Failed to check groupCode uniqueness. Please try again later.',
-    );
-  }
-};
-
-/**
  * Obtains the groupObjectId of a group by its groupCode.
  *
  * @param {string} groupCode - The groupCode to search for.

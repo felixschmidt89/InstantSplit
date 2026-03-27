@@ -3,11 +3,11 @@ import deleteExpenseService from '../../services/expense/deleteExpenseService.js
 import RESOURCE from '../../../shared/constants/domain/resourceConstants.js';
 
 const { NO_CONTENT } = StatusCodes;
-const { EXPENSE_ID } = RESOURCE;
+const { RESOURCE_IDS } = RESOURCE;
 
 const deleteExpenseController = async (req, res, next) => {
   try {
-    const { [EXPENSE_ID]: expenseId } = req.params;
+    const { [RESOURCE_IDS.EXPENSE_ID]: expenseId } = req.params;
 
     await deleteExpenseService(expenseId);
 

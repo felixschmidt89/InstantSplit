@@ -1,48 +1,49 @@
 import { Schema, model } from 'mongoose';
 import SETTLEMENT_CONSTANTS from '../../shared/constants/models/settlementConstants.js';
 import COMMON_CONSTANTS from '../../shared/constants/models/commonConstants.js';
+import ERROR_CODES from '../../shared/constants/system/errorConstants.js';
 
-const { SETTLEMENT_FIELDS, SETTLEMENT_TYPE_VALUE } = SETTLEMENT_CONSTANTS;
-const { COMMON_MODEL_NAMES, COMMON_FIELDS, COMMON_LIMITS, COMMON_DEFINITIONS } =
-  COMMON_CONSTANTS;
+const { SETTLEMENT_FIELDS, SETTLEMENT_TYPE } = SETTLEMENT_CONSTANTS;
+const { COMMON_MODEL_NAMES, COMMON_FIELDS, COMMON_LIMITS } = COMMON_CONSTANTS;
 
 const settlementSchema = new Schema(
   {
     [COMMON_FIELDS.TRANSACTION_TYPE]: {
-      type: COMMON_DEFINITIONS.STRING,
-      default: SETTLEMENT_TYPE_VALUE,
-      immutable: COMMON_DEFINITIONS.TRUE,
+      type: String,
+      default: SETTLEMENT_TYPE,
+      immutable: true,
     },
     [SETTLEMENT_FIELDS.DEBTOR]: {
-      type: COMMON_DEFINITIONS.OBJECT_ID,
+      type: Schema.Types.ObjectId,
       ref: COMMON_MODEL_NAMES.MEMBER,
-      required: [
-        COMMON_DEFINITIONS.TRUE,
-        'Settlement requires a valid debtor ID',
-      ],
+      required: [true, ERROR_CODES.SETTLEMENT.DEBTOR_REQUIRED],
     },
     [SETTLEMENT_FIELDS.CREDITOR]: {
-      type: COMMON_DEFINITIONS.OBJECT_ID,
+      type: Schema.Types.ObjectId,
       ref: COMMON_MODEL_NAMES.MEMBER,
-      required: [
-        COMMON_DEFINITIONS.TRUE,
-        'Settlement requires a valid creditor ID',
-      ],
+      required: [true, ERROR_CODES.SETTLEMENT.CREDITOR_REQUIRED],
     },
     [SETTLEMENT_FIELDS.AMOUNT]: {
-      type: COMMON_DEFINITIONS.NUMBER,
-      required: COMMON_DEFINITIONS.TRUE,
-      min: COMMON_LIMITS.TRANSACTION_AMOUNT_MIN,
-      max: COMMON_LIMITS.TRANSACTION_AMOUNT_MAX,
+      type: Number,
+      required: [true, ERROR_CODES.SETTLEMENT.AMOUNT_REQUIRED],
+      min: [
+        COMMON_LIMITS.TRANSACTION_AMOUNT_MIN,
+        ERROR_CODES.SETTLEMENT.AMOUNT_TOO_LOW,
+      ],
+      max: [
+        COMMON_LIMITS.TRANSACTION_AMOUNT_MAX,
+        ERROR_CODES.SETTLEMENT.AMOUNT_TOO_HIGH,
+      ],
     },
     [COMMON_FIELDS.GROUP_CODE]: {
-      type: COMMON_DEFINITIONS.STRING,
-      required: COMMON_DEFINITIONS.TRUE,
-      trim: COMMON_DEFINITIONS.TRUE,
+      type: String,
+      required: true,
+      trim: true,
+      index: true,
     },
   },
   {
-    timestamps: COMMON_DEFINITIONS.TRUE,
+    timestamps: true,
   },
 );
 

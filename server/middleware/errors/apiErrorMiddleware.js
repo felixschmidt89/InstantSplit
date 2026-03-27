@@ -1,27 +1,27 @@
 import { StatusCodes } from 'http-status-codes';
-
-import ERROR_CONFIG from '../../../shared/constants/error/errorConstants.js';
-import LOG_LEVELS from '../../../shared/constants/system/loggerConstants.js';
+import ERROR_CODES from '../../../shared/constants/system/errorConstants.js';
+import LOGGER_CONSTANTS from '../../../shared/constants/system/loggerConstants.js';
 import debugLog from '../../../shared/utils/debug/debugLog.js';
 
 const { INTERNAL_SERVER_ERROR } = StatusCodes;
-const { ERROR } = LOG_LEVELS; // Standardized V2 access
-const { MESSAGES } = ERROR_CONFIG;
+const { LOG_LEVELS } = LOGGER_CONSTANTS;
 
 const apiErrorMiddleware = (err, req, res, next) => {
   const statusCode = err.statusCode || INTERNAL_SERVER_ERROR;
 
-  /**
-   * If err.isOperational is true, it's a handled ApiError.
-   * Otherwise, we shield the client from system details using DEFAULT.
-   */
-  const message = err.isOperational ? err.message : MESSAGES.DEFAULT;
+  const errorCode = err.isOperational
+    ? err.errorCode
+    : ERROR_CODES.GENERIC.INTERNAL_SERVER_ERROR;
 
-  debugLog(`API Error [${req.method} ${req.url}]: ${err.message}`, err, ERROR);
+  debugLog(
+    `API Error [${req.method} ${req.url}]: ${err.message}`,
+    err,
+    LOG_LEVELS.ERROR,
+  );
 
   return res.status(statusCode).json({
-    status: 'error',
-    message,
+    success: false,
+    code: errorCode,
   });
 };
 

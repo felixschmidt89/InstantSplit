@@ -5,9 +5,9 @@ const { CREATED } = StatusCodes;
 
 const createGroupController = async (req, res, next) => {
   try {
-    const { groupName } = req.body;
+    const { name } = req.body;
 
-    const group = await createGroupService(groupName);
+    const group = await createGroupService(name);
 
     return res.status(CREATED).json({ group });
   } catch (error) {

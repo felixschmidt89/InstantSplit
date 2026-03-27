@@ -4,76 +4,54 @@ import COMMON_CONSTANTS from '../../shared/constants/models/commonConstants.js';
 import EXPENSE_CONSTANTS from '../../shared/constants/models/expenseConstants.js';
 import PAYMENT_CONSTANTS from '../../shared/constants/models/paymentConstants.js';
 import LOG_LEVELS from '../../shared/constants/system/loggerConstants.js';
+import debugLog from '../../shared/utils/debug/debugLog.js';
+import extractAggregationTotal from '../utils/database/extractAggregationTotal.js';
 import Expense from './Expense.js';
 import Payment from './Payment.js';
-import debugLog from '../../shared/utils/debug/debugLog.js';
 
 const { MEMBER_FIELDS, MEMBER_TYPE_VALUE } = MEMBER_CONSTANTS;
-const { COMMON_MODEL_NAMES, COMMON_FIELDS, COMMON_LIMITS, COMMON_DEFINITIONS } =
-  COMMON_CONSTANTS;
+const { COMMON_MODEL_NAMES, COMMON_FIELDS, COMMON_LIMITS } = COMMON_CONSTANTS;
 const { EXPENSE_FIELDS } = EXPENSE_CONSTANTS;
 const { PAYMENT_FIELDS } = PAYMENT_CONSTANTS;
-
-const extractAggregateTotal = (aggregateResult, operationName) => {
-  const total = aggregateResult.length ? aggregateResult[0].total : 0;
-  debugLog(
-    `Aggregate total extracted for ${operationName}`,
-    { total, rawResultLength: aggregateResult.length },
-    LOG_LEVELS.LOG_DEBUG,
-  );
-  return total;
-};
+const { ERROR } = LOG_LEVELS;
 
 const memberSchema = new Schema(
   {
     [COMMON_FIELDS.TRANSACTION_TYPE]: {
-      type: COMMON_DEFINITIONS.STRING,
+      type: String,
       default: MEMBER_TYPE_VALUE,
-      immutable: COMMON_DEFINITIONS.TRUE,
+      immutable: true,
     },
     [MEMBER_FIELDS.NAME]: {
-      type: COMMON_DEFINITIONS.STRING,
-      trim: COMMON_DEFINITIONS.TRUE,
-      required: COMMON_DEFINITIONS.TRUE,
+      type: String,
+      trim: true,
+      required: true,
       minlength: COMMON_LIMITS.NAME_MIN_LENGTH,
       maxlength: COMMON_LIMITS.NAME_MAX_LENGTH,
     },
     [COMMON_FIELDS.GROUP_CODE]: {
-      type: COMMON_DEFINITIONS.STRING,
-      required: COMMON_DEFINITIONS.TRUE,
+      type: String,
+      required: true,
     },
-    [MEMBER_FIELDS.EXPENSES_PAID]: {
-      type: COMMON_DEFINITIONS.NUMBER,
-      default: 0,
-    },
-    [MEMBER_FIELDS.EXPENSES_BENEFITTED]: {
-      type: COMMON_DEFINITIONS.NUMBER,
-      default: 0,
-    },
-    [MEMBER_FIELDS.PAYMENTS_MADE]: {
-      type: COMMON_DEFINITIONS.NUMBER,
-      default: 0,
-    },
-    [MEMBER_FIELDS.PAYMENTS_RECEIVED]: {
-      type: COMMON_DEFINITIONS.NUMBER,
-      default: 0,
-    },
+    [MEMBER_FIELDS.EXPENSES_PAID]: { type: Number, default: 0 },
+    [MEMBER_FIELDS.EXPENSES_BENEFITTED]: { type: Number, default: 0 },
+    [MEMBER_FIELDS.PAYMENTS_MADE]: { type: Number, default: 0 },
+    [MEMBER_FIELDS.PAYMENTS_RECEIVED]: { type: Number, default: 0 },
   },
   {
-    timestamps: COMMON_DEFINITIONS.TRUE,
-    toJSON: { virtuals: COMMON_DEFINITIONS.TRUE },
-    toObject: { virtuals: COMMON_DEFINITIONS.TRUE },
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   },
 );
 
 memberSchema.virtual(MEMBER_FIELDS.BALANCE).get(function () {
-  const balance =
+  return (
     this[MEMBER_FIELDS.EXPENSES_PAID] +
     this[MEMBER_FIELDS.PAYMENTS_MADE] -
     this[MEMBER_FIELDS.EXPENSES_BENEFITTED] -
-    this[MEMBER_FIELDS.PAYMENTS_RECEIVED];
-
-  return COMMON_DEFINITIONS.NUMBER(balance);
+    this[MEMBER_FIELDS.PAYMENTS_RECEIVED]
+  );
 });
 
 memberSchema.virtual(MEMBER_FIELDS.SETTLED).get(function () {
@@ -83,14 +61,12 @@ memberSchema.virtual(MEMBER_FIELDS.SETTLED).get(function () {
 memberSchema.methods.updateTotalExpensesPaid = async function () {
   const memberId = this[COMMON_FIELDS.ID];
   try {
-    const totalExpensesPaid = await Expense.aggregate([
+    const result = await Expense.aggregate([
       { $match: { [EXPENSE_FIELDS.PAYER]: memberId } },
       { $group: { _id: null, total: { $sum: `$${EXPENSE_FIELDS.AMOUNT}` } } },
     ]);
-    const updatedTotal = extractAggregateTotal(
-      totalExpensesPaid,
-      'updateTotalExpensesPaid',
-    );
+
+    const updatedTotal = extractAggregationTotal(result);
 
     await this.constructor.findOneAndUpdate(
       { [COMMON_FIELDS.ID]: memberId },
@@ -98,9 +74,9 @@ memberSchema.methods.updateTotalExpensesPaid = async function () {
     );
   } catch (error) {
     debugLog(
-      'Error calculating expensesPaid',
+      'Failed to update expenses paid',
       { error: error.message, memberId },
-      LOG_LEVELS.LOG_ERROR,
+      ERROR,
     );
     throw error;
   }
@@ -108,9 +84,8 @@ memberSchema.methods.updateTotalExpensesPaid = async function () {
 
 memberSchema.methods.updateTotalExpenseBenefitted = async function () {
   const memberId = this[COMMON_FIELDS.ID];
-
   try {
-    const totalExpenseBenefitted = await Expense.aggregate([
+    const result = await Expense.aggregate([
       { $match: { [EXPENSE_FIELDS.BENEFICIARIES]: memberId } },
       {
         $group: {
@@ -120,10 +95,7 @@ memberSchema.methods.updateTotalExpenseBenefitted = async function () {
       },
     ]);
 
-    const updatedTotal = extractAggregateTotal(
-      totalExpenseBenefitted,
-      'updateTotalExpenseBenefitted',
-    );
+    const updatedTotal = extractAggregationTotal(result);
 
     await this.constructor.findOneAndUpdate(
       { [COMMON_FIELDS.ID]: memberId },
@@ -131,9 +103,9 @@ memberSchema.methods.updateTotalExpenseBenefitted = async function () {
     );
   } catch (error) {
     debugLog(
-      'Error calculating totalExpenseBenefittedAmount',
+      'Failed to update expense benefitted',
       { error: error.message, memberId },
-      LOG_LEVELS.LOG_ERROR,
+      ERROR,
     );
     throw error;
   }
@@ -141,17 +113,13 @@ memberSchema.methods.updateTotalExpenseBenefitted = async function () {
 
 memberSchema.methods.updateTotalPaymentsReceived = async function () {
   const memberId = this[COMMON_FIELDS.ID];
-
   try {
-    const totalPaymentsReceived = await Payment.aggregate([
+    const result = await Payment.aggregate([
       { $match: { [PAYMENT_FIELDS.RECIPIENT]: memberId } },
       { $group: { _id: null, total: { $sum: `$${PAYMENT_FIELDS.AMOUNT}` } } },
     ]);
 
-    const updatedTotal = extractAggregateTotal(
-      totalPaymentsReceived,
-      'updateTotalPaymentsReceived',
-    );
+    const updatedTotal = extractAggregationTotal(result);
 
     await this.constructor.findOneAndUpdate(
       { [COMMON_FIELDS.ID]: memberId },
@@ -159,9 +127,9 @@ memberSchema.methods.updateTotalPaymentsReceived = async function () {
     );
   } catch (error) {
     debugLog(
-      'Error calculating totalPaymentsReceivedAmount',
+      'Failed to update payments received',
       { error: error.message, memberId },
-      LOG_LEVELS.LOG_ERROR,
+      ERROR,
     );
     throw error;
   }
@@ -169,17 +137,13 @@ memberSchema.methods.updateTotalPaymentsReceived = async function () {
 
 memberSchema.methods.updateTotalPaymentsMadeAmount = async function () {
   const memberId = this[COMMON_FIELDS.ID];
-
   try {
-    const totalPaymentsMade = await Payment.aggregate([
+    const result = await Payment.aggregate([
       { $match: { [PAYMENT_FIELDS.MAKER]: memberId } },
       { $group: { _id: null, total: { $sum: `$${PAYMENT_FIELDS.AMOUNT}` } } },
     ]);
 
-    const updatedTotal = extractAggregateTotal(
-      totalPaymentsMade,
-      'updateTotalPaymentsMadeAmount',
-    );
+    const updatedTotal = extractAggregationTotal(result);
 
     await this.constructor.findOneAndUpdate(
       { [COMMON_FIELDS.ID]: memberId },
@@ -187,9 +151,9 @@ memberSchema.methods.updateTotalPaymentsMadeAmount = async function () {
     );
   } catch (error) {
     debugLog(
-      'Error updating totalPaymentsMadeAmount',
+      'Failed to update payments made',
       { error: error.message, memberId },
-      LOG_LEVELS.LOG_ERROR,
+      ERROR,
     );
     throw error;
   }

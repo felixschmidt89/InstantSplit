@@ -1,14 +1,18 @@
 import Group from '../../models/Group.js';
-import { generateUniqueGroupCode } from '../../utils/groupCodeUtils.js';
+import generateGroupCode from '../../utils/group/generateGroupCode.js';
+import GROUP_CONSTANTS from '../../../shared/constants/models/groupConstants.js';
+import COMMON_CONSTANTS from '../../../shared/constants/models/commonConstants.js';
+
+const { GROUP_FIELDS } = GROUP_CONSTANTS;
+const { COMMON_FIELDS } = COMMON_CONSTANTS;
 
 const createGroupService = async (groupName) => {
-  const groupCode = await generateUniqueGroupCode();
+  const groupCode = await generateGroupCode();
 
   const group = await Group.create({
-    groupName,
-    groupCode,
-    // TODO: Drop initialGroupName, replace with group id instead
-    initialGroupName: groupName,
+    [GROUP_FIELDS.NAME]: groupName,
+    [COMMON_FIELDS.GROUP_CODE]: groupCode,
+    // TODO: Replace 'initialGroupName' with groupId throughout the app, and remove this field
   });
 
   return group;

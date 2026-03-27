@@ -3,49 +3,55 @@ import GROUP_CONSTANTS from '../../shared/constants/models/groupConstants.js';
 import COMMON_CONSTANTS from '../../shared/constants/models/commonConstants.js';
 import { DEFAULT_CURRENCY } from '../../shared/constants/domain/currencyConstants.js';
 
-const { GROUP_FIELDS, GROUP_TYPE_VALUE } = GROUP_CONSTANTS;
-const { COMMON_MODEL_NAMES, COMMON_FIELDS, COMMON_LIMITS, COMMON_DEFINITIONS } =
-  COMMON_CONSTANTS;
+const { GROUP_FIELDS, GROUP_TYPE } = GROUP_CONSTANTS;
+const { COMMON_MODEL_NAMES, COMMON_FIELDS, COMMON_LIMITS } = COMMON_CONSTANTS;
 
 const groupSchema = new Schema(
   {
     [COMMON_FIELDS.TRANSACTION_TYPE]: {
-      type: COMMON_DEFINITIONS.STRING,
-      default: GROUP_TYPE_VALUE,
-      immutable: COMMON_DEFINITIONS.TRUE,
+      type: String,
+      default: GROUP_TYPE,
+      immutable: true,
     },
     [COMMON_FIELDS.GROUP_CODE]: {
-      type: COMMON_DEFINITIONS.STRING,
-      required: COMMON_DEFINITIONS.TRUE,
-      index: COMMON_DEFINITIONS.TRUE,
+      type: String,
+      required: true,
+      unique: true,
+      index: true,
     },
     [GROUP_FIELDS.NAME]: {
-      type: COMMON_DEFINITIONS.STRING,
-      trim: COMMON_DEFINITIONS.TRUE,
-      required: COMMON_DEFINITIONS.TRUE,
+      type: String,
+      trim: true,
+      required: true,
       minlength: COMMON_LIMITS.NAME_MIN_LENGTH,
       maxlength: COMMON_LIMITS.NAME_MAX_LENGTH,
-      index: COMMON_DEFINITIONS.TRUE,
+      index: true,
     },
     [GROUP_FIELDS.CURRENCY]: {
-      type: COMMON_DEFINITIONS.STRING,
+      type: String,
       default: DEFAULT_CURRENCY,
     },
     [GROUP_FIELDS.LAST_ACTIVE]: {
-      type: COMMON_DEFINITIONS.DATE,
-      default: COMMON_DEFINITIONS.NOW,
+      type: Date,
+      default: Date.now,
     },
     [GROUP_FIELDS.DATA_PURGE_ENABLED]: {
-      type: COMMON_DEFINITIONS.BOOLEAN,
-      default: COMMON_DEFINITIONS.TRUE,
+      type: Boolean,
+      default: true,
+    },
+    // TODO: Add functionality in FE and BE to enable payments feature
+    [GROUP_FIELDS.PAYMENTS_ENABLED]: {
+      type: Boolean,
+      default: false,
     },
     [GROUP_FIELDS.SETTLEMENTS_CALCULATED]: {
-      type: COMMON_DEFINITIONS.BOOLEAN,
-      default: COMMON_DEFINITIONS.FALSE,
+      type: Boolean,
+      default: false,
     },
+    // TODO: Replace fixedDebitorCreditorOrder with GROUP_FIELDS.SETTLEMENTS_CALCULATED where ever it had been used
   },
   {
-    timestamps: COMMON_DEFINITIONS.TRUE,
+    timestamps: true,
   },
 );
 

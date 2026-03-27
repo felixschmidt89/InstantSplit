@@ -1,5 +1,4 @@
 import { StatusCodes } from 'http-status-codes';
-
 import getGroupCurrencyService from '../../services/group/getGroupCurrencyService.js';
 
 const { OK } = StatusCodes;

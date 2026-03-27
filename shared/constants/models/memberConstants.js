@@ -6,7 +6,7 @@ const MEMBER = {
     PAYMENTS_MADE: "paymentsMade",
     PAYMENTS_RECEIVED: "paymentsReceived",
     BALANCE: "balance",
-    SETTLED: "isSettled",
+    SETTLED: "settled",
   },
   MEMBER_TYPE: "member",
 };

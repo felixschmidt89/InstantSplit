@@ -1,20 +1,15 @@
 import { StatusCodes } from 'http-status-codes';
-
 import getGroupInfoService from '../../services/group/getGroupInfoService.js';
+import RESOURCE from '../../../shared/constants/domain/resourceConstants.js';
 
-const { OK, NO_CONTENT } = StatusCodes;
+const { OK } = StatusCodes;
+const { RESOURCE_IDS } = RESOURCE;
 
 const getGroupInfoController = async (req, res, next) => {
   try {
-    const { groupId } = req.params;
+    const { [RESOURCE_IDS.GROUP_ID]: groupId } = req.params;
 
     const group = await getGroupInfoService(groupId);
-
-    if (!group) {
-      return res.status(NO_CONTENT).json({
-        group: null,
-      });
-    }
 
     return res.status(OK).json({ group });
   } catch (error) {
