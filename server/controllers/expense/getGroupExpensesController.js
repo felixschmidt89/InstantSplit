@@ -9,14 +9,7 @@ const getGroupExpensesController = async (req, res, next) => {
 
     const expenses = await getGroupExpensesService(groupCode);
 
-    return res.status(OK).json({
-      status: 'success',
-      results: expenses.length,
-      data: {
-        expenses,
-      },
-      message: 'Group expenses retrieved successfully',
-    });
+    return res.status(OK).json({ expenses });
   } catch (error) {
     next(error);
   }

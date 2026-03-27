@@ -116,12 +116,13 @@
   - **Export Standards**:
     - **Single Export Rule**: Every constant file must use a single `export default` statement at the bottom of the file.
     - **V2 Export Enforcement**: Constant files must strictly use a single `export default` object. Named exports are prohibited to ensure compatibility with Vite's Fast Refresh and to maintain the Category-Scoped Pattern.
-    - **Nesting**: Group related constants into nested objects (e.g., `FIELDS`, `LIMITS`, `MESSAGES`) within the default export object.
+    - **Nesting**: Group related constants into nested objects (e.g., `COMMON_FIELDS`, `EXPENSE_LIMITS`) within the default export object.
   - **Category-Scoped Pattern**:
     - **Import Level**: Only import the top-level default export object (e.g., `import EXPENSE from "..."`).
-    - **Destructuring Level**: Destructure only the first-level "Category" objects (e.g., `const { FIELDS, LIMITS } = EXPENSE;`). Do **NOT** destructure individual keys into the local namespace.
-    - **Usage Level**: Access constants using `Category.KEY` (e.g., `[FIELDS.AMOUNT]`, `LIMITS.MAX`).
-    - **Standard Aliasing**: Always alias the `FIELDS` object from `COMMON` as `COMMON_FIELDS` to distinguish it from entity-specific fields (e.g., `const { FIELDS: COMMON_FIELDS } = COMMON;`).
+    - **Destructuring Level**: Destructure first-level "Category" objects.
+    - **Prohibition of Aliasing**: NEVER alias a category or key during destructuring (e.g., NO `{ FIELDS: COMMON_FIELDS }`).
+    - **Suffix Enforcement**: Every category name MUST be prefixed or suffixed within the constant file itself to ensure global uniqueness and eliminate the need for local aliasing (e.g., `COMMON_FIELDS`, `EXPENSE_FIELDS`).
+    - **Usage Level**: Access constants using `Category.KEY` (e.g., `COMMON_FIELDS.GROUP_CODE`, `EXPENSE_LIMITS.MAX`).
   - **Naming Uniqueness**:
     - **Prohibition**: Constant keys within categories must not conflict with common class, model, or function names.
     - **Protocol**: Use descriptive suffixes within the constant key itself (e.g., `EXPENSE_MODEL: "Expense"`) to allow direct destructuring and usage without aliasing.
@@ -289,7 +290,7 @@ This is a legacy codebase. When we work on existing files, we always want to ref
 - **Navigation Implementation**:
   - **Functional Route Builders**: Always use the functional builders from `clientRouteLinks.js` for programmatic navigation via `useNavigate`. Ensure dynamic segments (e.g., `groupCode`) are passed as arguments to the corresponding route builder function.
 - **Navigation Constant Sourcing**:
-  - **Primary Navigation Export**: All functional route builders must be exported via the `NAV_LINKS` object (or `TO`) alias from `clientRouteLinks.js`.
+  - **Primary Navigation Export**: All functional route builders must be exported via the `NAV_LINKS` (or `TO`) object alias from `clientRouteLinks.js`.
   - **Dynamic Segment Enforcement**: Any navigation constant targeting a group-specific resource must be implemented as a function accepting `groupCode` to ensure valid URI construction.
 - **Component Implementation**:
   - **Semantic Variables**: Extract ternary logic or complex destination selection into well-named variables within the functional body (e.g., `const homeDestination = isGuest ? HOME : INSTANT_SPLIT;`).
@@ -335,6 +336,9 @@ This is a legacy codebase. When we work on existing files, we always want to ref
   - **Entity Naming**: Use descriptive, semantic keys for the primary data payload.
     - **Single Entities**: Use the singular name of the resource (e.g., `{ transaction: { ... } }`).
     - **Collections**: Use the plural name of the resource (e.g., `{ members: [ ... ] }`).
+  - **Success Response Properties**:
+    - **Prohibition**: NEVER include `status: "success"` or generic `message` strings in successful (2xx) API responses.
+    - **Protocol**: Rely exclusively on the HTTP Status Code to communicate the operation's success. The JSON body must contain only the flattened, requested data payload.
   - **Empty States**: For collection requests that yield no results, return an empty array `[]` assigned to the plural key. **NEVER** return `null` or omit the key, as this ensures the Client can safely call array methods (e.g., `.map()`, `.length`) without additional null-checks.
   - **Payload Flatness**: Avoid deep nesting (e.g., `{ data: { result: { items: [] } } }`). Keep the primary entity key at the root of the response object.
 

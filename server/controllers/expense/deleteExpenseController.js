@@ -1,12 +1,13 @@
 import { StatusCodes } from 'http-status-codes';
 import deleteExpenseService from '../../services/expense/deleteExpenseService.js';
-import ROUTE_PARAMS from '../../../shared/constants/api/routeParamConstants.js';
+import RESOURCE from '../../../shared/constants/domain/resourceConstants.js';
 
 const { NO_CONTENT } = StatusCodes;
+const { EXPENSE_ID } = RESOURCE;
 
 const deleteExpenseController = async (req, res, next) => {
   try {
-    const { [ROUTE_PARAMS.EXPENSE_ID]: expenseId } = req.params;
+    const { [EXPENSE_ID]: expenseId } = req.params;
 
     await deleteExpenseService(expenseId);
 

@@ -1,14 +1,10 @@
-const SETTLEMENT_FIELDS = {
-  DEBTOR: "debtor",
-  CREDITOR: "creditor",
-  AMOUNT: "amount",
+const SETTLEMENT = {
+  SETTLEMENT_FIELDS: {
+    DEBTOR: "debtor",
+    CREDITOR: "creditor",
+    AMOUNT: "amount",
+  },
+  SETTLEMENT_TYPE: "settlement",
 };
 
-const SETTLEMENT_TYPE_VALUE = "settlement";
-
-const SETTLEMENT_CONSTANTS = {
-  SETTLEMENT_FIELDS,
-  SETTLEMENT_TYPE_VALUE,
-};
-
-export default SETTLEMENT_CONSTANTS;
+export default SETTLEMENT;

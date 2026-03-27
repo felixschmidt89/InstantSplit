@@ -4,6 +4,9 @@ import API_ROUTES from "../../../../shared/constants/api/apiRouteConstants.js";
 import LOG_LEVELS from "../../../../shared/constants/system/loggerConstants.js";
 import debugLog from "../../../../shared/utils/debug/debugLog.js";
 
+// TODO: Schedule created but aborted groups during group creation
+// TODO: Add temporary webpack analyzer script, ie package is not installed
+
 const { LOG_ERROR } = LOG_LEVELS;
 const { BASE } = API_ROUTES.GROUPS;
 

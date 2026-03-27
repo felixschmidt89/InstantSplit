@@ -638,9 +638,12 @@ InstantSpilt
 │   ├── controllers
 │   │   ├── captchaController.js
 │   │   ├── expense
+│   │   │   ├── createExpenseController.js
+│   │   │   ├── deleteExpenseController.js
 │   │   │   ├── getGroupExpensesController.js
-│   │   │   └── getGroupExpensesTotalController.js
-│   │   ├── expenseController.js
+│   │   │   ├── getGroupExpensesTotalController.js
+│   │   │   ├── getSingleExpenseController.js
+│   │   │   └── updateExpenseController.js
 │   │   ├── group
 │   │   │   ├── changeGroupNameController.js
 │   │   │   ├── createGroupController.js
@@ -702,7 +705,12 @@ InstantSpilt
 │   ├── server.js
 │   ├── services
 │   │   ├── expense
-│   │   │   └── getGroupExpensesService.js
+│   │   │   ├── createExpenseService.js
+│   │   │   ├── deleteExpenseService.js
+│   │   │   ├── getGroupExpensesService.js
+│   │   │   ├── getGroupExpensesTotalService.js
+│   │   │   ├── getSingleExpenseService.js
+│   │   │   └── updateExpenseService.js
 │   │   ├── group
 │   │   │   ├── changeGroupNameService.js
 │   │   │   ├── createGroupService.js
@@ -719,6 +727,8 @@ InstantSpilt
 │   │   └── payment
 │   │       └── createPaymentService.js
 │   ├── utils
+│   │   ├── database
+│   │   │   └── extractAggregationTotal.js
 │   │   ├── databaseUtils.js
 │   │   ├── errorUtils.js
 │   │   ├── errors
@@ -740,7 +750,7 @@ InstantSpilt
     │   ├── api
     │   │   ├── apiHeaderConstants.js
     │   │   ├── apiMessageConstants.js
-    │   │   ├── apiRoutesConstants.js
+    │   │   ├── apiRouteConstants.js
     │   │   ├── payloadKeyConstants.js
     │   │   └── routeParamConstants.js
     │   ├── apiEndpointsConstants.js

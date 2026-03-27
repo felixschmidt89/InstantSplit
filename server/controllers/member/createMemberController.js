@@ -5,7 +5,8 @@ const { CREATED } = StatusCodes;
 
 const createPaymentController = async (req, res, next) => {
   try {
-    const { makerId, recipientId, amount, groupCode } = req.body;
+    const { groupCode } = req.context;
+    const { makerId, recipientId, amount } = req.body;
 
     const payment = await createPaymentService({
       makerId,
@@ -14,13 +15,7 @@ const createPaymentController = async (req, res, next) => {
       groupCode,
     });
 
-    return res.status(CREATED).json({
-      status: 'success',
-      data: {
-        payment,
-      },
-      message: 'Payment created successfully',
-    });
+    return res.status(CREATED).json({ payment });
   } catch (error) {
     next(error);
   }

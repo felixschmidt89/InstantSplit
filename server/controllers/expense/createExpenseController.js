@@ -10,11 +10,7 @@ const createExpenseController = async (req, res, next) => {
 
     const expense = await createExpenseService(groupCode, expenseData);
 
-    return res.status(CREATED).json({
-      status: 'success',
-      data: { expense },
-      message: 'Expense created successfully',
-    });
+    return res.status(CREATED).json({ expense });
   } catch (error) {
     next(error);
   }
