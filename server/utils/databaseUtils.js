@@ -1,7 +1,6 @@
 import Group from '../models/Group.js';
 import { devLog, errorLog } from './errorUtils.js';
 import { validateString } from './validationUtils.js';
-import mongoose from 'mongoose';
 
 /**
  * Obtains the groupObjectId of a group by its groupCode.

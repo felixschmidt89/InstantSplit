@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import MEMBER_CONSTANTS from '../../shared/constants/models/memberConstants.js';
+import MEMBER from '../../shared/constants/models/memberConstants.js';
 import COMMON_CONSTANTS from '../../shared/constants/models/commonConstants.js';
 import EXPENSE_CONSTANTS from '../../shared/constants/models/expenseConstants.js';
 import PAYMENT_CONSTANTS from '../../shared/constants/models/paymentConstants.js';
@@ -9,7 +9,7 @@ import extractAggregationTotal from '../utils/database/extractAggregationTotal.j
 import Expense from './Expense.js';
 import Payment from './Payment.js';
 
-const { MEMBER_FIELDS, MEMBER_TYPE_VALUE } = MEMBER_CONSTANTS;
+const { MEMBER_FIELDS } = MEMBER;
 const { COMMON_MODEL_NAMES, COMMON_FIELDS, COMMON_LIMITS } = COMMON_CONSTANTS;
 const { EXPENSE_FIELDS } = EXPENSE_CONSTANTS;
 const { PAYMENT_FIELDS } = PAYMENT_CONSTANTS;
@@ -17,11 +17,6 @@ const { ERROR } = LOG_LEVELS;
 
 const memberSchema = new Schema(
   {
-    [COMMON_FIELDS.TRANSACTION_TYPE]: {
-      type: String,
-      default: MEMBER_TYPE_VALUE,
-      immutable: true,
-    },
     [MEMBER_FIELDS.NAME]: {
       type: String,
       trim: true,

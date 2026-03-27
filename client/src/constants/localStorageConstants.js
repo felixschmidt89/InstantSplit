@@ -5,8 +5,6 @@ const LOCAL_STORAGE_KEYS = {
   PREVIOUS_ROUTE: "previousRoute",
   NESTED_PREVIOUS_ROUTE: "nestedPreviousRoute",
   LANGUAGE: "language",
-  // TODO: delete view state legacy troughout application
-  VIEW_STATE_LEGACY: "viewState",
   VIEW: "view",
 };
 

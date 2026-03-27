@@ -1,18 +1,14 @@
 import { Schema, model } from 'mongoose';
 import GROUP_CONSTANTS from '../../shared/constants/models/groupConstants.js';
 import COMMON_CONSTANTS from '../../shared/constants/models/commonConstants.js';
-import { DEFAULT_CURRENCY } from '../../shared/constants/domain/currencyConstants.js';
+import CURRENCY from '../../shared/constants/domain/currencyConstants.js';
 
-const { GROUP_FIELDS, GROUP_TYPE } = GROUP_CONSTANTS;
+const { GROUP_FIELDS } = GROUP_CONSTANTS;
 const { COMMON_MODEL_NAMES, COMMON_FIELDS, COMMON_LIMITS } = COMMON_CONSTANTS;
+const { DEFAULT_CURRENCY } = CURRENCY;
 
 const groupSchema = new Schema(
   {
-    [COMMON_FIELDS.TRANSACTION_TYPE]: {
-      type: String,
-      default: GROUP_TYPE,
-      immutable: true,
-    },
     [COMMON_FIELDS.GROUP_CODE]: {
       type: String,
       required: true,
