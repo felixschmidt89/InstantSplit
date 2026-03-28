@@ -1,6 +1,4 @@
 import express from 'express';
-import ROUTE_PARAMS from '../../shared/constants/api/routeParamConstants.js';
-import API_ROUTES from '../../shared/constants/api/apiRouteConstants.js';
 
 import createExpenseController from '../controllers/expense/createExpenseController.js';
 import getSingleExpenseController from '../controllers/expense/getSingleExpenseController.js';
@@ -11,16 +9,33 @@ import getGroupExpensesTotalController from '../controllers/expense/getGroupExpe
 
 import { expenseValidator } from '../validators/expenseValidator.js';
 
-const router = express.Router();
-const { EXPENSE_ID, GROUP_ID } = ROUTE_PARAMS;
-const { GROUP_LIST, GROUP_TOTAL } = API_ROUTES.EXPENSES;
+import API_ROUTES from '../../shared/constants/api/apiRouteConstants.js';
 
-router.get(`/${GROUP_LIST}/:${GROUP_ID}`, getGroupExpensesController);
-router.get(`/${GROUP_TOTAL}/:${GROUP_ID}`, getGroupExpensesTotalController);
+const { EXPENSES, URL_PARAMS } = API_ROUTES;
+const { EXPENSE_ID, GROUP_ID } = URL_PARAMS;
 
-router.post('/', expenseValidator, createExpenseController);
-router.get(`/:${EXPENSE_ID}`, getSingleExpenseController);
-router.put(`/:${EXPENSE_ID}`, expenseValidator, updateExpenseController);
-router.delete(`/:${EXPENSE_ID}`, deleteExpenseController);
+const expenseRouter = express.Router();
 
-export default router;
+expenseRouter.post('/', expenseValidator, createExpenseController);
+
+expenseRouter.get(`/:${EXPENSE_ID}`, getSingleExpenseController);
+
+expenseRouter.patch(
+  `/:${EXPENSE_ID}`,
+  expenseValidator,
+  updateExpenseController,
+);
+
+expenseRouter.delete(`/:${EXPENSE_ID}`, deleteExpenseController);
+
+expenseRouter.get(
+  `/${EXPENSES.GROUP_LIST}/:${GROUP_ID}`,
+  getGroupExpensesController,
+);
+
+expenseRouter.get(
+  `/${EXPENSES.GROUP_TOTAL}/:${GROUP_ID}`,
+  getGroupExpensesTotalController,
+);
+
+export default expenseRouter;

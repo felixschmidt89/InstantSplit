@@ -3,12 +3,13 @@ const API_ROUTES = {
     GROUP_ID: "groupId",
     EXPENSE_ID: "expenseId",
     MEMBER_ID: "memberId",
+    PAYMENT_ID: "paymentId",
   },
 
   GROUPS: {
     BASE: "groups",
     TRANSACTIONS: "transactions",
-    VALIDATE_GROUP_EXISTENCE: "validate-group-existence",
+    CHECK_GROUP_CODE: "check-group-code",
     STORED_GROUP_NAMES: "stored-group-names",
     CURRENCY: "currency",
     SETTLEMENTS_CALCULATED: "settlements-calculated",
@@ -38,6 +39,7 @@ const API_ROUTES = {
 
   HEALTH: {
     BASE: "health",
+    CHECK: "check",
   },
 };
 

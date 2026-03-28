@@ -1,8 +1,13 @@
 import express from 'express';
-import { checkHealth } from '../controllers/healthController.js';
 
-const router = express.Router();
+import checkHealthController from '../controllers/health/checkHealthController.js';
 
-router.get('/check', checkHealth);
+import API_ROUTES from '../../shared/constants/api/apiRouteConstants.js';
 
-export default router;
+const { HEALTH } = API_ROUTES;
+
+const healthRouter = express.Router();
+
+healthRouter.get(`/${HEALTH.CHECK}`, checkHealthController);
+
+export default healthRouter;

@@ -24,59 +24,64 @@ import {
 import API_ROUTES from '../../shared/constants/api/apiRouteConstants.js';
 import CONFIG from '../config/serverConfig.js';
 
-const router = express.Router();
+const { GROUPS, URL_PARAMS } = API_ROUTES;
+const { GROUP_ID } = URL_PARAMS;
 
-const {
-  GROUPS: {
-    STORED_GROUP_NAMES,
-    CURRENCY,
-    DATA_PURGE,
-    SETTLEMENTS_CALCULATED,
-    VALIDATE_GROUP_EXISTENCE,
-    TRANSACTIONS,
-  },
-  URL_PARAMS: { GROUP_ID },
-} = API_ROUTES;
+const groupRouter = express.Router();
 
 if (CONFIG.LOG_API_REQUESTS) {
-  router.use(logRequestDetailsMiddleware);
+  groupRouter.use(logRequestDetailsMiddleware);
 }
 
 // Public Routes
 
-router.post('/', createGroupController);
-router.get(`/${STORED_GROUP_NAMES}`, getStoredGroupsNamesController);
+groupRouter.post('/', createGroupController);
+
+groupRouter.get(
+  `/${GROUPS.STORED_GROUP_NAMES}`,
+  getStoredGroupsNamesController,
+);
 
 // Group Context Protected Routes
 
-router.use(extractGroupCodeMiddleware);
-router.use(validateGroupCodeMiddleware);
-router.use(touchGroupLastActiveMiddleware);
+groupRouter.use(extractGroupCodeMiddleware);
+groupRouter.use(validateGroupCodeMiddleware);
+groupRouter.use(touchGroupLastActiveMiddleware);
 
-router.get(`/${GROUP_ID}`, getGroupInfoController);
-router.patch(`/${GROUP_ID}`, changeGroupNameController);
+groupRouter.get(`/:${GROUP_ID}`, getGroupInfoController);
 
-router.get(`/${CURRENCY}`, getGroupCurrencyController);
-router.get(`/${TRANSACTIONS}`, getGroupTransactionsController);
+groupRouter.patch(`/:${GROUP_ID}`, changeGroupNameController);
 
-router.patch(`/${CURRENCY}/${GROUP_ID}`, changeGroupCurrencyController);
-router.patch(`/${DATA_PURGE}/${GROUP_ID}`, changeDataPurgeSettingController);
+groupRouter.get(`/${GROUPS.CURRENCY}`, getGroupCurrencyController);
 
-router.get(
-  `/${SETTLEMENTS_CALCULATED}/${GROUP_ID}`,
+groupRouter.get(`/${GROUPS.TRANSACTIONS}`, getGroupTransactionsController);
+
+groupRouter.patch(
+  `/${GROUPS.CURRENCY}/:${GROUP_ID}`,
+  changeGroupCurrencyController,
+);
+
+groupRouter.patch(
+  `/${GROUPS.DATA_PURGE}/:${GROUP_ID}`,
+  changeDataPurgeSettingController,
+);
+
+groupRouter.get(
+  `/${GROUPS.SETTLEMENTS_CALCULATED}/:${GROUP_ID}`,
   getSettlementsCalculatedController,
 );
-router.patch(
-  `/${SETTLEMENTS_CALCULATED}/${GROUP_ID}`,
+
+groupRouter.patch(
+  `/${GROUPS.SETTLEMENTS_CALCULATED}/:${GROUP_ID}`,
   changeSettlementsCalculatedController,
 );
 
 //TODO: Check if laxLimiter is still needed or captcha verification would be better solution
-router.get(
-  `/${GROUP_ID}/${VALIDATE_GROUP_EXISTENCE}`,
+groupRouter.get(
+  `/:${GROUP_ID}/${GROUPS.CHECK_GROUP_CODE}`,
   laxLimiter,
   laxLimitRequestsPerIpMiddleware,
   checkGroupCodeController,
 );
 
-export default router;
+export default groupRouter;
