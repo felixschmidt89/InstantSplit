@@ -9,39 +9,6 @@ import {
   sendValidationError,
 } from '../utils/errorUtils.js';
 
-export const createUser = async (req, res) => {
-  try {
-    const { userName, groupCode } = req.body;
-
-    const existingUser = await User.findOne({ userName, groupCode });
-
-    if (existingUser) {
-      return res.status(StatusCodes.CONFLICT).json({
-        status: 'error',
-        message: 'name is already taken in this group',
-      });
-    }
-    const user = await User.create({ userName, groupCode });
-    res.status(StatusCodes.CREATED).json({
-      status: 'success',
-      user,
-      message: 'User created successfully',
-    });
-  } catch (error) {
-    devLog('error:', error);
-    if (error.name === 'ValidationError') {
-      sendValidationError(res, error);
-    } else {
-      errorLog(
-        error,
-        'Error creating user:',
-        'Failed to create user. Please try again later.',
-      );
-      sendInternalError();
-    }
-  }
-};
-
 export const listExpensesAndPaymentsByUser = async (req, res) => {
   try {
     const { userId } = req.params;

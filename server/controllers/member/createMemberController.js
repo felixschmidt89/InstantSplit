@@ -1,27 +1,27 @@
 import { StatusCodes } from 'http-status-codes';
-import createPaymentService from '../../services/payment/createPaymentService.js';
+import createMemberService from '../../services/member/createMemberService.js';
+import PAYLOAD_KEYS from '../../../shared/constants/api/payloadKeyConstants.js';
 
 const { CREATED } = StatusCodes;
+const { MEMBER_KEYS } = PAYLOAD_KEYS;
 
-const createPaymentController = async (req, res, next) => {
+const createMemberController = async (req, res, next) => {
   try {
+    const { [MEMBER_KEYS.NAME]: memberName } = req.body;
     const { groupCode } = req.context;
-    const { makerId, recipientId, amount } = req.body;
 
-    const payment = await createPaymentService({
-      makerId,
-      recipientId,
-      amount,
+    const member = await createMemberService({
+      memberName,
       groupCode,
     });
 
     return res.status(CREATED).json({
       success: true,
-      data: { payment },
+      data: { member },
     });
   } catch (error) {
     next(error);
   }
 };
 
-export default createPaymentController;
+export default createMemberController;

@@ -8,7 +8,7 @@ import ApiError from '../../utils/errors/ApiError.js';
 const { CONFLICT } = StatusCodes;
 const { MEMBER_FIELDS } = MEMBER;
 const { COMMON_FIELDS } = COMMON;
-const { MEMBER_ERRORS } = ERROR_CODES;
+const { MEMBER_ERRORS } = ERROR_CODES.MEMBER_ERRORS;
 
 const createMemberService = async (memberData) => {
   const { memberName, groupCode } = memberData;
@@ -17,7 +17,7 @@ const createMemberService = async (memberData) => {
   const existingMember = await Member.findOne({
     [MEMBER_FIELDS.NAME]: sanitizedName,
     [COMMON_FIELDS.GROUP_CODE]: groupCode,
-  }).lean();
+  });
 
   if (existingMember) {
     throw new ApiError(CONFLICT, MEMBER_ERRORS.ALREADY_EXISTS);
