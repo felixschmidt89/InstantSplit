@@ -10,6 +10,9 @@ build/
 dist/
 server/uploads/
 
+# Documentation
+docs/repository-structure.md
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
