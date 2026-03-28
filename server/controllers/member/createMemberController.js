@@ -15,7 +15,10 @@ const createPaymentController = async (req, res, next) => {
       groupCode,
     });
 
-    return res.status(CREATED).json({ payment });
+    return res.status(CREATED).json({
+      success: true,
+      data: { payment },
+    });
   } catch (error) {
     next(error);
   }

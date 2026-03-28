@@ -1,3 +1,5 @@
+// TODO: Don't send messages from backend, instead send status codes and handle messages in frontend
+
 export const MEMBER_MESSAGES = {
   CREATED: "Member created successfully",
   DELETED: "Member deleted successfully",

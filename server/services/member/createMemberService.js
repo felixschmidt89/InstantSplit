@@ -1,22 +1,31 @@
+import { StatusCodes } from 'http-status-codes';
+import MEMBER from '../../../shared/constants/models/memberConstants.js';
+import COMMON from '../../../shared/constants/models/commonConstants.js';
+import ERROR_CODES from '../../../shared/constants/system/errorConstants.js';
 import Member from '../../models/Member.js';
 import ApiError from '../../utils/errors/ApiError.js';
+
+const { CONFLICT } = StatusCodes;
+const { MEMBER_FIELDS } = MEMBER;
+const { COMMON_FIELDS } = COMMON;
+const { MEMBER_ERRORS } = ERROR_CODES;
 
 const createMemberService = async (memberData) => {
   const { memberName, groupCode } = memberData;
   const sanitizedName = memberName.trim();
 
-  const existingMemberName = await Member.findOne({
-    memberName: sanitizedName,
-    groupCode,
-  });
+  const existingMember = await Member.findOne({
+    [MEMBER_FIELDS.NAME]: sanitizedName,
+    [COMMON_FIELDS.GROUP_CODE]: groupCode,
+  }).lean();
 
-  if (existingMemberName) {
-    throw ApiError.conflict('Name is already taken in this group');
+  if (existingMember) {
+    throw new ApiError(CONFLICT, MEMBER_ERRORS.ALREADY_EXISTS);
   }
 
   const newMember = await Member.create({
-    memberName: sanitizedName,
-    groupCode,
+    [MEMBER_FIELDS.NAME]: sanitizedName,
+    [COMMON_FIELDS.GROUP_CODE]: groupCode,
   });
 
   return newMember;

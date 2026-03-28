@@ -17,7 +17,10 @@ const changeMemberNameController = async (req, res, next) => {
       groupCode,
     });
 
-    return res.status(OK).json({ member });
+    return res.status(OK).json({
+      success: true,
+      data: { member },
+    });
   } catch (error) {
     next(error);
   }

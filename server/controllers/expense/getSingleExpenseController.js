@@ -11,7 +11,10 @@ const getSingleExpenseController = async (req, res, next) => {
 
     const expense = await getSingleExpenseService(expenseId);
 
-    return res.status(OK).json({ expense });
+    return res.status(OK).json({
+      success: true,
+      data: { expense },
+    });
   } catch (error) {
     next(error);
   }

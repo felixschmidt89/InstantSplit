@@ -1,43 +1,51 @@
 import LOG_LEVELS from '../../../shared/constants/system/loggerConstants.js';
 import SYSTEM from '../../../shared/constants/system/systemConstants.js';
-import { TRANSACTION_TYPES } from '../../../shared/constants/domain/transactionConstants.js';
-
 import COMMON from '../../../shared/constants/models/commonConstants.js';
 import EXPENSE from '../../../shared/constants/models/expenseConstants.js';
 import PAYMENT from '../../../shared/constants/models/paymentConstants.js';
 import MEMBER from '../../../shared/constants/models/memberConstants.js';
-
 import debugLog from '../../../shared/utils/debug/debugLog.js';
 import sortByDate from '../../../shared/utils/dates/sortByDate.js';
-
 import Expense from '../../models/Expense.js';
 import Payment from '../../models/Payment.js';
 
 const { INFO } = LOG_LEVELS;
-const { EXPENSE: TYPE_EXPENSE, PAYMENT: TYPE_PAYMENT } = TRANSACTION_TYPES;
+const { SORT_ORDER } = SYSTEM;
+const { DESCENDING } = SORT_ORDER;
 
-const getMemberTransactionsService = async (memberId) => {
-  debugLog('Querying database for member transactions', { memberId }, INFO);
+const { COMMON_FIELDS } = COMMON;
+const { EXPENSE_FIELDS, EXPENSE_TYPE } = EXPENSE;
+const { PAYMENT_FIELDS, PAYMENT_TYPE } = PAYMENT;
+const { MEMBER_FIELDS } = MEMBER;
+
+const getMemberTransactionsService = async (memberId, groupCode) => {
+  debugLog(
+    'Querying database for member transactions',
+    { memberId, groupCode },
+    INFO,
+  );
 
   const [expenses, payments] = await Promise.all([
     Expense.find({
+      [COMMON_FIELDS.GROUP_CODE]: groupCode,
       $or: [
-        { [EXPENSE.FIELDS.PAYER]: memberId },
-        { [EXPENSE.FIELDS.BENEFICIARIES]: memberId },
+        { [EXPENSE_FIELDS.PAYER]: memberId },
+        { [EXPENSE_FIELDS.BENEFICIARIES]: memberId },
       ],
     })
-      .populate(EXPENSE.FIELDS.PAYER, MEMBER.FIELDS.NAME)
-      .populate(EXPENSE.FIELDS.BENEFICIARIES, MEMBER.FIELDS.NAME)
+      .populate(EXPENSE_FIELDS.PAYER, MEMBER_FIELDS.NAME)
+      .populate(EXPENSE_FIELDS.BENEFICIARIES, MEMBER_FIELDS.NAME)
       .lean(),
 
     Payment.find({
+      [COMMON_FIELDS.GROUP_CODE]: groupCode,
       $or: [
-        { [PAYMENT.FIELDS.MAKER]: memberId },
-        { [PAYMENT.FIELDS.RECIPIENT]: memberId },
+        { [PAYMENT_FIELDS.MAKER]: memberId },
+        { [PAYMENT_FIELDS.RECIPIENT]: memberId },
       ],
     })
-      .populate(PAYMENT.FIELDS.MAKER, MEMBER.FIELDS.NAME)
-      .populate(PAYMENT.FIELDS.RECIPIENT, MEMBER.FIELDS.NAME)
+      .populate(PAYMENT_FIELDS.MAKER, MEMBER_FIELDS.NAME)
+      .populate(PAYMENT_FIELDS.RECIPIENT, MEMBER_FIELDS.NAME)
       .lean(),
   ]);
 
@@ -50,15 +58,23 @@ const getMemberTransactionsService = async (memberId) => {
     INFO,
   );
 
-  const transactions = [
-    ...expenses.map((item) => ({ ...item, itemType: TYPE_EXPENSE })),
-    ...payments.map((item) => ({ ...item, itemType: TYPE_PAYMENT })),
+  const processedTransactions = [
+    ...expenses.map((item) => ({
+      ...item,
+      itemId: item[COMMON_FIELDS.ID],
+      itemType: EXPENSE_TYPE,
+    })),
+    ...payments.map((item) => ({
+      ...item,
+      itemId: item[COMMON_FIELDS.ID],
+      itemType: PAYMENT_TYPE,
+    })),
   ];
 
   const sortedTransactions = sortByDate(
-    transactions,
-    COMMON.FIELDS.CREATED_AT,
-    SYSTEM.SORT_ORDER.DESCENDING,
+    processedTransactions,
+    COMMON_FIELDS.CREATED_AT,
+    DESCENDING,
   );
 
   debugLog(

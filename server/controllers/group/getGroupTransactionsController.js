@@ -9,7 +9,10 @@ const getGroupTransactionsController = async (req, res, next) => {
 
     const transactions = await getGroupTransactionsService(groupCode);
 
-    return res.status(OK).json({ transactions });
+    return res.status(OK).json({
+      success: true,
+      data: { transactions },
+    });
   } catch (error) {
     next(error);
   }

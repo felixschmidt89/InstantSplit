@@ -1,28 +1,30 @@
 import { Schema, model } from 'mongoose';
 import MEMBER from '../../shared/constants/models/memberConstants.js';
-import COMMON_CONSTANTS from '../../shared/constants/models/commonConstants.js';
-import EXPENSE_CONSTANTS from '../../shared/constants/models/expenseConstants.js';
-import PAYMENT_CONSTANTS from '../../shared/constants/models/paymentConstants.js';
+import COMMON from '../../shared/constants/models/commonConstants.js';
+import EXPENSE from '../../shared/constants/models/expenseConstants.js';
+import PAYMENT from '../../shared/constants/models/paymentConstants.js';
 import LOG_LEVELS from '../../shared/constants/system/loggerConstants.js';
+import ERROR_CODES from '../../shared/constants/system/errorConstants.js';
 import debugLog from '../../shared/utils/debug/debugLog.js';
 import extractAggregationTotal from '../utils/database/extractAggregationTotal.js';
 import Expense from './Expense.js';
 import Payment from './Payment.js';
 
 const { MEMBER_FIELDS } = MEMBER;
-const { COMMON_MODEL_NAMES, COMMON_FIELDS, COMMON_LIMITS } = COMMON_CONSTANTS;
-const { EXPENSE_FIELDS } = EXPENSE_CONSTANTS;
-const { PAYMENT_FIELDS } = PAYMENT_CONSTANTS;
+const { COMMON_MODEL_NAMES, COMMON_FIELDS, COMMON_LIMITS } = COMMON;
+const { EXPENSE_FIELDS } = EXPENSE;
+const { PAYMENT_FIELDS } = PAYMENT;
 const { ERROR } = LOG_LEVELS;
+const { MEMBER_ERRORS } = ERROR_CODES;
 
 const memberSchema = new Schema(
   {
     [MEMBER_FIELDS.NAME]: {
       type: String,
       trim: true,
-      required: true,
-      minlength: COMMON_LIMITS.NAME_MIN_LENGTH,
-      maxlength: COMMON_LIMITS.NAME_MAX_LENGTH,
+      required: [true, MEMBER_ERRORS.NAME_REQUIRED],
+      minlength: [COMMON_LIMITS.NAME_MIN_LENGTH, MEMBER_ERRORS.NAME_REQUIRED], // Fallback to NAME_REQUIRED
+      maxlength: [COMMON_LIMITS.NAME_MAX_LENGTH, MEMBER_ERRORS.NAME_REQUIRED],
     },
     [COMMON_FIELDS.GROUP_CODE]: {
       type: String,

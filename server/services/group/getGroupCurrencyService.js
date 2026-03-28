@@ -5,12 +5,14 @@ import debugLog from '../../../shared/utils/debug/debugLog.js';
 import Group from '../../models/Group.js';
 
 const { INFO } = LOG_LEVELS;
+const { COMMON_FIELDS } = COMMON;
+const { GROUP_FIELDS } = GROUP;
 
 const getGroupCurrencyService = async (groupCode) => {
   debugLog('Querying database for group currency', { groupCode }, INFO);
 
-  const group = await Group.findOne({ [COMMON.FIELDS.GROUP_CODE]: groupCode })
-    .select(GROUP.FIELDS.CURRENCY)
+  const group = await Group.findOne({ [COMMON_FIELDS.GROUP_CODE]: groupCode })
+    .select(GROUP_FIELDS.CURRENCY)
     .lean();
 
   if (!group) {
@@ -18,7 +20,7 @@ const getGroupCurrencyService = async (groupCode) => {
     return null;
   }
 
-  const currency = group[GROUP.FIELDS.CURRENCY];
+  const currency = group[GROUP_FIELDS.CURRENCY];
 
   debugLog('Currency retrieved from DB', { groupCode, currency }, INFO);
 

@@ -1,13 +1,13 @@
 import { StatusCodes } from 'http-status-codes';
 import deleteMemberService from '../../services/member/deleteMemberService.js';
-import API_ROUTES from '../../../shared/constants/api/apiRouteConstants.js';
+import RESOURCE from '../../../shared/constants/domain/resourceConstants.js';
 
-const { URL_PARAMS } = API_ROUTES;
 const { NO_CONTENT } = StatusCodes;
+const { RESOURCE_IDS } = RESOURCE;
 
 const deleteMemberController = async (req, res, next) => {
   try {
-    const memberId = req.params[URL_PARAMS.MEMBER_ID];
+    const { [RESOURCE_IDS.MEMBER_ID]: memberId } = req.params;
 
     await deleteMemberService(memberId);
 

@@ -9,7 +9,10 @@ const getGroupCurrencyController = async (req, res, next) => {
 
     const currency = await getGroupCurrencyService(groupCode);
 
-    return res.status(OK).json({ currency });
+    return res.status(OK).json({
+      success: true,
+      data: { currency },
+    });
   } catch (error) {
     next(error);
   }

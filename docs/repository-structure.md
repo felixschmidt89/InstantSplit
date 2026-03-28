@@ -658,8 +658,7 @@ InstantSpilt
 │   │   │   ├── deleteMemberController.js
 │   │   │   ├── getGroupMembersController.js
 │   │   │   ├── getMemberInfoController.js
-│   │   │   ├── getMemberTransactionsController.js
-│   │   │   └── getMembersController.js
+│   │   │   └── getMemberTransactionsController.js
 │   │   ├── payment
 │   │   │   └── createPaymentController.js
 │   │   ├── paymentController.js
@@ -672,7 +671,6 @@ InstantSpilt
 │   │   │   └── logRequestDetailsMiddleware.js
 │   │   ├── context
 │   │   │   └── extractGroupCodeMiddleware.js
-│   │   ├── encryptionMiddleware.js
 │   │   ├── errors
 │   │   │   └── apiErrorMiddleware.js
 │   │   ├── group
@@ -728,7 +726,8 @@ InstantSpilt
 │   │       └── createPaymentService.js
 │   ├── utils
 │   │   ├── database
-│   │   │   └── extractAggregationTotal.js
+│   │   │   ├── extractAggregationTotal.js
+│   │   │   └── isGroupCodeUnique.js
 │   │   ├── databaseUtils.js
 │   │   ├── errorUtils.js
 │   │   ├── errors
@@ -736,9 +735,9 @@ InstantSpilt
 │   │   ├── expense
 │   │   │   └── verifyExpensePayerAndBeneficiaries.js
 │   │   ├── group
+│   │   │   ├── generateGroupCode.js
 │   │   │   ├── resetGroupSettlements.js
 │   │   │   └── touchGroupLastActive.js
-│   │   ├── groupCodeUtils.js
 │   │   ├── isDevelopmentEnvironment.js
 │   │   ├── isProductionEnvironment.js
 │   │   └── validationUtils.js
@@ -748,18 +747,15 @@ InstantSpilt
 └── shared
     ├── constants
     │   ├── api
+    │   │   ├── apiEndpointsConstants.js
     │   │   ├── apiHeaderConstants.js
     │   │   ├── apiMessageConstants.js
     │   │   ├── apiRouteConstants.js
     │   │   ├── payloadKeyConstants.js
     │   │   └── routeParamConstants.js
-    │   ├── apiEndpointsConstants.js
     │   ├── domain
     │   │   ├── currencyConstants.js
-    │   │   ├── resourceConstants.js
-    │   │   └── transactionConstants.js
-    │   ├── error
-    │   │   └── errorConstants.js
+    │   │   └── resourceConstants.js
     │   ├── models
     │   │   ├── commonConstants.js
     │   │   ├── expenseConstants.js
@@ -769,6 +765,7 @@ InstantSpilt
     │   │   └── settlementConstants.js
     │   ├── system
     │   │   ├── environmentConstants.js
+    │   │   ├── errorConstants.js
     │   │   ├── languageConstants.js
     │   │   ├── loggerConstants.js
     │   │   ├── systemConstants.js
@@ -776,8 +773,8 @@ InstantSpilt
     │   └── test
     │       └── testConstants.js
     └── utils
-        ├── dateUtils.js
         ├── dates
+        │   ├── getLocalizedDateString.js
         │   └── sortByDate.js
         ├── debug
         │   ├── debugLog.js

@@ -1,10 +1,10 @@
 import LOG_LEVELS from '../../../shared/constants/system/loggerConstants.js';
-import COMMON_CONSTANTS from '../../../shared/constants/models/commonConstants.js';
+import COMMON from '../../../shared/constants/models/commonConstants.js';
 import debugLog from '../../../shared/utils/debug/debugLog.js';
 import Expense from '../../models/Expense.js';
 
 const { INFO } = LOG_LEVELS;
-const { COMMON_FIELDS } = COMMON_CONSTANTS;
+const { COMMON_FIELDS } = COMMON;
 
 const getGroupExpensesService = async (groupCode) => {
   debugLog('Querying database for group expenses', { groupCode }, INFO);

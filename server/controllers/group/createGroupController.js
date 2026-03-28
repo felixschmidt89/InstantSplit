@@ -9,7 +9,10 @@ const createGroupController = async (req, res, next) => {
 
     const group = await createGroupService(name);
 
-    return res.status(CREATED).json({ group });
+    return res.status(CREATED).json({
+      success: true,
+      data: { group },
+    });
   } catch (error) {
     next(error);
   }

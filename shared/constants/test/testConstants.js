@@ -92,13 +92,12 @@ export const MOCK_API_ROUTES = {
   },
   GROUPS: {
     BASE: "groups",
-    VALIDATE_GROUP_EXISTENCE_CONTINUOUS: "continuous-validate-existence",
-    VALIDATE_GROUP_EXISTENCE_LIMITED: "limited-validate-existence",
+    VALIDATE_GROUP_EXISTENCE: "validate-group-existence",
     STORED_GROUP_NAMES: "stored-group-names",
     TRANSACTIONS: "expenses-and-payments",
   },
-  USERS: {
-    BASE: "users",
+  MEMBERS: {
+    BASE: "members",
   },
   EXPENSES: {
     BASE: "expenses",

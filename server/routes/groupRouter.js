@@ -39,8 +39,7 @@ const {
     DATA_PURGE,
     PERSISTED_ORDER,
     HAS_PERSISTED_ORDER,
-    VALIDATE_GROUP_EXISTENCE_CONTINUOUS,
-    VALIDATE_GROUP_EXISTENCE_LIMITED,
+    VALIDATE_GROUP_EXISTENCE,
     TRANSACTIONS,
   },
   URL_PARAMS: { GROUP_ID },
@@ -68,7 +67,6 @@ router.use(touchGroupLastActiveMiddleware);
 // Get group details via ID (secure)
 router.get(`/${GROUP_ID}`, getGroupInfoController);
 
-// Update group name via ID
 router.patch(`/${GROUP_ID}`, changeGroupNameController);
 
 router.get(`/${CURRENCY}`, getGroupCurrencyController);
@@ -86,17 +84,10 @@ router.get(
   groupHasPersistedDebitorCreditorOrder,
 );
 
-// Existence checks (Still grouped under protected context for now)
 router.get(
-  `/${GROUP_ID}/${VALIDATE_GROUP_EXISTENCE_CONTINUOUS}`,
+  `/${GROUP_ID}/${VALIDATE_GROUP_EXISTENCE}`,
   laxLimiter,
   laxLimitRequestsPerIpMiddleware,
-  validateGroupExistence,
-);
-router.get(
-  `/${GROUP_ID}/${VALIDATE_GROUP_EXISTENCE_LIMITED}`,
-  strictLimiter,
-  strictlyLimitRequestsPerIpMiddleware,
   validateGroupExistence,
 );
 

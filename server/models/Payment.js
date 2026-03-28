@@ -1,9 +1,11 @@
 import { Schema, model } from 'mongoose';
-import PAYMENT_CONSTANTS from '../../shared/constants/models/paymentConstants.js';
-import COMMON_CONSTANTS from '../../shared/constants/models/commonConstants.js';
+import PAYMENT from '../../shared/constants/models/paymentConstants.js';
+import COMMON from '../../shared/constants/models/commonConstants.js';
+import ERROR_CODES from '../../shared/constants/system/errorConstants.js';
 
-const { PAYMENT_FIELDS, PAYMENT_TYPE } = PAYMENT_CONSTANTS;
-const { COMMON_MODEL_NAMES, COMMON_FIELDS, COMMON_LIMITS } = COMMON_CONSTANTS;
+const { PAYMENT_FIELDS, PAYMENT_TYPE } = PAYMENT;
+const { COMMON_MODEL_NAMES, COMMON_FIELDS, COMMON_LIMITS } = COMMON;
+const { PAYMENT_ERRORS, MEMBER_ERRORS } = ERROR_CODES;
 
 const paymentSchema = new Schema(
   {
@@ -14,19 +16,25 @@ const paymentSchema = new Schema(
     },
     [PAYMENT_FIELDS.AMOUNT]: {
       type: Number,
-      required: true,
-      min: COMMON_LIMITS.TRANSACTION_AMOUNT_MIN,
-      max: COMMON_LIMITS.TRANSACTION_AMOUNT_MAX,
+      required: [true, PAYMENT_ERRORS.AMOUNT_REQUIRED],
+      min: [
+        COMMON_LIMITS.TRANSACTION_AMOUNT_MIN,
+        PAYMENT_ERRORS.AMOUNT_TOO_LOW,
+      ],
+      max: [
+        COMMON_LIMITS.TRANSACTION_AMOUNT_MAX,
+        PAYMENT_ERRORS.AMOUNT_TOO_HIGH,
+      ],
     },
     [PAYMENT_FIELDS.MAKER]: {
       type: Schema.Types.ObjectId,
       ref: COMMON_MODEL_NAMES.MEMBER,
-      required: true,
+      required: [true, MEMBER_ERRORS.NOT_FOUND],
     },
     [PAYMENT_FIELDS.RECIPIENT]: {
       type: Schema.Types.ObjectId,
       ref: COMMON_MODEL_NAMES.MEMBER,
-      required: true,
+      required: [true, MEMBER_ERRORS.NOT_FOUND],
     },
     [COMMON_FIELDS.GROUP_CODE]: {
       type: String,

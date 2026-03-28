@@ -1,10 +1,9 @@
 import { Schema, model } from 'mongoose';
-import SETTLEMENT_CONSTANTS from '../../shared/constants/models/settlementConstants.js';
-import COMMON_CONSTANTS from '../../shared/constants/models/commonConstants.js';
-import ERROR_CODES from '../../shared/constants/system/errorConstants.js';
+import SETTLEMENT from '../../shared/constants/models/settlementConstants.js';
+import COMMON from '../../shared/constants/models/commonConstants.js';
 
-const { SETTLEMENT_FIELDS, SETTLEMENT_TYPE } = SETTLEMENT_CONSTANTS;
-const { COMMON_MODEL_NAMES, COMMON_FIELDS, COMMON_LIMITS } = COMMON_CONSTANTS;
+const { SETTLEMENT_FIELDS, SETTLEMENT_TYPE } = SETTLEMENT;
+const { COMMON_MODEL_NAMES, COMMON_FIELDS, COMMON_LIMITS } = COMMON;
 
 const settlementSchema = new Schema(
   {
@@ -16,20 +15,17 @@ const settlementSchema = new Schema(
     [SETTLEMENT_FIELDS.DEBTOR]: {
       type: Schema.Types.ObjectId,
       ref: COMMON_MODEL_NAMES.MEMBER,
-      required: [true, ERROR_CODES.MEMBER.NOT_FOUND],
+      required: true,
     },
     [SETTLEMENT_FIELDS.CREDITOR]: {
       type: Schema.Types.ObjectId,
       ref: COMMON_MODEL_NAMES.MEMBER,
-      required: [true, ERROR_CODES.MEMBER.NOT_FOUND],
+      required: true,
     },
     [SETTLEMENT_FIELDS.AMOUNT]: {
       type: Number,
-      required: [true, ERROR_CODES.PAYMENT.AMOUNT_REQUIRED],
-      min: [
-        COMMON_LIMITS.TRANSACTION_AMOUNT_MIN,
-        ERROR_CODES.PAYMENT.AMOUNT_TOO_LOW,
-      ],
+      required: true,
+      min: [COMMON_LIMITS.TRANSACTION_AMOUNT_MIN],
     },
     [COMMON_FIELDS.GROUP_CODE]: {
       type: String,

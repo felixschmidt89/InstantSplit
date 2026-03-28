@@ -1,21 +1,24 @@
 import { StatusCodes } from 'http-status-codes';
+import COMMON from '../../../shared/constants/models/commonConstants.js';
+import EXPENSE from '../../../shared/constants/models/expenseConstants.js';
+import MEMBER from '../../../shared/constants/models/memberConstants.js';
+import ERROR_CODES from '../../../shared/constants/system/errorConstants.js';
 import LOG_LEVELS from '../../../shared/constants/system/loggerConstants.js';
-import COMMON_CONSTANTS from '../../../shared/constants/models/commonConstants.js';
-import EXPENSE_CONSTANTS from '../../../shared/constants/models/expenseConstants.js';
-import MEMBER_CONSTANTS from '../../../shared/constants/models/memberConstants.js';
-import debugLog from '../../../shared/utils/debug/debugLog.js';
 import Expense from '../../models/Expense.js';
 import Member from '../../models/Member.js';
 import ApiError from '../../utils/errors/ApiError.js';
+import debugLog from '../../../shared/utils/debug/debugLog.js';
 
+const { COMMON_FIELDS } = COMMON;
+const { EXPENSE_FIELDS } = EXPENSE;
+const { MEMBER_FIELDS } = MEMBER;
 const { INFO } = LOG_LEVELS;
-const { COMMON_FIELDS } = COMMON_CONSTANTS;
-const { EXPENSE_FIELDS } = EXPENSE_CONSTANTS;
-const { MEMBER_FIELDS } = MEMBER_CONSTANTS;
+const { EXPENSE_ERRORS } = ERROR_CODES;
+const { NOT_FOUND } = StatusCodes;
 
 const deleteExpenseService = async (expenseId) => {
   debugLog(
-    'Attempting atomic expense deletion and amountPerBeneficiary decrement',
+    'Attempting atomic expense deletion and balance adjustment',
     { expenseId },
     INFO,
   );
@@ -23,7 +26,7 @@ const deleteExpenseService = async (expenseId) => {
   const expense = await Expense.findById(expenseId).lean();
 
   if (!expense) {
-    throw new ApiError('Expense not found', StatusCodes.NOT_FOUND);
+    throw new ApiError(NOT_FOUND, EXPENSE_ERRORS.NOT_FOUND);
   }
 
   const {
@@ -31,27 +34,23 @@ const deleteExpenseService = async (expenseId) => {
     [EXPENSE_FIELDS.BENEFICIARIES]: beneficiaryIds,
     [EXPENSE_FIELDS.AMOUNT]: amount,
     [EXPENSE_FIELDS.AMOUNT_PER_BENEFICIARY]: amountPerBeneficiary,
-    [COMMON_FIELDS.GROUP_CODE]: groupCode, // TODO: Drop when middleware handles settlement reset
+    [COMMON_FIELDS.GROUP_CODE]: groupCode,
   } = expense;
 
   await Promise.all([
     Expense.deleteOne({ [COMMON_FIELDS.ID]: expenseId }),
-
-    // TODO: This should be a middleware that triggers after any expense modification, not just deletion
-    // resetGroupSettlementsService(groupCode),
-
-    // 2. Atomically adjust Payer's cached total
-
     Member.updateOne(
       { [COMMON_FIELDS.ID]: payerId },
       { $inc: { [MEMBER_FIELDS.EXPENSES_PAID]: -amount } },
     ),
-
     Member.updateMany(
       { [COMMON_FIELDS.ID]: { $in: beneficiaryIds } },
       { $inc: { [MEMBER_FIELDS.EXPENSES_BENEFITTED]: -amountPerBeneficiary } },
     ),
   ]);
+
+  // TODO: This should be a middleware that triggers after any expense modification, not just deletion
+  // resetGroupSettlementsService(groupCode),
 
   debugLog(
     'Expense deleted and member totals adjusted successfully',

@@ -9,8 +9,9 @@ const getGroupMembersController = async (req, res, next) => {
 
     const members = await getGroupMembersService(groupCode);
 
-    res.status(OK).json({
-      members,
+    return res.status(OK).json({
+      success: true,
+      data: { members },
     });
   } catch (error) {
     next(error);

@@ -11,7 +11,10 @@ const getGroupInfoController = async (req, res, next) => {
 
     const group = await getGroupInfoService(groupId);
 
-    return res.status(OK).json({ group });
+    return res.status(OK).json({
+      success: true,
+      data: { group },
+    });
   } catch (error) {
     next(error);
   }

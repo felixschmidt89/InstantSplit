@@ -1,24 +1,19 @@
 import { StatusCodes } from 'http-status-codes';
 import getMemberTransactionsService from '../../services/member/getMemberTransactionsService.js';
-import API_ROUTES from '../../../shared/constants/api/apiRouteConstants.js';
+import RESOURCE from '../../../shared/constants/domain/resourceConstants.js';
 
-const { URL_PARAMS } = API_ROUTES;
 const { OK } = StatusCodes;
+const { RESOURCE_IDS } = RESOURCE;
 
 const getMemberTransactionsController = async (req, res, next) => {
   try {
-    const memberId = req.params[URL_PARAMS.MEMBER_ID];
+    const { [RESOURCE_IDS.MEMBER_ID]: memberId } = req.params;
 
-    const memberTransactions = await getMemberTransactionsService(memberId);
-
-    const hasNoTransactions =
-      !memberTransactions || memberTransactions.length === 0;
+    const transactions = await getMemberTransactionsService(memberId);
 
     return res.status(OK).json({
-      status: 'success',
-      data: {
-        transactions: hasNoTransactions ? [] : memberTransactions,
-      },
+      success: true,
+      data: { transactions },
     });
   } catch (error) {
     next(error);

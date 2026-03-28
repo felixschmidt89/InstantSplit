@@ -1,55 +1,47 @@
 import { StatusCodes } from 'http-status-codes';
+import PAYMENT from '../../../shared/constants/models/paymentConstants.js';
+import COMMON from '../../../shared/constants/models/commonConstants.js';
+import ERROR_CODES from '../../../shared/constants/system/errorConstants.js';
 import Payment from '../../models/Payment.js';
 import Member from '../../models/Member.js';
 import ApiError from '../../utils/errors/ApiError.js';
-import PAYMENT from '../../../shared/constants/models/paymentConstants.js';
-import COMMON from '../../../shared/constants/models/commonConstants.js';
 import { resetGroupSettlements } from '../../utils/group/resetGroupSettlements.js';
+
+const { CONFLICT, NOT_FOUND } = StatusCodes;
+const { PAYMENT_FIELDS } = PAYMENT;
+const { COMMON_FIELDS } = COMMON;
+const { PAYMENT_ERRORS, MEMBER_ERRORS } = ERROR_CODES;
 
 const createPaymentService = async (paymentData) => {
   const { makerId, recipientId, amount, groupCode } = paymentData;
 
   if (makerId === recipientId) {
-    throw new ApiError(
-      StatusCodes.CONFLICT,
-      'Maker and recipient cannot be the same person',
-    );
+    throw new ApiError(CONFLICT, PAYMENT_ERRORS.MAKER_RECIPIENT_SAME);
   }
 
   const [maker, recipient] = await Promise.all([
     Member.findOne({
-      [COMMON.FIELDS.ID]: makerId,
-      [COMMON.FIELDS.GROUP_CODE]: groupCode,
+      [COMMON_FIELDS.ID]: makerId,
+      [COMMON_FIELDS.GROUP_CODE]: groupCode,
     }),
     Member.findOne({
-      [COMMON.FIELDS.ID]: recipientId,
-      [COMMON.FIELDS.GROUP_CODE]: groupCode,
+      [COMMON_FIELDS.ID]: recipientId,
+      [COMMON_FIELDS.GROUP_CODE]: groupCode,
     }),
   ]);
 
-  if (!maker) {
-    throw new ApiError(
-      StatusCodes.NOT_FOUND,
-      `Payment maker (ID: ${makerId}) not found in group ${groupCode}`,
-    );
+  if (!maker || !recipient) {
+    throw new ApiError(NOT_FOUND, MEMBER_ERRORS.NOT_FOUND);
   }
 
-  if (!recipient) {
-    throw new ApiError(
-      StatusCodes.NOT_FOUND,
-      `Payment recipient (ID: ${recipientId}) not found in group ${groupCode}`,
-    );
-  }
-
-  const payment = new Payment({
-    [PAYMENT.FIELDS.MAKER]: makerId,
-    [PAYMENT.FIELDS.RECIPIENT]: recipientId,
-    [PAYMENT.FIELDS.AMOUNT]: amount,
-    [COMMON.FIELDS.GROUP_CODE]: groupCode,
+  const payment = await Payment.create({
+    [PAYMENT_FIELDS.MAKER]: makerId,
+    [PAYMENT_FIELDS.RECIPIENT]: recipientId,
+    [PAYMENT_FIELDS.AMOUNT]: amount,
+    [COMMON_FIELDS.GROUP_CODE]: groupCode,
   });
 
-  await payment.save();
-
+  // TODO: Consider optimizing this by using bulk operations or embedding payment summaries in the Member model to avoid multiple queries and updates.
   await Promise.all([
     maker.updateTotalPaymentsMadeAmount(),
     recipient.updateTotalPaymentsReceived(),

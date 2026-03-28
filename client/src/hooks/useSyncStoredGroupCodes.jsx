@@ -5,7 +5,7 @@ import getStoredGroupCodesFromLocalStorage from "../utils/localStorage/getStored
 import debugLog from "../../../shared/utils/debug/debugLog.js";
 import LOG_LEVELS from "../../../shared/constants/system/loggerConstants.js";
 import { useGroupContext } from "../context/GroupContext";
-import API_ENDPOINTS from "../../../shared/constants/apiEndpointsConstants.js";
+import API_ENDPOINTS from "../../../shared/constants/api/apiEndpointsConstants.js";
 
 const { ERROR } = LOG_LEVELS;
 

@@ -331,9 +331,10 @@ This is a legacy codebase. When we work on existing files, we always want to ref
   - **Middleware Fallback**: Unhandled server crashes must be caught by `apiErrorMiddleware` and obscured using `ERROR_CODES.GENERIC.INTERNAL_SERVER_ERROR` to prevent leaking system details.
 
 - **Response JSON Standard**:
-  - **Boolean Success Flag**: Every API response (success or failure) must include a boolean `success` flag at the root level to provide a predictable contract for the frontend.
-  - **Success Structure**: `{ "success": true, "data": { "member": { ... } } }`
-  - **Error Structure**: `{ "success": false, "code": "ERROR_MEMBER_NOT_FOUND" }`
+  - **Contextual Payload Standard**:
+    - **Data Responses (GET, POST, PUT)**: Must use `200 OK` or `201 CREATED` and return the strict JSON contract: `{ "success": true, "data": { ... } }`.
+    - **Body-less Responses (DELETE)**: Must use `204 NO_CONTENT` and terminate the request using `.send()` without a JSON body. The client relies entirely on the HTTP status code for success verification.
+    - **Error Responses**: Must return the strict JSON contract: `{ "success": false, "code": "ERROR_..." }` with the appropriate 4xx/5xx HTTP status code.
   - **Object Wrapper**: All successful API data payloads must be wrapped in a JSON object. Root-level arrays are strictly prohibited.
   - **Entity Naming**: Use descriptive, semantic keys for the primary data payload within the `data` object.
     - **Single Entities**: Use the singular name of the resource (e.g., `member: { ... }`).

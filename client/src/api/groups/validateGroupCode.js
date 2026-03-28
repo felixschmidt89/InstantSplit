@@ -1,37 +1,15 @@
 import apiClient from "../axiosInstance.js";
-
 import API_ROUTES from "../../../../shared/constants/api/apiRouteConstants.js";
-import LOG_LEVELS from "../../../../shared/constants/system/loggerConstants.js";
-import debugLog from "../../../../shared/utils/debug/debugLog.js";
 
-const { LOG_ERROR } = LOG_LEVELS;
-const {
-  BASE,
-  VALIDATE_GROUP_EXISTENCE_CONTINUOUS,
-  VALIDATE_GROUP_EXISTENCE_LIMITED,
-} = API_ROUTES.GROUPS;
+const { GROUPS } = API_ROUTES;
 
 // TODO: Drop limited
-const validateGroupCode = async (groupCode, validationType = "continuous") => {
-  try {
-    const validationPath =
-      validationType === "limited"
-        ? VALIDATE_GROUP_EXISTENCE_LIMITED
-        : VALIDATE_GROUP_EXISTENCE_CONTINUOUS;
+const validateGroupCode = async (groupCode) => {
+  const { data } = await apiClient.get(
+    `/${GROUPS.BASE}/${groupCode}/${GROUPS.VALIDATE_GROUP_EXISTENCE}`,
+  );
 
-    const { data } = await apiClient.get(
-      `/${BASE}/${groupCode}/${validationPath}`,
-    );
-
-    return data;
-  } catch (error) {
-    debugLog(
-      "Error validating group code",
-      { error: error.message, groupCode },
-      LOG_ERROR,
-    );
-    throw error;
-  }
+  return data;
 };
 
 export default validateGroupCode;

@@ -8,7 +8,7 @@ const API_ROUTES = {
   GROUPS: {
     BASE: "groups",
     TRANSACTIONS: "transactions",
-    VALIDATE_GROUP_EXISTENCE_CONTINUOUS: "continuous-validate-existence",
+    VALIDATE_GROUP_EXISTENCE: "validate-group-existence",
     STORED_GROUP_NAMES: "stored-group-names",
     CURRENCY: "currency",
     HAS_PERSISTED_ORDER: "has-persisted-order",
@@ -19,7 +19,8 @@ const API_ROUTES = {
   MEMBERS: {
     BASE: "members",
     BY_GROUP: "by-group",
-    TRANSACTIONS: "expenses-and-payments",
+    //TODO: use transactions term throughout application
+    TRANSACTIONS: "transactions",
   },
 
   EXPENSES: {
@@ -39,6 +40,7 @@ const API_ROUTES = {
   HEALTH: {
     BASE: "health",
   },
+  //TODO: delete captchas
   CAPTCHAS: {
     BASE: "captchas",
   },
