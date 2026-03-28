@@ -7,22 +7,16 @@ import changeGroupNameController from '../controllers/group/changeGroupNameContr
 import getGroupInfoController from '../controllers/group/getGroupInfoController.js';
 import changeGroupCurrencyController from '../controllers/group/changeGroupCurrencyController.js';
 import changeDataPurgeSettingController from '../controllers/group/changeDataPurgeSettingController.js';
+import changeSettlementsCalculatedController from '../controllers/group/changeSettlementsCalculatedController.js';
+import getSettlementsCalculatedController from '../controllers/group/getSettlementsCalculatedController.js';
+import checkGroupCodeController from '../controllers/group/checkGroupCodeController.js';
 
-import {
-  listGroupNamesByStoredGroupCodes,
-  validateGroupExistence,
-  changeFixedDebitorCreditorOrderSetting,
-  groupHasPersistedDebitorCreditorOrder,
-} from '../controllers/groupController.js';
+import { listGroupNamesByStoredGroupCodes } from '../controllers/groupController.js';
 
 import logRequestDetailsMiddleware from '../middleware/common/logRequestDetailsMiddleware.js';
 import extractGroupCodeMiddleware from '../middleware/context/extractGroupCodeMiddleware.js';
 import validateGroupCodeMiddleware from '../middleware/validation/validateGroupCodeMiddleware.js';
 import touchGroupLastActiveMiddleware from '../middleware/group/touchGroupLastActiveMiddleware.js';
-import {
-  strictLimiter,
-  strictlyLimitRequestsPerIpMiddleware,
-} from '../middleware/strictlyLimitRequestsPerIpMiddleware.js';
 import {
   laxLimitRequestsPerIpMiddleware,
   laxLimiter,
@@ -38,8 +32,7 @@ const {
     STORED_GROUP_NAMES,
     CURRENCY,
     DATA_PURGE,
-    PERSISTED_ORDER,
-    HAS_PERSISTED_ORDER,
+    SETTLEMENTS_CALCULATED,
     VALIDATE_GROUP_EXISTENCE,
     TRANSACTIONS,
   },
@@ -50,24 +43,14 @@ if (CONFIG.LOG_API_REQUESTS) {
   router.use(logRequestDetailsMiddleware);
 }
 
-/**
- * Public / Non-Group Context Routes
- */
 router.post('/', createGroupController);
 router.get(`/${STORED_GROUP_NAMES}`, listGroupNamesByStoredGroupCodes);
 
-/**
- * Group Context Protected Routes
- * These routes identify the group via GROUP_ID in the URL
- * and validate the secret groupCode from the Request Body/Headers.
- */
 router.use(extractGroupCodeMiddleware);
 router.use(validateGroupCodeMiddleware);
 router.use(touchGroupLastActiveMiddleware);
 
-// Get group details via ID (secure)
 router.get(`/${GROUP_ID}`, getGroupInfoController);
-
 router.patch(`/${GROUP_ID}`, changeGroupNameController);
 
 router.get(`/${CURRENCY}`, getGroupCurrencyController);
@@ -76,21 +59,21 @@ router.get(`/${TRANSACTIONS}`, getGroupTransactionsController);
 router.patch(`/${CURRENCY}/${GROUP_ID}`, changeGroupCurrencyController);
 router.patch(`/${DATA_PURGE}/${GROUP_ID}`, changeDataPurgeSettingController);
 
-// Legacy routes still pending atomic refactor - now using GROUP_ID for URI
-router.patch(
-  `/${PERSISTED_ORDER}/${GROUP_ID}`,
-  changeFixedDebitorCreditorOrderSetting,
-);
 router.get(
-  `/${HAS_PERSISTED_ORDER}/${GROUP_ID}`,
-  groupHasPersistedDebitorCreditorOrder,
+  `/${SETTLEMENTS_CALCULATED}/${GROUP_ID}`,
+  getSettlementsCalculatedController,
+);
+router.patch(
+  `/${SETTLEMENTS_CALCULATED}/${GROUP_ID}`,
+  changeSettlementsCalculatedController,
 );
 
+//TODO: Check if laxLimiter is still needed or captcha verification would be better solution
 router.get(
   `/${GROUP_ID}/${VALIDATE_GROUP_EXISTENCE}`,
   laxLimiter,
   laxLimitRequestsPerIpMiddleware,
-  validateGroupExistence,
+  checkGroupCodeController,
 );
 
 export default router;

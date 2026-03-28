@@ -24,7 +24,7 @@ const getDevCronSchedule = () => {
 mongoose
   .connect(db)
   .then(() => {
-    console.log('Database connected! 😃');
+    console.log('Database connected');
   })
   .catch((error) => {
     console.log(error.message);

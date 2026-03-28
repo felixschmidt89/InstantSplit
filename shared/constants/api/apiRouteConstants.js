@@ -11,8 +11,7 @@ const API_ROUTES = {
     VALIDATE_GROUP_EXISTENCE: "validate-group-existence",
     STORED_GROUP_NAMES: "stored-group-names",
     CURRENCY: "currency",
-    HAS_PERSISTED_ORDER: "has-persisted-order",
-    PERSISTED_ORDER: "persisted-order",
+    SETTLEMENTS_CALCULATED: "settlements-calculated",
     DATA_PURGE: "data-purge",
   },
 
