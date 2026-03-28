@@ -23,8 +23,8 @@ const memberSchema = new Schema(
       type: String,
       trim: true,
       required: [true, MEMBER_ERRORS.NAME_REQUIRED],
-      minlength: [COMMON_LIMITS.NAME_MIN_LENGTH, MEMBER_ERRORS.NAME_REQUIRED], // Fallback to NAME_REQUIRED
-      maxlength: [COMMON_LIMITS.NAME_MAX_LENGTH, MEMBER_ERRORS.NAME_REQUIRED],
+      minlength: [COMMON_LIMITS.NAME_MIN_LENGTH],
+      maxlength: [COMMON_LIMITS.NAME_MAX_LENGTH],
     },
     [COMMON_FIELDS.GROUP_CODE]: {
       type: String,
@@ -42,6 +42,32 @@ const memberSchema = new Schema(
   },
 );
 
+/**
+ * Static Methods
+ */
+
+memberSchema.statics.refreshTotals = async function (memberIds) {
+  const uniqueIds = [...new Set(memberIds.map((id) => id.toString()))];
+
+  return Promise.all(
+    uniqueIds.map(async (id) => {
+      const member = await this.findById(id);
+      if (member) {
+        await Promise.all([
+          member.updateTotalExpensesPaid(),
+          member.updateTotalExpensesBenefitted(),
+          member.updateTotalPaymentsMade(),
+          member.updateTotalPaymentsReceived(),
+        ]);
+      }
+    }),
+  );
+};
+
+/**
+ * Virtuals
+ */
+
 memberSchema.virtual(MEMBER_FIELDS.BALANCE).get(function () {
   return (
     this[MEMBER_FIELDS.EXPENSES_PAID] +
@@ -54,6 +80,10 @@ memberSchema.virtual(MEMBER_FIELDS.BALANCE).get(function () {
 memberSchema.virtual(MEMBER_FIELDS.SETTLED).get(function () {
   return this.get(MEMBER_FIELDS.BALANCE) === 0;
 });
+
+/**
+ * Instance Methods
+ */
 
 memberSchema.methods.updateTotalExpensesPaid = async function () {
   const memberId = this[COMMON_FIELDS.ID];
@@ -79,7 +109,7 @@ memberSchema.methods.updateTotalExpensesPaid = async function () {
   }
 };
 
-memberSchema.methods.updateTotalExpenseBenefitted = async function () {
+memberSchema.methods.updateTotalExpensesBenefitted = async function () {
   const memberId = this[COMMON_FIELDS.ID];
   try {
     const result = await Expense.aggregate([
@@ -132,7 +162,7 @@ memberSchema.methods.updateTotalPaymentsReceived = async function () {
   }
 };
 
-memberSchema.methods.updateTotalPaymentsMadeAmount = async function () {
+memberSchema.methods.updateTotalPaymentsMade = async function () {
   const memberId = this[COMMON_FIELDS.ID];
   try {
     const result = await Payment.aggregate([

@@ -1,23 +1,23 @@
 import express from 'express';
-import {
-  createPayment,
-  getPaymentInfo,
-  deletePayment,
-  updatePayment,
-} from '../controllers/paymentController.js';
 
-const router = express.Router();
+import createPaymentController from '../controllers/payment/createPaymentController.js';
+import getPaymentInfoController from '../controllers/payment/getPaymentInfoController.js';
+import updatePaymentController from '../controllers/payment/updatePaymentController.js';
+import deletePaymentController from '../controllers/payment/deletePaymentController.js';
 
-// Create payment
-router.post('/', createPayment);
+import API_ROUTES from '../../shared/constants/api/apiRouteConstants.js';
 
-// Update payment
-router.put('/:paymentId', updatePayment);
+const { URL_PARAMS } = API_ROUTES;
+const { PAYMENT_ID } = URL_PARAMS;
 
-// Get payment info by id
-router.get('/:paymentId', getPaymentInfo);
+const paymentRouter = express.Router();
 
-// Delete payment
-router.delete('/:paymentId', deletePayment);
+paymentRouter.post('/', createPaymentController);
 
-export default router;
+paymentRouter.get(`/:${PAYMENT_ID}`, getPaymentInfoController);
+
+paymentRouter.patch(`/:${PAYMENT_ID}`, updatePaymentController);
+
+paymentRouter.delete(`/:${PAYMENT_ID}`, deletePaymentController);
+
+export default paymentRouter;
