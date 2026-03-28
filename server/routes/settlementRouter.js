@@ -1,19 +1,21 @@
 import express from 'express';
-import {
-  persistGroupSettlements,
-  deleteSettlement,
-  deleteAllGroupSettlements,
-  getAllGroupSettlements,
-} from '../controllers/settlementController.js';
+import calculateSettlementsController from '../controllers/settlement/calculateSettlementsController.js';
+import deleteSettlementController from '../controllers/settlement/deleteSettlementController.js';
+// import deleteAllSettlementsController from '../controllers/settlement/deleteAllSettlementsController.js';
+// import getAllSettlementsController from '../controllers/settlement/getAllSettlementsController.js';
+import API_ROUTES from '../../shared/constants/api/apiRouteConstants.js';
 
-const router = express.Router();
+const { GROUP_ID } = API_ROUTES.URL_PARAMS;
+const settlementRouter = express.Router();
 
-router.post('/', persistGroupSettlements);
+// TODO: Rename curret to persistSettlementsController and add calculateSettlementsController, propbaly have to rename model again
+// TODO: Pick up from here next time
+settlementRouter.post('/', calculateSettlementsController);
 
-router.delete('/', deleteSettlement);
+settlementRouter.delete('/', deleteSettlementController);
 
-router.delete('/:groupCode', deleteAllGroupSettlements);
+settlementRouter.delete(`/:${GROUP_ID}`, deleteAllSettlementsController);
 
-router.get('/:groupCode', getAllGroupSettlements);
+settlementRouter.get(`/:${GROUP_ID}`, getAllSettlementsController);
 
-export default router;
+export default settlementRouter;
