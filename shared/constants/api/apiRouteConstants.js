@@ -39,10 +39,6 @@ const API_ROUTES = {
   HEALTH: {
     BASE: "health",
   },
-  //TODO: delete captchas
-  CAPTCHAS: {
-    BASE: "captchas",
-  },
 };
 
 export default API_ROUTES;

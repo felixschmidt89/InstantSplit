@@ -6,7 +6,6 @@ import API_ROUTES from '../shared/constants/api/apiRouteConstants.js';
 import serverConfig from './config/serverConfig.js';
 import extractGroupCodeMiddleware from './middleware/context/extractGroupCodeMiddleware.js';
 import apiErrorMiddleware from './middleware/errors/apiErrorMiddleware.js';
-import captchaRouter from './routes/captchaRouter.js';
 import expenseRouter from './routes/expenseRouter.js';
 
 import groupRouter from './routes/groupRouter.js';
@@ -15,8 +14,7 @@ import memberRouter from './routes/memberRouter.js';
 import paymentRouter from './routes/paymentRouter.js';
 import settlementRouter from './routes/settlementRouter.js';
 
-const { CAPTCHAS, EXPENSES, GROUPS, HEALTH, MEMBERS, PAYMENTS, SETTLEMENTS } =
-  API_ROUTES;
+const { EXPENSES, GROUPS, HEALTH, MEMBERS, PAYMENTS, SETTLEMENTS } = API_ROUTES;
 
 const { API_BASEURL, TRUST_PROXY } = serverConfig;
 
@@ -37,7 +35,6 @@ app.use(`${API_BASEURL}/${MEMBERS.BASE}`, memberRouter);
 app.use(`${API_BASEURL}/${EXPENSES.BASE}`, expenseRouter);
 app.use(`${API_BASEURL}/${PAYMENTS.BASE}`, paymentRouter);
 app.use(`${API_BASEURL}/${HEALTH.BASE}`, healthRouter);
-app.use(`${API_BASEURL}/${CAPTCHAS.BASE}`, captchaRouter);
 app.use(`${API_BASEURL}/${SETTLEMENTS.BASE}`, settlementRouter);
 
 app.use(apiErrorMiddleware);

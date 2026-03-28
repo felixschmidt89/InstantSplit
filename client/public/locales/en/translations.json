@@ -246,13 +246,6 @@
       "linkText": "Netlify's Privacy Policy"
     },
     {
-      "key": "section5",
-      "title": "Site Protection",
-      "content": "To keep InstantSplit safe from bad actors, we use Friendly Captcha. It solely serves as a security provider and does not retain or utilize any personal information for purposes beyond security, such as marketing.",
-      "link": "https://friendlycaptcha.com/legal/privacy-end-users/",
-      "linkText": "Friendly Captcha's Privacy Policy for End Users"
-    },
-    {
       "key": "section6",
       "title": "Privacy",
       "content": "We use PiratePx, a privacy-respecting, no-cookie, open-source analytics helper. PiratePx does not harvest browsing data, sell ads, or monetize in any way. It cannot identify individual users or user sessions and is solely intended to better understand our users and improve the app accordingly. The related anonymous information is deleted after 30 days. PiratePx has been chosen over typical analytics tools to respect user privacy.",
