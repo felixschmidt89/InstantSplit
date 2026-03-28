@@ -5,15 +5,14 @@ import {
   deletePayment,
   updatePayment,
 } from '../controllers/paymentController.js';
-import { paymentValidator } from '../validators/paymentValidator.js';
 
 const router = express.Router();
 
 // Create payment
-router.post('/', paymentValidator, createPayment);
+router.post('/', createPayment);
 
 // Update payment
-router.put('/:paymentId', paymentValidator, updatePayment);
+router.put('/:paymentId', updatePayment);
 
 // Get payment info by id
 router.get('/:paymentId', getPaymentInfo);

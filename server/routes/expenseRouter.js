@@ -7,8 +7,6 @@ import deleteExpenseController from '../controllers/expense/deleteExpenseControl
 import getGroupExpensesController from '../controllers/expense/getGroupExpensesController.js';
 import getGroupExpensesTotalController from '../controllers/expense/getGroupExpensesTotalController.js';
 
-import { expenseValidator } from '../validators/expenseValidator.js';
-
 import API_ROUTES from '../../shared/constants/api/apiRouteConstants.js';
 
 const { EXPENSES, URL_PARAMS } = API_ROUTES;
@@ -16,15 +14,11 @@ const { EXPENSE_ID, GROUP_ID } = URL_PARAMS;
 
 const expenseRouter = express.Router();
 
-expenseRouter.post('/', expenseValidator, createExpenseController);
+expenseRouter.post('/', createExpenseController);
 
 expenseRouter.get(`/:${EXPENSE_ID}`, getSingleExpenseController);
 
-expenseRouter.patch(
-  `/:${EXPENSE_ID}`,
-  expenseValidator,
-  updateExpenseController,
-);
+expenseRouter.patch(`/:${EXPENSE_ID}`, updateExpenseController);
 
 expenseRouter.delete(`/:${EXPENSE_ID}`, deleteExpenseController);
 
