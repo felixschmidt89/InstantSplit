@@ -12,9 +12,8 @@ const createPaymentService = async (paymentData) => {
     recipient.updateTotalPaymentsReceived(),
   ]);
 
-  // TODO: Make this a Middleware
-  // 3. Invalidate settlements for the group
-  await resetGroupSettlementsService(payment.groupCode);
+  // TODO: handle reset
+  // await resetGroupSettlementsService(payment.groupCode);
 
   return payment;
 };

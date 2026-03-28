@@ -7,7 +7,7 @@ import ERROR_CODES from '../../../shared/constants/system/errorConstants.js';
 const { OK, NOT_FOUND, CONFLICT } = StatusCodes;
 const { PAYMENT_KEYS } = PAYLOAD_KEYS;
 const { PAYMENT_ID } = API_ROUTES.URL_PARAMS;
-const { PAYMENT_ERRORS } = ERROR_CODES;
+const { PAYMENT_ERRORS } = ERROR_CODES.PAYMENT_ERRORS;
 
 const updatePaymentController = async (req, res, next) => {
   try {
