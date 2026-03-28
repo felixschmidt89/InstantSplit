@@ -1,6 +1,6 @@
 import Payment from '../../models/Payment.js';
 import Member from '../../models/Member.js';
-import resetGroupSettlementsService from '../group/resetGroupSettlementsService.js';
+// import resetGroupSettlementsService from '../group/resetGroupSettlementsService.js';
 
 const updatePaymentService = async (paymentId, updateData) => {
   const oldPayment = await Payment.findById(paymentId).lean();
@@ -12,29 +12,18 @@ const updatePaymentService = async (paymentId, updateData) => {
     { new: true, runValidators: true },
   );
 
-  const affectedMemberIds = [
+  const affectedIds = [
     oldPayment.paymentMaker,
     oldPayment.paymentRecipient,
     updatedPayment.paymentMaker,
     updatedPayment.paymentRecipient,
   ];
 
-  const uniqueMemberIds = [
-    ...new Set(affectedMemberIds.map((id) => id.toString())),
-  ];
-
-  await Promise.all(
-    uniqueMemberIds.map(async (id) => {
-      const member = await Member.findById(id);
-      if (member) {
-        await member.updateTotalPaymentsMadeAmount();
-        await member.updateTotalPaymentsReceived();
-      }
-    }),
-  );
-
-  // 4. Invalidate settlements
-  await resetGroupSettlementsService(updatedPayment.groupCode);
+  await Promise.all([
+    Member.refreshTotals(affectedIds),
+    // TODO: Handle reset
+    // resetGroupSettlementsService(updatedPayment.groupCode),
+  ]);
 
   return updatedPayment;
 };
