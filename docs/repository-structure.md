@@ -645,11 +645,16 @@ InstantSpilt
 │   │   │   ├── getSingleExpenseController.js
 │   │   │   └── updateExpenseController.js
 │   │   ├── group
+│   │   │   ├── changeDataPurgeSettingController.js
+│   │   │   ├── changeGroupCurrencyController.js
 │   │   │   ├── changeGroupNameController.js
+│   │   │   ├── changeSettlementsCalculatedController.js
+│   │   │   ├── checkGroupCodeController.js
 │   │   │   ├── createGroupController.js
 │   │   │   ├── getGroupCurrencyController.js
 │   │   │   ├── getGroupInfoController.js
-│   │   │   └── getGroupTransactionsController.js
+│   │   │   ├── getGroupTransactionsController.js
+│   │   │   └── getSettlementsCalculatedController.js
 │   │   ├── groupController.js
 │   │   ├── healthController.js
 │   │   ├── member
@@ -710,11 +715,16 @@ InstantSpilt
 │   │   │   ├── getSingleExpenseService.js
 │   │   │   └── updateExpenseService.js
 │   │   ├── group
+│   │   │   ├── changeDataPurgeSettingService.js
+│   │   │   ├── changeGroupCurrencyService.js
 │   │   │   ├── changeGroupNameService.js
+│   │   │   ├── changeSettlementsCalculatedService.js
+│   │   │   ├── checkGroupCodeService.js
 │   │   │   ├── createGroupService.js
 │   │   │   ├── getGroupCurrencyService.js
 │   │   │   ├── getGroupInfoService.js
-│   │   │   └── getGroupTransactionsService.js
+│   │   │   ├── getGroupTransactionsService.js
+│   │   │   └── getSettlementsCalculatedService.js
 │   │   ├── member
 │   │   │   ├── changeMemberNameService.js
 │   │   │   ├── createMemberService.js

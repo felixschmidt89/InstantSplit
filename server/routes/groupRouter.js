@@ -10,8 +10,7 @@ import changeDataPurgeSettingController from '../controllers/group/changeDataPur
 import changeSettlementsCalculatedController from '../controllers/group/changeSettlementsCalculatedController.js';
 import getSettlementsCalculatedController from '../controllers/group/getSettlementsCalculatedController.js';
 import checkGroupCodeController from '../controllers/group/checkGroupCodeController.js';
-
-import { listGroupNamesByStoredGroupCodes } from '../controllers/groupController.js';
+import getStoredGroupsNamesController from '../controllers/group/getStoredGroupsNamesController.js';
 
 import logRequestDetailsMiddleware from '../middleware/common/logRequestDetailsMiddleware.js';
 import extractGroupCodeMiddleware from '../middleware/context/extractGroupCodeMiddleware.js';
@@ -43,8 +42,12 @@ if (CONFIG.LOG_API_REQUESTS) {
   router.use(logRequestDetailsMiddleware);
 }
 
+// Public Routes
+
 router.post('/', createGroupController);
-router.get(`/${STORED_GROUP_NAMES}`, listGroupNamesByStoredGroupCodes);
+router.get(`/${STORED_GROUP_NAMES}`, getStoredGroupsNamesController);
+
+// Group Context Protected Routes
 
 router.use(extractGroupCodeMiddleware);
 router.use(validateGroupCodeMiddleware);

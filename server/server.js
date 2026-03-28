@@ -33,12 +33,10 @@ mongoose
 
 const cronSchedule = IS_DEVELOPMENT ? getDevCronSchedule() : '0 3 * * *';
 
-const cronLogTime = IS_DEVELOPMENT ? '60 seconds after startup' : '3 am';
-
 cron.schedule(
   cronSchedule,
   () => {
-    console.log(`Running purgeInactiveGroups at ${cronLogTime}...`);
+    console.log('Running purgeInactiveGroups...');
     purgeInactiveGroups();
   },
   {
