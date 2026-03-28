@@ -5,11 +5,12 @@ import getGroupCurrencyController from '../controllers/group/getGroupCurrencyCon
 import createGroupController from '../controllers/group/createGroupController.js';
 import changeGroupNameController from '../controllers/group/changeGroupNameController.js';
 import getGroupInfoController from '../controllers/group/getGroupInfoController.js';
+import changeGroupCurrencyController from '../controllers/group/changeGroupCurrencyController.js';
+import changeDataPurgeSettingController from '../controllers/group/changeDataPurgeSettingController.js';
+
 import {
   listGroupNamesByStoredGroupCodes,
   validateGroupExistence,
-  changeGroupCurrency,
-  changeGroupDataPurgeSetting,
   changeFixedDebitorCreditorOrderSetting,
   groupHasPersistedDebitorCreditorOrder,
 } from '../controllers/groupController.js';
@@ -72,9 +73,10 @@ router.patch(`/${GROUP_ID}`, changeGroupNameController);
 router.get(`/${CURRENCY}`, getGroupCurrencyController);
 router.get(`/${TRANSACTIONS}`, getGroupTransactionsController);
 
+router.patch(`/${CURRENCY}/${GROUP_ID}`, changeGroupCurrencyController);
+router.patch(`/${DATA_PURGE}/${GROUP_ID}`, changeDataPurgeSettingController);
+
 // Legacy routes still pending atomic refactor - now using GROUP_ID for URI
-router.patch(`/${CURRENCY}/${GROUP_ID}`, changeGroupCurrency);
-router.patch(`/${DATA_PURGE}/${GROUP_ID}`, changeGroupDataPurgeSetting);
 router.patch(
   `/${PERSISTED_ORDER}/${GROUP_ID}`,
   changeFixedDebitorCreditorOrderSetting,

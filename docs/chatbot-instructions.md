@@ -385,3 +385,12 @@ This is a legacy codebase. When we work on existing files, we always want to ref
   - **External Scope**: Use the non-sensitive database identifier (e.g., `groupId`) for all external interfaces, including URL parameters, endpoint definitions, and routing paths.
   - **Internal Scope**: Use the sensitive domain identifier (`groupCode`) exclusively for internal database queries and business logic within the service layer.
   - **Controller Responsibility**: The controller must manage the mapping between these identifiers, extracting the `groupId` from parameters while utilizing the `groupCode` from the request context to invoke services.
+
+### 16. Database Queries & Identifiers
+
+- **The `groupCode` Query Rule**
+  - **Primary Scope Identifier:** Always use `groupCode` (`COMMON_FIELDS.GROUP_CODE`) to scope queries, updates, and deletions across **all** database models (`Group`, `Member`, `Expense`, `Payment`, `Settlement`).
+  - **Entity Identification Strategies:**
+    - **Group Documents:** Use `groupCode` as the _sole_ identifier (e.g., `{ groupCode }`). Do not use `groupId` unless absolutely required by a specific framework limitation.
+    - **Child Documents:** For all other models (e.g., Expenses, Members), use a composite query combining the resource's `_id` and the `groupCode` (e.g., `{ _id: expenseId, groupCode }`) to guarantee strict data isolation between groups.
+  - **Middleware Synergy:** Controllers should extract `groupCode` directly from `req.context` (provided by `extractGroupCodeMiddleware`) and pass it down to the Service layer. Do not rely on `req.body` or `req.params` for the group identifier if the context is available.
