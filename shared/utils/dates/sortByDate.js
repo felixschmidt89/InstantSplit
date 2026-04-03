@@ -1,22 +1,25 @@
 import SYSTEM from "../../constants/system/systemConstants.js";
+import LOG_LEVELS from "../../constants/system/loggerConstants.js";
+import debugLog from "../debug/debugLog.js";
 
 const { SORT_ORDER } = SYSTEM;
 const { ASCENDING, DESCENDING } = SORT_ORDER;
+const { WARN } = LOG_LEVELS;
 
-/**
- * Sorts an array of objects by a specific date key.
- * @param {Array} array - The array of objects to sort.
- * @param {string} dateKey - The object property containing the date value.
- * @param {string} order - The sort direction (must match SORT_ORDER values).
- * @returns {Array} - A new sorted array or the original input if invalid.
- */
-const sortByDate = (array, dateKey, order) => {
+const sortByDate = (array, dateKey, order = DESCENDING) => {
   const isAllowedOrder = Boolean(order === ASCENDING || order === DESCENDING);
   const hasValidInput = Boolean(
     Array.isArray(array) && dateKey && isAllowedOrder,
   );
 
   if (!hasValidInput) {
+    if (Array.isArray(array) && Boolean(array.length)) {
+      debugLog(
+        `Invalid sort attempt on dateKey: "${dateKey}" with order: "${order}"`,
+        { dateKey, order, arrayLength: array.length },
+        WARN,
+      );
+    }
     return array || [];
   }
 

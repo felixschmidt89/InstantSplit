@@ -1,4 +1,4 @@
-import { useMemo, useEffect } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useGroupContext } from "../../../context/GroupContext.jsx";
@@ -9,7 +9,6 @@ import Emoji from "../../Emoji/Emoji.jsx";
 import emojiConstants from "../../../constants/emojiConstants.jsx";
 import CLIENT_DYNAMIC_ROUTES from "../../../constants/clientDynamicRoutesConstants.js";
 import styles from "./GroupMemberNames.module.css";
-import RESOURCE from "../../../../../shared/constants/domain/resourceConstants.js";
 
 const { MEMBER_DETAILS } = CLIENT_DYNAMIC_ROUTES;
 
@@ -27,27 +26,13 @@ const GroupMemberNames = ({ isInAppGroupCreation }) => {
   } = useGroupContext();
 
   const showSpinner = Boolean(isLoading || (!isFetched && groupCode));
+  const hasNoMembers = !Boolean(groupMembers?.length);
 
   useEffect(() => {
     if (contextError) {
       showError(t(contextError));
     }
   }, [contextError, showError, t]);
-
-  // TODO: Move to backend
-  const sortedMembers = useMemo(() => {
-    const hasMembers = Boolean(groupMembers?.length);
-
-    return hasMembers
-      ? [...groupMembers].sort(
-          (userA, userB) =>
-            new Date(userB.createdAt) - new Date(userA.createdAt),
-        )
-      : [];
-  }, [groupMembers]);
-
-  // TODO: Move to backend
-  const hasNoMembers = sortedMembers.length === 0;
 
   if (showSpinner) {
     return (
@@ -71,7 +56,7 @@ const GroupMemberNames = ({ isInAppGroupCreation }) => {
             </span>
           ) : (
             <ul className={styles.list}>
-              {sortedMembers.map(({ _id, memberName }) => {
+              {groupMembers.map(({ _id, memberName }) => {
                 const memberDetailsPath = MEMBER_DETAILS(groupCode, _id);
 
                 return (

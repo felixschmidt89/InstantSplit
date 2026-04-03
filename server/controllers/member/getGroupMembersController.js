@@ -1,17 +1,19 @@
-import { StatusCodes } from 'http-status-codes';
 import getGroupMembersService from '../../services/member/getGroupMembersService.js';
-
-const { OK } = StatusCodes;
 
 const getGroupMembersController = async (req, res, next) => {
   try {
-    const { groupCode } = req.context;
+    const { groupCode } = req.params;
+    const { sortBy, order } = req.query;
 
-    const members = await getGroupMembersService(groupCode);
+    const members = await getGroupMembersService(groupCode, sortBy, order);
 
-    return res.status(OK).json({
+    return res.status(200).json({
       success: true,
-      data: { members },
+      data: {
+        members,
+        count: members.length,
+        isEmpty: !Boolean(members.length),
+      },
     });
   } catch (error) {
     next(error);

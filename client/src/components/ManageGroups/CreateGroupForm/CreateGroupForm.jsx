@@ -11,11 +11,11 @@ import setActiveGroupCodeInLocalStorage from "../../../utils/localStorage/setAct
 import setPreviousRouteInLocalStorage from "../../../utils/localStorage/setPreviousRouteInLocalStorage.js";
 import storeGroupCodeInLocalStorage from "../../../utils/localStorage/storeGroupCodeInLocalStorage.js";
 import { handleApiErrors } from "../../../utils/errorUtils.jsx";
-import replaceSlashesWithDashes from "../../../utils/replaceSlashesWithDashes.js";
 import LOG_LEVELS from "../../../../../shared/constants/system/loggerConstants.js";
 import debugLog from "../../../../../shared/utils/debug/debugLog.js";
 import FormSubmitButton from "../../FormSubmitButton/FormSubmitButton.jsx";
 import styles from "./CreateGroupForm.module.css";
+import replaceSlashesWithDashes from "../../../../../shared/utils/strings/replaceSlashesWithDashes.js";
 
 const { LOG_ERROR } = LOG_LEVELS;
 const { MEMBERS } = NAV_LINKS;
