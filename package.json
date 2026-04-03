@@ -40,6 +40,8 @@
     },
     "eslint-plugin-react": {
       "eslint": "^9.10.0"
-    }
+    },
+    "@tootallnate/once": "^3.0.1",
+    "serialize-javascript": "^7.0.5"
   }
 }
