@@ -1,11 +1,11 @@
-import RenderGroupMemberPayment from "../RenderGroupMemberPayment/RenderGroupMemberPayment";
+import RenderGroupMemberPayment from "../RenderGroupMemberPayment/RenderGroupMemberPayment.jsx";
 import RenderGroupMemberExpense from "../GroupMemberExpense/GroupMemberExpense.jsx";
-import NoUserTransactions from "../NoGroupMemberTransactions/NoGroupMemberTransactions";
-import { TRANSACTION_TYPES } from "../../../../../shared/constants/domain/transactionConstants.js";
-
+import NoUserTransactions from "../NoGroupMemberTransactions/NoGroupMemberTransactions.jsx";
+import RESOURCE from "../../../../../shared/constants/domain/resourceConstants.js";
 import styles from "./GroupMemberTransactionsHistory.module.css";
 
-const { EXPENSE } = TRANSACTION_TYPES;
+const { RESOURCE_TYPES } = RESOURCE;
+const { EXPENSE } = RESOURCE_TYPES;
 
 const GroupMemberTransactionsHistory = ({
   transactions,
@@ -14,18 +14,21 @@ const GroupMemberTransactionsHistory = ({
   groupCurrency,
   groupMembers,
 }) => {
-  if (!transactions?.length) {
+  const hasTransactions = Boolean(transactions?.length);
+
+  if (!hasTransactions) {
     return <NoUserTransactions />;
   }
 
   return (
     <div className={styles.container}>
-      <ul>
+      <ul className={styles.list}>
         {transactions.map((item) => {
           const isExpense = item.itemType === EXPENSE;
+          const itemId = item._id || item.itemId;
 
           return (
-            <li className={styles.item} key={item._id || item.itemId}>
+            <li className={styles.item} key={itemId}>
               {isExpense ? (
                 <RenderGroupMemberExpense
                   item={item}

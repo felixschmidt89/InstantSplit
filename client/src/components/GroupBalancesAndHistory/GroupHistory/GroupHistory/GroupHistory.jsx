@@ -1,12 +1,11 @@
 import { useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-
 import { useGroupContext } from "../../../../context/GroupContext.jsx";
 import { useGlobalError } from "../../../../context/ErrorContext.jsx";
 import fetchGroupTransactions from "../../../../api/groups/fetchGroupTransactions.js";
 import debugLog from "../../../../../../shared/utils/debug/debugLog.js";
 import LOG_LEVELS from "../../../../../../shared/constants/system/loggerConstants.js";
-import { TRANSACTION_TYPES } from "../../../../../../shared/constants/domain/transactionConstants.js";
+import RESOURCE from "../../../../../../shared/constants/domain/resourceConstants.js";
 import usePolling from "../../../../hooks/usePolling.jsx";
 import Spinner from "../../../Spinner/Spinner.jsx";
 import RenderGroupExpensesTotal from "../RenderTotalGroupExpenses/RenderGroupExpensesTotal.jsx";
@@ -14,11 +13,11 @@ import RenderGroupExpense from "../GroupExpense/GroupExpense.jsx";
 import RenderGroupPayment from "../GroupPayment/GroupPayment.jsx";
 import NoGroupTransactions from "../NoGroupTransactions/NoGroupTransactions.jsx";
 import NotEnoughGroupMembers from "../../NotEnoughGroupMembers/NotEnoughGroupMembers.jsx";
-
 import styles from "./GroupHistory.module.css";
 
-const { INFO, LOG_ERROR } = LOG_LEVELS;
-const { EXPENSE } = TRANSACTION_TYPES;
+const { LOG_LEVELS_INFO, LOG_LEVELS_ERROR } = LOG_LEVELS;
+const { RESOURCE_TYPES } = RESOURCE;
+const { EXPENSE } = RESOURCE_TYPES;
 
 const GroupHistory = ({ groupCode, groupCurrency }) => {
   const { t } = useTranslation();
@@ -33,14 +32,18 @@ const GroupHistory = ({ groupCode, groupCurrency }) => {
   const hasSufficientMembers = isMembersFetched && hasMultipleMembers;
 
   const getGroupHistory = useCallback(
-    async (isPolling = false) => {
+    async (isPollingCall = false) => {
       try {
-        if (!isPolling) setIsLoading(true);
+        if (!isPollingCall) {
+          setIsLoading(true);
+        }
 
         const { transactions: fetchedTransactions } =
           await fetchGroupTransactions(groupCode);
 
-        if (fetchedTransactions?.length) {
+        const hasFetchedData = Boolean(fetchedTransactions?.length);
+
+        if (hasFetchedData) {
           const formattedTransactions = fetchedTransactions.map((item) => ({
             ...item,
             createdAt: new Date(item.createdAt),
@@ -48,23 +51,26 @@ const GroupHistory = ({ groupCode, groupCurrency }) => {
 
           debugLog(
             "Group transactions processed",
-            { count: formattedTransactions.length, isPolling },
-            INFO,
+            { count: formattedTransactions.length, isPolling: isPollingCall },
+            LOG_LEVELS_INFO,
           );
+
           setTransactions(formattedTransactions);
         }
-      } catch (err) {
+      } catch (error) {
         debugLog(
           "Error fetching group history",
-          { error: err.message },
-          LOG_ERROR,
+          { error: error.message },
+          LOG_LEVELS_ERROR,
         );
 
-        if (!isPolling) {
+        if (!isPollingCall) {
           showError(t("generic-error-message"));
         }
       } finally {
-        if (!isPolling) setIsLoading(false);
+        if (!isPollingCall) {
+          setIsLoading(false);
+        }
       }
     },
     [groupCode, t, showError],
@@ -89,24 +95,29 @@ const GroupHistory = ({ groupCode, groupCurrency }) => {
             groupCurrency={groupCurrency}
           />
           <div className={styles.container}>
-            <ul>
-              {transactions.map((item) => (
-                <li key={item.itemId}>
-                  {item.itemType === EXPENSE ? (
-                    <RenderGroupExpense
-                      item={item}
-                      groupCode={groupCode}
-                      groupCurrency={groupCurrency}
-                    />
-                  ) : (
-                    <RenderGroupPayment
-                      item={item}
-                      groupCode={groupCode}
-                      groupCurrency={groupCurrency}
-                    />
-                  )}
-                </li>
-              ))}
+            <ul className={styles.list}>
+              {transactions.map((item) => {
+                const isExpense = item.itemType === EXPENSE;
+                const itemId = item.itemId || item._id;
+
+                return (
+                  <li key={itemId}>
+                    {isExpense ? (
+                      <RenderGroupExpense
+                        item={item}
+                        groupCode={groupCode}
+                        groupCurrency={groupCurrency}
+                      />
+                    ) : (
+                      <RenderGroupPayment
+                        item={item}
+                        groupCode={groupCode}
+                        groupCurrency={groupCurrency}
+                      />
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </>

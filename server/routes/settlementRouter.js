@@ -14,8 +14,8 @@ settlementRouter.post('/', calculateSettlementsController);
 
 settlementRouter.delete('/', deleteSettlementController);
 
-settlementRouter.delete(`/:${GROUP_ID}`, deleteAllSettlementsController);
+// settlementRouter.delete(`/:${GROUP_ID}`, deleteAllSettlementsController);
 
-settlementRouter.get(`/:${GROUP_ID}`, getAllSettlementsController);
+// settlementRouter.get(`/:${GROUP_ID}`, getAllSettlementsController);
 
 export default settlementRouter;
