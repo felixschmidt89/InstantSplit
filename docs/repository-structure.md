@@ -416,8 +416,7 @@ InstantSpilt
 │   │   │   ├── stylesConstants.jsx
 │   │   │   └── viewConstants.js
 │   │   ├── contents
-│   │   │   ├── currenciesContent.jsx
-│   │   │   └── legalNoticeContent.jsx
+│   │   │   └── currenciesContent.jsx
 │   │   ├── context
 │   │   │   ├── ErrorContext.jsx
 │   │   │   └── GroupContext.jsx
@@ -624,9 +623,9 @@ InstantSpilt
 ├── package.json
 ├── server
 │   ├── config
-│   │   ├── cloudinaryConfig.js
 │   │   ├── env
-│   │   └── serverConfig.js
+│   │   └── server
+│   │       └── serverConfig.js
 │   ├── constants
 │   │   └── serverConfigConstants.js
 │   ├── controllers
@@ -679,9 +678,8 @@ InstantSpilt
 │   │   ├── group
 │   │   │   ├── resetSettlementsMiddleware.js
 │   │   │   └── touchGroupLastActiveMiddleware.js
-│   │   ├── laxLimitRequestsPerIpMiddleware.js
-│   │   ├── strictlyLimitRequestsPerIpMiddleware.js
-│   │   ├── validatePropertyMatchMiddleware.js
+│   │   ├── rateLimit
+│   │   │   └── laxLimitRequestsPerIpMiddleware.js
 │   │   └── validation
 │   │       └── validateGroupCodeMiddleware.js
 │   ├── models
@@ -746,18 +744,14 @@ InstantSpilt
 │       │   ├── getMongooseSortOrder.js
 │       │   ├── isGroupCodeUnique.js
 │       │   └── setGroupSettlementsCalculated.js
-│       ├── errorUtils.js
 │       ├── errors
 │       │   └── ApiError.js
 │       ├── expense
 │       │   └── verifyExpensePayerAndBeneficiaries.js
-│       ├── group
-│       │   ├── generateGroupCode.js
-│       │   ├── resetGroupSettlements.js
-│       │   └── touchGroupLastActive.js
-│       ├── isDevelopmentEnvironment.js
-│       ├── isProductionEnvironment.js
-│       └── validationUtils.js
+│       └── group
+│           ├── generateGroupCode.js
+│           ├── resetGroupSettlements.js
+│           └── touchGroupLastActive.js
 └── shared
     ├── constants
     │   ├── api

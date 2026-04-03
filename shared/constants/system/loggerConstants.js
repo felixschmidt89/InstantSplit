@@ -1,9 +1,9 @@
 const LOG_LEVELS = {
-  INFO: "info",
-  SUCCESS: "success",
-  WARN: "warn",
-  LOG_ERROR: "error",
-  DEBUG: "debug",
+  INFO: "INFO",
+  SUCCESS: "SUCCESS",
+  WARN: "WARN",
+  LOG_ERROR: "ERROR",
+  DEBUG: "DEBUG",
 };
 
 export default LOG_LEVELS;
