@@ -1,11 +1,13 @@
 import EXTERNAL_LINK_PROPS from "../../../constants/linkConstants.js";
-import legalNoticeSections from "../legalNoticeData";
+import LEGAL_NOTICE from "../legalNoticeData.js";
 import styles from "./LegalNoticeSections.module.css";
 
 const LegalNoticeSections = () => {
+  const { SECTIONS } = LEGAL_NOTICE;
+
   return (
     <div className={styles.container}>
-      {legalNoticeSections.map(({ id, title, paragraphs, attribution }) => (
+      {SECTIONS.map(({ id, title, paragraphs, attribution }) => (
         <section key={id} className={styles.section}>
           <h3>{title}</h3>
           <div className={styles.text}>
@@ -13,7 +15,7 @@ const LegalNoticeSections = () => {
               <p key={index}>{paragraph}</p>
             ))}
 
-            {attribution && (
+            {Boolean(attribution) && (
               <p className={styles.attribution}>
                 Erstellt mit dem{" "}
                 <a
