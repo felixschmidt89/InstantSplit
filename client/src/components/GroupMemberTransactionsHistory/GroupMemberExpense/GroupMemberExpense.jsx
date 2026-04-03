@@ -1,18 +1,15 @@
-// React and Third Party Libraries
 import { useTranslation } from "react-i18next";
-
-import { useGroupContext } from "../../../context/GroupContext";
-import emojiConstants from "../../../constants/emojiConstants";
-import { RESOURCE_TYPES } from "../../../../../shared/constants/domain/resourceConstants";
-
-import DeleteResource from "../../DeleteResource/DeleteResource";
-import RenderDataAttributeWithAriaLabel from "../../RenderDataAttributeWithAriaLabel/RenderDataAttributeWithAriaLabel";
-import LinkToPage from "../../InAppNavigation/LinkToPage/LinkToPage";
+import { useGroupContext } from "../../../context/GroupContext.jsx";
+import emojiConstants from "../../../constants/emojiConstants.jsx";
+import RESOURCE from "../../../../../shared/constants/domain/resourceConstants.js";
+import DeleteResource from "../../DeleteResource/DeleteResource.jsx";
+import RenderDataAttributeWithAriaLabel from "../../RenderDataAttributeWithAriaLabel/RenderDataAttributeWithAriaLabel.jsx";
+import LinkToPage from "../../InAppNavigation/LinkToPage/LinkToPage.jsx";
 import Emoji from "../../Emoji/Emoji.jsx";
-
 import styles from "./GroupMemberExpense.module.css";
 
-const { EXPENSES } = RESOURCE_TYPES;
+const { RESOURCE_TYPES } = RESOURCE;
+const { EXPENSE } = RESOURCE_TYPES;
 
 const GroupMemberExpense = ({ item, onDeleteResource, groupCurrency }) => {
   const { t } = useTranslation();
@@ -29,8 +26,9 @@ const GroupMemberExpense = ({ item, onDeleteResource, groupCurrency }) => {
     updatedAt,
   } = item;
 
+  const hasMembers = Boolean(groupMembers?.length);
   const allGroupMembersBenefitFromExpense =
-    groupMembers.length === expenseBeneficiaries.length;
+    hasMembers && groupMembers.length === expenseBeneficiaries.length;
 
   const beneficiaries = allGroupMembersBenefitFromExpense
     ? t("render-expense-beneficiaries-all-group-members")
@@ -126,7 +124,7 @@ const GroupMemberExpense = ({ item, onDeleteResource, groupCurrency }) => {
         <li className={styles.actionLine}>
           <DeleteResource
             resourceId={_id}
-            resourceType={EXPENSES}
+            resourceType={EXPENSE}
             onDeleteResource={onDeleteResource}
             isButton={false}
             navigateOnDelete={false}
