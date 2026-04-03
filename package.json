@@ -3,7 +3,6 @@
   "version": "1.0.1",
   "private": true,
   "type": "module",
-  "description": "MERN monorepo root for InstantSplit application",
   "scripts": {
     "start": "npx concurrently \"npm run dev --workspace=client\" \"npm run start dev --workspace=server\"",
     "trace": "npx concurrently \"npm run dev --workspace=client\" \"LOG_API_REQUESTS=true npm run start dev --workspace=server\"",
@@ -28,6 +27,19 @@
     "react-helmet-async": {
       "react": "^19.0.0",
       "react-dom": "^19.0.0"
+    },
+    "eslint": "^9.10.0",
+    "eslint-config-airbnb": {
+      "eslint": "^9.10.0"
+    },
+    "eslint-plugin-import": {
+      "eslint": "^9.10.0"
+    },
+    "eslint-plugin-jsx-a11y": {
+      "eslint": "^9.10.0"
+    },
+    "eslint-plugin-react": {
+      "eslint": "^9.10.0"
     }
   }
 }
