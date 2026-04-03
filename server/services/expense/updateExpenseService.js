@@ -85,7 +85,6 @@ const updateExpenseService = async (expenseId, groupCode, updateData) => {
       { new: true, runValidators: true },
     ),
     ...memberUpdateOperations,
-    // TODO: resetGroupSettlementsService(groupCode)
   ]);
 
   debugLog(

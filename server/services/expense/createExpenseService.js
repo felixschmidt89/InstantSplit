@@ -63,9 +63,6 @@ const createExpenseService = async (groupCode, data) => {
     ),
   ]);
 
-  // TODO: Move these to a Group Maintenance Middleware/Service
-  // resetGroupSettlementsService(groupCode),
-
   debugLog(
     'Expense created and totals updated atomically',
     { id: expense._id, groupCode },

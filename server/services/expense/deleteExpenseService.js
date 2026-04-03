@@ -48,10 +48,6 @@ const deleteExpenseService = async (expenseId) => {
       { $inc: { [MEMBER_FIELDS.EXPENSES_BENEFITTED]: -amountPerBeneficiary } },
     ),
   ]);
-
-  // TODO: This should be a middleware that triggers after any expense modification, not just deletion
-  // resetGroupSettlementsService(groupCode),
-
   debugLog(
     'Expense deleted and member totals adjusted successfully',
     { expenseId, groupCode },
