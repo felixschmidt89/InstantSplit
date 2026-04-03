@@ -3,15 +3,7 @@ import Group from '../../models/Group.js';
 
 const API_FULL_URL = process.env.API_FULL_URL;
 
-/**
- * Data Seeder Script
- * -------------------
- * This script is used to seed a group with proper user & expenses test data. It requires creating a new group in the FE and then passing its related groupCode.
- * Script uses application endpoints rather than manipulating the database directly.
- *
- * @param {string} groupCode - The groupCode of the group to seed.
- * @returns {Promise<void>} A promise that resolves when the seeding process is complete.
- */
+// TODO: Update and make it a script in monorepo
 
 async function seedDemoData(groupCode) {
   if (!groupCode) {

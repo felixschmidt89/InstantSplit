@@ -1,13 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 
 // TODO: Delete devLog and use debugLog instead throughout the codebase
-/**
- * Utility function to log messages and/or errors in the development environment only.
- *
- * @param {string} [message="devLog"] - Message to be logged.
- * @param {*} [data] - Optional data to be logged. If an error object is provided, it will be logged as an error.
- * @returns {void}
- */
 export const devLog = (message = "devLog", data) => {
   if (process.env.NODE_ENV === "development") {
     if (data !== undefined) {
@@ -22,14 +15,7 @@ export const devLog = (message = "devLog", data) => {
   }
 };
 
-/**
- * Handles API errors, sets the appropriate error translation and triggers displaying the error modal.
- * @param {object} error - The error object.
- * @param {function} setError - Function to set error state.
- * @param {string} router - The router name.
- * @param {function} displayErrorModal - Function to display error modal.
- * @param {function} t - Translation function.
- */
+// TODO: REPLACE AND DELETE
 export const handleApiErrors = (
   error,
   setError,
