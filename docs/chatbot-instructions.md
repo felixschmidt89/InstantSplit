@@ -185,6 +185,12 @@
 - **Import Consistency**:
   - **Default Import Enforcement**: When consuming constants or utilities that utilize `export default`, you must use default import syntax. Named imports against default exports will trigger a `SyntaxError` in ES modules.
 
+- **Dependency & Security Maintenance**:
+  - **Override Integrity**: Never remove entries from the root `overrides` block without verifying that the upstream library has officially expanded its peer dependency range.
+  - **Audit Zero-Tolerance**: Any PR that introduces a "High" or "Critical" vulnerability must be blocked until a corresponding `override` or version bump is implemented in the same branch.
+  - **Deterministic Installation**: Always use `npm run clean:install` from the root to synchronize the monorepo workspaces and regenerate the `package-lock.json` after any dependency changes.
+  - **Transitive Patching**: Always utilize the `overrides` field in `package.json` to resolve critical security vulnerabilities in sub-dependencies that are not yet patched by their maintainers.
+
 ### 6. Labeling & Translation Rules
 
 tbd
