@@ -13,7 +13,7 @@
     "test:client": "npm test --workspace=client",
     "test:server": "npm test --workspace=server",
     "tree": "npx tree-node-cli -I 'node_modules|.git' > docs/repository-structure.md",
-    "clean:install": "rm -rf node_modules package-lock.json client/node_modules client/package-lock.json server/node_modules server/package-lock.json && npm install"
+    "clean-install": "rm -rf node_modules package-lock.json client/node_modules client/package-lock.json server/node_modules server/package-lock.json && npm install"
   },
   "devDependencies": {
     "concurrently": "^9.2.1"
