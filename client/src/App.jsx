@@ -71,7 +71,11 @@ const App = () => {
     <ThemeProvider theme={muiTheme}>
       <ErrorProvider>
         <GroupProvider>
-          <BrowserRouter>
+          <BrowserRouter
+            future={{
+              v7_startTransition: true,
+              v7_relativeSplatPath: true,
+            }}>
             <HelmetProvider>
               <Routes>
                 <Route index element={<HomePage />} />
