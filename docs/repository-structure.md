@@ -172,9 +172,6 @@ InstantSpilt
 │   │   │   ├── FormSubmitButton
 │   │   │   │   ├── FormSubmitButton.jsx
 │   │   │   │   └── FormSubmitButton.module.css
-│   │   │   ├── FriendlyCaptcha
-│   │   │   │   ├── FriendlyCaptcha.jsx
-│   │   │   │   └── FriendlyCaptcha.module.css
 │   │   │   ├── GroupActionsEmojiButton
 │   │   │   │   ├── GroupActionsEmojiButton.module.css
 │   │   │   │   └── GroupActionsEmojiButton.tsx
@@ -543,7 +540,6 @@ InstantSpilt
 │   │   ├── types
 │   │   │   └── index.d.ts
 │   │   ├── utils
-│   │   │   ├── captchaUtils.jsx
 │   │   │   ├── currencyUtils.jsx
 │   │   │   ├── dynamicRoutes.jsx
 │   │   │   ├── errorUtils.jsx
@@ -623,7 +619,6 @@ InstantSpilt
 │   └── vite.config.js
 ├── docs
 │   ├── chatbot-instructions.md
-│   ├── repository-structure.md
 │   └── technical-debt.md
 ├── jsconfig.json
 ├── package-lock.json
@@ -636,7 +631,6 @@ InstantSpilt
 │   ├── constants
 │   │   └── serverConfigConstants.js
 │   ├── controllers
-│   │   ├── captchaController.js
 │   │   ├── expense
 │   │   │   ├── createExpenseController.js
 │   │   │   ├── deleteExpenseController.js
@@ -654,9 +648,10 @@ InstantSpilt
 │   │   │   ├── getGroupCurrencyController.js
 │   │   │   ├── getGroupInfoController.js
 │   │   │   ├── getGroupTransactionsController.js
-│   │   │   └── getSettlementsCalculatedController.js
-│   │   ├── groupController.js
-│   │   ├── healthController.js
+│   │   │   ├── getSettlementsCalculatedController.js
+│   │   │   └── getStoredGroupsNamesController.js
+│   │   ├── health
+│   │   │   └── checkHealthController.js
 │   │   ├── member
 │   │   │   ├── changeMemberNameController.js
 │   │   │   ├── createMemberController.js
@@ -665,10 +660,14 @@ InstantSpilt
 │   │   │   ├── getMemberInfoController.js
 │   │   │   └── getMemberTransactionsController.js
 │   │   ├── payment
-│   │   │   └── createPaymentController.js
-│   │   ├── paymentController.js
-│   │   ├── settlementController.js
-│   │   └── userController.js
+│   │   │   ├── createPaymentController.js
+│   │   │   ├── deletePaymentController.js
+│   │   │   ├── getPaymentInfoController.js
+│   │   │   └── updatePaymentController.js
+│   │   ├── settlement
+│   │   │   ├── calculateSettlementsController.js
+│   │   │   └── deleteSettlementController.js
+│   │   └── settlementController.js
 │   ├── expressApp.js
 │   ├── jsconfig.json
 │   ├── middleware
@@ -693,7 +692,6 @@ InstantSpilt
 │   │   └── Settlement.js
 │   ├── package.json
 │   ├── routes
-│   │   ├── captchaRouter.js
 │   │   ├── expenseRouter.js
 │   │   ├── groupRouter.js
 │   │   ├── healthRouter.js
@@ -724,7 +722,8 @@ InstantSpilt
 │   │   │   ├── getGroupCurrencyService.js
 │   │   │   ├── getGroupInfoService.js
 │   │   │   ├── getGroupTransactionsService.js
-│   │   │   └── getSettlementsCalculatedService.js
+│   │   │   ├── getSettlementsCalculatedService.js
+│   │   │   └── getStoredGroupsNamesService.js
 │   │   ├── member
 │   │   │   ├── changeMemberNameService.js
 │   │   │   ├── createMemberService.js
@@ -732,28 +731,31 @@ InstantSpilt
 │   │   │   ├── getGroupMembersService.js
 │   │   │   ├── getMemberInfoService.js
 │   │   │   └── getMemberTransactionsService.js
-│   │   └── payment
-│   │       └── createPaymentService.js
-│   ├── utils
-│   │   ├── database
-│   │   │   ├── extractAggregationTotal.js
-│   │   │   └── isGroupCodeUnique.js
-│   │   ├── databaseUtils.js
-│   │   ├── errorUtils.js
-│   │   ├── errors
-│   │   │   └── ApiError.js
-│   │   ├── expense
-│   │   │   └── verifyExpensePayerAndBeneficiaries.js
-│   │   ├── group
-│   │   │   ├── generateGroupCode.js
-│   │   │   ├── resetGroupSettlements.js
-│   │   │   └── touchGroupLastActive.js
-│   │   ├── isDevelopmentEnvironment.js
-│   │   ├── isProductionEnvironment.js
-│   │   └── validationUtils.js
-│   └── validators
-│       ├── expenseValidator.js
-│       └── paymentValidator.js
+│   │   ├── payment
+│   │   │   ├── createPaymentService.js
+│   │   │   ├── deletePaymentService.js
+│   │   │   ├── getPaymentInfoService.js
+│   │   │   └── updatePaymentService.js
+│   │   └── settlement
+│   │       ├── calculateSettlementsService.js
+│   │       └── deleteSettlementService.js
+│   └── utils
+│       ├── database
+│       │   ├── extractAggregationTotal.js
+│       │   └── isGroupCodeUnique.js
+│       ├── databaseUtils.js
+│       ├── errorUtils.js
+│       ├── errors
+│       │   └── ApiError.js
+│       ├── expense
+│       │   └── verifyExpensePayerAndBeneficiaries.js
+│       ├── group
+│       │   ├── generateGroupCode.js
+│       │   ├── resetGroupSettlements.js
+│       │   └── touchGroupLastActive.js
+│       ├── isDevelopmentEnvironment.js
+│       ├── isProductionEnvironment.js
+│       └── validationUtils.js
 └── shared
     ├── constants
     │   ├── api
