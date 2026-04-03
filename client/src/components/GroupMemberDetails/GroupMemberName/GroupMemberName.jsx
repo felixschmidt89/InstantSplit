@@ -1,13 +1,15 @@
 import { useRef, useState } from "react";
-import { useGroupContext } from "../../../context/GroupContext";
-import useEditPenVisibility from "../../../hooks/useEditPenVisibility";
-import ChangeResourceName from "../../ChangeResourceName/ChangeResourceName";
-import EditPenButton from "../../EditPenButton/EditPenButton";
-
+import { useGroupContext } from "../../../context/GroupContext.jsx";
+import useEditPenVisibility from "../../../hooks/useEditPenVisibility.jsx";
+import ChangeResourceName from "../../ChangeResourceName/ChangeResourceName.jsx";
+import EditPenButton from "../../EditPenButton/EditPenButton.jsx";
+import RESOURCE from "../../../../../shared/constants/domain/resourceConstants.js";
 import styles from "./GroupMemberName.module.css";
-import { RESOURCE_TYPES } from "../../../../../shared/constants/domain/resourceConstants.js";
 
+// TODO: Rename this component to distinguish it from GroupMemberNames component
+const { RESOURCE_TYPES } = RESOURCE;
 const { MEMBER } = RESOURCE_TYPES;
+
 const GroupMemberName = ({ memberId }) => {
   const containerRef = useRef(null);
   const { getMemberName, activeGroupCode, refreshGroupMembers } =

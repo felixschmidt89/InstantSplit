@@ -1,18 +1,17 @@
 import { useMemo, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-
 import { useGroupContext } from "../../../context/GroupContext.jsx";
 import { useGlobalError } from "../../../context/ErrorContext.jsx";
 import DeleteGroupMemberBin from "../DeleteGroupMemberBin/DeleteGroupMemberBin.jsx";
 import Spinner from "../../Spinner/Spinner.jsx";
-
-import styles from "./GroupMemberNames.module.css";
-import emojiConstants from "../../../constants/emojiConstants.jsx";
-import CLIENT_LINKS from "../../../constants/clientDynamicRoutesConstants.js";
 import Emoji from "../../Emoji/Emoji.jsx";
+import emojiConstants from "../../../constants/emojiConstants.jsx";
+import CLIENT_DYNAMIC_ROUTES from "../../../constants/clientDynamicRoutesConstants.js";
+import styles from "./GroupMemberNames.module.css";
+import RESOURCE from "../../../../../shared/constants/domain/resourceConstants.js";
 
-const { MEMBER_DETAILS } = CLIENT_LINKS;
+const { MEMBER_DETAILS } = CLIENT_DYNAMIC_ROUTES;
 
 const GroupMemberNames = ({ isInAppGroupCreation }) => {
   const { t } = useTranslation();
@@ -27,7 +26,7 @@ const GroupMemberNames = ({ isInAppGroupCreation }) => {
     refreshGroupMembers,
   } = useGroupContext();
 
-  const showSpinner = isLoading || (!isFetched && groupCode);
+  const showSpinner = Boolean(isLoading || (!isFetched && groupCode));
 
   useEffect(() => {
     if (contextError) {
@@ -37,7 +36,9 @@ const GroupMemberNames = ({ isInAppGroupCreation }) => {
 
   // TODO: Move to backend
   const sortedMembers = useMemo(() => {
-    return groupMembers
+    const hasMembers = Boolean(groupMembers?.length);
+
+    return hasMembers
       ? [...groupMembers].sort(
           (userA, userB) =>
             new Date(userB.createdAt) - new Date(userA.createdAt),
@@ -70,13 +71,38 @@ const GroupMemberNames = ({ isInAppGroupCreation }) => {
             </span>
           ) : (
             <ul className={styles.list}>
-              {sortedMembers.map(({ _id, memberName }) => (
-                <li key={_id} className={styles.listItem}>
-                  {!isInAppGroupCreation ? (
-                    <>
-                      <Link
-                        to={MEMBER_DETAILS(groupCode, _id)}
-                        className={`${styles.groupMemberListItemLink} ${styles.linkWrapper}`}>
+              {sortedMembers.map(({ _id, memberName }) => {
+                const memberDetailsPath = MEMBER_DETAILS(groupCode, _id);
+
+                return (
+                  <li key={_id} className={styles.listItem}>
+                    {!isInAppGroupCreation ? (
+                      <>
+                        <Link
+                          to={memberDetailsPath}
+                          className={`${styles.groupMemberListItemLink} ${styles.linkWrapper}`}>
+                          <span className={styles.emoji}>
+                            <Emoji
+                              emoji={emojiConstants.member}
+                              ariaLabel='group member emoji'
+                            />
+                          </span>
+                          <span className={styles.groupMemberName}>
+                            {memberName}
+                          </span>
+                        </Link>
+
+                        <span className={styles.linkButton}>
+                          <DeleteGroupMemberBin
+                            memberId={_id}
+                            groupMemberName={memberName}
+                            onDeleteSuccess={refreshGroupMembers}
+                            isInAppGroupCreation={isInAppGroupCreation}
+                          />
+                        </span>
+                      </>
+                    ) : (
+                      <div className={styles.groupMemberListItem}>
                         <span className={styles.emoji}>
                           <Emoji
                             emoji={emojiConstants.member}
@@ -86,40 +112,19 @@ const GroupMemberNames = ({ isInAppGroupCreation }) => {
                         <span className={styles.groupMemberName}>
                           {memberName}
                         </span>
-                      </Link>
-
-                      <span className={styles.linkButton}>
-                        <DeleteGroupMemberBin
-                          memberId={_id}
-                          groupMemberName={memberName}
-                          onDeleteSuccess={refreshGroupMembers}
-                          isInAppGroupCreation={isInAppGroupCreation}
-                        />
-                      </span>
-                    </>
-                  ) : (
-                    <div className={styles.groupMemberListItem}>
-                      <span className={styles.emoji}>
-                        <Emoji
-                          emoji={emojiConstants.member}
-                          ariaLabel='group member emoji'
-                        />
-                      </span>
-                      <span className={styles.groupMemberName}>
-                        {memberName}
-                      </span>
-                      <span className={styles.button}>
-                        <DeleteGroupMemberBin
-                          memberId={_id}
-                          groupMemberName={memberName}
-                          onDeleteSuccess={refreshGroupMembers}
-                          isInAppGroupCreation={isInAppGroupCreation}
-                        />
-                      </span>
-                    </div>
-                  )}
-                </li>
-              ))}
+                        <span className={styles.button}>
+                          <DeleteGroupMemberBin
+                            memberId={_id}
+                            groupMemberName={memberName}
+                            onDeleteSuccess={refreshGroupMembers}
+                            isInAppGroupCreation={isInAppGroupCreation}
+                          />
+                        </span>
+                      </div>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           )}
         </div>
