@@ -16,7 +16,7 @@ import touchGroupLastActiveMiddleware from '../middleware/group/touchGroupLastAc
 import {
   laxLimitRequestsPerIpMiddleware,
   laxLimiter,
-} from '../middleware/laxLimitRequestsPerIpMiddleware.js';
+} from '../middleware/rateLimit/laxLimitRequestsPerIpMiddleware.js';
 import API_ROUTES from '../../shared/constants/api/apiRouteConstants.js';
 import CONFIG from '../config/serverConfig.js';
 import debugLogRequestMiddleware from '../middleware/debug/debugLogRequestMiddleware.js';

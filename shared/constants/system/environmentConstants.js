@@ -4,4 +4,12 @@ const IS_DEVELOPMENT =
     (window.location?.hostname === "localhost" ||
       window.location?.hostname === "127.0.0.1"));
 
-export default IS_DEVELOPMENT;
+const IS_PRODUCTION =
+  typeof process !== "undefined" && process.env.NODE_ENV === "production";
+
+const ENVIRONMENT = {
+  IS_DEVELOPMENT,
+  IS_PRODUCTION,
+};
+
+export default ENVIRONMENT;

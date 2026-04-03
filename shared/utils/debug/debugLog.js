@@ -3,7 +3,7 @@ import LOG_LEVELS from "../../constants/system/loggerConstants.js";
 
 const { INFO, WARN, LOG_ERROR, SUCCESS } = LOG_LEVELS;
 
-const debugLog = (message = "debug", level = INFO, data = null) => {
+const debugLog = (message = "debug", data = null, level = INFO) => {
   if (!IS_DEVELOPMENT) return;
 
   const debugMessage = `[${level.toUpperCase()}]: ${message}`;

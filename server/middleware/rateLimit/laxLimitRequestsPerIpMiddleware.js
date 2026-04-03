@@ -1,7 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 import rateLimit from 'express-rate-limit';
-import SYSTEM from '../../shared/constants/system/systemConstants.js';
-import ERROR_CODES from '../../shared/constants/system/errorConstants.js';
+import SYSTEM from '../../../shared/constants/system/systemConstants.js';
+import ERROR_CODES from '../../../shared/constants/system/errorConstants.js';
 
 const { TOO_MANY_REQUESTS } = StatusCodes;
 const { RATE_LIMIT_LAX_WINDOW_MS, RATE_LIMIT_LAX_MAX_REQUESTS } = SYSTEM;
