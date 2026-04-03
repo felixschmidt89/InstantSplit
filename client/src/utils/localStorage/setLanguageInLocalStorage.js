@@ -1,7 +1,9 @@
-import LANGUAGES from "../../../../shared/constants/system/languageConstants.js";
+import LANGUAGE_BUNDLE from "../../../../shared/constants/system/languageConstants.js";
 import LOCAL_STORAGE_KEYS from "../../constants/localStorageConstants.js";
 
 import setLocalStorageKey from "./setLocalStorageKey.js";
+
+const { LANGUAGES } = LANGUAGE_BUNDLE;
 
 const setLanguageInLocalStorage = (language) => {
   const isSupported = Object.values(LANGUAGES).includes(language);
