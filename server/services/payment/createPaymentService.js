@@ -11,10 +11,6 @@ const createPaymentService = async (paymentData) => {
     maker.updateTotalPaymentsMadeAmount(),
     recipient.updateTotalPaymentsReceived(),
   ]);
-
-  // TODO: handle reset
-  // await resetGroupSettlementsService(payment.groupCode);
-
   return payment;
 };
 
