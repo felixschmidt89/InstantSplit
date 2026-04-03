@@ -6,23 +6,24 @@ const { HEADERS } = API_HEADER_CONSTANTS;
 const { GROUPCODE } = HEADERS;
 const { INFO } = LOG_LEVELS;
 
-const logRequestDetailsMiddleware = (req, res, next) => {
+const debugLogRequestMiddleware = (req, res, next) => {
   req.context = req.context ?? {};
 
   const { method, originalUrl, params, query, headers } = req;
 
-  const hasParams = Boolean(Object.keys(params).length);
-  const hasQuery = Boolean(Object.keys(query).length);
+  const hasParams = Object.keys(params).length > 0;
+  const hasQuery = Object.keys(query).length > 0;
 
   const groupHeaderValue = headers[GROUPCODE];
-  const hasGroupHeader = Boolean(groupHeaderValue);
 
   const loggingContext = {
     method,
     path: originalUrl,
     ...(hasParams && { params }),
     ...(hasQuery && { query }),
-    ...(hasGroupHeader && { [GROUPCODE]: groupHeaderValue }),
+    ...(groupHeaderValue && {
+      [GROUPCODE]: `${groupHeaderValue.substring(0, 3)}***`,
+    }),
   };
 
   debugLog('[API-INBOUND]', loggingContext, INFO);
@@ -30,4 +31,4 @@ const logRequestDetailsMiddleware = (req, res, next) => {
   next();
 };
 
-export default logRequestDetailsMiddleware;
+export default debugLogRequestMiddleware;

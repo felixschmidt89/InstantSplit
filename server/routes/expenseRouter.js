@@ -10,9 +10,9 @@ import touchGroupLastActiveMiddleware from '../middleware/group/touchGroupLastAc
 import API_ROUTES from '../../shared/constants/api/apiRouteConstants.js';
 
 const { EXPENSES, URL_PARAMS } = API_ROUTES;
-const { EXPENSE_ID, GROUP_ID } = URL_PARAMS;
+const { EXPENSE_ID } = URL_PARAMS;
 
-const expenseRouter = express.Router();
+const expenseRouter = express.Router({ mergeParams: true });
 
 expenseRouter.use(touchGroupLastActiveMiddleware);
 
@@ -32,14 +32,8 @@ expenseRouter.delete(
   deleteExpenseController,
 );
 
-expenseRouter.get(
-  `/${EXPENSES.GROUP_LIST}/:${GROUP_ID}`,
-  getGroupExpensesController,
-);
+expenseRouter.get(`/${EXPENSES.GROUP_LIST}`, getGroupExpensesController);
 
-expenseRouter.get(
-  `/${EXPENSES.GROUP_TOTAL}/:${GROUP_ID}`,
-  getGroupExpensesTotalController,
-);
+expenseRouter.get(`/${EXPENSES.GROUP_TOTAL}`, getGroupExpensesTotalController);
 
 export default expenseRouter;

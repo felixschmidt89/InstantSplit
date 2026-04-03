@@ -10,7 +10,7 @@ import API_ROUTES from '../../shared/constants/api/apiRouteConstants.js';
 const { URL_PARAMS } = API_ROUTES;
 const { PAYMENT_ID } = URL_PARAMS;
 
-const paymentRouter = express.Router();
+const paymentRouter = express.Router({ mergeParams: true });
 
 paymentRouter.use(touchGroupLastActiveMiddleware);
 

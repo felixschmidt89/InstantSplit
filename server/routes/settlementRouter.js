@@ -6,23 +6,17 @@ import touchGroupLastActiveMiddleware from '../middleware/group/touchGroupLastAc
 import API_ROUTES from '../../shared/constants/api/apiRouteConstants.js';
 
 const { URL_PARAMS, SETTLEMENTS } = API_ROUTES;
-const { SETTLEMENT_ID, GROUP_ID } = URL_PARAMS;
+const { SETTLEMENT_ID } = URL_PARAMS;
 const { CALCULATE } = SETTLEMENTS;
 
-const settlementRouter = express.Router();
+const settlementRouter = express.Router({ mergeParams: true });
 
 settlementRouter.use(touchGroupLastActiveMiddleware);
 
-settlementRouter.post(`/:${GROUP_ID}`, createSettlementsController);
+settlementRouter.post('/', createSettlementsController);
 
-settlementRouter.get(
-  `/:${GROUP_ID}/${CALCULATE}`,
-  calculateSettlementsController,
-);
+settlementRouter.get(`/${CALCULATE}`, calculateSettlementsController);
 
-settlementRouter.delete(
-  `/:${GROUP_ID}/:${SETTLEMENT_ID}`,
-  deleteSingleSettlementController,
-);
+settlementRouter.delete(`/:${SETTLEMENT_ID}`, deleteSingleSettlementController);
 
 export default settlementRouter;

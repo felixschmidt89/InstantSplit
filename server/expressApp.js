@@ -14,8 +14,8 @@ import memberRouter from './routes/memberRouter.js';
 import paymentRouter from './routes/paymentRouter.js';
 import settlementRouter from './routes/settlementRouter.js';
 
-const { EXPENSES, GROUPS, HEALTH, MEMBERS, PAYMENTS, SETTLEMENTS } = API_ROUTES;
-
+const { EXPENSES, GROUPS, HEALTH, MEMBERS, PAYMENTS, SETTLEMENTS, URL_PARAMS } =
+  API_ROUTES;
 const { API_BASEURL, TRUST_PROXY } = serverConfig;
 
 const app = express();
@@ -31,11 +31,16 @@ app.use(compression());
 app.use(extractGroupCodeMiddleware);
 
 app.use(`${API_BASEURL}/${GROUPS.BASE}`, groupRouter);
-app.use(`${API_BASEURL}/${MEMBERS.BASE}`, memberRouter);
-app.use(`${API_BASEURL}/${EXPENSES.BASE}`, expenseRouter);
-app.use(`${API_BASEURL}/${PAYMENTS.BASE}`, paymentRouter);
+
+// Resource Routes
+const GROUP_SCOPE = `${API_BASEURL}/${GROUPS.BASE}/:${URL_PARAMS.GROUP_ID}`;
+app.use(`${GROUP_SCOPE}/${MEMBERS.BASE}`, memberRouter);
+app.use(`${GROUP_SCOPE}/${EXPENSES.BASE}`, expenseRouter);
+app.use(`${GROUP_SCOPE}/${PAYMENTS.BASE}`, paymentRouter);
+app.use(`${GROUP_SCOPE}/${SETTLEMENTS.BASE}`, settlementRouter);
+
+// System Routes
 app.use(`${API_BASEURL}/${HEALTH.BASE}`, healthRouter);
-app.use(`${API_BASEURL}/${SETTLEMENTS.BASE}`, settlementRouter);
 
 app.use(apiErrorMiddleware);
 

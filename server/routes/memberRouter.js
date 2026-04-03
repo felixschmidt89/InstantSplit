@@ -10,13 +10,15 @@ import touchGroupLastActiveMiddleware from '../middleware/group/touchGroupLastAc
 import API_ROUTES from '../../shared/constants/api/apiRouteConstants.js';
 
 const { MEMBERS, URL_PARAMS } = API_ROUTES;
-const { MEMBER_ID, GROUP_ID } = URL_PARAMS;
+const { MEMBER_ID } = URL_PARAMS;
 
-const memberRouter = express.Router();
+const memberRouter = express.Router({ mergeParams: true });
 
 memberRouter.use(touchGroupLastActiveMiddleware);
 
 memberRouter.post('/', resetSettlementsMiddleware, createMemberController);
+
+memberRouter.get('/', getGroupMembersController);
 
 memberRouter.get(`/:${MEMBER_ID}`, getMemberInfoController);
 
@@ -26,11 +28,6 @@ memberRouter.delete(
   `/:${MEMBER_ID}`,
   resetSettlementsMiddleware,
   deleteMemberController,
-);
-
-memberRouter.get(
-  `/${MEMBERS.BY_GROUP}/:${GROUP_ID}`,
-  getGroupMembersController,
 );
 
 memberRouter.get(
