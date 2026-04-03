@@ -18,7 +18,7 @@ import {
   laxLimiter,
 } from '../middleware/rateLimit/laxLimitRequestsPerIpMiddleware.js';
 import API_ROUTES from '../../shared/constants/api/apiRouteConstants.js';
-import CONFIG from '../config/serverConfig.js';
+import CONFIG from '../config/server/serverConfig.js';
 import debugLogRequestMiddleware from '../middleware/debug/debugLogRequestMiddleware.js';
 
 const { GROUPS } = API_ROUTES;

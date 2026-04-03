@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-import SERVER_CONFIG_CONSTANTS from '../constants/serverConfigConstants.js';
+import SERVER_CONFIG_CONSTANTS from '../../constants/serverConfigConstants.js';
 
 const { ENV_MODES, ENV_FILES, BOOLEAN_STRINGS, DEFAULTS } =
   SERVER_CONFIG_CONSTANTS;

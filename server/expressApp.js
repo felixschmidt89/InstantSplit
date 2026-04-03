@@ -3,7 +3,7 @@ import cors from 'cors';
 import express from 'express';
 
 import API_ROUTES from '../shared/constants/api/apiRouteConstants.js';
-import serverConfig from './config/serverConfig.js';
+import serverConfig from './config/server/serverConfig.js';
 import extractGroupCodeMiddleware from './middleware/context/extractGroupCodeMiddleware.js';
 import apiErrorMiddleware from './middleware/errors/apiErrorMiddleware.js';
 import expenseRouter from './routes/expenseRouter.js';
