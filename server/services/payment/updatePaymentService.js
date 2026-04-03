@@ -1,6 +1,5 @@
 import Payment from '../../models/Payment.js';
 import Member from '../../models/Member.js';
-// import resetGroupSettlementsService from '../group/resetGroupSettlementsService.js';
 
 const updatePaymentService = async (paymentId, updateData) => {
   const oldPayment = await Payment.findById(paymentId).lean();
@@ -19,11 +18,11 @@ const updatePaymentService = async (paymentId, updateData) => {
     updatedPayment.paymentRecipient,
   ];
 
-  await Promise.all([
-    Member.refreshTotals(affectedIds),
-    // TODO: Handle reset
-    // resetGroupSettlementsService(updatedPayment.groupCode),
-  ]);
+  const uniqueAffectedIds = [
+    ...new Set(affectedIds.map((id) => id.toString())),
+  ];
+
+  await Member.refreshTotals(uniqueAffectedIds);
 
   return updatedPayment;
 };
