@@ -1,8 +1,7 @@
 import express from 'express';
-
+import createGroupController from '../controllers/group/createGroupController.js';
 import getGroupTransactionsController from '../controllers/group/getGroupTransactionsController.js';
 import getGroupCurrencyController from '../controllers/group/getGroupCurrencyController.js';
-import createGroupController from '../controllers/group/createGroupController.js';
 import changeGroupNameController from '../controllers/group/changeGroupNameController.js';
 import getGroupInfoController from '../controllers/group/getGroupInfoController.js';
 import changeGroupCurrencyController from '../controllers/group/changeGroupCurrencyController.js';
@@ -11,16 +10,10 @@ import changeSettlementsCalculatedController from '../controllers/group/changeSe
 import getSettlementsCalculatedController from '../controllers/group/getSettlementsCalculatedController.js';
 import checkGroupCodeController from '../controllers/group/checkGroupCodeController.js';
 import getStoredGroupsNamesController from '../controllers/group/getStoredGroupsNamesController.js';
-
 import logRequestDetailsMiddleware from '../middleware/common/logRequestDetailsMiddleware.js';
 import extractGroupCodeMiddleware from '../middleware/context/extractGroupCodeMiddleware.js';
 import validateGroupCodeMiddleware from '../middleware/validation/validateGroupCodeMiddleware.js';
 import touchGroupLastActiveMiddleware from '../middleware/group/touchGroupLastActiveMiddleware.js';
-import {
-  laxLimitRequestsPerIpMiddleware,
-  laxLimiter,
-} from '../middleware/laxLimitRequestsPerIpMiddleware.js';
-
 import API_ROUTES from '../../shared/constants/api/apiRouteConstants.js';
 import CONFIG from '../config/serverConfig.js';
 
@@ -33,16 +26,12 @@ if (CONFIG.LOG_API_REQUESTS) {
   groupRouter.use(logRequestDetailsMiddleware);
 }
 
-// Public Routes
-
 groupRouter.post('/', createGroupController);
 
 groupRouter.get(
   `/${GROUPS.STORED_GROUP_NAMES}`,
   getStoredGroupsNamesController,
 );
-
-// Group Context Protected Routes
 
 groupRouter.use(extractGroupCodeMiddleware);
 groupRouter.use(validateGroupCodeMiddleware);
@@ -76,7 +65,6 @@ groupRouter.patch(
   changeSettlementsCalculatedController,
 );
 
-//TODO: Check if laxLimiter is still needed or captcha verification would be better solution
 groupRouter.get(
   `/:${GROUP_ID}/${GROUPS.CHECK_GROUP_CODE}`,
   laxLimiter,
