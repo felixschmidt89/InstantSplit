@@ -14,6 +14,10 @@ import logRequestDetailsMiddleware from '../middleware/common/logRequestDetailsM
 import extractGroupCodeMiddleware from '../middleware/context/extractGroupCodeMiddleware.js';
 import validateGroupCodeMiddleware from '../middleware/validation/validateGroupCodeMiddleware.js';
 import touchGroupLastActiveMiddleware from '../middleware/group/touchGroupLastActiveMiddleware.js';
+import {
+  laxLimitRequestsPerIpMiddleware,
+  laxLimiter,
+} from '../middleware/laxLimitRequestsPerIpMiddleware.js';
 import API_ROUTES from '../../shared/constants/api/apiRouteConstants.js';
 import CONFIG from '../config/serverConfig.js';
 

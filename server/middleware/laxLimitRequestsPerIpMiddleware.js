@@ -1,28 +1,32 @@
 import { StatusCodes } from 'http-status-codes';
 import rateLimit from 'express-rate-limit';
+import SYSTEM from '../../shared/constants/system/systemConstants.js';
+import ERROR_CODES from '../../shared/constants/system/errorConstants.js';
 
-// Define the rate limiting config:
+const { TOO_MANY_REQUESTS } = StatusCodes;
+const { RATE_LIMIT_LAX_WINDOW_MS, RATE_LIMIT_LAX_MAX_REQUESTS } = SYSTEM;
+const { GENERIC_ERRORS } = ERROR_CODES;
+
 const laxLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 250, // Limit each IP to 250 requests per windowMs
+  windowMs: RATE_LIMIT_LAX_WINDOW_MS,
+  max: RATE_LIMIT_LAX_MAX_REQUESTS,
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler: (req, res, next) => next(),
 });
 
-/**
- * Middleware to laxly handle rate limit exceedance for continuous in app groupCode validation. Limited to 250 requests per 15 minutes, so that it can't be exploited easily by a malicious user while not limiting regular users.
- *Responds with a 429 status (TOO MANY REQUESTS) and an error message when the rate limit is exceeded.
- *
- * @param {Object} req
- * @param {Object} res
- * @param {Function} next
- */
-function laxLimitRequestsPerIpMiddleware(req, res, next) {
-  if (req.rateLimit.remaining) {
-    next();
-  } else {
-    res.status(StatusCodes.TOO_MANY_REQUESTS).json({
-      error: 'Too many attempts. Please try again later.',
+const laxLimitRequestsPerIpMiddleware = (req, res, next) => {
+  const { rateLimit: limit } = req;
+
+  if (limit && limit.remaining === 0) {
+    // TODO: Optimize response when working on translations
+    return res.status(TOO_MANY_REQUESTS).json({
+      success: false,
+      code: GENERIC_ERRORS.TOO_MANY_REQUESTS,
     });
   }
-}
+
+  next();
+};
 
 export { laxLimiter, laxLimitRequestsPerIpMiddleware };

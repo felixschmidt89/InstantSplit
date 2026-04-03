@@ -4,6 +4,7 @@ const API_ROUTES = {
     EXPENSE_ID: "expenseId",
     MEMBER_ID: "memberId",
     PAYMENT_ID: "paymentId",
+    SETTLEMENT_ID: "settlementId",
   },
 
   GROUPS: {
@@ -19,7 +20,6 @@ const API_ROUTES = {
   MEMBERS: {
     BASE: "members",
     BY_GROUP: "by-group",
-    //TODO: use transactions term throughout application
     TRANSACTIONS: "transactions",
   },
 
@@ -35,6 +35,7 @@ const API_ROUTES = {
 
   SETTLEMENTS: {
     BASE: "settlements",
+    CALCULATE: "calculate",
   },
 
   HEALTH: {

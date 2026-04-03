@@ -1,10 +1,15 @@
+import { StatusCodes } from 'http-status-codes';
+import calculateSettlementsService from '../../services/settlement/calculateSettlementsService.js';
+
+const { OK } = StatusCodes;
+
 const calculateSettlementsController = async (req, res, next) => {
   try {
     const { groupCode } = req.context;
 
     const settlements = await calculateSettlementsService(groupCode);
 
-    return res.status(StatusCodes.CREATED).json({
+    return res.status(OK).json({
       success: true,
       data: { settlements },
     });
@@ -12,3 +17,5 @@ const calculateSettlementsController = async (req, res, next) => {
     next(error);
   }
 };
+
+export default calculateSettlementsController;

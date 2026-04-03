@@ -1,7 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 import setGroupSettlementsCalculated from '../../utils/database/setGroupSettlementsCalculated.js';
-import debugLog from '../../shared/utils/debug/debugLog.js';
-import LOG_LEVELS from '../../shared/constants/system/loggerConstants.js';
+import debugLog from '../../../shared/utils/debug/debugLog.js';
+import LOG_LEVELS from '../../../shared/constants/system/loggerConstants.js';
 
 const { OK, CREATED, NO_CONTENT } = StatusCodes;
 const { ERROR, INFO, WARN } = LOG_LEVELS;
