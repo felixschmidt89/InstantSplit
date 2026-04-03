@@ -397,6 +397,8 @@ InstantSpilt
 │   │   │           └── SyncGroupCodeExplanation.module.css
 │   │   ├── config
 │   │   │   ├── env
+│   │   │   ├── i18n
+│   │   │   │   └── config.js
 │   │   │   └── index.js
 │   │   ├── constants
 │   │   │   ├── __mocks__
@@ -457,8 +459,6 @@ InstantSpilt
 │   │   │   ├── useUpdateResource.jsx
 │   │   │   ├── useUserOrigin.jsx
 │   │   │   └── useValidateGroupCodeExistence.jsx
-│   │   ├── i18n
-│   │   │   └── config.js
 │   │   ├── pages
 │   │   │   ├── ContactPage
 │   │   │   │   ├── ContactPage.jsx
@@ -597,7 +597,6 @@ InstantSpilt
 │   │   │   │   ├── setStoredViewInLocalStorage.test.js
 │   │   │   │   ├── storeGroupCodeInLocalStorage.js
 │   │   │   │   └── storeGroupCodeInLocalStorage.test.js
-│   │   │   ├── replaceSlashesWithDashes.js
 │   │   │   ├── route
 │   │   │   │   ├── buildPath.js
 │   │   │   │   ├── createRoute.js
@@ -664,20 +663,21 @@ InstantSpilt
 │   │   │   ├── deletePaymentController.js
 │   │   │   ├── getPaymentInfoController.js
 │   │   │   └── updatePaymentController.js
-│   │   ├── settlement
-│   │   │   ├── calculateSettlementsController.js
-│   │   │   └── deleteSettlementController.js
-│   │   └── settlementController.js
+│   │   └── settlement
+│   │       ├── calculateSettlementsController.js
+│   │       ├── createSettlementsController.js
+│   │       └── deleteSingleSettlementController.js
 │   ├── expressApp.js
 │   ├── jsconfig.json
 │   ├── middleware
-│   │   ├── common
-│   │   │   └── logRequestDetailsMiddleware.js
 │   │   ├── context
 │   │   │   └── extractGroupCodeMiddleware.js
+│   │   ├── debug
+│   │   │   └── debugLogRequestMiddleware.js
 │   │   ├── errors
 │   │   │   └── apiErrorMiddleware.js
 │   │   ├── group
+│   │   │   ├── resetSettlementsMiddleware.js
 │   │   │   └── touchGroupLastActiveMiddleware.js
 │   │   ├── laxLimitRequestsPerIpMiddleware.js
 │   │   ├── strictlyLimitRequestsPerIpMiddleware.js
@@ -738,11 +738,14 @@ InstantSpilt
 │   │   │   └── updatePaymentService.js
 │   │   └── settlement
 │   │       ├── calculateSettlementsService.js
-│   │       └── deleteSettlementService.js
+│   │       ├── createSettlementsService.js
+│   │       └── deleteSingleSettlementService.js
 │   └── utils
 │       ├── database
 │       │   ├── extractAggregationTotal.js
-│       │   └── isGroupCodeUnique.js
+│       │   ├── getMongooseSortOrder.js
+│       │   ├── isGroupCodeUnique.js
+│       │   └── setGroupSettlementsCalculated.js
 │       ├── databaseUtils.js
 │       ├── errorUtils.js
 │       ├── errors

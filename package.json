@@ -1,6 +1,6 @@
 {
   "name": "instant-split",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -12,7 +12,8 @@
     "test:client": "npm test --workspace=client",
     "test:server": "npm test --workspace=server",
     "tree": "npx tree-node-cli -I 'node_modules|.git' > docs/repository-structure.md",
-    "clean:install": "rm -rf node_modules package-lock.json client/node_modules client/package-lock.json server/node_modules server/package-lock.json && npm install && npm audit"
+    "clean:install": "rm -rf node_modules package-lock.json client/node_modules client/package-lock.json server/node_modules server/package-lock.json && npm install && npm audit",
+    "update-lock": "npm install --package-lock-only"
   },
   "devDependencies": {
     "concurrently": "^9.2.1"
