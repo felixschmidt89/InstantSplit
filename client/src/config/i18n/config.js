@@ -2,8 +2,8 @@ import i18n from "i18next";
 import HttpApi from "i18next-http-backend";
 import { initReactI18next } from "react-i18next";
 
-import getLanguageFromLocalStorage from "../utils/localStorage/getLanguageFromLocalStorage.js";
-import LANGUAGE from "../../../shared/constants/system/languageConstants.js";
+import LANGUAGE from "../../../../shared/constants/system/languageConstants.js";
+import getLanguageFromLocalStorage from "../../utils/localStorage/getLanguageFromLocalStorage.js";
 
 const { DEFAULT_LANGUAGE, LANGUAGES } = LANGUAGE;
 
