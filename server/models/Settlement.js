@@ -32,6 +32,7 @@ const settlementSchema = new Schema(
       required: true,
       trim: true,
       index: true,
+      immutable: true,
     },
   },
   {

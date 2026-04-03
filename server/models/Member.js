@@ -29,6 +29,9 @@ const memberSchema = new Schema(
     [COMMON_FIELDS.GROUP_CODE]: {
       type: String,
       required: true,
+      trim: true,
+      index: true,
+      immutable: true,
     },
     [MEMBER_FIELDS.EXPENSES_PAID]: { type: Number, default: 0 },
     [MEMBER_FIELDS.EXPENSES_BENEFITTED]: { type: Number, default: 0 },

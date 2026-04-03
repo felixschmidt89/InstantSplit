@@ -12,8 +12,9 @@ const groupSchema = new Schema(
     [COMMON_FIELDS.GROUP_CODE]: {
       type: String,
       required: true,
-      unique: true,
+      trim: true,
       index: true,
+      immutable: true,
     },
     [GROUP_FIELDS.NAME]: {
       type: String,

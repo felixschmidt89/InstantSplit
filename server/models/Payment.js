@@ -39,7 +39,9 @@ const paymentSchema = new Schema(
     [COMMON_FIELDS.GROUP_CODE]: {
       type: String,
       required: true,
+      trim: true,
       index: true,
+      immutable: true,
     },
   },
   {
