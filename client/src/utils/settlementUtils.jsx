@@ -156,34 +156,3 @@ export const getGroupHasPersistedDebitorCreditorOrder = async (groupCode) => {
     };
   }
 };
-
-/**
- * Deletes all settlements for a group by groupCode.
- * @param {string} groupCode - The groupCode of the group.
- * @returns {Promise<Object>} - Promise resolving to { success, error, data }
- */
-export const deleteAllSettlementsForGroup = async (groupCode) => {
-  try {
-    if (!groupCode) {
-      throw new Error("Group code is required");
-    }
-
-    const response = await axios.delete(`${API_URL}/settlements/${groupCode}`);
-    debugLog(`All settlements for group ${groupCode} deleted:`, response.data);
-
-    return {
-      success: true,
-      error: null,
-      data: response.data,
-    };
-  } catch (error) {
-    debugLog(`Error deleting all settlements for group ${groupCode}:`, error);
-    return {
-      success: false,
-      error:
-        error.response?.data?.message ||
-        `Failed to delete settlements for group ${groupCode}`,
-      data: null,
-    };
-  }
-};

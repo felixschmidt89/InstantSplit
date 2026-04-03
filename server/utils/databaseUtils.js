@@ -142,52 +142,6 @@ export const getUserNameByUserIdHelper = async (userId) => {
 };
 
 /**
- * Updates the fixedDebitorCreditorOrder setting of a group with the specified groupCode.
- *
- * @param {string} groupCode - The group code to update.
- * @param {boolean} fixedDebitorCreditorOrder - The new fixedDebitorCreditorOrder setting value.
- * @returns {Promise<object>} - The updated group document.
- * @throws {Error} - If the group is not found or the update fails.
- * Logs errors for internal debugging purposes and transforms them for production logging with a custom prefix and user-friendly message.
- */
-export const updateFixedDebitorCreditorOrderSetting = async (
-  groupCode,
-  fixedDebitorCreditorOrder,
-) => {
-  try {
-    validateString(groupCode, 'groupCode');
-
-    const updatedGroup = await Group.findOneAndUpdate(
-      { groupCode },
-      {
-        $set: {
-          lastActive: new Date(),
-          fixedDebitorCreditorOrder,
-        },
-      },
-      { new: true },
-    );
-
-    if (!updatedGroup) {
-      throw new Error(`Group with groupCode "${groupCode}" not found`);
-    }
-
-    devLog(
-      `Successfully updated fixedDebitorCreditorOrder to ${fixedDebitorCreditorOrder} for group with groupCode "${groupCode}"`,
-    );
-
-    return updatedGroup;
-  } catch (error) {
-    errorLog(
-      error,
-      'Error updating fixedDebitorCreditorOrder setting:',
-      'Failed to update fixedDebitorCreditorOrder setting.',
-    );
-    throw error;
-  }
-};
-
-/**
  * Deletes all settlements for a group with the specified groupCode.
  *
  * @param {string} groupCode - The group code of the settlements to delete.
